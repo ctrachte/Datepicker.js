@@ -15,7 +15,7 @@
 
 ![November 11th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11112020.png?raw=true)
 
-There are many great datepickers available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. 
+There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
 
 Here's why:
 * I hate dependencies like jQuery
