@@ -26,7 +26,7 @@ Of course, no one datepicker will serve all projects since your needs may be dif
 ### Dependencies
 
 Since the goal of this project is to use only vanilla JavaScript and Moment.js, we have only one dependency:
-* [Moment.js](https://www.https://momentjs.com/)
+* [Moment.js](https://www.momentjs.com/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
