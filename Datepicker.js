@@ -29,6 +29,15 @@ class clsDatepicker {
             let dayHeader = document.createElement('div');
             dayHeader.classList.add(parseInt(day)+1);
             dayHeader.innerHTML = parseInt(day)+1;
+            dayHeader.value = day+1;
+            dayHeader.addEventListener('click', function () {
+                console.log(this.value);
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                } else {
+                    this.classList.add('active');
+                }
+            });
             calendar.appendChild(dayHeader);
         });
 
