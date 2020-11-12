@@ -4,8 +4,12 @@ class clsDatepicker {
         this.containerElement = options.containerElement;
         this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
+        this.startDate = this.moment.startOf('month').format("MM/DD/YYYY hh:mm:ss a");
+        this.endDate = this.moment.endOf('month').format('MM/DD/YYYY hh:mm:ss a');
         this.drawCalendar();
-        console.log(this.moment);
+
+        console.log(this.startDate, this.endDate);
+        // console.log(this.moment);
     }
 
     drawCalendar () {
@@ -26,21 +30,30 @@ class clsDatepicker {
 
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
         daysInMonth.forEach(function (day) {
-            let dayHeader = document.createElement('div');
-            dayHeader.classList.add(parseInt(day)+1);
-            dayHeader.innerHTML = parseInt(day)+1;
-            dayHeader.value = day+1;
-            dayHeader.addEventListener('click', function () {
-                console.log(this.value);
+            let dayCell = document.createElement('div');
+            dayCell.classList.add(parseInt(day)+1);
+            dayCell.innerHTML = parseInt(day)+1;
+            dayCell.value = day+1;
+            dayCell.addEventListener('click', function () {
+                console.log("you clicked " + this.value);
                 if (this.classList.contains('active')) {
                     this.classList.remove('active');
                 } else {
                     this.classList.add('active');
                 }
             });
-            calendar.appendChild(dayHeader);
+            calendar.appendChild(dayCell);
         });
-
+        let startDateElement = document.createElement('div');
+        startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
+        startDateElement.innerHTML = "Start Date: " + this.startDate;
+        startDateElement.classList.add('startDateElement')
+        calendar.appendChild(startDateElement);
+        let endDateElement = document.createElement('div');
+        endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;')
+        endDateElement.innerHTML = "End Date: " + this.endDate;
+        endDateElement.classList.add('endDateElement')
+        calendar.appendChild(endDateElement);
         this.containerElement.appendChild(calendar);
 
     }
