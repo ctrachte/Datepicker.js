@@ -40,7 +40,7 @@ git clone https://https://github.com/ctrachte/Datepicker.js
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-This class will eventually be implemented on any datepicker html object.
+This class can *(will eventually)* be implemented on any datepicker html object.
 
 <!-- CONTRIBUTING -->
 ## Contributing
