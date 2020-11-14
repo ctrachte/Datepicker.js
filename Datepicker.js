@@ -2,10 +2,10 @@
 class clsDatepicker {
     constructor (options) {
         this.containerElement = options.containerElement;
-        this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
+        this.moment = moment(moment().add(1, 'months'), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
-        this.startDate = this.moment.startOf('month').format("MM/DD/YYYY hh:mm:ss a");
-        this.endDate = this.moment.endOf('month').format('MM/DD/YYYY hh:mm:ss a');
+        this.startOfMonth = this.moment.startOf('month').format("MM/DD/YYYY hh:mm:ss a");
+        this.endOfMonth = this.moment.endOf('month').format('MM/DD/YYYY hh:mm:ss a');
         this.drawCalendar();
 
         console.log(this.startDate, this.endDate);
@@ -14,6 +14,7 @@ class clsDatepicker {
 
     drawCalendar () {
         let calendar = document.createElement('div');
+        // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
         monthHeader.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;')
         monthHeader.innerHTML = this.moment._locale._months[this.moment.month()];
@@ -27,7 +28,7 @@ class clsDatepicker {
             dayHeader.innerHTML = " " + day + " ";
             calendar.appendChild(dayHeader);
         });
-
+        // add days to calendar
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
@@ -44,6 +45,11 @@ class clsDatepicker {
             });
             calendar.appendChild(dayCell);
         });
+        // set the first of the month to be askew based on day
+        let firstDayElement = calendar.querySelector('.1');
+        let monthStartPos = 'grid-column-start: ' + this.startOfMonth.day() + ';';
+        firstDayElement.setAttribute('style', monthStartPos);
+        //footer
         let startDateElement = document.createElement('div');
         startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
         startDateElement.innerHTML = "Start Date: " + this.startDate;
