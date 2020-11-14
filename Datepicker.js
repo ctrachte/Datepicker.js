@@ -4,8 +4,10 @@ class clsDatepicker {
         this.containerElement = options.containerElement;
         this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
+        this.setDate = this.setDate.bind(this);
         this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
         this.lastDayOfMonth = this.moment.startOf('month').format("dddd");
+        this.dates = [];
         this.drawCalendar();
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment);
@@ -28,6 +30,7 @@ class clsDatepicker {
             calendar.appendChild(dayHeader);
         });
         // add days to calendar
+        let callbackSetDate = this.setDate;
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
@@ -35,14 +38,7 @@ class clsDatepicker {
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day)+1;
             dayCell.value = day+1;
-            dayCell.addEventListener('click', function () {
-                console.log("you clicked " + this.value);
-                if (this.classList.contains('active')) {
-                    this.classList.remove('active');
-                } else {
-                    this.classList.add('active');
-                }
-            });
+            dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
         });
         // set the first of the month to be askew based on day
@@ -63,6 +59,27 @@ class clsDatepicker {
         calendar.appendChild(endDateElement);
         this.containerElement.appendChild(calendar);
 
+    }
+
+    setDate(dayCell) {
+        let days = this.containerElement.querySelectorAll('.day');
+        if (this.dates.length === 2) {
+            days.forEach(function(day) {
+                day.classList.remove('active');
+            });
+        }
+        if (dayCell.classList.contains('active')) {
+            dayCell.classList.remove('active');
+        } else {
+            dayCell.classList.add('active');
+        }
+        if (this.dates.length === 2 || !this.dates.length) {
+            this.dates = [];
+            this.dates[0] = dayCell.innerHTML;
+        } else {
+            this.dates[1] = dayCell.innerHTML;
+        }
+        console.log(this.dates);
     }
 
 }
