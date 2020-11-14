@@ -16,11 +16,18 @@
   .grid-container > div {
     background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
-    padding: 20px 0;
     font-size: 30px;
   }
 
   .grid-container > div.active {
       background-color: rgb(136, 64, 64);
       color:white;
+  }
+
+  .grid-container > .day {
+    padding: 24px;
+  }
+
+  .grid-container > .dayHeader {
+    padding: 20px;
   }

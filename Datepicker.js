@@ -4,12 +4,12 @@ class clsDatepicker {
         this.containerElement = options.containerElement;
         this.moment = moment(moment().add(1, 'months'), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
-        this.startOfMonth = this.moment.startOf('month').format("MM/DD/YYYY hh:mm:ss a");
-        this.endOfMonth = this.moment.endOf('month').format('MM/DD/YYYY hh:mm:ss a');
+        this.startOfMonth = new moment().add(1, 'months').startOf('month').format("dddd");
+        this.endOfMonth = new moment().add(1, 'months').startOf('month').format("dddd");
         this.drawCalendar();
 
-        console.log(this.startDate, this.endDate);
-        // console.log(this.moment);
+        console.log(this.startOfMonth, this.endOfMonth);
+        console.log(this.moment);
     }
 
     drawCalendar () {
@@ -32,7 +32,8 @@ class clsDatepicker {
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
-            dayCell.classList.add(parseInt(day)+1);
+            dayCell.classList.add("day-" + (parseInt(day)+1));
+            dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day)+1;
             dayCell.value = day+1;
             dayCell.addEventListener('click', function () {
@@ -46,8 +47,9 @@ class clsDatepicker {
             calendar.appendChild(dayCell);
         });
         // set the first of the month to be askew based on day
-        let firstDayElement = calendar.querySelector('.1');
-        let monthStartPos = 'grid-column-start: ' + this.startOfMonth.day() + ';';
+        let firstDayElement = calendar.querySelector('.day-1');
+        let monthStartPos = 'grid-column-start: ' +  (this.moment._locale._weekdays.indexOf(this.startOfMonth)+1) + ';';
+        console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
         //footer
         let startDateElement = document.createElement('div');
