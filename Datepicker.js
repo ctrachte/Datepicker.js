@@ -2,14 +2,13 @@
 class clsDatepicker {
     constructor (options) {
         this.containerElement = options.containerElement;
-        this.moment = moment(moment().add(1, 'months'), "DD MM YYY h:mm:ss", true);
+        this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
-        this.startOfMonth = new moment().add(1, 'months').startOf('month').format("dddd");
-        this.endOfMonth = new moment().add(1, 'months').startOf('month').format("dddd");
+        this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
+        this.lastDayOfMonth = this.moment.startOf('month').format("dddd");
         this.drawCalendar();
-
-        console.log(this.startOfMonth, this.endOfMonth);
-        console.log(this.moment);
+        // console.log(this.startOfMonth, this.endOfMonth);
+        // console.log(this.moment);
     }
 
     drawCalendar () {
@@ -48,18 +47,18 @@ class clsDatepicker {
         });
         // set the first of the month to be askew based on day
         let firstDayElement = calendar.querySelector('.day-1');
-        let monthStartPos = 'grid-column-start: ' +  (this.moment._locale._weekdays.indexOf(this.startOfMonth)+1) + ';';
-        console.log(monthStartPos, firstDayElement);
+        let monthStartPos = 'grid-column-start: ' +  (this.moment._locale._weekdays.indexOf(this.firstDayOfMonth)+1) + ';';
+        // console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
         //footer
         let startDateElement = document.createElement('div');
         startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
-        startDateElement.innerHTML = "Start Date: " + this.startDate;
+        startDateElement.innerHTML = "Start Date: ";
         startDateElement.classList.add('startDateElement')
         calendar.appendChild(startDateElement);
         let endDateElement = document.createElement('div');
         endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;')
-        endDateElement.innerHTML = "End Date: " + this.endDate;
+        endDateElement.innerHTML = "End Date: ";
         endDateElement.classList.add('endDateElement')
         calendar.appendChild(endDateElement);
         this.containerElement.appendChild(calendar);
