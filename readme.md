@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![November 11th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11112020.png?raw=true)
+![November 11th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11152020.png?raw=true)
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
 
