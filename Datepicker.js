@@ -10,7 +10,7 @@ class clsDatepicker {
         this.dates = [];
         this.drawCalendar();
         // console.log(this.startOfMonth, this.endOfMonth);
-        // console.log(this.moment);
+        console.log(this.moment.daysInMonth());
     }
 
     drawCalendar () {
@@ -62,6 +62,7 @@ class clsDatepicker {
     }
 
     setDate(dayCell) {
+        // reset or set the UI selected cell styling
         let days = this.containerElement.querySelectorAll('.day');
         if (this.dates.length === 2) {
             days.forEach(function(day) {
@@ -73,13 +74,18 @@ class clsDatepicker {
         } else {
             dayCell.classList.add('active');
         }
+        // set the start/end date in both the UI and the state
+        let dateString = this.moment.format("MM") + "/" + dayCell.value + "/" + this.moment.format("YYYY");
+        console.log(dateString);
         if (this.dates.length === 2 || !this.dates.length) {
             this.dates = [];
-            this.dates[0] = dayCell.innerHTML;
+            this.dates[0] = dateString;
+            this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + dateString;
+            this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
         } else {
-            this.dates[1] = dayCell.innerHTML;
+            this.dates[1] = dateString;
+            this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + dateString;
         }
-        console.log(this.dates);
     }
 
 }
