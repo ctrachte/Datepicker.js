@@ -75,7 +75,7 @@ class clsDatepicker {
             dayCell.classList.add('active');
         }
         // set the start/end date in both the UI and the state
-        let dateString = this.moment.format("MM") + "/" + dayCell.value + "/" + this.moment.format("YYYY");
+        let dateString = moment(this.moment.format("MM") + "/" + dayCell.value + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
         console.log(dateString);
         if (this.dates.length === 2 || !this.dates.length) {
             this.dates = [];
@@ -83,8 +83,15 @@ class clsDatepicker {
             this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + dateString;
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
         } else {
-            this.dates[1] = dateString;
-            this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + dateString;
+            if (this.dates[0] > dateString) {
+                this.dates[1] = this.dates[0];
+                this.dates[0] = dateString;
+                this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
+                this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: "  + this.dates[1];
+            } else {
+                this.dates[1] = dateString;
+                this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + dateString;
+            }
         }
     }
 
