@@ -65,16 +65,23 @@ class clsDatepicker {
         //footer
         let startDateElement = document.createElement('div');
         startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
-        startDateElement.innerHTML = "Start Date: ";
         startDateElement.classList.add('startDateElement')
         calendar.appendChild(startDateElement);
         let endDateElement = document.createElement('div');
-        endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;')
-        endDateElement.innerHTML = "End Date: ";
-        endDateElement.classList.add('endDateElement')
+        endDateElement.classList.add('endDateElement');
+        endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
         calendar.appendChild(endDateElement);
+        if (this.dates[0]) {
+            startDateElement.innerHTML = "Start Date: " + this.dates[0];
+        } else {
+            startDateElement.innerHTML = "Start Date: ";
+        }
+        if (this.dates[1]) {
+            endDateElement.innerHTML = "Start Date: " + this.dates[1];
+        } else {
+            endDateElement.innerHTML = "End Date: ";
+        }
         this.containerElement.appendChild(calendar);
-
     }
 
     setDate(dayCell) {
