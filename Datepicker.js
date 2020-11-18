@@ -7,8 +7,6 @@ class clsDatepicker {
         this.setDate = this.setDate.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
-        this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
-        this.lastDayOfMonth = this.moment.startOf('month').format("dddd");
         this.dates = [];
         this.drawCalendar();
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -16,6 +14,8 @@ class clsDatepicker {
     }
 
     drawCalendar() {
+        this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
+        this.lastDayOfMonth = this.moment.startOf('month').format("dddd");
         let callbackNextMonth = this.nextMonth;
         let callbackLastMonth = this.lastMonth;
         let callbackSetDate = this.setDate;
@@ -46,14 +46,13 @@ class clsDatepicker {
             calendar.appendChild(dayHeader);
         });
         // add days to calendar
-        let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
+        let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys());
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
             let dateString = moment(this.moment.format("MM") + "/" + parseInt(day+1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
-            console.log(dateString)
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
@@ -61,7 +60,7 @@ class clsDatepicker {
         // set the first of the month to be askew based on day
         let firstDayElement = calendar.querySelector('.day-1');
         let monthStartPos = 'grid-column-start: ' + (this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1) + ';';
-        // console.log(monthStartPos, firstDayElement);
+        console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
         //footer
         let startDateElement = document.createElement('div');
