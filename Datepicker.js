@@ -5,6 +5,8 @@ class clsDatepicker {
         this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
         this.setDate = this.setDate.bind(this);
+        this.nextMonth = this.nextMonth.bind(this);
+        this.lastMonth = this.lastMonth.bind(this);
         this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
         this.lastDayOfMonth = this.moment.startOf('month').format("dddd");
         this.dates = [];
@@ -14,17 +16,22 @@ class clsDatepicker {
     }
 
     drawCalendar() {
+        let callbackNextMonth = this.nextMonth;
+        let callbackLastMonth = this.lastMonth;
+        let callbackSetDate = this.setDate;
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
         monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7;')
-        let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()]);
+        let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
         leftArrow.innerHTML = "&#8672;";
+        leftArrow.addEventListener('click', callbackLastMonth.bind(this));
         let rightArrow = document.createElement('div');
-        rightArrow.classList.add("leftArrow");
+        rightArrow.classList.add("rightArrow");
         rightArrow.innerHTML = "&#8674;"
+        rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         monthHeader.appendChild(monthText);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
@@ -39,7 +46,6 @@ class clsDatepicker {
             calendar.appendChild(dayHeader);
         });
         // add days to calendar
-        let callbackSetDate = this.setDate;
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
@@ -112,5 +118,14 @@ class clsDatepicker {
             }.bind(this));
         }
     }
-
+    nextMonth() {
+        this.containerElement.innerHTML = "";
+        this.moment.add(1, 'months');
+        this.drawCalendar();
+    }
+    lastMonth(){
+        this.containerElement.innerHTML = "";
+        this.moment.add(-1, 'months');
+        this.drawCalendar();
+    }
 }
