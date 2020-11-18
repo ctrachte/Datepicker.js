@@ -28,6 +28,11 @@
     padding: 24px;
   }
 
+  .grid-container > .day.highlighted {
+    background-color: rgb(153, 95, 95);
+    color:white;
+  }
+
   .grid-container > .dayHeader {
     padding: 20px;
   }
