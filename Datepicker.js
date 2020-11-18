@@ -1,6 +1,6 @@
 
 class clsDatepicker {
-    constructor (options) {
+    constructor(options) {
         this.containerElement = options.containerElement;
         this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
         this.drawCalendar = this.drawCalendar.bind(this);
@@ -13,7 +13,7 @@ class clsDatepicker {
         console.log(this.moment.daysInMonth());
     }
 
-    drawCalendar () {
+    drawCalendar() {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
@@ -34,16 +34,18 @@ class clsDatepicker {
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys())
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
-            dayCell.classList.add("day-" + (parseInt(day)+1));
+            dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
-            dayCell.innerHTML = parseInt(day)+1;
-            dayCell.value = day+1;
+            dayCell.innerHTML = parseInt(day) + 1;
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day+1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
+            console.log(dateString)
+            dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
-        });
+        }.bind(this));
         // set the first of the month to be askew based on day
         let firstDayElement = calendar.querySelector('.day-1');
-        let monthStartPos = 'grid-column-start: ' +  (this.moment._locale._weekdays.indexOf(this.firstDayOfMonth)+1) + ';';
+        let monthStartPos = 'grid-column-start: ' + (this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1) + ';';
         // console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
         //footer
@@ -65,8 +67,9 @@ class clsDatepicker {
         // reset or set the UI selected cell styling
         let days = this.containerElement.querySelectorAll('.day');
         if (this.dates.length === 2) {
-            days.forEach(function(day) {
+            days.forEach(function (day) {
                 day.classList.remove('active');
+                day.classList.remove("highlighted");
             });
         }
         if (dayCell.classList.contains('active')) {
@@ -75,23 +78,29 @@ class clsDatepicker {
             dayCell.classList.add('active');
         }
         // set the start/end date in both the UI and the state
-        let dateString = moment(this.moment.format("MM") + "/" + dayCell.value + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
-        console.log(dateString);
         if (this.dates.length === 2 || !this.dates.length) {
             this.dates = [];
-            this.dates[0] = dateString;
-            this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + dateString;
+            this.dates[0] = dayCell.value;
+            this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + dayCell.value;
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
         } else {
-            if (this.dates[0] > dateString) {
+            if (this.dates[0] > dayCell.value) {
                 this.dates[1] = this.dates[0];
-                this.dates[0] = dateString;
+                this.dates[0] = dayCell.value;
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
-                this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: "  + this.dates[1];
+                this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
             } else {
-                this.dates[1] = dateString;
-                this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + dateString;
+                this.dates[1] = dayCell.value;
+                this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + dayCell.value;
             }
+        }
+        // adds calendar day highlighted styling
+        if (this.dates.length === 2) {
+            days.forEach(function (day) {
+                if (day.value > this.dates[0] && day.value < this.dates[1]) {
+                    day.classList.add("highlighted");
+                }
+            }.bind(this));
         }
     }
 
