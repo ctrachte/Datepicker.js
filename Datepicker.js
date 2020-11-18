@@ -17,11 +17,20 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;')
-        monthHeader.innerHTML = this.moment._locale._months[this.moment.month()];
+        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7;')
+        let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()]);
+        let leftArrow = document.createElement('div');
+        leftArrow.classList.add("leftArrow");
+        leftArrow.innerHTML = "&#8672;";
+        let rightArrow = document.createElement('div');
+        rightArrow.classList.add("leftArrow");
+        rightArrow.innerHTML = "&#8674;"
+        monthHeader.appendChild(monthText);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
+        calendar.appendChild(leftArrow);
         calendar.appendChild(monthHeader);
+        calendar.appendChild(rightArrow);
         this.moment._locale._weekdaysShort.forEach(function (day) {
             let dayHeader = document.createElement('div');
             dayHeader.classList.add(day);
