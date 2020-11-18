@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![November 11th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11112020.png?raw=true)
+![November 11th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11152020.png?raw=true)
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
 
@@ -48,10 +48,11 @@ This class can *(will eventually)* be implemented on any datepicker html object.
 Contributions are **greatly appreciated** towards the final goal of a perfect datepicker!
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Choose an [issue](https://github.com/ctrachte/Datepicker.js/issues), assign yourself to it, and track it's progress on the [project board](https://github.com/ctrachte/Datepicker.js/projects/1)
+3. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+5. Push to the Branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request
 
 
 <!-- LICENSE -->
@@ -65,4 +66,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Caleb Trachte - *contact info will not be posted here, if you know me, message me*
 
-Project Link: [https://github.com/ctrachte/Datepicker.js](https://github.com/ctrachte/Datepicker.js)
+Project Link: [https://github.com/ctrachte/Datepicker.js/projects/1](https://github.com/ctrachte/Datepicker.js/projects/1)
