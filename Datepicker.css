@@ -31,3 +31,17 @@
   .grid-container > .dayHeader {
     padding: 20px;
   }
+
+  .grid-container > .monthHeader {
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .startDateElement, .endDateElement {
+    font-size: 1rem !important;
+    font-weight: lighter;
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
