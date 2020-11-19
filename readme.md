@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![November 11th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11192020.png?raw=true)
+![November 19th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11192020.png?raw=true)
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
 
@@ -47,6 +47,8 @@ This class can *(will eventually)* be implemented on any datepicker html object.
 
 Contributions are **greatly appreciated** towards the final goal of a perfect datepicker!
 
+[Please visit this contribution guide for GitHub open source if you are unsure about any of these steps:](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
+
 1. Fork the Project
 2. Look through the [issues](https://github.com/ctrachte/Datepicker.js/issues), and choose one that is not in progress on the [project board](https://github.com/ctrachte/Datepicker.js/projects/1)
 3. Comment on the issue and I will assign it to you.
@@ -54,7 +56,7 @@ Contributions are **greatly appreciated** towards the final goal of a perfect da
 5. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 6. Push to the Branch (`git push origin feature/AmazingFeature`)
 7. Please track your progress on the [project board](https://github.com/ctrachte/Datepicker.js/projects/1)
-7. Open a Pull Request
+7. Open a Pull Request 
 
 *Code will be reviewed before being merged. If your code does not quite work or needs revision it may not be merged to the master.*
 
