@@ -43,6 +43,20 @@
     padding-bottom: 12px;
   }
 
+  .grid-container > .monthHeader > .leftArrow {
+    vertical-align: middle;
+    grid-column-start: 0;
+    grid-column-end: 1;
+    height: 48px;
+    width:  48px;
+  }
+  .grid-container > .monthHeader > .rightArrow {
+    vertical-align: middle;
+    grid-column-start: 7;
+    grid-column-end: 8;
+    height: 48px;
+    width:  48px;
+  }
   .startDateElement, .endDateElement {
     font-size: 1rem !important;
     font-weight: lighter;
@@ -50,3 +64,4 @@
     padding-top: 12px;
     padding-bottom: 12px;
   }
+
