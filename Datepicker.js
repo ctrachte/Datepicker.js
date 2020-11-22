@@ -1,17 +1,21 @@
 
 class clsDatepicker {
     constructor(options) {
-        // options element directs how the class will be used/ designed
+        // Validation
         if (!options || typeof options === undefined) {
             throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
         }
         if (options.containerElement === undefined || !options.containerElement) {
             throw "Error: you must assign a container element in the Datepicker.js options object!";
         }
-        // options
-        this.containerElement = options.containerElement;
-        this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
 
+        // options
+        this.containerElement = options.containerElement; // HTML element that will hold the datepicker
+        this.moment = moment(moment(), "DD MM YYY h:mm:ss", true); // default date for calendar to initialize on
+        this.timePicker = this.options.timePicker || true; // include time picker inputs
+        this.presetMenu = this.options.presetMenu || true; // include presets such as "this week, next week, etc."
+        this.autoClose = this.options.autoClose || false; // whether or not the datepicker autocloses when selection is complete
+        this.singleDate = this.options.singleDate || false; // whether the datepicker allows single date choice, or date range
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.setDate = this.setDate.bind(this);
@@ -19,7 +23,6 @@ class clsDatepicker {
         this.lastMonth = this.lastMonth.bind(this);
         this.dates = [];
         this.drawCalendar();
-
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
@@ -71,7 +74,7 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day+1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
@@ -152,7 +155,7 @@ class clsDatepicker {
         this.drawCalendar();
     }
     // moves the calendar back one month
-    lastMonth(){
+    lastMonth() {
         this.containerElement.innerHTML = "";
         this.moment.add(-1, 'months');
         this.drawCalendar();
