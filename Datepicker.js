@@ -2,20 +2,25 @@
 class clsDatepicker {
     constructor(options) {
         // options element directs how the class will be used/ designed
-        if (typeof options === undefined) {
-            throw "Error: options object must be defined.";
+        if (!options || typeof options === undefined) {
+            throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
         }
         if (options.containerElement === undefined || !options.containerElement) {
-            throw "Error: you must assign a container element in the options object!";
+            throw "Error: you must assign a container element in the Datepicker.js options object!";
         }
+        // options
         this.containerElement = options.containerElement;
         this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
+
+        // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.setDate = this.setDate.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.dates = [];
         this.drawCalendar();
+
+        // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
     }
