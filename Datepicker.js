@@ -118,6 +118,8 @@ class clsDatepicker {
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
         }
+        // draw highlighting if there are any dates selected:
+        this.highlightDates();
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
@@ -196,8 +198,14 @@ class clsDatepicker {
             }.bind(this));
         }
         // add 'active' class to currently clicked date if there is one.
-        if (dayCell) {
-            dayCell.classList.add('active')
+        if (this.dates.length === 1) {
+            days.forEach(function (day) {
+                let indexDate = moment(day.value);
+                let firstDate = moment(this.dates[0]);
+                if ((firstDate - indexDate) === 0) {
+                    day.classList.add('active');
+                }
+            }.bind(this));
         }
     }
 }
