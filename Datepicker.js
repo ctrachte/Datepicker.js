@@ -161,7 +161,10 @@ class clsDatepicker {
         // adds calendar day highlighted styling
         if (this.dates.length === 2) {
             days.forEach(function (day) {
-                if (moment(day.value) > moment(this.dates[0]) && moment(day.value) < moment(this.dates[1])) {
+                let clickedDate = moment(day.value);
+                let firstDate = moment(this.dates[0]);
+                let secondDate = moment(this.dates[1]); 
+                if (clickedDate > firstDate && clickedDate < secondDate) {
                     day.classList.add("highlighted");
                 }
             }.bind(this));
