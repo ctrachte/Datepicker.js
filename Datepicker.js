@@ -161,30 +161,36 @@ class clsDatepicker {
         this.drawCalendar();
     }
     // sets highlighted dates on calendar UI
-    highlightDates(dayCell) {
+    highlightDates() {
         // reset or set the UI selected cell styling
         let days = this.containerElement.querySelectorAll('.day');
+        days.forEach(function (day) {
+            if (day.classList.contains('active')) {
+                day.classList.remove('active');
+            }
+        });
         if (this.dates.length > 0 && (this.dates.length === 2 || this.singleDate)) {
             days.forEach(function (day) {
                 day.classList.remove('active');
                 day.classList.remove("highlighted");
             });
         }
-        if (dayCell) {
-            if (dayCell.classList.contains('active')) {
-                dayCell.classList.remove('active');
-            } else {
-                dayCell.classList.add('active');
-            }
-        }
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
+
             days.forEach(function (day) {
-                let clickedDate = moment(day.value);
+                let indexDate = moment(day.value);
                 let firstDate = moment(this.dates[0]);
                 let secondDate = moment(this.dates[1]);
-                if (clickedDate > firstDate && clickedDate < secondDate) {
+                if (indexDate > firstDate && indexDate < secondDate) {
                     day.classList.add("highlighted");
+                    day.classList.remove('active')
+                }
+                if (firstDate == indexDate) {
+                    day.classList.add('active');
+                }
+                if (secondDate == indexDate) {
+                    day.classList.add('active');
                 }
             }.bind(this));
         }
