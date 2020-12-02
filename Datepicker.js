@@ -171,7 +171,6 @@ class clsDatepicker {
         });
         if (this.dates.length > 0 && (this.dates.length === 2 || this.singleDate)) {
             days.forEach(function (day) {
-                day.classList.remove('active');
                 day.classList.remove("highlighted");
             });
         }
@@ -182,15 +181,14 @@ class clsDatepicker {
                 let indexDate = moment(day.value);
                 let firstDate = moment(this.dates[0]);
                 let secondDate = moment(this.dates[1]);
+                if ((firstDate - indexDate) === 0) {
+                    day.classList.add('active');
+                }
+                if ((secondDate - indexDate) === 0) {
+                    day.classList.add('active');
+                }
                 if (indexDate > firstDate && indexDate < secondDate) {
                     day.classList.add("highlighted");
-                    day.classList.remove('active')
-                }
-                if (firstDate == indexDate) {
-                    day.classList.add('active');
-                }
-                if (secondDate == indexDate) {
-                    day.classList.add('active');
                 }
             }.bind(this));
         }
