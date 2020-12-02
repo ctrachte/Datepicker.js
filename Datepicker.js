@@ -161,14 +161,18 @@ class clsDatepicker {
         this.drawCalendar();
     }
     // sets highlighted dates on calendar UI
-    highlightDates() {
+    highlightDates(dayCell) {
         // reset or set the UI selected cell styling
         let days = this.containerElement.querySelectorAll('.day');
         days.forEach(function (day) {
             if (day.classList.contains('active')) {
                 day.classList.remove('active');
             }
+            if (day.classList.contains('highlighted')) {
+                day.classList.remove("highlighted");
+            }
         });
+        // remove highlighting first
         if (this.dates.length > 0 && (this.dates.length === 2 || this.singleDate)) {
             days.forEach(function (day) {
                 day.classList.remove("highlighted");
@@ -176,7 +180,6 @@ class clsDatepicker {
         }
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
-
             days.forEach(function (day) {
                 let indexDate = moment(day.value);
                 let firstDate = moment(this.dates[0]);
@@ -191,6 +194,10 @@ class clsDatepicker {
                     day.classList.add("highlighted");
                 }
             }.bind(this));
+        }
+        // add 'active' class to currently clicked date if there is one.
+        if (dayCell) {
+            dayCell.classList.add('active')
         }
     }
 }
