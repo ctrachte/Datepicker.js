@@ -143,7 +143,7 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + dayCell.value;
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
-                if (this.dates[0] > dayCell.value) {
+                if (moment(this.dates[0]) > moment(dayCell.value)) {
                     this.dates[1] = this.dates[0];
                     this.dates[0] = dayCell.value;
                     this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
@@ -161,7 +161,10 @@ class clsDatepicker {
         // adds calendar day highlighted styling
         if (this.dates.length === 2) {
             days.forEach(function (day) {
-                if (day.value > this.dates[0] && day.value < this.dates[1]) {
+                let clickedDate = moment(day.value);
+                let firstDate = moment(this.dates[0]);
+                let secondDate = moment(this.dates[1]); 
+                if (clickedDate > firstDate && clickedDate < secondDate) {
                     day.classList.add("highlighted");
                 }
             }.bind(this));
