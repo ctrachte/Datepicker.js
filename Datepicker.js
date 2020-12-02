@@ -148,7 +148,7 @@ class clsDatepicker {
             this.dates[0] = dayCell.value;
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
-        this.highlightDates(dayCell);
+        this.highlightDates();
     }
     // advances the calendar by one month
     nextMonth() {
@@ -163,7 +163,8 @@ class clsDatepicker {
         this.drawCalendar();
     }
     // sets highlighted dates on calendar UI
-    highlightDates(dayCell) {
+    highlightDates() {
+        console.log(this.dates)
         // reset or set the UI selected cell styling
         let days = this.containerElement.querySelectorAll('.day');
         days.forEach(function (day) {
@@ -174,12 +175,6 @@ class clsDatepicker {
                 day.classList.remove("highlighted");
             }
         });
-        // remove highlighting first
-        if (this.dates.length > 0 && (this.dates.length === 2 || this.singleDate)) {
-            days.forEach(function (day) {
-                day.classList.remove("highlighted");
-            });
-        }
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
