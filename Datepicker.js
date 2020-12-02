@@ -118,8 +118,6 @@ class clsDatepicker {
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
         }
-        // draw highlighting if there are any dates selected:
-        this.highlightDates();
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
@@ -155,16 +153,19 @@ class clsDatepicker {
         this.containerElement.innerHTML = "";
         this.moment.add(1, 'months');
         this.drawCalendar();
+        // draw highlighting if there are any dates selected:
+        this.highlightDates();
     }
     // moves the calendar back one month
     lastMonth() {
         this.containerElement.innerHTML = "";
         this.moment.add(-1, 'months');
         this.drawCalendar();
+        // draw highlighting if there are any dates selected:
+        this.highlightDates();
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
-        console.log(this.dates)
         // reset or set the UI selected cell styling
         let days = this.containerElement.querySelectorAll('.day');
         days.forEach(function (day) {
