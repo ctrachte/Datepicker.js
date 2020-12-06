@@ -148,21 +148,16 @@ class clsDatepicker {
         }
         this.highlightDates();
 		
-		//autoClose the claendar when a single date or date range is selected 
-		if(!this.singleDate && this.dates.length === 2 && this.options.autoClose)
-		{
-			setTimeout(function()
-			{ 
-				this.containerElement.hideEl();
-			}.bind(this), 400);
-		}
-		else if(this.singleDate && this.dates.length === 1 && this.options.autoClose)
-		{
-			setTimeout(function()
-			{ 
-				this.containerElement.hideEl();
-			}.bind(this), 400);
-		}
+	// autoClose the calendar when a single date or date range is selected 
+	if(!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
+	    setTimeout(function() { 
+		this.containerElement.hideEl();
+	}.bind(this), 400);
+	} else if(this.singleDate && this.dates.length === 1 && this.options.autoClose) {
+	    setTimeout(function() { 
+	       this.containerElement.hideEl();
+	    }.bind(this), 400);
+	}
     }
     // advances the calendar by one month
     nextMonth() {
@@ -225,10 +220,10 @@ class clsDatepicker {
 
 Element.prototype.hideEl = function()
 {
-	this.style.display = 'none';
+    this.style.display = 'none';
 }
 
 Element.prototype.showEl = function()
 {
-	this.style.display = 'block';
+    this.style.display = 'block';
 }
