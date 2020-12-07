@@ -57,11 +57,97 @@
     height: 48px;
     width:  48px;
   }
-  .startDateElement, .endDateElement {
+  .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {
     font-size: 1rem !important;
     font-weight: lighter;
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
   }
-
+  
+  .startTimeElement, .endTimeElement, .startTimeElement input, .endTimeElement input {
+    font-size: 1.54em !important;
+  }
+  .startTimeElement, .endTimeElement {
+	  display: grid;
+	  grid-template-columns: auto auto auto auto;
+	  grid-gap: 10px;
+	  padding: 10px;
+	  justify-items: center;
+	  align-items: center;
+  }  
+  .hour, .timeColon, .minute, .ampm, .am, .pm {
+	  
+  }
+  
+  .hour input, .minute input {
+	  background: none;	  
+	  border:none;
+      background-image:none;
+      background-color:transparent;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+	  
+	  width: 2em;
+	  
+	  display: block;
+	  float: left;
+	  padding:0; margin: 0;
+	  clear: both;
+	  
+	  text-align: center;
+	  vertical-align: middle;
+  }
+  .hour input[type=number]:focus, .minute input[type=number]:focus {
+	  background: none;	  
+	  border:none;
+      background-image:none;
+      background-color:transparent;
+      border: 1px solid #2b4c68;
+	  width: calc(2em - 4px);
+	  padding:0; margin: 0;
+  }
+  .hour .ReadOnly:focus, .minute .ReadOnly:focus {
+	  border: none !important;
+      outline: none !important;
+	  width: 2em !important;
+	  padding:0; margin: 0;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+  }
+  /* Chrome, Safari, Edge, Opera */
+  .hour input::-webkit-outer-spin-button, .hour input::-webkit-inner-spin-button, .minute input::-webkit-outer-spin-button, .minute input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+  /* Firefox */
+  .hour input[type=number], .minute input[type=number] {
+      -moz-appearance: textfield;
+  }
+  .TimeUpDown {
+	  margin-left: 5px;
+	  float: left;
+	  color: #2b4c68;
+  }
+  .TimeUpDown div {
+	  cursor: pointer;
+	  color: #2b4c68;
+  }  
+  .ampm {
+	  border-radius: 5px;
+	  border: 2px solid #2b4c68;
+  }
+  .am, .pm {
+	  cursor: pointer;
+	  padding: 2px;
+  }
+  .am[selected], .pm[selected]{
+	  background-color: #2b4c68;
+	  color: #fff;
+  }
+  .am {
+	  border-bottom: 1px solid #2b4c68;
+  }
