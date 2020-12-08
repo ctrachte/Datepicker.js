@@ -24,8 +24,23 @@ class clsDatepicker {
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
         this.dates = [];
+
+		/**
+		 * @type {object} this.timeElements holds references to element objects that contain values that make up time
+		 * @property {string} timeElements.startHourValueEl
+		 * @property {string} this.timeElements.startMinuteValueEl
+		 * @property {string} this.timeElements.startampm
+		 * @property {string} this.timeElements.endHourValueEl
+		 * @property {string} this.timeElements.endMinuteValueEl
+		 * @property {string} this.timeElements.endampm
+		 */
 		this.timeElements = {};
+
+		/**
+		 * @type {array} this.times array of times. The first is always the start time and the second, if a range, is always the second. Max of 2 entries.
+		 */
 		this.times = [];
+
         this.drawCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -49,11 +64,11 @@ class clsDatepicker {
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
-        leftArrow.innerHTML = "&#8672;";
+        leftArrow.innerHTML = "&#8592;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
-        rightArrow.innerHTML = "&#8674;"
+        rightArrow.innerHTML = "&#8594;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthText);
@@ -124,7 +139,7 @@ class clsDatepicker {
 		if(this.timePicker) {
 			this.times.push("");this.times.push("");
 			
-		    let startTimeElement = document.createElement('div');
+			let startTimeElement = document.createElement('div');
 		    startTimeElement.classList.add("startTimeElement");
 		    startTimeElement.style.gridColumnStart = 1;
 		    startTimeElement.style.gridColumnEnd = 4;
@@ -132,7 +147,7 @@ class clsDatepicker {
 		    let startHour = document.createElement("div"); 
 		    startHour.classList.add("hour");
 		    startHour.innerHTML = "<input type='number' value='12' />";
-		    startHour.style.gridColumn = "1 / span 2"; //2
+		    startHour.style.gridColumn = "1 / span 2";
 			
 			let startHourValueEl = startHour.querySelector("input");
 			startHourValueEl.setAttribute("ReadOnly", "true");
@@ -143,7 +158,7 @@ class clsDatepicker {
 		    startHourUpDown.classList.add("TimeUpDown");
 		    startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
 			
-			// Up
+			// Up Hour
 			startHourUpDown.querySelectorAll("div")[0].onclick = function() {
 				let newVal = parseInt(startHourValueEl.value) + 1;
 				if(newVal > 12) {
@@ -154,7 +169,7 @@ class clsDatepicker {
 				startHourValueEl.value = newVal;
 				this.setTime();
 			}.bind(this);
-			// Down
+			// Down Hour
 			startHourUpDown.querySelectorAll("div")[1].onclick = function() {
 				let newVal = parseInt(startHourValueEl.value) - 1;
 				if(newVal > 12) {
@@ -174,14 +189,14 @@ class clsDatepicker {
 		    let timeColon = document.createElement("div"); 
 		    timeColon.innerHTML = ":";
 		    timeColon.classList.add("timeColon");
-		    timeColon.style.gridColumn = "3 / span 1"; //3
+		    timeColon.style.gridColumn = "3 / span 1";
 		    startTimeElement.appendChild(timeColon);
 		    /***************************************************/
 		    
 		    let startMinute = document.createElement("div"); 
 		    startMinute.classList.add("minute");
 		    startMinute.innerHTML = "<input type='number' value='00' />";
-		    startMinute.style.gridColumn = "4 / span 2"; //6
+		    startMinute.style.gridColumn = "4 / span 2";
 			
 			let startMinuteValueEl = startMinute.querySelector("input");
 			startMinuteValueEl.setAttribute("ReadOnly", "true");
@@ -192,7 +207,7 @@ class clsDatepicker {
 		    startMinuteUpDown.classList.add("TimeUpDown");
 		    startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
 			
-			// Up
+			// Up Minute
 			startMinuteUpDown.querySelectorAll("div")[0].onclick = function() {				
 				let newVal = parseInt(startMinuteValueEl.value) + 1;
 				if(newVal > 59) {
@@ -206,7 +221,7 @@ class clsDatepicker {
 				}
 				this.setTime();
 			}.bind(this);
-			// Down
+			// Down Minute
 			startMinuteUpDown.querySelectorAll("div")[1].onclick = function() {
 				let newVal = parseInt(startMinuteValueEl.value) - 1;
 				if(newVal > 59) {
@@ -229,7 +244,7 @@ class clsDatepicker {
 		    let startampm = document.createElement("div"); 
 		    startampm.classList.add("ampm");
 		    startampm.innerHTML = "";
-		    startampm.style.gridColumn = "6 / span 1"; //7
+		    startampm.style.gridColumn = "6 / span 1";
 			this.timeElements.startampm = startampm;
 		    
 		    let startam = document.createElement("div"); 
@@ -266,7 +281,7 @@ class clsDatepicker {
 		        let endHour = document.createElement("div"); 
 		        endHour.classList.add("hour");
 		        endHour.innerHTML = "<input type='number' value='1' />";
-		        endHour.style.gridColumn = "1 / span 2"; //2
+		        endHour.style.gridColumn = "1 / span 2";
 				
 				let endHourValueEl = endHour.querySelector("input");
 				endHourValueEl.setAttribute("ReadOnly", "true");
@@ -277,7 +292,7 @@ class clsDatepicker {
 		        endHourUpDown.classList.add("TimeUpDown");
 		        endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
 				
-				// Up
+				// Up Hour
 				endHourUpDown.querySelectorAll("div")[0].onclick = function() {
 					let newVal = parseInt(endHourValueEl.value) + 1;
 				    if(newVal > 12) {
@@ -288,7 +303,7 @@ class clsDatepicker {
 				    endHourValueEl.value = newVal;
 					this.setTime();
 				}.bind(this);
-				// Down
+				// Down hour
 				endHourUpDown.querySelectorAll("div")[1].onclick = function() {
 					let newVal = parseInt(endHourValueEl.value) - 1;
 				    if(newVal > 12) {
@@ -307,14 +322,14 @@ class clsDatepicker {
 		        let timeColon = document.createElement("div"); 
 		        timeColon.innerHTML = ":";
 		        timeColon.classList.add("timeColon");
-		        timeColon.style.gridColumn = "3 / span 1"; //3
+		        timeColon.style.gridColumn = "3 / span 1";
 		        endTimeElement.appendChild(timeColon);
 		        /***************************************************/
 		        
 		        let endMinute = document.createElement("div"); 
 		        endMinute.classList.add("minute");
 		        endMinute.innerHTML = "<input type='number' value='00' />";
-		        endMinute.style.gridColumn = "4 / span 2"; //6
+		        endMinute.style.gridColumn = "4 / span 2";
 				
 				let endMinuteValueEl = endMinute.querySelector("input");
 				endMinuteValueEl.setAttribute("ReadOnly", "true");
@@ -325,7 +340,7 @@ class clsDatepicker {
 		        endMinuteUpDown.classList.add("TimeUpDown");
 		        endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
 				
-				// Up
+				// Up Minute
 				endMinuteUpDown.querySelectorAll("div")[0].onclick = function() {
 					let newVal = parseInt(endMinuteValueEl.value) + 1;
 				    if(newVal > 59) {
@@ -339,7 +354,7 @@ class clsDatepicker {
 				    }
 					this.setTime();
 				}.bind(this);
-				// Down
+				// Down Minute
 				endMinuteUpDown.querySelectorAll("div")[1].onclick = function() {
 				    let newVal = parseInt(endMinuteValueEl.value) - 1;
 				    if(newVal > 59) {
@@ -360,7 +375,7 @@ class clsDatepicker {
 		        let endampm = document.createElement("div"); 
 		        endampm.classList.add("ampm");
 		        endampm.innerHTML = "";
-		        endampm.style.gridColumn = "6 / span 1"; //7
+		        endampm.style.gridColumn = "6 / span 1";
 				this.timeElements.endampm = endampm;
 		        
 		        let endam = document.createElement("div"); 
@@ -395,23 +410,14 @@ class clsDatepicker {
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
-	// helper method to set start/end time
-	setTime() {
-		/*
-		Elements in timeElements object
-		this.timeElements.startHourValueEl
-		this.timeElements.startMinuteValueEl
-		this.timeElements.startampm
-		this.timeElements.endHourValueEl
-		this.timeElements.endMinuteValueEl
-		this.timeElements.endampm
-		*/
-		
+	/**
+	 * setTime function - a helper method to set start/end time. This function is a void.
+	 */
+	setTime() {		
 		this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":00 " + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
 		if (!this.singleDate){
 			this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":00 " + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
 		}
-		//console.log(this.times);
 	}
     // helper method to set start/end date on each calendar day click
     setDate(dayCell) {
