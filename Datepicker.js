@@ -109,7 +109,7 @@ class clsDatepicker {
         firstDayElement.setAttribute('style', monthStartPos);
         // Footer elements, contains start/end dates selected
         let startDateElement = document.createElement('div');
-
+        // start/end date elements based on singleDate options
         if (!this.singleDate) {
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
             startDateElement.classList.add('startDateElement')
@@ -139,7 +139,7 @@ class clsDatepicker {
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
         }
-
+        // timepicker init based on options
         if (this.timePicker) {
             this.times.push(""); this.times.push("");
 
@@ -439,7 +439,6 @@ class clsDatepicker {
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
         this.highlightDates();
-
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
@@ -448,7 +447,7 @@ class clsDatepicker {
         } else if (this.singleDate && this.dates.length === 1 && this.options.autoClose) {
             setTimeout(function () {
                 this.containerElement.hideEl();
-            }.bind(this), 400);
+            }.bind(this), 400); // setTimeout will need to be removed eventually
         }
     }
     // advances the calendar by one month
@@ -508,12 +507,10 @@ class clsDatepicker {
         }
     }
 }
-
-
+// html element prototypal inheritance of hide/show methods for UI elements
 Element.prototype.hideEl = function () {
     this.style.display = 'none';
 }
-
 Element.prototype.showEl = function () {
     this.style.display = 'block';
 }
