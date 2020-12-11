@@ -18,9 +18,9 @@ There are many great datepickers available on GitHub, however, I didn't find one
 Here's why:
 * I hate dependencies like jQuery
 * I want the code to be as lightweight and portable as possible.
+* I want programmable features that HTML5 `<input type="date"/>` doesn't offer 
 
-
-![November 19th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test11192020.png?raw=true)
+![November 19th Screenshot of Progress](https://github.com/ctrachte/Datepicker.js/blob/master/test12112020.png?raw=true)
 
 Of course, no one datepicker will serve all projects since your needs may be different. So I'll be adding more to this API in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
 
@@ -65,7 +65,7 @@ Contributions are **greatly appreciated** towards the final goal of a perfect da
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. 
 
 
 <!-- CONTACT -->
