@@ -8,15 +8,22 @@ class clsDatepicker {
         if (options.containerElement === undefined || !options.containerElement) {
             throw "Error: you must assign a container element in the Datepicker.js options object!";
         }
-
         // options
+        /**
+         * @type {object} options REQUIRED -  holds references to element objects that contain values that make up time
+         * @property {HTML} options.containerElement REQUIRED - HTML element to instantiate the datepicker in
+         * @property {Boolean} this.options.timePicker Optional - include time picker inputs - Defaults to false
+         * @property {Boolean} this.options.presetMenu Optional - include presets such as "this week, next week, etc. - Defaults to false
+         * @property {Boolean} this.options.autoClose Optional - whether or not the datepicker autocloses when selection is complete - Defaults to false
+         * @property {Boolean} this.options.singleDate Optional - whether the datepicker allows single date choice, or date range - Defaults to false
+         */
         this.options = options;
-        this.containerElement = options.containerElement; // HTML element that will hold the datepicker
-        this.moment = moment(moment(), "DD MM YYY h:mm:ss", true); // default date for calendar to initialize on
-        this.timePicker = this.options.timePicker ? this.options.timePicker : true; // include time picker inputs
-        this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true; // include presets such as "this week, next week, etc."
-        this.autoClose = this.options.autoClose ? this.options.autoClose : false; // whether or not the datepicker autocloses when selection is complete
-        this.singleDate = this.options.singleDate ? this.options.singleDate : false; // whether the datepicker allows single date choice, or date range
+        this.containerElement = options.containerElement;
+        this.moment = moment(moment(), "DD MM YYY h:mm:ss", true);
+        this.timePicker = this.options.timePicker ? this.options.timePicker : true;
+        this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true;
+        this.autoClose = this.options.autoClose ? this.options.autoClose : false;
+        this.singleDate = this.options.singleDate ? this.options.singleDate : false;
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.setDate = this.setDate.bind(this);
@@ -24,10 +31,9 @@ class clsDatepicker {
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
         this.dates = [];
-
         /**
-         * @type {object} this.timeElements holds references to element objects that contain values that make up time
-         * @property {string} timeElements.startHourValueEl
+         * @type {object} timeElements holds references to element objects that contain values that make up time
+         * @property {string} this.timeElements.startHourValueEl
          * @property {string} this.timeElements.startMinuteValueEl
          * @property {string} this.timeElements.startampm
          * @property {string} this.timeElements.endHourValueEl
@@ -35,12 +41,10 @@ class clsDatepicker {
          * @property {string} this.timeElements.endampm
          */
         this.timeElements = {};
-
         /**
          * @type {array} this.times array of times. The first is always the start time and the second, if a range, is always the second. Max of 2 entries.
          */
         this.times = [];
-
         this.drawCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -184,14 +188,12 @@ class clsDatepicker {
             startHour.appendChild(startHourUpDown);
 
             startTimeElement.appendChild(startHour);
-            /***************************************************/
 
             let timeColon = document.createElement("div");
             timeColon.innerHTML = ":";
             timeColon.classList.add("timeColon");
             timeColon.style.gridColumn = "3 / span 1";
             startTimeElement.appendChild(timeColon);
-            /***************************************************/
 
             let startMinute = document.createElement("div");
             startMinute.classList.add("minute");
@@ -239,7 +241,6 @@ class clsDatepicker {
             startMinute.appendChild(startMinuteUpDown);
 
             startTimeElement.appendChild(startMinute);
-            /***************************************************/
 
             let startampm = document.createElement("div");
             startampm.classList.add("ampm");
@@ -269,7 +270,6 @@ class clsDatepicker {
 
             startampm.appendChild(startpm);
             startTimeElement.appendChild(startampm);
-            /***************************************************/
             calendar.appendChild(startTimeElement);
 
             if (!this.singleDate) {
@@ -317,14 +317,12 @@ class clsDatepicker {
 
                 endHour.appendChild(endHourUpDown);
                 endTimeElement.appendChild(endHour);
-                /***************************************************/
 
                 let timeColon = document.createElement("div");
                 timeColon.innerHTML = ":";
                 timeColon.classList.add("timeColon");
                 timeColon.style.gridColumn = "3 / span 1";
                 endTimeElement.appendChild(timeColon);
-                /***************************************************/
 
                 let endMinute = document.createElement("div");
                 endMinute.classList.add("minute");
@@ -370,7 +368,6 @@ class clsDatepicker {
                 }.bind(this);
                 endMinute.appendChild(endMinuteUpDown);
                 endTimeElement.appendChild(endMinute);
-                /***************************************************/
 
                 let endampm = document.createElement("div");
                 endampm.classList.add("ampm");
@@ -401,7 +398,6 @@ class clsDatepicker {
                 endampm.appendChild(endpm);
                 endTimeElement.appendChild(endampm);
 
-                /***************************************************/
                 calendar.appendChild(endTimeElement);
             }
             this.setTime();
@@ -410,9 +406,7 @@ class clsDatepicker {
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
     }
-    /**
-     * setTime function - a helper method to set start/end time. This function is a void.
-     */
+    // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
         this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":00 " + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         if (!this.singleDate) {
