@@ -63,16 +63,22 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7;')
+        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7; background-color: #222831;');
         let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
-        leftArrow.innerHTML = "&#8592;";
+        leftArrow.setAttribute('style', 'background-color:transparent');        
+        leftArrow.setAttribute('aria-label', 'Previous Month Button');
+        leftArrow.setAttribute('role', 'navigation');        
+        leftArrow.innerHTML = "&#8672;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
-        rightArrow.innerHTML = "&#8594;"
+        rightArrow.setAttribute('style', 'background-color:transparent');        
+        rightArrow.setAttribute('aria-label', 'Next Month Button');
+        rightArrow.setAttribute('role', 'navigation');        
+        rightArrow.innerHTML = "&#8674;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthText);
@@ -87,6 +93,30 @@ class clsDatepicker {
             let dayHeader = document.createElement('div');
             dayHeader.classList.add(day);
             dayHeader.classList.add('dayHeader');
+            // adding aria-label for each day
+            switch(day){
+                case 'Sun':
+                    dayHeader.setAttribute('aria-label', 'Sunday');                    
+                    break;
+                case 'Mon':
+                    dayHeader.setAttribute('aria-label', 'Monday');
+                    break;
+                case 'Tue':
+                    dayHeader.setAttribute('aria-label', 'Tuesday');                    
+                    break;
+                case 'Wed':
+                    dayHeader.setAttribute('aria-label', 'Wednesday');                    
+                    break;
+                case 'Thu':
+                    dayHeader.setAttribute('aria-label', 'Thursday');                    
+                    break;
+                case 'Fri':
+                    dayHeader.setAttribute('aria-label', 'Friday');                    
+                    break;
+                case 'Sat':
+                    dayHeader.setAttribute('aria-label', 'Saturday');                    
+                    break;
+            }            
             dayHeader.innerHTML = " " + day + " ";
             calendar.appendChild(dayHeader);
         });
@@ -97,6 +127,8 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
+            dayCell.setAttribute('role', 'button');
+            dayCell.setAttribute('aria-label', parseInt(day)+1+'');            
             let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
@@ -473,6 +505,7 @@ class clsDatepicker {
         days.forEach(function (day) {
             if (day.classList.contains('active')) {
                 day.classList.remove('active');
+                day.setAttribute('aria-pressed', 'false');
             }
             if (day.classList.contains('highlighted')) {
                 day.classList.remove("highlighted");
@@ -486,9 +519,11 @@ class clsDatepicker {
                 let secondDate = moment(this.dates[1]);
                 if ((firstDate - indexDate) === 0) {
                     day.classList.add('active');
+                    day.setAttribute('aria-pressed', 'true');
                 }
                 if ((secondDate - indexDate) === 0) {
                     day.classList.add('active');
+                    day.setAttribute('aria-pressed', 'true');                   
                 }
                 if (indexDate > firstDate && indexDate < secondDate) {
                     day.classList.add("highlighted");
@@ -502,6 +537,7 @@ class clsDatepicker {
                 let firstDate = moment(this.dates[0]);
                 if ((firstDate - indexDate) === 0) {
                     day.classList.add('active');
+                    day.setAttribute('aria-pressed', 'true');
                 }
             }.bind(this));
         }
