@@ -127,9 +127,9 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY h:mm A");
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', parseInt(day)+1+'');            
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
@@ -443,6 +443,36 @@ class clsDatepicker {
         this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":00 " + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         if (!this.singleDate) {
             this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":00 " + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+        }
+        if (this.dates[0]) {
+            let hour = this.times[0].split(":")[0];
+            let minute = this.times[0].split(":")[1];
+            let ampm = this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+            if (ampm === "PM") {
+                hour = parseInt(hour) + 12;
+                if (hour > 23) {
+                    hour = 12;
+                }
+            } else if (parseInt(hour) === 12) {
+                hour = 0
+            }
+            this.dates[0] = moment(this.dates[0]).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+            this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
+        }
+        if (this.dates[1] && !this.singleDate) {
+            let hour = this.times[1].split(":")[0];
+            let minute = this.times[1].split(":")[1];
+            let ampm = this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+            if (ampm === "PM") {
+                hour = parseInt(hour) + 12;
+                if (hour > 23) {
+                    hour = 12;
+                }
+            } else if (parseInt(hour) === 12) {
+                hour = 0
+            }
+            this.dates[1] = moment(this.dates[1]).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+            this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
         }
     }
     // helper method to set start/end date on each calendar day click
