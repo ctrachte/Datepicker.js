@@ -3,34 +3,48 @@
     width: 720px;
     height: 720px;
     margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
     grid-gap: 10px;
-    background-color: #2b4c68;
     padding: 10px;
   }
   
   .grid-container > div {
-    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E3E8F8;
     text-align: center;
-    font-size: 30px;
+    font-size: 24px;
+    border-radius: 10px; 
+    transition: all, 0.3s;   
   }
 
   .grid-container > div.active {
-      background-color: rgb(136, 64, 64);
-      color:white;
+    background-color: #222831;
+    transform: scale(0.7);
+    color:white;   
+    box-shadow:0px 20px 70px 1px #D6A9DD;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #D6A9DD;  
   }
 
   .grid-container > .day {
     padding: 24px;
+    transition: all, 0.5s;   
   }
 
   .grid-container > .day.highlighted {
-    background-color: rgb(182, 85, 85);
+    background-color: #222831;
+    transform: scale(0.7);
     color:white;
+    box-shadow:0px 20px 70px 1px #B7C0DD;   
   }
 
   .grid-container > .dayHeader {
@@ -41,6 +55,7 @@
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
+    color: #E3E8F8;
   }
 
   .grid-container > .monthHeader > .leftArrow {
@@ -49,6 +64,9 @@
     grid-column-end: 1;
     height: 48px;
     width:  48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .grid-container > .monthHeader > .rightArrow {
     vertical-align: middle;
@@ -56,6 +74,9 @@
     grid-column-end: 8;
     height: 48px;
     width:  48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {
     font-size: 1rem !important;
