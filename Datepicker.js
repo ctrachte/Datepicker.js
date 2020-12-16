@@ -314,19 +314,19 @@ class clsDatepicker {
             let startpm = document.createElement("div");
             startpm.classList.add("pm");
             startpm.innerHTML = "PM";
-            if (startAMPM === "PM"){
-                startpm.setAttribute("SELECTED", "true");
-                startam.setAttribute("SELECTED", "false");
-            } else {
-                startam.setAttribute("SELECTED", "true");
-                startpm.setAttribute("SELECTED", "false");
-            }
+
             startpm.onclick = function () {
                 startpm.setAttribute("SELECTED", "true");
                 startam.removeAttribute("SELECTED");
                 this.setTime();
             }.bind(this);
-
+            if (startAMPM === "PM"){
+                startpm.setAttribute("SELECTED", "true");
+                startam.removeAttribute("SELECTED");
+            } else {
+                startam.setAttribute("SELECTED", "true");
+                startpm.removeAttribute("SELECTED");
+            }
             startampm.appendChild(startpm);
             startTimeElement.appendChild(startampm);
             calendar.appendChild(startTimeElement);
@@ -447,7 +447,6 @@ class clsDatepicker {
                 let endpm = document.createElement("div");
                 endpm.classList.add("pm");
                 endpm.innerHTML = "PM";
-                endpm.setAttribute("SELECTED", "true");
                 endpm.onclick = function () {
                     endpm.setAttribute("SELECTED", "true");
                     endam.removeAttribute("SELECTED");
@@ -455,10 +454,10 @@ class clsDatepicker {
                 }.bind(this);
                 if (endAMPM === "PM"){
                     endpm.setAttribute("SELECTED", "true");
-                    endam.setAttribute("SELECTED", "false");
+                    endam.removeAttribute("SELECTED");
                 } else {
                     endam.setAttribute("SELECTED", "true");
-                    endpm.setAttribute("SELECTED", "false");
+                    endpm.removeAttribute("SELECTED");
                 }
                 endampm.appendChild(endpm);
                 endTimeElement.appendChild(endampm);
@@ -472,9 +471,9 @@ class clsDatepicker {
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
-        this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":00:" + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+        this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":" + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         if (!this.singleDate) {
-            this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":00:" + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+            this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":" + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         }
         if (this.dates[0]) {
             let hour = this.times[0].split(":")[0];
