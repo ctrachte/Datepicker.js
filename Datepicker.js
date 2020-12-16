@@ -412,6 +412,20 @@ class clsDatepicker {
         if (!this.singleDate) {
             this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":00 " + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         }
+        if (this.dates[0]) {
+            let hour = this.times[0].split(":")[0];
+            let minute = this.times[0].split(":")[1];
+            let ampm = this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+            this.dates[0] = moment(this.dates[0]).set({h:hour, m:minute, a:ampm}).format("MM/DD/YYYY hh:mm:ss a");
+            this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
+        }
+        if (this.dates[1] && !this.singleDate) {
+            let hour = this.times[1].split(":")[0];
+            let minute = this.times[1].split(":")[1];
+            let ampm = this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
+            this.dates[1] = moment(this.dates[1]).set({h:hour, m:minute, a:ampm}).format("MM/DD/YYYY hh:mm:ss a");
+            this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
+        }
     }
     // helper method to set start/end date on each calendar day click
     setDate(dayCell) {
