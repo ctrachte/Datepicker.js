@@ -182,6 +182,7 @@ class clsDatepicker {
             } else {
                 startHourVal = "12";
                 startMinVal = "00";
+                startAMPM = "PM";
             }
             if (this.times[1]) {
                 endHourVal = this.times[1].split(":")[0];
@@ -190,10 +191,11 @@ class clsDatepicker {
             } else {
                 endHourVal = "1";
                 endMinVal = "00";
+                endAMPM = "PM"
             }
             if (!this.times.length) {
-                this.times[0] = "12:00:AM";
-                this.times[1] = "1:00:PM";
+                this.times[0] = startHourVal+startMinVal+startAMPM;
+                this.times[1] = endHourVal+endMinVal+endAMPM;
             }
             let startTimeElement = document.createElement('div');
             startTimeElement.classList.add("startTimeElement");
@@ -589,14 +591,15 @@ class clsDatepicker {
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
-                let indexDate = moment(day.value);
-                let firstDate = moment(this.dates[0]);
-                let secondDate = moment(this.dates[1]);
-                if ((firstDate - indexDate) === 0) {
+                let indexDate = moment(day.value).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
+                let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
+                console.log(firstDate, secondDate, indexDate)
+                if ((firstDate == indexDate)) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 }
-                if ((secondDate - indexDate) === 0) {
+                if ((secondDate == indexDate)) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');                   
                 }
