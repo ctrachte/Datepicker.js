@@ -97,7 +97,7 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm:ss a");
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY h:mm A");
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
