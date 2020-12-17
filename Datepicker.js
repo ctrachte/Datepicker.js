@@ -469,25 +469,25 @@ class clsDatepicker {
         if (!this.singleDate) {
             if (this.dates.length > 1 || this.dates.length < 1) {
                 this.dates = [];
-                this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute}).format("MM/DD/YYYY hh:mm A");
+                this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
                 if (moment(this.dates[0]).format("MM/DD/YYYY") > moment(dayCell.value).format("MM/DD/YYYY")) {
                     let largerDate = this.dates[0];
                     this.dates = [];
-                    this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute}).format("MM/DD/YYYY hh:mm A");
-                    this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute}).format("MM/DD/YYYY hh:mm A");
+                    this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
+                    this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
                     this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 } else {
-                    this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute}).format("MM/DD/YYYY hh:mm A");
+                    this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 }
             }
         } else {
             this.dates = [];
-            this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute}).format("MM/DD/YYYY hh:mm A");
+            this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
         // autoClose the calendar when a single date or date range is selected 
@@ -501,11 +501,8 @@ class clsDatepicker {
             }.bind(this), 400); // setTimeout will need to be removed eventually
         }
         // conditional highlighting prompt
-        if (this.dates.length === 2) {
-            this.highlightDates();
-        } else {
-            dayCell.classList.add('active');
-        }
+        this.highlightDates();
+
     }
     // advances the calendar by one month
     nextMonth() {
@@ -528,28 +525,18 @@ class clsDatepicker {
     // sets highlighted dates on calendar UI
     highlightDates() {
         let days = this.containerElement.querySelectorAll('.day');
-        days.forEach(function (day) {
-            if (day.classList.contains('active')) {
-                day.classList.remove('active');
-                day.setAttribute('aria-pressed', 'false');
-            }
-            if (day.classList.contains('highlighted')) {
-                day.classList.remove("highlighted");
-            }
-        });
-
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
                 let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
-                // console.log(firstDate, secondDate, indexDate)
-                if ((firstDate == indexDate)) {
+                console.log(firstDate, secondDate, indexDate)
+                if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 }
-                if ((secondDate == indexDate)) {
+                if (secondDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 }
@@ -557,15 +544,21 @@ class clsDatepicker {
                     day.classList.add("highlighted");
                 }
             }.bind(this));
-        }
-        // add 'active' class to currently clicked date if there is one.
-        if (this.dates.length === 1) {
+        } else {
             days.forEach(function (day) {
-                let indexDate = moment(day.value);
-                let firstDate = moment(this.dates[0]);
-                if ((firstDate - indexDate) === 0) {
+                let indexDate = moment(day.value).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
+                if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
+                } else {
+                    if (day.classList.contains('active')) {
+                        day.classList.remove('active');
+                        day.setAttribute('aria-pressed', 'false');
+                    }
+                    if (day.classList.contains('highlighted')) {
+                        day.classList.remove("highlighted");
+                    }
                 }
             }.bind(this));
         }
