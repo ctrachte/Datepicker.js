@@ -194,9 +194,10 @@ class clsDatepicker {
                 endAMPM = "PM"
             }
             if (!this.times.length) {
-                this.times[0] = startHourVal + startMinVal + startAMPM;
-                this.times[1] = endHourVal + endMinVal + endAMPM;
+                this.times[0] = startHourVal + ":" + startMinVal + ":" + startAMPM;
+                this.times[1] = endHourVal + ":" + endMinVal + ":" + endAMPM;
             }
+            console.table(this.times)
             let startTimeElement = document.createElement('div');
             startTimeElement.classList.add("startTimeElement");
             startTimeElement.style.gridColumnStart = 1;
@@ -473,14 +474,19 @@ class clsDatepicker {
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
+        this.times = [];
+        console.log(this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML)
         this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":" + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         if (!this.singleDate) {
             this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":" + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
         }
-        if (this.dates[0]) {
+        let endDate = this.dates[1];
+        let startDate = this.dates[0];
+        this.dates = [];
+        if (startDate) {
             let hour = this.times[0].split(":")[0];
             let minute = this.times[0].split(":")[1];
-            let ampm = this.times[0].split(":")[2];
+            let ampm = this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
             if (ampm === "PM") {
                 hour = parseInt(hour) + 12;
                 if (hour > 23) {
@@ -489,13 +495,13 @@ class clsDatepicker {
             } else if (parseInt(hour) === 12) {
                 hour = 0
             }
-            this.dates[0] = moment(this.dates[0]).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+            this.dates[0] = moment(startDate).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
         }
-        if (this.dates[1] && !this.singleDate) {
+        if (endDate && !this.singleDate) {
             let hour = this.times[1].split(":")[0];
             let minute = this.times[1].split(":")[1];
-            let ampm = this.times[1].split(":")[2];
+            let ampm = this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
             if (ampm === "PM") {
                 hour = parseInt(hour) + 12;
                 if (hour > 23) {
@@ -504,7 +510,8 @@ class clsDatepicker {
             } else if (parseInt(hour) === 12) {
                 hour = 0
             }
-            this.dates[1] = moment(this.dates[1]).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+
+            this.dates[1] = moment(endDate).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
         }
     }
