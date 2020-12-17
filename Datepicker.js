@@ -486,8 +486,6 @@ class clsDatepicker {
         let endhour = this.timeElements.endHourValueEl.value;
         let endminute = this.timeElements.endMinuteValueEl.value;
         let endampm = this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
-        let endDate = this.dates[1];
-        let startDate = this.dates[0];
         // set the start/end date in both the UI and the class's state
         if (!this.singleDate) {
             if (this.dates.length > 1 || this.dates.length < 1) {
@@ -496,7 +494,7 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
-                if (moment(this.dates[0]).format("MM/DD/YYYY") > dayCell.value) {
+                if (moment(this.dates[0]).format("MM/DD/YYYY") > moment(dayCell.value).format("MM/DD/YYYY")) {
                     let largerDate = this.dates[0];
                     this.dates = [];
                     this.dates[1] = moment(largerDate).set({ h: endhour, m: endminute, A: endampm }).format("MM/DD/YYYY h:mm A");
@@ -513,22 +511,6 @@ class clsDatepicker {
             this.dates[0] = moment(dayCell.value).set({ h: starthour, m: startminute, A: startampm }).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
-        let days = this.containerElement.querySelectorAll('.day');
-        days.forEach(function (day) {
-            if (day.classList.contains('active')) {
-                day.classList.remove('active');
-                day.setAttribute('aria-pressed', 'false');
-            }
-            if (day.classList.contains('highlighted')) {
-                day.classList.remove("highlighted");
-            }
-        });
-        if (this.dates.length === 2) {
-            this.highlightDates(days);
-        } else {
-            dayCell.classList.add('active');
-        }
-
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
@@ -538,6 +520,12 @@ class clsDatepicker {
             setTimeout(function () {
                 this.containerElement.hideEl();
             }.bind(this), 400); // setTimeout will need to be removed eventually
+        }
+        // conditional highlighting prompt
+        if (this.dates.length === 2) {
+            this.highlightDates();
+        } else {
+            dayCell.classList.add('active');
         }
     }
     // advances the calendar by one month
@@ -557,7 +545,18 @@ class clsDatepicker {
         this.highlightDates();
     }
     // sets highlighted dates on calendar UI
-    highlightDates(days) {
+    highlightDates() {
+        let days = this.containerElement.querySelectorAll('.day');
+        days.forEach(function (day) {
+            if (day.classList.contains('active')) {
+                day.classList.remove('active');
+                day.setAttribute('aria-pressed', 'false');
+            }
+            if (day.classList.contains('highlighted')) {
+                day.classList.remove("highlighted");
+            }
+        });
+
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
