@@ -531,7 +531,10 @@ class clsDatepicker {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
                 let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
-                console.log(firstDate, secondDate, indexDate)
+                let indexDateX = moment(day.value).format("X");
+                let firstDateX = moment(this.dates[0]).format("X");
+                let secondDateX = moment(this.dates[1]).format("X");
+                // console.log(firstDate, secondDate, indexDate)
                 if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
@@ -540,7 +543,7 @@ class clsDatepicker {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 }
-                if (indexDate > firstDate && indexDate < secondDate) {
+                if (indexDateX > firstDateX && indexDateX < secondDateX) {
                     day.classList.add("highlighted");
                 }
             }.bind(this));
