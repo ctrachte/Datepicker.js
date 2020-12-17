@@ -511,8 +511,9 @@ class clsDatepicker {
     // helper method to set start/end date on each calendar day click
     setDate(dayCell) {
         // set the start/end date in both the UI and the class's state
+        this.setTime();
         if (!this.singleDate) {
-            if (this.dates.length === 2 || !this.dates.length) {
+            if (this.dates.length > 1 || this.dates.length < 1) {
                 this.dates = [];
                 let hour = this.times[0].split(":")[0];
                 let minute = this.times[0].split(":")[1];
@@ -521,12 +522,17 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
-                if (moment(this.dates[0]) > moment(dayCell.value)) {
-                    this.dates[1] = this.dates[0];
-                    let hour = this.times[0].split(":")[0];
-                    let minute = this.times[0].split(":")[1];
-                    let ampm = this.times[0].split(":")[2];
-                    this.dates[0] = moment(dayCell.value).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+                if (moment(this.dates[0]).format("MM/DD/YYYY") > dayCell.value) {
+                    let largerDate = this.dates[0];
+                    this.dates  = [];
+                    let starthour = this.times[0].split(":")[0];
+                    let startminute = this.times[0].split(":")[1];
+                    let startampm = this.times[0].split(":")[2];
+                    let endhour = this.times[1].split(":")[0];
+                    let endminute = this.times[1].split(":")[1];
+                    let endampm = this.times[1].split(":")[2];
+                    this.dates[1] = moment(largerDate).set({h:endhour, m:endminute, A:endampm}).format("MM/DD/YYYY h:mm A");
+                    this.dates[0] = moment(dayCell.value).set({h:starthour, m:startminute, A:startampm}).format("MM/DD/YYYY h:mm A");
                     this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 } else {
@@ -545,7 +551,17 @@ class clsDatepicker {
             this.dates[0] = moment(dayCell.value).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
-        this.highlightDates();
+        let days = this.containerElement.querySelectorAll('.day');
+        days.forEach(function (day) {
+            if (day.classList.contains('active')) {
+                day.classList.remove('active');
+                day.setAttribute('aria-pressed', 'false');
+            }
+            if (day.classList.contains('highlighted')) {
+                day.classList.remove("highlighted");
+            }
+        });
+        this.highlightDates(days);
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
@@ -562,39 +578,28 @@ class clsDatepicker {
         this.containerElement.innerHTML = "";
         this.moment.add(1, 'months');
         this.drawCalendar();
+        this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
-        this.setTime();
     }
     // moves the calendar back one month
     lastMonth() {
         this.containerElement.innerHTML = "";
         this.moment.add(-1, 'months');
         this.drawCalendar();
+        this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
-        this.setTime();
     }
     // sets highlighted dates on calendar UI
-    highlightDates() {
-        // reset or set the UI selected cell styling
-        let days = this.containerElement.querySelectorAll('.day');
-        days.forEach(function (day) {
-            if (day.classList.contains('active')) {
-                day.classList.remove('active');
-                day.setAttribute('aria-pressed', 'false');
-            }
-            if (day.classList.contains('highlighted')) {
-                day.classList.remove("highlighted");
-            }
-        });
+    highlightDates(days) {
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
                 let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
-                console.log(firstDate, secondDate, indexDate)
+                // console.log(firstDate, secondDate, indexDate)
                 if ((firstDate == indexDate)) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
