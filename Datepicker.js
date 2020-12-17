@@ -151,22 +151,10 @@ class clsDatepicker {
             endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
             calendar.appendChild(endDateElement);
             // set calendar start/end dates in the UI
-            if (this.dates[0]) {
-                startDateElement.innerHTML = "Start Date: " + this.dates[0];
-            } else {
-                startDateElement.innerHTML = "Start Date: ";
-            }
-            if (this.dates[1]) {
-                endDateElement.innerHTML = "Start Date: " + this.dates[1];
-            } else {
-                endDateElement.innerHTML = "End Date: ";
-            }
+            startDateElement.innerHTML = "Start Date: ";
+            endDateElement.innerHTML = "End Date: ";
         } else {
-            if (this.dates[0]) {
-                startDateElement.innerHTML = "Date: " + this.dates[0];
-            } else {
-                startDateElement.innerHTML = "Date: ";
-            }
+            startDateElement.innerHTML = "Date: ";
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;')
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
@@ -197,7 +185,6 @@ class clsDatepicker {
                 this.times[0] = startHourVal + ":" + startMinVal + ":" + startAMPM;
                 this.times[1] = endHourVal + ":" + endMinVal + ":" + endAMPM;
             }
-            console.table(this.times)
             let startTimeElement = document.createElement('div');
             startTimeElement.classList.add("startTimeElement");
             startTimeElement.style.gridColumnStart = 1;
