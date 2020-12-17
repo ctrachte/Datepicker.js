@@ -22,12 +22,11 @@
     text-align: center;
     font-size: 24px;
     border-radius: 10px; 
-    transition: all, 0.3s;   
+    transition: all, 0.1s;   
   }
 
   .grid-container > div.active {
     background-color: #222831;
-    transform: scale(0.7);
     color:white;   
     box-shadow:0px 20px 70px 1px #D6A9DD;
     border-width: 5px;
@@ -37,12 +36,11 @@
 
   .grid-container > .day {
     padding: 24px;
-    transition: all, 0.5s;   
+    transition: all, 0.1s;   
   }
 
   .grid-container > .day.highlighted {
     background-color: #222831;
-    transform: scale(0.7);
     color:white;
     box-shadow:0px 20px 70px 1px #B7C0DD;   
   }
@@ -144,24 +142,24 @@
   .TimeUpDown {
     margin-left: 5px;
     float: left;
-    color: #2b4c68;
+    color: #222831;
   }
   .TimeUpDown div {
     cursor: pointer;
-    color: #2b4c68;
+    color: #222831;
   }  
   .ampm {
     border-radius: 5px;
-    border: 2px solid #2b4c68;
+    border: 2px solid #222831;
   }
   .am, .pm {
     cursor: pointer;
     padding: 2px;
   }
   .am[selected], .pm[selected]{
-    background-color: #2b4c68;
+    background-color: #222831;
     color: #fff;
   }
   .am {
-    border-bottom: 1px solid #2b4c68;
+    border-bottom: 1px solid #222831;
   }
