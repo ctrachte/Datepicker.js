@@ -19,7 +19,7 @@ class clsDatepicker {
          */
         this.options = options;
         this.containerElement = options.containerElement;
-        this.moment = moment(moment(), "MM/DD/YYYY h:mm A", true);
+        this.moment = moment(moment(), "MM/DD/YYYY hh:mm A", true);
         this.timePicker = this.options.timePicker ? this.options.timePicker : true;
         this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true;
         this.autoClose = this.options.autoClose ? this.options.autoClose : false;
@@ -41,10 +41,12 @@ class clsDatepicker {
          * @property {string} this.timeElements.endampm
          */
         this.timeElements = {};
-        /**
-         * @type {array} this.times array of times. The first is always the start time and the second, if a range, is always the second. Max of 2 entries.
-         */
-        this.times = [];
+        this.startHour = "09";
+        this.startMinute = "00";
+        // this.startAmPm = "AM";
+        this.endHour = "10";
+        this.endMinute = "00";
+        // this.endAmPm = "AM";
         this.drawCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -127,7 +129,7 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY h:mm A");
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm A");
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', parseInt(day) + 1 + '');
             dayCell.value = dateString;
@@ -162,29 +164,6 @@ class clsDatepicker {
         // timepicker init based on options
         if (this.timePicker) {
 
-            let startHourVal, startMinVal, endHourVal, endMinVal, startAMPM, endAMPM;
-            if (this.times[0]) {
-                startHourVal = this.times[0].split(":")[0];
-                startMinVal = this.times[0].split(":")[1];
-                startAMPM = this.times[0].split(":")[2];
-            } else {
-                startHourVal = "12";
-                startMinVal = "00";
-                startAMPM = "PM";
-            }
-            if (this.times[1]) {
-                endHourVal = this.times[1].split(":")[0];
-                endMinVal = this.times[1].split(":")[1];
-                endAMPM = this.times[1].split(":")[2];
-            } else {
-                endHourVal = "1";
-                endMinVal = "00";
-                endAMPM = "PM"
-            }
-            if (!this.times.length) {
-                this.times[0] = startHourVal + ":" + startMinVal + ":" + startAMPM;
-                this.times[1] = endHourVal + ":" + endMinVal + ":" + endAMPM;
-            }
             let startTimeElement = document.createElement('div');
             startTimeElement.classList.add("startTimeElement");
             startTimeElement.style.gridColumnStart = 1;
@@ -192,7 +171,7 @@ class clsDatepicker {
 
             let startHour = document.createElement("div");
             startHour.classList.add("hour");
-            startHour.innerHTML = "<input type='number' value='" + startHourVal + "' />";
+            startHour.innerHTML = "<input type='number' value='" + this.startHour + "' />";
             startHour.style.gridColumn = "1 / span 2";
 
             let startHourValueEl = startHour.querySelector("input");
@@ -207,10 +186,10 @@ class clsDatepicker {
             // Up Hour
             startHourUpDown.querySelectorAll("div")[0].onclick = function () {
                 let newVal = parseInt(startHourValueEl.value) + 1;
-                if (newVal > 12) {
+                if (newVal > 23) {
                     newVal = 1;
                 } else if (newVal < 1) {
-                    newVal = 12;
+                    newVal = 23;
                 }
                 startHourValueEl.value = newVal;
                 this.setTime();
@@ -218,10 +197,10 @@ class clsDatepicker {
             // Down Hour
             startHourUpDown.querySelectorAll("div")[1].onclick = function () {
                 let newVal = parseInt(startHourValueEl.value) - 1;
-                if (newVal > 12) {
+                if (newVal > 23) {
                     newVal = 1;
                 } else if (newVal < 1) {
-                    newVal = 12;
+                    newVal = 23;
                 }
                 startHourValueEl.value = newVal;
                 this.setTime();
@@ -239,7 +218,7 @@ class clsDatepicker {
 
             let startMinute = document.createElement("div");
             startMinute.classList.add("minute");
-            startMinute.innerHTML = "<input type='number' value='" + startMinVal + "' />";
+            startMinute.innerHTML = "<input type='number' value='" + this.startMinute + "' />";
             startMinute.style.gridColumn = "4 / span 2";
 
             let startMinuteValueEl = startMinute.querySelector("input");
@@ -284,41 +263,43 @@ class clsDatepicker {
 
             startTimeElement.appendChild(startMinute);
 
-            let startampm = document.createElement("div");
-            startampm.classList.add("ampm");
-            startampm.innerHTML = "";
-            startampm.style.gridColumn = "6 / span 1";
-            this.timeElements.startampm = startampm;
+            // let startampm = document.createElement("div");
+            // startampm.classList.add("ampm");
+            // startampm.innerHTML = "";
+            // startampm.style.gridColumn = "6 / span 1";
+            // this.timeElements.startampm = startampm;
 
-            let startam = document.createElement("div");
-            startam.classList.add("am");
-            startam.innerHTML = "AM";
+            // let startam = document.createElement("div");
+            // startam.classList.add("am");
+            // startam.innerHTML = "AM";
 
-            startam.onclick = function () {
-                startam.setAttribute("SELECTED", "true");
-                startpm.removeAttribute("SELECTED");
-                this.setTime();
-            }.bind(this);
-            startampm.appendChild(startam);
+            // startam.onclick = function () {
+            //     this.startAmPm = "AM";
+            //     startam.setAttribute("SELECTED", "true");
+            //     startpm.removeAttribute("SELECTED");
+            //     this.setTime();
+            // }.bind(this);
+            // startampm.appendChild(startam);
 
-            let startpm = document.createElement("div");
-            startpm.classList.add("pm");
-            startpm.innerHTML = "PM";
+            // let startpm = document.createElement("div");
+            // startpm.classList.add("pm");
+            // startpm.innerHTML = "PM";
 
-            startpm.onclick = function () {
-                startpm.setAttribute("SELECTED", "true");
-                startam.removeAttribute("SELECTED");
-                this.setTime();
-            }.bind(this);
-            if (startAMPM === "PM") {
-                startpm.setAttribute("SELECTED", "true");
-                startam.removeAttribute("SELECTED");
-            } else {
-                startam.setAttribute("SELECTED", "true");
-                startpm.removeAttribute("SELECTED");
-            }
-            startampm.appendChild(startpm);
-            startTimeElement.appendChild(startampm);
+            // startpm.onclick = function () {
+            //     this.startAmPm = "PM";
+            //     startpm.setAttribute("SELECTED", "true");
+            //     startam.removeAttribute("SELECTED");
+            //     this.setTime();
+            // }.bind(this);
+            // if (this.startAmPm === "PM") {
+            //     startpm.setAttribute("SELECTED", "true");
+            //     startam.removeAttribute("SELECTED");
+            // } else {
+            //     startam.setAttribute("SELECTED", "true");
+            //     startpm.removeAttribute("SELECTED");
+            // }
+            // startampm.appendChild(startpm);
+            // startTimeElement.appendChild(startampm);
             calendar.appendChild(startTimeElement);
 
             if (!this.singleDate) {
@@ -329,7 +310,7 @@ class clsDatepicker {
 
                 let endHour = document.createElement("div");
                 endHour.classList.add("hour");
-                endHour.innerHTML = "<input type='number' value='" + endHourVal + "' />";
+                endHour.innerHTML = "<input type='number' value='" + this.endHour + "' />";
                 endHour.style.gridColumn = "1 / span 2";
 
                 let endHourValueEl = endHour.querySelector("input");
@@ -344,10 +325,10 @@ class clsDatepicker {
                 // Up Hour
                 endHourUpDown.querySelectorAll("div")[0].onclick = function () {
                     let newVal = parseInt(endHourValueEl.value) + 1;
-                    if (newVal > 12) {
+                    if (newVal > 23) {
                         newVal = 1;
                     } else if (newVal < 1) {
-                        newVal = 12;
+                        newVal = 23;
                     }
                     endHourValueEl.value = newVal;
                     this.setTime();
@@ -355,10 +336,10 @@ class clsDatepicker {
                 // Down hour
                 endHourUpDown.querySelectorAll("div")[1].onclick = function () {
                     let newVal = parseInt(endHourValueEl.value) - 1;
-                    if (newVal > 12) {
+                    if (newVal > 23) {
                         newVal = 1;
                     } else if (newVal < 1) {
-                        newVal = 12;
+                        newVal = 23;
                     }
                     endHourValueEl.value = newVal;
                     this.setTime();
@@ -375,7 +356,7 @@ class clsDatepicker {
 
                 let endMinute = document.createElement("div");
                 endMinute.classList.add("minute");
-                endMinute.innerHTML = "<input type='number' value='" + endMinVal + "' />";
+                endMinute.innerHTML = "<input type='number' value='" + this.endMinute + "' />";
                 endMinute.style.gridColumn = "4 / span 2";
 
                 let endMinuteValueEl = endMinute.querySelector("input");
@@ -418,149 +399,97 @@ class clsDatepicker {
                 endMinute.appendChild(endMinuteUpDown);
                 endTimeElement.appendChild(endMinute);
 
-                let endampm = document.createElement("div");
-                endampm.classList.add("ampm");
-                endampm.innerHTML = "";
-                endampm.style.gridColumn = "6 / span 1";
-                this.timeElements.endampm = endampm;
+                // let endampm = document.createElement("div");
+                // endampm.classList.add("ampm");
+                // endampm.innerHTML = "";
+                // endampm.style.gridColumn = "6 / span 1";
+                // this.timeElements.endampm = endampm;
 
-                let endam = document.createElement("div");
-                endam.classList.add("am");
-                endam.innerHTML = "AM";
-                endam.onclick = function () {
-                    endam.setAttribute("SELECTED", "true");
-                    endpm.removeAttribute("SELECTED");
-                    this.setTime();
-                }.bind(this);
-                endampm.appendChild(endam);
+                // let endam = document.createElement("div");
+                // endam.classList.add("am");
+                // endam.innerHTML = "AM";
+                // endam.onclick = function () {
+                //     this.endAmPm = "AM";
+                //     endam.setAttribute("SELECTED", "true");
+                //     endpm.removeAttribute("SELECTED");
+                //     this.setTime();
+                // }.bind(this);
+                // endampm.appendChild(endam);
 
-                let endpm = document.createElement("div");
-                endpm.classList.add("pm");
-                endpm.innerHTML = "PM";
-                endpm.onclick = function () {
-                    endpm.setAttribute("SELECTED", "true");
-                    endam.removeAttribute("SELECTED");
-                    this.setTime();
-                }.bind(this);
-                if (endAMPM === "PM") {
-                    endpm.setAttribute("SELECTED", "true");
-                    endam.removeAttribute("SELECTED");
-                } else {
-                    endam.setAttribute("SELECTED", "true");
-                    endpm.removeAttribute("SELECTED");
-                }
-                endampm.appendChild(endpm);
-                endTimeElement.appendChild(endampm);
+                // let endpm = document.createElement("div");
+                // endpm.classList.add("pm");
+                // endpm.innerHTML = "PM";
+                // endpm.onclick = function () {
+                //     this.endAmPm = "PM";
+                //     endpm.setAttribute("SELECTED", "true");
+                //     endam.removeAttribute("SELECTED");
+                //     this.setTime();
+                // }.bind(this);
+                // if (this.endAmPm === "PM") {
+                //     endpm.setAttribute("SELECTED", "true");
+                //     endam.removeAttribute("SELECTED");
+                // } else {
+                //     endam.setAttribute("SELECTED", "true");
+                //     endpm.removeAttribute("SELECTED");
+                // }
+                // endampm.appendChild(endpm);
+                // endTimeElement.appendChild(endampm);
 
                 calendar.appendChild(endTimeElement);
             }
         }
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
-        this.setTime();
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
-        this.times = [];
-        console.log(this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML)
-        this.times[0] = this.timeElements.startHourValueEl.value + ":" + this.timeElements.startMinuteValueEl.value + ":" + this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
-        if (!this.singleDate) {
-            this.times[1] = this.timeElements.endHourValueEl.value + ":" + this.timeElements.endMinuteValueEl.value + ":" + this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
-        }
+        this.startHour = this.timeElements.startHourValueEl.value;
+        this.startMinute = this.timeElements.startMinuteValueEl.value;
+        this.endHour = this.timeElements.endHourValueEl.value;
+        this.endMinute = this.timeElements.endMinuteValueEl.value;
         let endDate = this.dates[1];
         let startDate = this.dates[0];
         this.dates = [];
         if (startDate) {
-            let hour = this.times[0].split(":")[0];
-            let minute = this.times[0].split(":")[1];
-            let ampm = this.timeElements.startampm.querySelectorAll('[selected="true"]')[0].innerHTML;
-            if (ampm === "PM") {
-                hour = parseInt(hour) + 12;
-                if (hour > 23) {
-                    hour = 12;
-                }
-            } else if (parseInt(hour) === 12) {
-                hour = 0
-            }
-            this.dates[0] = moment(startDate).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+            this.dates[0] = moment(startDate).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
         }
         if (endDate && !this.singleDate) {
-            let hour = this.times[1].split(":")[0];
-            let minute = this.times[1].split(":")[1];
-            let ampm = this.timeElements.endampm.querySelectorAll('[selected="true"]')[0].innerHTML;
-            if (ampm === "PM") {
-                hour = parseInt(hour) + 12;
-                if (hour > 23) {
-                    hour = 12;
-                }
-            } else if (parseInt(hour) === 12) {
-                hour = 0
-            }
-
-            this.dates[1] = moment(endDate).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+            this.dates[1] = moment(endDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
         }
     }
     // helper method to set start/end date on each calendar day click
     setDate(dayCell) {
+        this.startHour = this.timeElements.startHourValueEl.value;
+        this.startMinute = this.timeElements.startMinuteValueEl.value;
+        this.endHour = this.timeElements.endHourValueEl.value;
+        this.endMinute = this.timeElements.endMinuteValueEl.value;
         // set the start/end date in both the UI and the class's state
-        this.setTime();
         if (!this.singleDate) {
             if (this.dates.length > 1 || this.dates.length < 1) {
                 this.dates = [];
-                let hour = this.times[0].split(":")[0];
-                let minute = this.times[0].split(":")[1];
-                let ampm = this.times[0].split(":")[2];
-                this.dates[0] = moment(dayCell.value).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+                this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
-                if (moment(this.dates[0]).format("MM/DD/YYYY") > dayCell.value) {
+                if (moment(this.dates[0]) > moment(dayCell.value)) {
                     let largerDate = this.dates[0];
                     this.dates = [];
-                    let starthour = this.times[0].split(":")[0];
-                    let startminute = this.times[0].split(":")[1];
-                    let startampm = this.times[0].split(":")[2];
-                    let endhour = this.times[1].split(":")[0];
-                    let endminute = this.times[1].split(":")[1];
-                    let endampm = this.times[1].split(":")[2];
-                    this.dates[1] = moment(largerDate).set({ h: endhour, m: endminute, A: endampm }).format("MM/DD/YYYY h:mm A");
-                    this.dates[0] = moment(dayCell.value).set({ h: starthour, m: startminute, A: startampm }).format("MM/DD/YYYY h:mm A");
+                    this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
+                    this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
                     this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 } else {
-                    let hour = this.times[1].split(":")[0];
-                    let minute = this.times[1].split(":")[1];
-                    let ampm = this.times[1].split(":")[2];
-                    this.dates[1] = moment(dayCell.value).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+                    this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 }
             }
         } else {
             this.dates = [];
-            let hour = this.times[0].split(":")[0];
-            let minute = this.times[0].split(":")[1];
-            let ampm = this.times[0].split(":")[2];
-            this.dates[0] = moment(dayCell.value).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
+            this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
-        let days = this.containerElement.querySelectorAll('.day');
-        days.forEach(function (day) {
-            if (day.classList.contains('active')) {
-                day.classList.remove('active');
-                day.setAttribute('aria-pressed', 'false');
-            }
-            if (day.classList.contains('highlighted')) {
-                day.classList.remove("highlighted");
-            }
-        });
-        if (this.dates.length === 2) {
-            this.highlightDates(days);
-        } else {
-            dayCell.classList.add('active');
-        }
-
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
@@ -571,6 +500,9 @@ class clsDatepicker {
                 this.containerElement.hideEl();
             }.bind(this), 400); // setTimeout will need to be removed eventually
         }
+        // conditional highlighting prompt
+        this.highlightDates();
+
     }
     // advances the calendar by one month
     nextMonth() {
@@ -591,35 +523,45 @@ class clsDatepicker {
         this.highlightDates();
     }
     // sets highlighted dates on calendar UI
-    highlightDates(days) {
+    highlightDates() {
+        let days = this.containerElement.querySelectorAll('.day');
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
                 let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
+                let indexDateX = moment(day.value).format("X");
+                let firstDateX = moment(this.dates[0]).format("X");
+                let secondDateX = moment(this.dates[1]).format("X");
                 // console.log(firstDate, secondDate, indexDate)
-                if ((firstDate == indexDate)) {
+                if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 }
-                if ((secondDate == indexDate)) {
+                if (secondDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 }
-                if (indexDate > firstDate && indexDate < secondDate) {
+                if (indexDateX > firstDateX && indexDateX < secondDateX) {
                     day.classList.add("highlighted");
                 }
             }.bind(this));
-        }
-        // add 'active' class to currently clicked date if there is one.
-        if (this.dates.length === 1) {
+        } else {
             days.forEach(function (day) {
-                let indexDate = moment(day.value);
-                let firstDate = moment(this.dates[0]);
-                if ((firstDate - indexDate) === 0) {
+                let indexDate = moment(day.value).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
+                if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
+                } else {
+                    if (day.classList.contains('active')) {
+                        day.classList.remove('active');
+                        day.setAttribute('aria-pressed', 'false');
+                    }
+                    if (day.classList.contains('highlighted')) {
+                        day.classList.remove("highlighted");
+                    }
                 }
             }.bind(this));
         }
