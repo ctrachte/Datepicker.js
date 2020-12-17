@@ -473,7 +473,7 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
-                if (moment(this.dates[0]).format("MM/DD/YYYY") > moment(dayCell.value).format("MM/DD/YYYY")) {
+                if (moment(this.dates[0]) > moment(dayCell.value)) {
                     let largerDate = this.dates[0];
                     this.dates = [];
                     this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
