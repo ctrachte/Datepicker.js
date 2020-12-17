@@ -68,16 +68,16 @@ class clsDatepicker {
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
-        leftArrow.setAttribute('style', 'background-color:transparent');        
+        leftArrow.setAttribute('style', 'background-color:transparent');
         leftArrow.setAttribute('aria-label', 'Previous Month Button');
-        leftArrow.setAttribute('role', 'navigation');        
+        leftArrow.setAttribute('role', 'navigation');
         leftArrow.innerHTML = "&#8672;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
-        rightArrow.setAttribute('style', 'background-color:transparent');        
+        rightArrow.setAttribute('style', 'background-color:transparent');
         rightArrow.setAttribute('aria-label', 'Next Month Button');
-        rightArrow.setAttribute('role', 'navigation');        
+        rightArrow.setAttribute('role', 'navigation');
         rightArrow.innerHTML = "&#8674;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
@@ -94,29 +94,29 @@ class clsDatepicker {
             dayHeader.classList.add(day);
             dayHeader.classList.add('dayHeader');
             // adding aria-label for each day
-            switch(day){
+            switch (day) {
                 case 'Sun':
-                    dayHeader.setAttribute('aria-label', 'Sunday');                    
+                    dayHeader.setAttribute('aria-label', 'Sunday');
                     break;
                 case 'Mon':
                     dayHeader.setAttribute('aria-label', 'Monday');
                     break;
                 case 'Tue':
-                    dayHeader.setAttribute('aria-label', 'Tuesday');                    
+                    dayHeader.setAttribute('aria-label', 'Tuesday');
                     break;
                 case 'Wed':
-                    dayHeader.setAttribute('aria-label', 'Wednesday');                    
+                    dayHeader.setAttribute('aria-label', 'Wednesday');
                     break;
                 case 'Thu':
-                    dayHeader.setAttribute('aria-label', 'Thursday');                    
+                    dayHeader.setAttribute('aria-label', 'Thursday');
                     break;
                 case 'Fri':
-                    dayHeader.setAttribute('aria-label', 'Friday');                    
+                    dayHeader.setAttribute('aria-label', 'Friday');
                     break;
                 case 'Sat':
-                    dayHeader.setAttribute('aria-label', 'Saturday');                    
+                    dayHeader.setAttribute('aria-label', 'Saturday');
                     break;
-            }            
+            }
             dayHeader.innerHTML = " " + day + " ";
             calendar.appendChild(dayHeader);
         });
@@ -129,7 +129,7 @@ class clsDatepicker {
             dayCell.innerHTML = parseInt(day) + 1;
             let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY h:mm A");
             dayCell.setAttribute('role', 'button');
-            dayCell.setAttribute('aria-label', parseInt(day)+1+'');            
+            dayCell.setAttribute('aria-label', parseInt(day) + 1 + '');
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
@@ -194,8 +194,8 @@ class clsDatepicker {
                 endAMPM = "PM"
             }
             if (!this.times.length) {
-                this.times[0] = startHourVal+startMinVal+startAMPM;
-                this.times[1] = endHourVal+endMinVal+endAMPM;
+                this.times[0] = startHourVal + startMinVal + startAMPM;
+                this.times[1] = endHourVal + endMinVal + endAMPM;
             }
             let startTimeElement = document.createElement('div');
             startTimeElement.classList.add("startTimeElement");
@@ -322,7 +322,7 @@ class clsDatepicker {
                 startam.removeAttribute("SELECTED");
                 this.setTime();
             }.bind(this);
-            if (startAMPM === "PM"){
+            if (startAMPM === "PM") {
                 startpm.setAttribute("SELECTED", "true");
                 startam.removeAttribute("SELECTED");
             } else {
@@ -454,7 +454,7 @@ class clsDatepicker {
                     endam.removeAttribute("SELECTED");
                     this.setTime();
                 }.bind(this);
-                if (endAMPM === "PM"){
+                if (endAMPM === "PM") {
                     endpm.setAttribute("SELECTED", "true");
                     endam.removeAttribute("SELECTED");
                 } else {
@@ -489,7 +489,7 @@ class clsDatepicker {
             } else if (parseInt(hour) === 12) {
                 hour = 0
             }
-            this.dates[0] = moment(this.dates[0]).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+            this.dates[0] = moment(this.dates[0]).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
         }
         if (this.dates[1] && !this.singleDate) {
@@ -504,7 +504,7 @@ class clsDatepicker {
             } else if (parseInt(hour) === 12) {
                 hour = 0
             }
-            this.dates[1] = moment(this.dates[1]).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+            this.dates[1] = moment(this.dates[1]).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
         }
     }
@@ -518,28 +518,28 @@ class clsDatepicker {
                 let hour = this.times[0].split(":")[0];
                 let minute = this.times[0].split(":")[1];
                 let ampm = this.times[0].split(":")[2];
-                this.dates[0] = moment(dayCell.value).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+                this.dates[0] = moment(dayCell.value).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
                 this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                 this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: ";
             } else {
                 if (moment(this.dates[0]).format("MM/DD/YYYY") > dayCell.value) {
                     let largerDate = this.dates[0];
-                    this.dates  = [];
+                    this.dates = [];
                     let starthour = this.times[0].split(":")[0];
                     let startminute = this.times[0].split(":")[1];
                     let startampm = this.times[0].split(":")[2];
                     let endhour = this.times[1].split(":")[0];
                     let endminute = this.times[1].split(":")[1];
                     let endampm = this.times[1].split(":")[2];
-                    this.dates[1] = moment(largerDate).set({h:endhour, m:endminute, A:endampm}).format("MM/DD/YYYY h:mm A");
-                    this.dates[0] = moment(dayCell.value).set({h:starthour, m:startminute, A:startampm}).format("MM/DD/YYYY h:mm A");
+                    this.dates[1] = moment(largerDate).set({ h: endhour, m: endminute, A: endampm }).format("MM/DD/YYYY h:mm A");
+                    this.dates[0] = moment(dayCell.value).set({ h: starthour, m: startminute, A: startampm }).format("MM/DD/YYYY h:mm A");
                     this.containerElement.querySelector('.startDateElement').innerHTML = "Start Date: " + this.dates[0];
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 } else {
                     let hour = this.times[1].split(":")[0];
                     let minute = this.times[1].split(":")[1];
                     let ampm = this.times[1].split(":")[2];
-                    this.dates[1] = moment(dayCell.value).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+                    this.dates[1] = moment(dayCell.value).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
                     this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
                 }
             }
@@ -548,7 +548,7 @@ class clsDatepicker {
             let hour = this.times[0].split(":")[0];
             let minute = this.times[0].split(":")[1];
             let ampm = this.times[0].split(":")[2];
-            this.dates[0] = moment(dayCell.value).set({h:hour, m:minute, A:ampm}).format("MM/DD/YYYY h:mm A");
+            this.dates[0] = moment(dayCell.value).set({ h: hour, m: minute, A: ampm }).format("MM/DD/YYYY h:mm A");
             this.containerElement.querySelector('.startDateElement').innerHTML = "Date: " + this.dates[0];
         }
         let days = this.containerElement.querySelectorAll('.day');
@@ -561,7 +561,12 @@ class clsDatepicker {
                 day.classList.remove("highlighted");
             }
         });
-        this.highlightDates(days);
+        if (this.dates.length === 2) {
+            this.highlightDates(days);
+        } else {
+            dayCell.classList.add('active');
+        }
+
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
@@ -606,7 +611,7 @@ class clsDatepicker {
                 }
                 if ((secondDate == indexDate)) {
                     day.classList.add('active');
-                    day.setAttribute('aria-pressed', 'true');                   
+                    day.setAttribute('aria-pressed', 'true');
                 }
                 if (indexDate > firstDate && indexDate < secondDate) {
                     day.classList.add("highlighted");
