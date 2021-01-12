@@ -30,6 +30,7 @@ class clsDatepicker {
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
+        this.drawInputElement = this.drawInputElement.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -53,6 +54,22 @@ class clsDatepicker {
         // console.log(this.moment.daysInMonth());
     }
 
+    drawInputElement(singleDate) {
+        let inputElement = document.createElement('ul');
+        let startContainer = document.createElement('li');
+        let startDate = document.createElement('span');
+        startDate.innerHTML = this.dates[0];
+        startContainer.appendChild(startDate);
+        inputElement.appendChild(startContainer);
+        if (!this.singleDate) {
+            let endContainer = document.createElement('li');
+            let endDate = document.createElement('span');
+            endContainer.appendChild(endDate);
+            inputElement.appendChild(endContainer);
+            endDate.innerHTML = this.dates[1];
+        }
+        this.containerElement.appendChild(inputElement);
+    }
     drawCalendar() {
         // we need to first set the first and last of the month in the state
         this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
@@ -440,6 +457,7 @@ class clsDatepicker {
         }
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
+        this.drawCalendar(this.singleDate);
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
