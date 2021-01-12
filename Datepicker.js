@@ -30,6 +30,7 @@ class clsDatepicker {
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
+        this.inputElement = document.createElement('ul');
         this.drawInputElement = this.drawInputElement.bind(this);
         this.dates = [];
         /**
@@ -57,27 +58,27 @@ class clsDatepicker {
     }
 
     drawInputElement() {
-        let inputElement = document.createElement('ul');
         let startContainer = document.createElement('li');
         let startDate = document.createElement('span');
         startDate.innerHTML = this.dates[0];
         startContainer.appendChild(startDate);
-        inputElement.appendChild(startContainer);
+        this.inputElement.innerHTML = '';
+        this.inputElement.appendChild(startContainer);
         let endContainer = document.createElement('li');
         let endDate = document.createElement('span');
         endContainer.appendChild(endDate);
-        inputElement.appendChild(endContainer);
+        this.inputElement.appendChild(endContainer);
         if (this.dates[0]) {
             startDate.innerHTML = "Start Date: " + this.dates[0];
         } else {
             startDate.innerHTML = "Start Date: (click to select)";
         }
-        if (this.dates[0] && !this.singleDate) {
+        if (this.dates[1] && !this.singleDate && typeof this.dates[1] !== undefined) {
             endDate.innerHTML = "End Date: " + this.dates[1];
         } else {
             endDate.innerHTML = "End Date: (click to select)";
         }
-        this.containerElement.appendChild(inputElement);
+        this.containerElement.appendChild(this.inputElement);
     }
     drawCalendar() {
         // we need to first set the first and last of the month in the state
