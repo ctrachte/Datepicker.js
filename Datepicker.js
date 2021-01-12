@@ -50,13 +50,13 @@ class clsDatepicker {
         this.endMinute = "00";
         // this.endAmPm = "AM";
         this.drawCalendar();
-        this.drawInputElement(this.singleDate);
+        this.drawInputElement();
 
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
     }
-
+    // draw input element displaying chosen dates/times
     drawInputElement() {
         let startContainer = document.createElement('li');
         let startDate = document.createElement('span');
@@ -78,8 +78,13 @@ class clsDatepicker {
         } else {
             endDate.innerHTML = "End Date: (click to select)";
         }
+        this.inputElement.addEventListener('click', function (event) {
+            this.calendarElement.showEl();
+            this.inputElement.hideEl();
+        }.bind(this));
         this.containerElement.appendChild(this.inputElement);
     }
+    // draws calendar element for selecting dates/times
     drawCalendar() {
         // we need to first set the first and last of the month in the state
         this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
@@ -467,6 +472,8 @@ class clsDatepicker {
         }
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
+        this.calendarElement = calendar;
+        this.calendarElement.hideEl();
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
@@ -598,8 +605,8 @@ class clsDatepicker {
 }
 // html element prototypal inheritance of hide/show methods for UI elements
 Element.prototype.hideEl = function () {
-    this.style.display = 'none';
+    this.style.visibility = 'hidden';
 }
 Element.prototype.showEl = function () {
-    this.style.display = 'block';
+    this.style.visibility = '';
 }
