@@ -30,6 +30,8 @@ class clsDatepicker {
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
+        this.inputElement = document.createElement('ul');
+        this.drawInputElement = this.drawInputElement.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -48,11 +50,41 @@ class clsDatepicker {
         this.endMinute = "00";
         // this.endAmPm = "AM";
         this.drawCalendar();
+        this.drawInputElement();
+
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
     }
-
+    // draw input element displaying chosen dates/times
+    drawInputElement() {
+        let startContainer = document.createElement('li');
+        let startDate = document.createElement('span');
+        startDate.innerHTML = this.dates[0];
+        startContainer.appendChild(startDate);
+        this.inputElement.innerHTML = '';
+        this.inputElement.appendChild(startContainer);
+        let endContainer = document.createElement('li');
+        let endDate = document.createElement('span');
+        endContainer.appendChild(endDate);
+        this.inputElement.appendChild(endContainer);
+        if (this.dates[0]) {
+            startDate.innerHTML = "Start Date: " + this.dates[0];
+        } else {
+            startDate.innerHTML = "Start Date: (click to select)";
+        }
+        if (this.dates[1] && !this.singleDate && typeof this.dates[1] !== undefined) {
+            endDate.innerHTML = "End Date: " + this.dates[1];
+        } else {
+            endDate.innerHTML = "End Date: (click to select)";
+        }
+        this.inputElement.addEventListener('click', function (event) {
+            this.calendarElement.showEl();
+            this.inputElement.hideEl();
+        }.bind(this));
+        this.containerElement.appendChild(this.inputElement);
+    }
+    // draws calendar element for selecting dates/times
     drawCalendar() {
         // we need to first set the first and last of the month in the state
         this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
@@ -440,6 +472,8 @@ class clsDatepicker {
         }
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
+        this.calendarElement = calendar;
+        this.calendarElement.hideEl();
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
@@ -502,7 +536,13 @@ class clsDatepicker {
         }
         // conditional highlighting prompt
         this.highlightDates();
-
+        this.drawInputElement();
+        if (this.dates.length === 2) {
+            setTimeout(function () {
+                this.calendarElement.hideEl();
+                this.inputElement.showEl();
+            }.bind(this), 500);
+        }
     }
     // advances the calendar by one month
     nextMonth() {
@@ -512,6 +552,7 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
+        this.drawInputElement();
     }
     // moves the calendar back one month
     lastMonth() {
@@ -521,6 +562,7 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
+        this.drawInputElement();
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
@@ -569,8 +611,8 @@ class clsDatepicker {
 }
 // html element prototypal inheritance of hide/show methods for UI elements
 Element.prototype.hideEl = function () {
-    this.style.display = 'none';
+    this.style.visibility = 'hidden';
 }
 Element.prototype.showEl = function () {
-    this.style.display = 'block';
+    this.style.visibility = '';
 }
