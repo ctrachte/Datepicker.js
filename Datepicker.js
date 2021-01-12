@@ -537,6 +537,12 @@ class clsDatepicker {
         // conditional highlighting prompt
         this.highlightDates();
         this.drawInputElement();
+        if (this.dates.length === 2) {
+            setTimeout(function () {
+                this.calendarElement.hideEl();
+                this.inputElement.showEl();
+            }.bind(this), 500);
+        }
     }
     // advances the calendar by one month
     nextMonth() {
