@@ -49,24 +49,33 @@ class clsDatepicker {
         this.endMinute = "00";
         // this.endAmPm = "AM";
         this.drawCalendar();
+        this.drawInputElement(this.singleDate);
+
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
     }
 
-    drawInputElement(singleDate) {
+    drawInputElement() {
         let inputElement = document.createElement('ul');
         let startContainer = document.createElement('li');
         let startDate = document.createElement('span');
         startDate.innerHTML = this.dates[0];
         startContainer.appendChild(startDate);
         inputElement.appendChild(startContainer);
-        if (!this.singleDate) {
-            let endContainer = document.createElement('li');
-            let endDate = document.createElement('span');
-            endContainer.appendChild(endDate);
-            inputElement.appendChild(endContainer);
-            endDate.innerHTML = this.dates[1];
+        let endContainer = document.createElement('li');
+        let endDate = document.createElement('span');
+        endContainer.appendChild(endDate);
+        inputElement.appendChild(endContainer);
+        if (this.dates[0]) {
+            startDate.innerHTML = "Start Date: " + this.dates[0];
+        } else {
+            startDate.innerHTML = "Start Date: (click to select)";
+        }
+        if (this.dates[0] && !this.singleDate) {
+            endDate.innerHTML = "End Date: " + this.dates[1];
+        } else {
+            endDate.innerHTML = "End Date: (click to select)";
         }
         this.containerElement.appendChild(inputElement);
     }
@@ -457,7 +466,6 @@ class clsDatepicker {
         }
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
-        this.drawCalendar(this.singleDate);
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
@@ -520,7 +528,7 @@ class clsDatepicker {
         }
         // conditional highlighting prompt
         this.highlightDates();
-
+        this.drawInputElement();
     }
     // advances the calendar by one month
     nextMonth() {
@@ -530,6 +538,7 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
+        this.drawInputElement();
     }
     // moves the calendar back one month
     lastMonth() {
@@ -539,6 +548,7 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
+        this.drawInputElement();
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
