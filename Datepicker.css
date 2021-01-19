@@ -6,7 +6,7 @@
     font-weight: bold;
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 1vmax; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -22,15 +22,15 @@
     margin:auto;
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop;
+    /* -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s;
+    animation-duration: 0.4s; */
     width: 720px;
-    height: 720px;
+    height: 800px;
   }
   /* animations for calendar UI */
-  @-webkit-keyframes animatetop {
+  /* @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
   }
@@ -38,7 +38,7 @@
   @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
-  }
+  } */
   
   .grid-container > div {
     display: flex;
