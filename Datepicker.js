@@ -537,7 +537,7 @@ class clsDatepicker {
         // conditional highlighting prompt
         this.highlightDates();
         this.drawInputElement();
-        if (this.dates.length === 2) {
+        if (this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
                 this.calendarElement.hideEl();
                 this.inputElement.showEl();
@@ -552,7 +552,7 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
-        this.drawInputElement();
+        this.calendarElement.showEl();
     }
     // moves the calendar back one month
     lastMonth() {
@@ -562,7 +562,7 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
-        this.drawInputElement();
+        this.calendarElement.showEl();
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
