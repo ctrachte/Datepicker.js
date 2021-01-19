@@ -51,7 +51,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
-
+        this.calendarElement.hideCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
@@ -79,7 +79,8 @@ class clsDatepicker {
             endDate.innerHTML = "End Date: (click to select)";
         }
         this.inputElement.addEventListener('click', function (event) {
-            this.calendarElement.showEl();
+            this.calendarElement.showCalendar();
+            this.containerElement.showContainer();
             this.inputElement.hideEl();
         }.bind(this));
         this.containerElement.appendChild(this.inputElement);
@@ -473,7 +474,6 @@ class clsDatepicker {
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
         this.calendarElement = calendar;
-        this.calendarElement.hideEl();
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
@@ -527,11 +527,11 @@ class clsDatepicker {
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
-                this.containerElement.hideEl();
+                this.calendarElement.hideCalendar();
             }.bind(this), 400);
         } else if (this.singleDate && this.dates.length === 1 && this.options.autoClose) {
             setTimeout(function () {
-                this.containerElement.hideEl();
+                this.calendarElement.hideCalendar();
             }.bind(this), 400); // setTimeout will need to be removed eventually
         }
         // conditional highlighting prompt
@@ -539,7 +539,7 @@ class clsDatepicker {
         this.drawInputElement();
         if (this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
-                this.calendarElement.hideEl();
+                this.calendarElement.hideCalendar();
                 this.inputElement.showEl();
             }.bind(this), 500);
         }
@@ -552,7 +552,6 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
-        this.calendarElement.showEl();
     }
     // moves the calendar back one month
     lastMonth() {
@@ -562,7 +561,6 @@ class clsDatepicker {
         this.setTime();
         // draw highlighting if there are any dates selected:
         this.highlightDates();
-        this.calendarElement.showEl();
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
@@ -615,4 +613,17 @@ Element.prototype.hideEl = function () {
 }
 Element.prototype.showEl = function () {
     this.style.visibility = '';
+}
+
+Element.prototype.hideContainer = function () {
+    this.style.display = 'none';
+}
+Element.prototype.showContainer = function () {
+    this.style.display = 'block';
+}
+Element.prototype.hideCalendar = function () {
+    this.style.display = 'none';
+}
+Element.prototype.showCalendar = function () {
+    this.style.display = 'grid';
 }
