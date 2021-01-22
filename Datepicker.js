@@ -54,7 +54,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
-        this.calendarElement.hideCalendar();
+        this.closeCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
         // console.log(this.moment.daysInMonth());
@@ -82,9 +82,7 @@ class clsDatepicker {
             endDate.innerHTML = "End Date: (click to select)";
         }
         this.inputElement.addEventListener('click', function (event) {
-            this.calendarElement.showCalendar();
-            this.containerElement.showContainer();
-            this.inputElement.hideEl();
+            this.openCalendar();
         }.bind(this));
         this.containerElement.appendChild(this.inputElement);
     }
@@ -530,11 +528,11 @@ class clsDatepicker {
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
-                this.calendarElement.hideCalendar();
+                this.closeCalendar();
             }.bind(this), 400);
         } else if (this.singleDate && this.dates.length === 1 && this.options.autoClose) {
             setTimeout(function () {
-                this.calendarElement.hideCalendar();
+                this.closeCalendar();
             }.bind(this), 400); // setTimeout will need to be removed eventually
         }
         // conditional highlighting prompt
@@ -542,18 +540,17 @@ class clsDatepicker {
         this.drawInputElement();
         if (this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
-                this.calendarElement.hideCalendar();
-                this.inputElement.showEl();
+                this.openCalendar();
             }.bind(this), 500);
         }
     }
-    openCalendar(){
+    openCalendar() {
         this.calendarElement.showCalendar();
         this.inputElement.hideEl();
     }
-    closeCalendar(){
-        this.calendarElement.showCalendar();
-        this.inputElement.hideEl();
+    closeCalendar() {
+        this.calendarElement.hideCalendar();
+        this.inputElement.showEl();
     }
     // advances the calendar by one month
     nextMonth() {
@@ -625,7 +622,7 @@ Element.prototype.hideEl = function () {
 Element.prototype.showEl = function () {
     this.style.visibility = '';
 }
-
+// these specifically tailored to the elements they hide/show
 Element.prototype.hideContainer = function () {
     this.style.display = 'none';
 }
