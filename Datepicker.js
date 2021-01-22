@@ -34,6 +34,7 @@ class clsDatepicker {
         this.drawInputElement = this.drawInputElement.bind(this);
         this.openCalendar = this.openCalendar.bind(this);
         this.closeCalendar = this.closeCalendar.bind(this);
+        this.resetCalendar = this.resetCalendar.bind(this);
 
         this.dates = [];
         /**
@@ -195,6 +196,18 @@ class clsDatepicker {
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
         }
+        // cancel dates button:
+        let cancelButton = document.createElement('button');
+        cancelButton.classList.add("cancelButton");
+        cancelButton.innerHTML = "&#10006;";
+        cancelButton.type = 'cancel';
+        cancelButton.style.gridColumnStart = 7;
+        cancelButton.style.gridColumnEnd = 8;
+        cancelButton.addEventListener("click", function (event) {
+            console.log('cancel')
+            this.resetCalendar();
+        }.bind(this));
+        calendar.appendChild(cancelButton);
         // timepicker init based on options
         if (this.timePicker) {
 
@@ -473,10 +486,14 @@ class clsDatepicker {
                 // submit dates button:
                 let submitButton = document.createElement('button');
                 submitButton.classList.add("submitButton");
-                submitButton.innerHTML = "&#10004;"
+                submitButton.innerHTML = "&#10004;";
+                submitButton.type = 'submit';
                 submitButton.style.gridColumnStart = 7;
                 submitButton.style.gridColumnEnd = 8;
-                calendar.appendChild(submitButton)
+                submitButton.addEventListener('click', function (event) {
+                    this.closeCalendar();
+                }.bind(this));
+                calendar.appendChild(submitButton);
             }
         }
         // Finally, add calendar element to the containerElement assigned during initialization
@@ -618,6 +635,12 @@ class clsDatepicker {
                 }
             }.bind(this));
         }
+    }
+    resetCalendar() {
+        this.dates = [];
+        this.containerElement.innerHTML = '';
+        this.drawCalendar();
+        this.drawInputElement();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements

@@ -47,7 +47,7 @@
     background-color: #222831;
     color:white;   
     box-shadow:0px 20px 70px 1px #D6A9DD;
-    border-width: 5px;
+    border-width: 1px;
     border-style: solid;
     border-color: #D6A9DD;  
   }
@@ -201,14 +201,13 @@
   border-style: none;
 }
 
-.submitButton:hover {
+.submitButton:hover, .cancelButton:hover {
   background-color: #222831;
   color:white;   
   box-shadow:0px 20px 70px 1px #D6A9DD;
-  border-width: 5px;
+  border-width: 1px;
   border-style: solid;
   border-color: #D6A9DD;
-  box-shadow:0px 20px 70px 1px #B7C0DD;   
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;
