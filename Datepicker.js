@@ -204,7 +204,6 @@ class clsDatepicker {
         cancelButton.style.gridColumnStart = 7;
         cancelButton.style.gridColumnEnd = 8;
         cancelButton.addEventListener("click", function (event) {
-            console.log('cancel')
             this.resetCalendar();
         }.bind(this));
         calendar.appendChild(cancelButton);
