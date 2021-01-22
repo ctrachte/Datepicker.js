@@ -540,8 +540,8 @@ class clsDatepicker {
         this.drawInputElement();
         if (this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {
-                this.openCalendar();
-            }.bind(this), 500);
+                this.closeCalendar();
+            }.bind(this), 700);
         }
     }
     openCalendar() {
