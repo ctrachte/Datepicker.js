@@ -544,6 +544,7 @@ class clsDatepicker {
             }.bind(this), 700);
         }
     }
+    // helper methods to open/close calendar UI
     openCalendar() {
         this.calendarElement.showCalendar();
         this.inputElement.hideEl();
@@ -558,7 +559,6 @@ class clsDatepicker {
         this.moment.add(1, 'months');
         this.drawCalendar();
         this.setTime();
-        // draw highlighting if there are any dates selected:
         this.highlightDates();
     }
     // moves the calendar back one month
@@ -567,7 +567,6 @@ class clsDatepicker {
         this.moment.add(-1, 'months');
         this.drawCalendar();
         this.setTime();
-        // draw highlighting if there are any dates selected:
         this.highlightDates();
     }
     // sets highlighted dates on calendar UI
@@ -582,7 +581,6 @@ class clsDatepicker {
                 let indexDateX = moment(day.value).format("X");
                 let firstDateX = moment(this.dates[0]).format("X");
                 let secondDateX = moment(this.dates[1]).format("X");
-                // console.log(firstDate, secondDate, indexDate)
                 if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
@@ -622,7 +620,7 @@ Element.prototype.hideEl = function () {
 Element.prototype.showEl = function () {
     this.style.visibility = '';
 }
-// these specifically tailored to the elements they hide/show
+// these hide/show methods specifically tailored to the elements they hide/show
 Element.prototype.hideContainer = function () {
     this.style.display = 'none';
 }
