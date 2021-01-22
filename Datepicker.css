@@ -19,7 +19,7 @@
     animation-name: animatetop;
     animation-duration: 0.4s; */
     width: 720px;
-    height: 80%%;
+    height: 80%;
   }
   /* animations for calendar UI */
   /* @-webkit-keyframes animatetop {
@@ -39,7 +39,7 @@
     background-color: #E3E8F8;
     text-align: center;
     font-size: 24px;
-    border-radius: 10px; 
+    border-radius: 5px; 
     transition: all, 0.1s;   
   }
 
@@ -181,3 +181,46 @@
   .am {
     border-bottom: 1px solid #222831;
   }
+
+/* submit button styling */
+.cancelButton {
+  font-size: 2rem;
+  background-color: #ffb8ca;
+  text-align: center;
+  border-radius: 10px; 
+  transition: all, 0.1s;
+  border-style: none;
+}
+
+.submitButton {
+  font-size: 3rem;
+  background-color: #b8ffca;
+  text-align: center;
+  border-radius: 10px; 
+  transition: all, 0.1s;
+  border-style: none;
+}
+
+.submitButton:hover {
+  background-color: #222831;
+  color:white;   
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #D6A9DD;
+  box-shadow:0px 20px 70px 1px #B7C0DD;   
+}
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
