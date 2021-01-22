@@ -575,6 +575,7 @@ class clsDatepicker {
     }
     closeCalendar() {
         this.calendarElement.hideCalendar();
+        this.drawInputElement();
         this.inputElement.showEl();
     }
     // advances the calendar by one month
