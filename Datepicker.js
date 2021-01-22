@@ -184,7 +184,7 @@ class clsDatepicker {
             calendar.appendChild(startDateElement);
             let endDateElement = document.createElement('div');
             endDateElement.classList.add('endDateElement');
-            endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
+            endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 7;');
             calendar.appendChild(endDateElement);
             // set calendar start/end dates in the UI
             startDateElement.innerHTML = "Start Date: ";
@@ -340,7 +340,7 @@ class clsDatepicker {
                 let endTimeElement = document.createElement('div');
                 endTimeElement.classList.add("endTimeElement");
                 endTimeElement.style.gridColumnStart = 4;
-                endTimeElement.style.gridColumnEnd = 8;
+                endTimeElement.style.gridColumnEnd = 7;
 
                 let endHour = document.createElement("div");
                 endHour.classList.add("hour");
@@ -470,6 +470,13 @@ class clsDatepicker {
                 // endTimeElement.appendChild(endampm);
 
                 calendar.appendChild(endTimeElement);
+                // submit dates button:
+                let submitButton = document.createElement('button');
+                submitButton.classList.add("submitButton");
+                submitButton.innerHTML = "&#10004;"
+                submitButton.style.gridColumnStart = 7;
+                submitButton.style.gridColumnEnd = 8;
+                calendar.appendChild(submitButton)
             }
         }
         // Finally, add calendar element to the containerElement assigned during initialization
