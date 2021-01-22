@@ -32,6 +32,9 @@ class clsDatepicker {
         this.highlightDates = this.highlightDates.bind(this);
         this.inputElement = document.createElement('ul');
         this.drawInputElement = this.drawInputElement.bind(this);
+        this.openCalendar = this.openCalendar.bind(this);
+        this.closeCalendar = this.closeCalendar.bind(this);
+
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -543,6 +546,14 @@ class clsDatepicker {
                 this.inputElement.showEl();
             }.bind(this), 500);
         }
+    }
+    openCalendar(){
+        this.calendarElement.showCalendar();
+        this.inputElement.hideEl();
+    }
+    closeCalendar(){
+        this.calendarElement.showCalendar();
+        this.inputElement.hideEl();
     }
     // advances the calendar by one month
     nextMonth() {
