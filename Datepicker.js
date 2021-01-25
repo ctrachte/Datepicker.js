@@ -525,6 +525,7 @@ class clsDatepicker {
             this.dates[1] = dates[1] ? moment(dates[1])._d : "";
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
+            this.drawInputElement();
         } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
             return this.singleDate ? this.dates[0] : this.dates;
@@ -533,6 +534,7 @@ class clsDatepicker {
             this.dates[0] = moment(dates)._d;
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
+            this.drawInputElement();
         }
     }
     // helper method to set start/end date on each calendar day click
