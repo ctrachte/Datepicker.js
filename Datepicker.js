@@ -517,17 +517,22 @@ class clsDatepicker {
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
         }
     }
+    // helper method to set dates if provided, return dates if not.
     value(dates) {
         if (typeof dates === "array") {
             // user supplied at least one date, set that date in the UI and Datepicker state.
             this.dates[0] = moment(dates[0]);
             this.dates[1] = dates[1] ? moment(dates[1]) : "";
+            // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
         } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
-            return this.dates;
-        } else if (typeof dates === "string" || typeof dates === "number"){
+            return this.singleDate ? this.dates[0] : this.dates;
+        } else if (typeof dates === "string" || typeof dates === "number") {
             // set single date
+            this.dates[0] = moment(dates);
+            // invoke highlighting fn to ensure calendar UI is updated
+            this.highlightDates();
         }
     }
     // helper method to set start/end date on each calendar day click
