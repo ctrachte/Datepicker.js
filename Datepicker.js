@@ -26,7 +26,7 @@ class clsDatepicker {
         this.singleDate = this.options.singleDate ? this.options.singleDate : false;
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
-        this.setDate = this.setDate.bind(this);
+        this.dayClick = this.dayClick.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
@@ -35,7 +35,7 @@ class clsDatepicker {
         this.openCalendar = this.openCalendar.bind(this);
         this.closeCalendar = this.closeCalendar.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
-
+        this.value = this.value.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -95,7 +95,7 @@ class clsDatepicker {
         // then set our callback methods so they have the proper context
         let callbackNextMonth = this.nextMonth;
         let callbackLastMonth = this.lastMonth;
-        let callbackSetDate = this.setDate;
+        let callbackSetDate = this.dayClick;
         // Calendar UI
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
@@ -517,8 +517,26 @@ class clsDatepicker {
             this.containerElement.querySelector('.endDateElement').innerHTML = "End Date: " + this.dates[1];
         }
     }
+    // helper method to set dates if provided, return dates if not.
+    value(dates) {
+        if (typeof dates === "object") {
+            // user supplied at least one date, set that date in the UI and Datepicker state.
+            this.dates[0] = moment(dates[0])._d;
+            this.dates[1] = dates[1] ? moment(dates[1])._d : "";
+            // invoke highlighting fn to ensure calendar UI is updated
+            this.highlightDates();
+        } else if (!dates || typeof dates === undefined) {
+            // no date supplied, return the dates from the Datepicker state
+            return this.singleDate ? this.dates[0] : this.dates;
+        } else if (typeof dates === "string" || typeof dates === "number") {
+            // set single date
+            this.dates[0] = moment(dates)._d;
+            // invoke highlighting fn to ensure calendar UI is updated
+            this.highlightDates();
+        }
+    }
     // helper method to set start/end date on each calendar day click
-    setDate(dayCell) {
+    dayClick(dayCell) {
         this.startHour = this.timeElements.startHourValueEl.value;
         this.startMinute = this.timeElements.startMinuteValueEl.value;
         this.endHour = this.timeElements.endHourValueEl.value;
