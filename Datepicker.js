@@ -519,10 +519,10 @@ class clsDatepicker {
     }
     // helper method to set dates if provided, return dates if not.
     value(dates) {
-        if (typeof dates === "array") {
+        if (typeof dates === "object") {
             // user supplied at least one date, set that date in the UI and Datepicker state.
-            this.dates[0] = moment(dates[0]);
-            this.dates[1] = dates[1] ? moment(dates[1]) : "";
+            this.dates[0] = moment(dates[0])._d;
+            this.dates[1] = dates[1] ? moment(dates[1])._d : "";
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
         } else if (!dates || typeof dates === undefined) {
@@ -530,7 +530,7 @@ class clsDatepicker {
             return this.singleDate ? this.dates[0] : this.dates;
         } else if (typeof dates === "string" || typeof dates === "number") {
             // set single date
-            this.dates[0] = moment(dates);
+            this.dates[0] = moment(dates)._d;
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
         }
