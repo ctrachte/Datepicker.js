@@ -518,11 +518,11 @@ class clsDatepicker {
         }
     }
     value(dates) {
-        let startDate, endDate, datesArray;
-        if (typeof dates === "Array") {
+        if (typeof dates === "array") {
             // user supplied at least one date, set that date in the UI and Datepicker state.
-            startDate = dates[0];
-            endDate = dates[1];
+            this.dates[0] = moment(dates[0]);
+            this.dates[1] = dates[1] ? moment(dates[1]) : "";
+            this.highlightDates();
         } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
             return this.dates;
