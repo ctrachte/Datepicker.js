@@ -545,6 +545,7 @@ class clsDatepicker {
         const outsideClickListener = event => {
             if (!element.contains(event.target) && isVisible(element)) { // or use: event.target.closest(selector) === null
               this.hideCalendar();
+              this.drawInputElement();
               removeClickListener();
             }
         }
