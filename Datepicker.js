@@ -540,19 +540,15 @@ class clsDatepicker {
             this.drawInputElement();
         }
     }
-    clickOutsideCalendar(element) {
-        const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length )
-        const outsideClickListener = event => {
-            if (!element.contains(event.target) && isVisible(element)) { // or use: event.target.closest(selector) === null
-              this.hideCalendar();
-              this.drawInputElement();
-              removeClickListener();
-            }
+    isVisible (elem) {
+        return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
+    }
+    outsideCalendarClick (event) {
+        if (!this.calendarElement.contains(event.target) && isVisible(element)) { // or use: event.target.closest(selector) === null
+            this.closeCalendar();
+            console.log(event.target)
+            this.drawInputElement();
         }
-        const removeClickListener = () => {
-            document.removeEventListener('click', outsideClickListener);
-        }
-        document.addEventListener('click', outsideClickListener);
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
