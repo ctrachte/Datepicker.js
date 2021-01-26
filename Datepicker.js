@@ -30,7 +30,7 @@ class clsDatepicker {
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
-        this.inputElement = document.createElement('ul');
+        this.inputElement = document.createElement('div');
         this.drawInputElement = this.drawInputElement.bind(this);
         this.openCalendar = this.openCalendar.bind(this);
         this.closeCalendar = this.closeCalendar.bind(this);
@@ -62,25 +62,57 @@ class clsDatepicker {
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
-        let startContainer = document.createElement('li');
-        let startDate = document.createElement('span');
-        startDate.innerHTML = this.dates[0];
-        startContainer.appendChild(startDate);
         this.inputElement.innerHTML = '';
-        this.inputElement.appendChild(startContainer);
-        let endContainer = document.createElement('li');
-        let endDate = document.createElement('span');
-        endContainer.appendChild(endDate);
-        this.inputElement.appendChild(endContainer);
+        this.inputElement.setAttribute('class', 'launch');
+
+        //This creates the heading elements for the start and end date titles
+        let headingBlock = document.createElement('div');
+        let startHead = document.createElement('div');
+        let endHead = document.createElement('div');
+        startHead.innerHTML = "Start Date:";
+        endHead.innerHTML = "End Date:";
+        headingBlock.setAttribute("class", "headingBlock");
+        startHead.setAttribute("class", "heading");
+        endHead.setAttribute("class", "heading");
+        headingBlock.appendChild(startHead);
+        headingBlock.appendChild(endHead);
+        this.inputElement.appendChild(headingBlock);
+        //This creates a container for the time to reside
+        let timeBlock = document.createElement('div');
+        let startDate = document.createElement('div');
+        let endDate = document.createElement('div');
+        timeBlock.appendChild(startDate);
+        timeBlock.appendChild(endDate);
+        startDate.innerHTML = this.dates[0];
+        timeBlock.setAttribute("class", "timeBlock");
+        startDate.setAttribute("class", "date");
+        endDate.setAttribute("class", "date");
+        this.inputElement.appendChild(timeBlock);
+
+        let launchButton = document.createElement('div');
+        let launchText = document.createElement('div');
+        launchText.innerHTML = 'SELECT TIMES';
+        launchButton.setAttribute('class', 'launchButton');
+        launchText.setAttribute('class', 'launchText');
+        launchButton.appendChild(launchText);
+        this.inputElement.appendChild(launchButton);
+
+
+
+
+        //let endContainer = document.createElement('div');
+        //this.inputElement.appendChild(endContainer);
+
+
         if (this.dates[0]) {
-            startDate.innerHTML = "Start Date: " + this.dates[0];
+            startDate.innerHTML = this.dates[0];
         } else {
-            startDate.innerHTML = "Start Date: (click to select)";
+            startDate.innerHTML = "--/--/----  --:--";
         }
         if (this.dates[1] && !this.singleDate && typeof this.dates[1] !== undefined) {
-            endDate.innerHTML = "End Date: " + this.dates[1];
+            endDate.innerHTML = this.dates[1];
         } else {
-            endDate.innerHTML = "End Date: (click to select)";
+            endDate.innerHTML = "--/--/----  --:--";
         }
         this.inputElement.addEventListener('click', function (event) {
             this.openCalendar();
