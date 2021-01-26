@@ -37,6 +37,7 @@ class clsDatepicker {
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
+        this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -48,10 +49,10 @@ class clsDatepicker {
          * @property {string} this.timeElements.endampm
          */
         this.timeElements = {};
-        this.startHour = "09";
+        this.startHour = "12";
         this.startMinute = "00";
         // this.startAmPm = "AM";
-        this.endHour = "10";
+        this.endHour = "12";
         this.endMinute = "00";
         // this.endAmPm = "AM";
         this.drawCalendar();
@@ -97,13 +98,6 @@ class clsDatepicker {
         launchText.setAttribute('class', 'launchText');
         launchButton.appendChild(launchText);
         this.inputElement.appendChild(launchButton);
-
-
-
-
-        //let endContainer = document.createElement('div');
-        //this.inputElement.appendChild(endContainer);
-
 
         if (this.dates[0]) {
             startDate.innerHTML = this.dates[0];
@@ -578,8 +572,12 @@ class clsDatepicker {
     isVisible (elem) {
         return !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
     }
+    isOutsideCalendar(event) {
+        return (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target) && !event.target.classList.contains('leftArrow') && !event.target.classList.contains("rightArrow"));
+    }
     outsideCalendarClick (event) {
-        if (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target)) { // or use: event.target.closest(selector) === null
+        if (this.isOutsideCalendar(event)) 
+        { 
             this.closeCalendar();
             this.drawInputElement();
         }
@@ -651,6 +649,7 @@ class clsDatepicker {
         this.drawCalendar();
         this.setTime();
         this.highlightDates();
+        this.openCalendar();
     }
     // moves the calendar back one month
     lastMonth() {
@@ -659,6 +658,7 @@ class clsDatepicker {
         this.drawCalendar();
         this.setTime();
         this.highlightDates();
+        this.openCalendar();
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
