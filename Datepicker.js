@@ -36,7 +36,7 @@ class clsDatepicker {
         this.closeCalendar = this.closeCalendar.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
-        this.clickOutsideCalendar = this.clickOutsideCalendar.bind(this);
+        this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -500,7 +500,9 @@ class clsDatepicker {
         this.containerElement.appendChild(calendar);
         this.calendarElement = calendar;
         // add the click off method to hide calendar when user clicks off:
-        this.clickOutsideCalendar(this.calendarElement);
+        document.addEventListener('click', function (event) {
+            this.outsideCalendarClick(event);
+        }.bind(this));
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime() {
@@ -540,6 +542,7 @@ class clsDatepicker {
             this.drawInputElement();
         }
     }
+    // helpers to hide calendar when clicked off.
     isVisible (elem) {
         return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
     }
