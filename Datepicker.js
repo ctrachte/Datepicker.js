@@ -544,12 +544,11 @@ class clsDatepicker {
     }
     // helpers to hide calendar when clicked off.
     isVisible (elem) {
-        return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length)
+        return !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
     }
     outsideCalendarClick (event) {
-        if (!this.calendarElement.contains(event.target) && isVisible(element)) { // or use: event.target.closest(selector) === null
+        if (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target)) { // or use: event.target.closest(selector) === null
             this.closeCalendar();
-            console.log(event.target)
             this.drawInputElement();
         }
     }
