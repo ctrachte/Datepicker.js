@@ -212,9 +212,9 @@ class clsDatepicker {
             calendar.appendChild(startDateElement);
 
             // set calendar start/end dates in the UI
-            startDateElement.innerHTML = `<b>Start Date: </b>`;
+            startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
-            startDateElement.innerHTML = `<b>Date: </b>`;
+            startDateElement.innerHTML = `<b>Date:  --/--/----  --:--  </b>`;
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
@@ -366,7 +366,7 @@ class clsDatepicker {
                 let endDateElement = document.createElement('div');
                 endDateElement.classList.add('endDateElement');
                 endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                endDateElement.innerHTML = `<b>End Date: </b>`;
+                endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
                 calendar.appendChild(endDateElement);
                 let endTimeElement = document.createElement('div');
                 endTimeElement.classList.add("endTimeElement");
@@ -600,7 +600,7 @@ class clsDatepicker {
                 this.dates = [];
                 this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
-                this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b>`;
+                this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
             } else {
                 if (moment(this.dates[0]) > moment(dayCell.value)) {
                     let largerDate = this.dates[0];
