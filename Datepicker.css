@@ -129,20 +129,22 @@
     clear: both;
     text-align: center;
   }
-  .hour input[type=number]:focus, .minute input[type=number]:focus {
+  .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
     background: none;	  
     border:none;
     background-image:none;
     background-color:transparent;
     border: 1px solid #2b4c68;
     width: calc(2em - 4px);
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
   }
-  .hour .ReadOnly:focus, .minute .ReadOnly:focus {
+  .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
     border: none !important;
     outline: none !important;
     width: 2em !important;
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -166,6 +168,11 @@
     cursor: pointer;
     color: #222831;
   }  
+  .TimeUpDown div:hover {
+    opacity: 0.7;
+    cursor:pointer;
+    box-shadow:0px 20px 70px 1px #D6A9DD;
+  }
   .ampm {
     border-radius: 5px;
     border: 2px solid #222831;
@@ -202,12 +209,8 @@
 }
 
 .submitButton:hover, .cancelButton:hover {
-  background-color: #222831;
-  color:white;   
   box-shadow:0px 20px 70px 1px #D6A9DD;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #D6A9DD;
+  opacity: 0.7;
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;

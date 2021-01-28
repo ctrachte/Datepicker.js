@@ -210,37 +210,22 @@ class clsDatepicker {
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
-            let endDateElement = document.createElement('div');
-            endDateElement.classList.add('endDateElement');
-            endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 7;');
-            calendar.appendChild(endDateElement);
+
             // set calendar start/end dates in the UI
             startDateElement.innerHTML = "Start Date: ";
-            endDateElement.innerHTML = "End Date: ";
         } else {
             startDateElement.innerHTML = "Date: ";
-            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;')
+            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
             startDateElement.classList.add('startDateElement')
             calendar.appendChild(startDateElement);
         }
-        // cancel dates button:
-        let cancelButton = document.createElement('button');
-        cancelButton.classList.add("cancelButton");
-        cancelButton.innerHTML = "&#10006;";
-        cancelButton.type = 'cancel';
-        cancelButton.style.gridColumnStart = 7;
-        cancelButton.style.gridColumnEnd = 8;
-        cancelButton.addEventListener("click", function (event) {
-            this.resetCalendar();
-        }.bind(this));
-        calendar.appendChild(cancelButton);
         // timepicker init based on options
         if (this.timePicker) {
 
             let startTimeElement = document.createElement('div');
             startTimeElement.classList.add("startTimeElement");
-            startTimeElement.style.gridColumnStart = 1;
-            startTimeElement.style.gridColumnEnd = 4;
+            startTimeElement.style.gridColumnStart = 4;
+            startTimeElement.style.gridColumnEnd = 8;
 
             let startHour = document.createElement("div");
             startHour.classList.add("hour");
@@ -374,12 +359,19 @@ class clsDatepicker {
             // startampm.appendChild(startpm);
             // startTimeElement.appendChild(startampm);
             calendar.appendChild(startTimeElement);
+        }
 
+        if (this.timePicker) {
             if (!this.singleDate) {
+                let endDateElement = document.createElement('div');
+                endDateElement.classList.add('endDateElement');
+                endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+                endDateElement.innerHTML = "End Date: ";
+                calendar.appendChild(endDateElement);
                 let endTimeElement = document.createElement('div');
                 endTimeElement.classList.add("endTimeElement");
                 endTimeElement.style.gridColumnStart = 4;
-                endTimeElement.style.gridColumnEnd = 7;
+                endTimeElement.style.gridColumnEnd = 8;
 
                 let endHour = document.createElement("div");
                 endHour.classList.add("hour");
@@ -471,7 +463,7 @@ class clsDatepicker {
                 }.bind(this);
                 endMinute.appendChild(endMinuteUpDown);
                 endTimeElement.appendChild(endMinute);
-
+                calendar.appendChild(endTimeElement);
                 // let endampm = document.createElement("div");
                 // endampm.classList.add("ampm");
                 // endampm.innerHTML = "";
@@ -508,20 +500,31 @@ class clsDatepicker {
                 // endampm.appendChild(endpm);
                 // endTimeElement.appendChild(endampm);
 
-                calendar.appendChild(endTimeElement);
-                // submit dates button:
-                let submitButton = document.createElement('button');
-                submitButton.classList.add("submitButton");
-                submitButton.innerHTML = "&#10004;";
-                submitButton.type = 'submit';
-                submitButton.style.gridColumnStart = 7;
-                submitButton.style.gridColumnEnd = 8;
-                submitButton.addEventListener('click', function (event) {
-                    this.closeCalendar();
-                }.bind(this));
-                calendar.appendChild(submitButton);
             }
+
         }
+        // cancel dates button:
+        let cancelButton = document.createElement('button');
+        cancelButton.classList.add("cancelButton");
+        cancelButton.innerHTML = "&#10006;";
+        cancelButton.type = 'cancel';
+        cancelButton.style.gridColumnStart = 1;
+        cancelButton.style.gridColumnEnd = 3;
+        cancelButton.addEventListener("click", function (event) {
+            this.resetCalendar();
+        }.bind(this));
+        calendar.appendChild(cancelButton);
+        // submit dates button:
+        let submitButton = document.createElement('button');
+        submitButton.classList.add("submitButton");
+        submitButton.innerHTML = "&#10004;";
+        submitButton.type = 'submit';
+        submitButton.style.gridColumnStart = 3;
+        submitButton.style.gridColumnEnd = 8;
+        submitButton.addEventListener('click', function (event) {
+            this.closeCalendar();
+        }.bind(this));
+        calendar.appendChild(submitButton);
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
         this.calendarElement = calendar;
@@ -569,15 +572,14 @@ class clsDatepicker {
         }
     }
     // helpers to hide calendar when clicked off.
-    isVisible (elem) {
-        return !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
+    isVisible(elem) {
+        return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
     }
     isOutsideCalendar(event) {
         return (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target) && !event.target.classList.contains('leftArrow') && !event.target.classList.contains("rightArrow"));
     }
-    outsideCalendarClick (event) {
-        if (this.isOutsideCalendar(event)) 
-        { 
+    outsideCalendarClick(event) {
+        if (this.isOutsideCalendar(event)) {
             this.closeCalendar();
             this.drawInputElement();
         }
