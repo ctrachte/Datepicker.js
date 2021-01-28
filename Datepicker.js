@@ -102,12 +102,12 @@ class clsDatepicker {
         if (this.dates[0]) {
             startDate.innerHTML = this.dates[0];
         } else {
-            startDate.innerHTML = "--/--/----  --:--";
+            startDate.innerHTML = " --/--/----  --:-- ";
         }
         if (this.dates[1] && !this.singleDate && typeof this.dates[1] !== undefined) {
             endDate.innerHTML = this.dates[1];
         } else {
-            endDate.innerHTML = "--/--/----  --:--";
+            endDate.innerHTML = " --/--/----  --:-- ";
         }
         this.inputElement.addEventListener('click', function (event) {
             this.openCalendar();

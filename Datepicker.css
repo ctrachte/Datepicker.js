@@ -224,15 +224,12 @@ button, input[type="submit"], input[type="reset"] {
   cursor: not-allowed;
 }
 
-.DatepickerContainer ul li {
-  
-}
-
 .launch {
   float: left;
   border-style: solid;
   border-color: #E4E8FB;
   border-width: 2px;
+  border-radius: 5px;
 }
 
 .headingBlock {
@@ -244,9 +241,6 @@ button, input[type="submit"], input[type="reset"] {
   padding: 0px 10px 0px 0px;
 }
 
-.heading {
-}
-
 .timeBlock {
   float: left;
   min-width: 100px;
@@ -254,14 +248,25 @@ button, input[type="submit"], input[type="reset"] {
   padding: 0px 20px;
 }
 
-.date {
-}
-
 .launchButton {
+  display:none;
   float: left;
   text-align: center;
-  background-color: black;
-  color: #E4E8FB;
+  background-color:#D6A9DD 0.3;
+  color: #222831;
   line-height: 80px;
   padding: 0px 10px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.launch:hover > .launchButton {
+  display:block;
+  position: fixed;
+  top:10;
+  left:10;
+  float: left;
+}
+.launch:hover {
+  cursor:pointer;
 }
