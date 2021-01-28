@@ -6,6 +6,9 @@
     padding-top: 1vmax; 
 }
 
+b {
+  margin: 5px;
+}
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
@@ -14,15 +17,13 @@
     margin:auto;
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    /* -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s; */
-    width: 720px;
+    border-radius: 5px;
+
+    width: 730px;
     height: 80%;
   }
   /* animations for calendar UI */
-  /* @-webkit-keyframes animatetop {
+  @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
   }
@@ -30,7 +31,7 @@
   @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
-  } */
+  }
   
   .grid-container > div {
     display: flex;
@@ -47,13 +48,16 @@
     background-color: #222831;
     color:white;   
     box-shadow:0px 20px 70px 1px #D6A9DD;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #D6A9DD;  
   }
 
   .grid-container > .day {
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
     padding: 24px;
+    height: 48px;
+    width: 48px;
     transition: all, 0.1s;   
   }
 
@@ -71,7 +75,7 @@
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
-    color: #E3E8F8;
+    color: white;
   }
 
   .grid-container > .monthHeader > .leftArrow {
@@ -124,25 +128,27 @@
     width: 2em;
     display: block;
     float: left;
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
     clear: both;
     text-align: center;
-    vertical-align: middle;
   }
-  .hour input[type=number]:focus, .minute input[type=number]:focus {
+  .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
     background: none;	  
     border:none;
     background-image:none;
     background-color:transparent;
     border: 1px solid #2b4c68;
     width: calc(2em - 4px);
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
   }
-  .hour .ReadOnly:focus, .minute .ReadOnly:focus {
+  .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
     border: none !important;
     outline: none !important;
     width: 2em !important;
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -166,6 +172,11 @@
     cursor: pointer;
     color: #222831;
   }  
+  .TimeUpDown div:hover {
+    opacity: 0.7;
+    cursor:pointer;
+    box-shadow:0px 20px 70px 1px #D6A9DD;
+  }
   .ampm {
     border-radius: 5px;
     border: 2px solid #222831;
@@ -187,7 +198,7 @@
   font-size: 2rem;
   background-color: #ffb8ca;
   text-align: center;
-  border-radius: 10px; 
+  border-radius: 5px; 
   transition: all, 0.1s;
   border-style: none;
 }
@@ -196,18 +207,14 @@
   font-size: 3rem;
   background-color: #b8ffca;
   text-align: center;
-  border-radius: 10px; 
+  border-radius: 5px; 
   transition: all, 0.1s;
   border-style: none;
 }
 
 .submitButton:hover, .cancelButton:hover {
-  background-color: #222831;
-  color:white;   
   box-shadow:0px 20px 70px 1px #D6A9DD;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #D6A9DD;
+  opacity: 0.7;
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;
@@ -224,15 +231,13 @@ button, input[type="submit"], input[type="reset"] {
   cursor: not-allowed;
 }
 
-.DatepickerContainer ul li {
-  
-}
-
 .launch {
   float: left;
   border-style: solid;
   border-color: #E4E8FB;
   border-width: 2px;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .headingBlock {
@@ -244,9 +249,6 @@ button, input[type="submit"], input[type="reset"] {
   padding: 0px 10px 0px 0px;
 }
 
-.heading {
-}
-
 .timeBlock {
   float: left;
   min-width: 100px;
@@ -254,14 +256,31 @@ button, input[type="submit"], input[type="reset"] {
   padding: 0px 20px;
 }
 
-.date {
+.launchButton {
+  display:none;
+  float: left;
+  position: absolute;
+  text-align: center;
+  color: #222831;
+  width:250px;
+  line-height: 80px;
+  border-radius: 5px;
 }
 
-.launchButton {
-  float: left;
-  text-align: center;
-  background-color: black;
-  color: #E4E8FB;
-  line-height: 80px;
-  padding: 0px 10px;
+.launch:hover > .launchButton {
+  display:block;
+  cursor:pointer;
+}
+.launch:hover > .timeBlock {
+  cursor:pointer;
+  opacity: 0.2;
+}
+.launch:hover > .headingBlock {
+  cursor:pointer;
+  opacity: 0.2;
+}
+
+.day:hover {
+  cursor:pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
 }
