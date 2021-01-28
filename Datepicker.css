@@ -6,6 +6,9 @@
     padding-top: 1vmax; 
 }
 
+b {
+  margin: 5px;
+}
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
