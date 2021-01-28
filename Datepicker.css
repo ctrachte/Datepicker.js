@@ -14,11 +14,12 @@
     margin:auto;
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    border-radius: 5px;
     /* -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s; */
-    width: 720px;
+    width: 730px;
     height: 80%;
   }
   /* animations for calendar UI */
@@ -47,13 +48,12 @@
     background-color: #222831;
     color:white;   
     box-shadow:0px 20px 70px 1px #D6A9DD;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #D6A9DD;  
   }
 
   .grid-container > .day {
     padding: 24px;
+    height: 48px;
+    width: 48px;
     transition: all, 0.1s;   
   }
 
