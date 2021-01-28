@@ -93,7 +93,7 @@ class clsDatepicker {
 
         let launchButton = document.createElement('div');
         let launchText = document.createElement('div');
-        launchText.innerHTML = 'SELECT TIMES';
+        launchText.innerHTML = 'CLICK TO SELECT';
         launchButton.setAttribute('class', 'launchButton');
         launchText.setAttribute('class', 'launchText');
         launchButton.appendChild(launchText);

@@ -230,6 +230,7 @@ button, input[type="submit"], input[type="reset"] {
   border-color: #E4E8FB;
   border-width: 2px;
   border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .headingBlock {
@@ -251,22 +252,23 @@ button, input[type="submit"], input[type="reset"] {
 .launchButton {
   display:none;
   float: left;
+  position: absolute;
   text-align: center;
-  background-color:#D6A9DD 0.3;
   color: #222831;
+  width:250px;
   line-height: 80px;
-  padding: 0px 10px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 5px;
 }
 
 .launch:hover > .launchButton {
   display:block;
-  position: fixed;
-  top:10;
-  left:10;
-  float: left;
-}
-.launch:hover {
   cursor:pointer;
+}
+.launch:hover > .timeBlock {
+  cursor:pointer;
+  opacity: 0.2;
+}
+.launch:hover > .headingBlock {
+  cursor:pointer;
+  opacity: 0.2;
 }
