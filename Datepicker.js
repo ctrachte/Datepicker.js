@@ -187,6 +187,19 @@ class clsDatepicker {
         });
         // add day elements (day cells) to calendar
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys());
+        let leadingTrailing = this.leadingTrailing();
+        let firstDayPos = this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1;
+        for (let i=0; i < firstDayPos-1; i++) {
+            let dayCell = document.createElement('div');
+            dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i])));
+            dayCell.classList.add("leading-trailing-day");
+            dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]));
+            dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i])) + '');
+            if (i === 0) {
+                dayCell.classList.add('grid-column-start:0;');
+            }
+            calendar.appendChild(dayCell);
+        }
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
             dayCell.classList.add("day-" + (parseInt(day) + 1));
@@ -201,7 +214,8 @@ class clsDatepicker {
         }.bind(this));
         // set the first of the month to be positioned on calendar based on day of week
         let firstDayElement = calendar.querySelector('.day-1');
-        let monthStartPos = 'grid-column-start: ' + (this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1) + ';';
+        console.log(firstDayPos);
+        let monthStartPos = 'grid-column-start: ' + firstDayPos + ';';
         // console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
         // Footer elements, contains start/end dates selected
@@ -209,7 +223,7 @@ class clsDatepicker {
         // start/end date elements based on singleDate options
         if (!this.singleDate) {
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
-            startDateElement.classList.add('startDateElement')
+            startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
 
             // set calendar start/end dates in the UI
@@ -710,7 +724,7 @@ class clsDatepicker {
             daysInPrevMonth--;
             leading.push(i);
         }
-        return new Object({leading: leading, trailing:trailing});
+        return new Object({leading: leading, trailing:trailing.reverse()});
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
