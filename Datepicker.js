@@ -589,7 +589,13 @@ class clsDatepicker {
                     dates[1] = moment(dates[1]).format(format)._i;
                 }
             }
-            return this.singleDate ? this.dates[0] : this.dates;
+            if (this.singleDate) {
+                return new Date(this.dates[0])
+            } else {
+                this.dates[0] = new Date(this.dates[0]);
+                this.dates[1] = new Date(this.dates[1]);
+                return this.dates;
+            }
         } else if (typeof dates === "string" || typeof dates === "number") {
             this.dates[0] = moment(dates)._i;
             if (format) {
