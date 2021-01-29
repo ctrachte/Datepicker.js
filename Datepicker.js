@@ -396,7 +396,7 @@ class clsDatepicker {
                         newVal = 23;
                     }
                     endHourValueEl.value = newVal;
-                    this.setTime();
+                    this.setTime(false);
                 }.bind(this);
                 // Down hour
                 endHourUpDown.querySelectorAll("div")[1].onclick = function () {
@@ -407,7 +407,7 @@ class clsDatepicker {
                         newVal = 23;
                     }
                     endHourValueEl.value = newVal;
-                    this.setTime();
+                    this.setTime(false);
                 }.bind(this);
 
                 endHour.appendChild(endHourUpDown);
@@ -534,11 +534,21 @@ class clsDatepicker {
         }.bind(this));
     }
     // setTime function - a helper method to set start/end time. This function is a void.
-    setTime() {
+    setTime(setProgrammatically = false) {
         this.startHour = this.timeElements.startHourValueEl.value;
         this.startMinute = this.timeElements.startMinuteValueEl.value;
         this.endHour = this.timeElements.endHourValueEl.value;
         this.endMinute = this.timeElements.endMinuteValueEl.value;
+        if (setProgrammatically) {
+            this.timeElements.startHourValueEl.value = this.dates[0] ? moment(this.dates[0]).hour() : this.timeElements.startHourValueEl.value;
+            this.timeElements.startMinuteValueEl.value = this.dates[0] ? moment(this.dates[0]).minutes() : this.timeElements.startMinuteValueEl.value;
+            this.timeElements.endHourValueEl.value = this.dates[1] ? moment(this.dates[1]).hour() : this.timeElements.endHourValueEl.value;
+            this.timeElements.endMinuteValueEl.value = this.dates[1] ? moment(this.dates[1]).minutes() : this.timeElements.endMinuteValueEl.value;
+            this.startHour = this.dates[0] ? moment(this.dates[0]).hour() : this.timeElements.startHourValueEl.value;
+            this.startMinute = this.dates[0] ? moment(this.dates[0]).minutes() : this.timeElements.startMinuteValueEl.value;
+            this.endHour = this.dates[1] ? moment(this.dates[1]).hour() : this.timeElements.endHourValueEl.value;
+            this.endMinute = this.dates[1] ? moment(this.dates[1]).minutes() : this.timeElements.endMinuteValueEl.value;
+        }
         let endDate = this.dates[1];
         let startDate = this.dates[0];
         this.dates = [];
@@ -569,6 +579,7 @@ class clsDatepicker {
             }
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
+            this.setTime(true);
             this.drawInputElement();
         } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
@@ -577,7 +588,7 @@ class clsDatepicker {
                 if (dates[1]) {
                     dates[1] = moment(dates[1]).format(format)._i;
                 }
-            }               
+            }
             return this.singleDate ? this.dates[0] : this.dates;
         } else if (typeof dates === "string" || typeof dates === "number") {
             this.dates[0] = moment(dates)._i;
@@ -586,6 +597,7 @@ class clsDatepicker {
             }
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
+            this.setTime(true);
             this.drawInputElement();
         }
     }
@@ -654,7 +666,6 @@ class clsDatepicker {
     }
     // helper methods to open/close calendar UI
     openCalendar() {
-        this.setTime();
         this.calendarElement.showCalendar();
         this.inputElement.hideEl();
     }
