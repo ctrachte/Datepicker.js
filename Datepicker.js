@@ -190,6 +190,7 @@ class clsDatepicker {
         // add day elements (day cells) to calendar
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys());
         let leadingTrailing = this.leadingTrailing();
+        console.log(leadingTrailing)
         let firstDayPos = this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1;
         let lastDayPos = this.moment._locale._weekdays.indexOf(this.lastDayOfMonth) + 1;
         //add last months trailing days to calendar
@@ -198,7 +199,7 @@ class clsDatepicker {
                 let dayCell = document.createElement('div');
                 dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] +1)));
                 dayCell.classList.add("leading-trailing-day");
-                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]+1));
+                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i])+1);
                 dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]+1)) + '');
                 if (i === 0) {
                     dayCell.classList.add('grid-column-start:0;');
@@ -736,8 +737,9 @@ class clsDatepicker {
     }
     // gets leading/trailing dates for calendar UI
     leadingTrailing() {
-        let month = parseInt(this.moment.month())<2 ? 12 : parseInt(this.moment.month())-1;
-        let year = parseInt(this.moment.month())<2 ? parseInt(this.moment.year())-1 : parseInt(this.moment.year());
+        let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
+        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0  ? parseInt(this.moment.year())-1 : parseInt(this.moment.year());
+        console.log(this.moment.month(), this.moment.year(), month, year)
         let prevMonth = year + "-" + month;
         let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
         let leading = [];
