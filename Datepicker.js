@@ -16,6 +16,7 @@ class clsDatepicker {
          * @property {Boolean} this.options.presetMenu Optional - include presets such as "this week, next week, etc. - Defaults to false
          * @property {Boolean} this.options.autoClose Optional - whether or not the datepicker autocloses when selection is complete - Defaults to false
          * @property {Boolean} this.options.singleDate Optional - whether the datepicker allows single date choice, or date range - Defaults to false
+         * @property {Boolean} this.options.leadingTrailingDates Optional - whether the datepicker shows leading/trailing dates on the calendar - Defaults to true
          */
         this.options = options;
         this.containerElement = options.containerElement;
@@ -24,6 +25,7 @@ class clsDatepicker {
         this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true;
         this.autoClose = this.options.autoClose ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate ? this.options.singleDate : false;
+        this.leadingTrailingDates = this.options.leadingTrailingDates ? this.options.leadingTrailingDates : true;
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -38,6 +40,7 @@ class clsDatepicker {
         this.value = this.value.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
+        this.leadingTrailing = this.leadingTrailing.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -118,7 +121,7 @@ class clsDatepicker {
     drawCalendar() {
         // we need to first set the first and last of the month in the state
         this.firstDayOfMonth = this.moment.startOf('month').format("dddd");
-        this.lastDayOfMonth = this.moment.startOf('month').format("dddd");
+        this.lastDayOfMonth = this.moment.endOf('month').format("dddd");
         // then set our callback methods so they have the proper context
         let callbackNextMonth = this.nextMonth;
         let callbackLastMonth = this.lastMonth;
@@ -186,6 +189,25 @@ class clsDatepicker {
         });
         // add day elements (day cells) to calendar
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys());
+        let leadingTrailing = this.leadingTrailing();
+        console.log(leadingTrailing)
+        let firstDayPos = this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1;
+        let lastDayPos = this.moment._locale._weekdays.indexOf(this.lastDayOfMonth) + 1;
+        //add last months trailing days to calendar
+        if (this.leadingTrailingDates) {
+            for (let i=firstDayPos-1; i > 0; i--) {
+                let dayCell = document.createElement('div');
+                dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] +1)));
+                dayCell.classList.add("leading-trailing-day");
+                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i])+1);
+                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]+1)) + '');
+                if (i === 0) {
+                    dayCell.classList.add('grid-column-start:0;');
+                }
+                calendar.appendChild(dayCell);
+            }
+        }
+        // add this months days to calendar
         daysInMonth.forEach(function (day) {
             let dayCell = document.createElement('div');
             dayCell.classList.add("day-" + (parseInt(day) + 1));
@@ -193,14 +215,28 @@ class clsDatepicker {
             dayCell.innerHTML = parseInt(day) + 1;
             let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm A");
             dayCell.setAttribute('role', 'button');
-            dayCell.setAttribute('aria-label', parseInt(day) + 1 + '');
+            dayCell.setAttribute('aria-label', parseInt(day) + 1 + '-previous-month');
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
         }.bind(this));
+        // add next months leading days to calendar.
+        if (this.leadingTrailingDates) {
+            for (let i=1; i < 8-lastDayPos; i++) {
+                let dayCell = document.createElement('div');
+                dayCell.classList.add("next-month-day-" + i);
+                dayCell.classList.add("leading-trailing-day");
+                dayCell.innerHTML = i;
+                dayCell.setAttribute('aria-label', i + '-next-month');
+                if (i === 0) {
+                    dayCell.classList.add('grid-column-start:' + lastDayPos +';');
+                }
+                calendar.appendChild(dayCell);
+            }
+        }
         // set the first of the month to be positioned on calendar based on day of week
         let firstDayElement = calendar.querySelector('.day-1');
-        let monthStartPos = 'grid-column-start: ' + (this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1) + ';';
+        let monthStartPos = 'grid-column-start: ' + firstDayPos + ';';
         // console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
         // Footer elements, contains start/end dates selected
@@ -208,7 +244,7 @@ class clsDatepicker {
         // start/end date elements based on singleDate options
         if (!this.singleDate) {
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
-            startDateElement.classList.add('startDateElement')
+            startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
 
             // set calendar start/end dates in the UI
@@ -698,6 +734,22 @@ class clsDatepicker {
         this.setTime();
         this.highlightDates();
         this.openCalendar();
+    }
+    // gets leading/trailing dates for calendar UI
+    leadingTrailing() {
+        let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
+        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0  ? parseInt(this.moment.year())-1 : parseInt(this.moment.year());
+        console.log(this.moment.month(), this.moment.year(), month, year)
+        let prevMonth = year + "-" + month;
+        let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
+        let leading = [];
+        let trailing = [];
+        for (let i = 1; i < 8; i++) {
+            trailing.push(daysInPrevMonth);
+            daysInPrevMonth--;
+            leading.push(i);
+        }
+        return new Object({leading: leading, trailing:trailing});
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
