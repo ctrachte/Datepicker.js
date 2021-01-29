@@ -38,6 +38,7 @@ class clsDatepicker {
         this.value = this.value.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
+        this.leadingTrailing = this.leadingTrailing.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -698,6 +699,18 @@ class clsDatepicker {
         this.setTime();
         this.highlightDates();
         this.openCalendar();
+    }
+    // gets leading/trailing dates for calendar UI
+    leadingTrailing() {
+        let daysInPrevMonth = parseInt(moment([this.moment.year(), (parseInt(this.moment.month())-1) ]).daysInMonth());
+        let leading = [];
+        let trailing = [];
+        for (let i = 1; i < 8; i++) {
+            trailing.push(daysInPrevMonth);
+            daysInPrevMonth--;
+            leading.push(i);
+        }
+        return new Object({leading: leading, trailing:trailing});
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
