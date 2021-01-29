@@ -229,7 +229,6 @@ class clsDatepicker {
         }
         // set the first of the month to be positioned on calendar based on day of week
         let firstDayElement = calendar.querySelector('.day-1');
-        console.log(firstDayPos);
         let monthStartPos = 'grid-column-start: ' + firstDayPos + ';';
         // console.log(monthStartPos, firstDayElement);
         firstDayElement.setAttribute('style', monthStartPos);
@@ -731,7 +730,10 @@ class clsDatepicker {
     }
     // gets leading/trailing dates for calendar UI
     leadingTrailing() {
-        let daysInPrevMonth = parseInt(moment([this.moment.year(), (parseInt(this.moment.month())-1) ]).daysInMonth());
+        let month = parseInt(this.moment.month())<2 ? 12 : parseInt(this.moment.month())-1;
+        let year = parseInt(this.moment.month())<2 ? parseInt(this.moment.year())-1 : parseInt(this.moment.year());
+        let prevMonth = year + "-" + month;
+        let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
         let leading = [];
         let trailing = [];
         for (let i = 1; i < 8; i++) {
