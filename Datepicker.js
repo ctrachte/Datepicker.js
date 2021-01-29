@@ -16,6 +16,7 @@ class clsDatepicker {
          * @property {Boolean} this.options.presetMenu Optional - include presets such as "this week, next week, etc. - Defaults to false
          * @property {Boolean} this.options.autoClose Optional - whether or not the datepicker autocloses when selection is complete - Defaults to false
          * @property {Boolean} this.options.singleDate Optional - whether the datepicker allows single date choice, or date range - Defaults to false
+         * @property {Boolean} this.options.leadingTrailingDates Optional - whether the datepicker shows leading/trailing dates on the calendar - Defaults to true
          */
         this.options = options;
         this.containerElement = options.containerElement;
@@ -24,6 +25,7 @@ class clsDatepicker {
         this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true;
         this.autoClose = this.options.autoClose ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate ? this.options.singleDate : false;
+        this.leadingTrailingDates = this.options.leadingTrailingDates ? this.options.leadingTrailingDates : true;
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -191,16 +193,18 @@ class clsDatepicker {
         let firstDayPos = this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1;
         let lastDayPos = this.moment._locale._weekdays.indexOf(this.lastDayOfMonth) + 1;
         //add last months trailing days to calendar
-        for (let i=firstDayPos-1; i > 0; i--) {
-            let dayCell = document.createElement('div');
-            dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] +1)));
-            dayCell.classList.add("leading-trailing-day");
-            dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]+1));
-            dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]+1)) + '');
-            if (i === 0) {
-                dayCell.classList.add('grid-column-start:0;');
+        if (this.leadingTrailingDates) {
+            for (let i=firstDayPos-1; i > 0; i--) {
+                let dayCell = document.createElement('div');
+                dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] +1)));
+                dayCell.classList.add("leading-trailing-day");
+                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]+1));
+                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]+1)) + '');
+                if (i === 0) {
+                    dayCell.classList.add('grid-column-start:0;');
+                }
+                calendar.appendChild(dayCell);
             }
-            calendar.appendChild(dayCell);
         }
         // add this months days to calendar
         daysInMonth.forEach(function (day) {
@@ -216,16 +220,18 @@ class clsDatepicker {
             calendar.appendChild(dayCell);
         }.bind(this));
         // add next months leading days to calendar.
-        for (let i=1; i < 8-lastDayPos; i++) {
-            let dayCell = document.createElement('div');
-            dayCell.classList.add("next-month-day-" + i);
-            dayCell.classList.add("leading-trailing-day");
-            dayCell.innerHTML = i;
-            dayCell.setAttribute('aria-label', i + '-next-month');
-            if (i === 0) {
-                dayCell.classList.add('grid-column-start:' + lastDayPos +';');
+        if (this.leadingTrailingDates) {
+            for (let i=1; i < 8-lastDayPos; i++) {
+                let dayCell = document.createElement('div');
+                dayCell.classList.add("next-month-day-" + i);
+                dayCell.classList.add("leading-trailing-day");
+                dayCell.innerHTML = i;
+                dayCell.setAttribute('aria-label', i + '-next-month');
+                if (i === 0) {
+                    dayCell.classList.add('grid-column-start:' + lastDayPos +';');
+                }
+                calendar.appendChild(dayCell);
             }
-            calendar.appendChild(dayCell);
         }
         // set the first of the month to be positioned on calendar based on day of week
         let firstDayElement = calendar.querySelector('.day-1');
