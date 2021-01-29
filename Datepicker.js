@@ -562,9 +562,9 @@ class clsDatepicker {
             this.dates[0] = moment(dates[0])._d;
             this.dates[1] = dates[1] ? moment(dates[1])._d : "";
             if (format) {
-                dates[0] = dates[0].format(format);
+                dates[0] = moment(dates[0]).format(format);
                 if (dates[1]) {
-                    dates[1] = dates[1].format(format);
+                    dates[1] = moment(dates[1]).format(format);
                 }
             }
             // invoke highlighting fn to ensure calendar UI is updated
@@ -577,7 +577,7 @@ class clsDatepicker {
             // set single date
             this.dates[0] = moment(dates)._d;
             if (format) {
-                dates[0] = dates[0].format(format);
+                dates[0] = moment(dates[0]).format(format);
             }
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
