@@ -544,7 +544,7 @@ class clsDatepicker {
         this.dates = [];
         if (startDate) {
             this.dates[0] = moment(startDate).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
-            if(!this.singleDate) {
+            if (!this.singleDate) {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
             } else {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
@@ -572,9 +572,14 @@ class clsDatepicker {
             this.drawInputElement();
         } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
+            if (format) {
+                dates[0] = moment(dates[0]).format(format);
+                if (dates[1]) {
+                    dates[1] = moment(dates[1]).format(format);
+                }
+            }               
             return this.singleDate ? this.dates[0] : this.dates;
         } else if (typeof dates === "string" || typeof dates === "number") {
-            // set single date
             this.dates[0] = moment(dates)._d;
             if (format) {
                 dates[0] = moment(dates[0]).format(format);
