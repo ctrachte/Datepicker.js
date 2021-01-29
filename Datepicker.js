@@ -592,9 +592,10 @@ class clsDatepicker {
             if (this.singleDate) {
                 return new Date(this.dates[0])
             } else {
-                this.dates[0] = new Date(this.dates[0]);
-                this.dates[1] = new Date(this.dates[1]);
-                return this.dates;
+                let dates = [];
+                dates[0] = new Date(this.dates[0]);
+                dates[1] = new Date(this.dates[1]);
+                return dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
             this.dates[0] = moment(dates)._i;
