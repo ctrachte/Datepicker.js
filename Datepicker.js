@@ -559,12 +559,12 @@ class clsDatepicker {
     value(dates, format) {
         if (typeof dates === "object") {
             // user supplied at least one date, set that date in the UI and Datepicker state.
-            this.dates[0] = moment(dates[0])._d;
-            this.dates[1] = dates[1] ? moment(dates[1])._d : "";
+            this.dates[0] = moment(dates[0])._i;
+            this.dates[1] = dates[1] ? moment(dates[1])._i : "";
             if (format) {
-                dates[0] = moment(dates[0]).format(format);
+                this.dates[0] = moment(dates[0], format)._i;
                 if (dates[1]) {
-                    dates[1] = moment(dates[1]).format(format);
+                    this.dates[1] = moment(dates[1], format)._i;
                 }
             }
             // invoke highlighting fn to ensure calendar UI is updated
@@ -573,16 +573,16 @@ class clsDatepicker {
         } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
             if (format) {
-                dates[0] = moment(dates[0]).format(format);
+                dates[0] = moment(dates[0]).format(format)._i;
                 if (dates[1]) {
-                    dates[1] = moment(dates[1]).format(format);
+                    dates[1] = moment(dates[1]).format(format)._i;
                 }
             }               
             return this.singleDate ? this.dates[0] : this.dates;
         } else if (typeof dates === "string" || typeof dates === "number") {
-            this.dates[0] = moment(dates)._d;
+            this.dates[0] = moment(dates)._i;
             if (format) {
-                dates[0] = moment(dates[0]).format(format);
+                this.dates[0] = moment(dates, format)._i;
             }
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
@@ -654,6 +654,7 @@ class clsDatepicker {
     }
     // helper methods to open/close calendar UI
     openCalendar() {
+        this.setTime();
         this.calendarElement.showCalendar();
         this.inputElement.hideEl();
     }
