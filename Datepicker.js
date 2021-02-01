@@ -41,6 +41,7 @@ class clsDatepicker {
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
+        this.drawPresetMenu = this.drawPresetMenu.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -195,12 +196,12 @@ class clsDatepicker {
         let lastDayPos = this.moment._locale._weekdays.indexOf(this.lastDayOfMonth) + 1;
         //add last months trailing days to calendar
         if (this.leadingTrailingDates) {
-            for (let i=firstDayPos-1; i > 0; i--) {
+            for (let i = firstDayPos - 1; i > 0; i--) {
                 let dayCell = document.createElement('div');
-                dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] +1)));
+                dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] + 1)));
                 dayCell.classList.add("leading-trailing-day");
-                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i])+1);
-                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]+1)) + '');
+                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]) + 1);
+                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i] + 1)) + '');
                 if (i === 0) {
                     dayCell.classList.add('grid-column-start:0;');
                 }
@@ -222,14 +223,14 @@ class clsDatepicker {
         }.bind(this));
         // add next months leading days to calendar.
         if (this.leadingTrailingDates) {
-            for (let i=1; i < 8-lastDayPos; i++) {
+            for (let i = 1; i < 8 - lastDayPos; i++) {
                 let dayCell = document.createElement('div');
                 dayCell.classList.add("next-month-day-" + i);
                 dayCell.classList.add("leading-trailing-day");
                 dayCell.innerHTML = i;
                 dayCell.setAttribute('aria-label', i + '-next-month');
                 if (i === 0) {
-                    dayCell.classList.add('grid-column-start:' + lastDayPos +';');
+                    dayCell.classList.add('grid-column-start:' + lastDayPos + ';');
                 }
                 calendar.appendChild(dayCell);
             }
@@ -569,6 +570,19 @@ class clsDatepicker {
             this.outsideCalendarClick(event);
         }.bind(this));
     }
+    drawPresetMenu() {
+        let presetMenuContainer = document.createElement('div');
+        presetMenuContainer.setAttribute('class', 'presetMenuContainer');
+        let menuOptionsContainer = document.createElement('ul');
+        let menuOptions = [
+            { title: 'This Week', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+            { title: 'Next Week', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+            { title: 'This Month', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+            { title: 'Next Month', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+            { title: 'This Year', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+            { title: 'Next Year', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+        ];
+    }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime(setProgrammatically = false) {
         this.startHour = this.timeElements.startHourValueEl.value;
@@ -738,7 +752,7 @@ class clsDatepicker {
     // gets leading/trailing dates for calendar UI
     leadingTrailing() {
         let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
-        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0  ? parseInt(this.moment.year())-1 : parseInt(this.moment.year());
+        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? parseInt(this.moment.year()) - 1 : parseInt(this.moment.year());
         console.log(this.moment.month(), this.moment.year(), month, year)
         let prevMonth = year + "-" + month;
         let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
@@ -749,7 +763,7 @@ class clsDatepicker {
             daysInPrevMonth--;
             leading.push(i);
         }
-        return new Object({leading: leading, trailing:trailing});
+        return new Object({ leading: leading, trailing: trailing });
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
