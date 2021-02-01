@@ -15,17 +15,20 @@ b {
   flex-wrap: wrap;
   align-content: center;
   position: absolute;
-  top: 100;
-  left:100;
+  top: 10%;
+  right: 33%;
   width: 33%;
   height: auto;
   margin: 0 auto;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  -webkit-animation-name: animateleft;
-  -webkit-animation-duration: 0.6s;
-  animation-name: animateleft;
-  animation-duration: 0.6s;
+  background-color: white !important;
+  -webkit-animation-name: menuanimatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: menuanimatetop;
+  animation-duration: 0.4s;
+  background-color: white !important;
 }
+
 .presetMenuContainer>ul {
   display: flex;
   flex-wrap: wrap;
@@ -39,7 +42,7 @@ b {
   height:auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: #D6A9DD;
+  background-color: #E3E8F8;
   color:#222831;
   border-radius: 5px;
 }
@@ -73,7 +76,6 @@ b {
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     border-radius: 5px;
-
     width: 730px;
     height: 80%;
   }
@@ -82,19 +84,27 @@ b {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
   }
-  
   @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
   }
-  @-webkit-keyframes animateleft {
-    from {left:-90px; opacity:0} 
-    to {left:0; opacity:1}
+
+  @-webkit-keyframes menuanimatetop {
+    from {top:-300px; opacity:0} 
+    to {top:10%; opacity:1}
   }
-  
+  @keyframes menuanimatetop {
+    from {top:-300px; opacity:0}
+    to {top:10%; opacity:1}
+  }
+
+  @-webkit-keyframes animateleft {
+    from {right:365px; opacity:0; z-index: -1;}
+    to {right:780px; opacity:1; z-index: 1;}
+  }
   @keyframes animateleft {
-    from {left:-90px; opacity:0}
-    to {left:0; opacity:1}
+    from {right:365px; opacity:0; z-index: -1;}
+    to {right:780px; opacity:1; z-index: 1;}
   }
   .grid-container > div {
     display: flex;
