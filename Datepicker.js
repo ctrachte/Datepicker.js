@@ -585,6 +585,21 @@ class clsDatepicker {
             { title: 'Next Year', values: [this.moment.add(+1, 'year').startOf('year'), this.moment.add(+1, 'year').endOf('year')] },
             { title: 'Last Year', values: [this.moment.add(-1, 'year').startOf('year'), this.moment.add(-1, 'year').endOf('year')] },
         ];
+        for (menuOption of menuOptions) {
+            let menuListElement = document.createElement('li');
+            menuListElement.setAttribute('class', menuOption.title + "-menu-option");
+            menuListElement.value = menuOption.values;
+            menuListElement.innerHTML = menuOption.title;
+            menuListElement.addEventListener('click', function (event) {
+                this.dates = [];
+                this.dates.push(event.target.value[0]);
+                this.dates.push(event.target.value[1]);
+                console.log(this.dates);
+            }.bind(this));
+            menuOptionsContainer.appendChild(menuListElement);
+        }
+        presetMenuContainer.appendChild(menuOptionsContainer);
+        this.calendarElement.appendChild(presetMenuContainer);
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime(setProgrammatically = false) {
