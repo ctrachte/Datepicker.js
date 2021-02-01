@@ -623,7 +623,8 @@ class clsDatepicker {
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
             menuListElement.innerHTML = menuOption.title;
             menuListElement.addEventListener('click', function (event) {
-                this.dates = [];
+                this.dates.length = 0;
+                this.highlightDates();
                 this.dates.push(menuOption.values[0]);
                 this.dates.push(menuOption.values[1]);
                 // invoke highlighting fn to ensure calendar UI is updated
@@ -797,18 +798,22 @@ class clsDatepicker {
         this.containerElement.innerHTML = "";
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
+        this.drawPresetMenu();
         this.setTime();
         this.highlightDates();
         this.openCalendar();
+        this.closePresetMenu();
     }
     // moves the calendar back one month
     lastMonth(event, negativeValue = -1) {
         this.containerElement.innerHTML = "";
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
+        this.drawPresetMenu();
         this.setTime();
         this.highlightDates();
         this.openCalendar();
+        this.closePresetMenu();
     }
     // gets leading/trailing dates for calendar UI
     leadingTrailing() {
