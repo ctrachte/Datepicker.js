@@ -134,8 +134,19 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7; background-color: #222831;');
+        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6; background-color: #222831;');
         let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
+        // hamburger menu icon
+        let menuIconContainer = document.createElement('div');
+        menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
+        menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
+        menuIconContainer.setAttribute('role', 'menu');
+        let menuIcon = document.createElement('span');
+        menuIcon.setAttribute('class', 'calendarHamburger');
+        menuIcon.addEventListener('click', function (event) {
+            this.openPresetMenu();
+        }.bind(this));
+        menuIconContainer.appendChild(menuIcon);
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
@@ -144,13 +155,7 @@ class clsDatepicker {
         leftArrow.setAttribute('role', 'navigation');
         leftArrow.innerHTML = "&#8672;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
-        // hamburger menu icon
-        let menuIcon = document.createElement('span');
-        menuIcon.setAttribute('class', 'calendarHamburger');
-        menuIcon.addEventListener('click', function (event) {
-            this.openPresetMenu();
-        });
-        monthHeader.appendChild(menuIcon);
+
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
         rightArrow.setAttribute('style', 'background-color:transparent');
@@ -162,10 +167,24 @@ class clsDatepicker {
         monthHeader.appendChild(monthText);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
+        // close calendar icon
+        let closeCalendarIconContainer = document.createElement('div');
+        closeCalendarIconContainer.setAttribute('style', 'grid-column-start: 7; grid-column-end: 8; background-color: transparent !important;');
+        closeCalendarIconContainer.setAttribute('aria-label', 'Preset Menu Button');
+        closeCalendarIconContainer.setAttribute('role', 'menu');
+        let closeCalendarIcon = document.createElement('span');
+        closeCalendarIcon.innerHTML = "&#10006;";
+        closeCalendarIcon.addEventListener('click', function (event) {
+            this.closeCalendar();
+        }.bind(this));
+        closeCalendarIconContainer.appendChild(closeCalendarIcon);
         // add all the UI elements to the calendar
+        calendar.appendChild(menuIconContainer);
         calendar.appendChild(leftArrow);
         calendar.appendChild(monthHeader);
         calendar.appendChild(rightArrow);
+        calendar.appendChild(closeCalendarIconContainer);
+
         //add day header elements: "mon, tues, wed etc."
         this.moment._locale._weekdaysShort.forEach(function (day) {
             let dayHeader = document.createElement('div');

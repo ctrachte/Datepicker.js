@@ -50,8 +50,9 @@ b {
   width: 1.25em;
   height: 0.8em;
   margin-right: 0.3em;
-  border-top: 0.2em solid #fff;
-  border-bottom: 0.2em solid #fff;
+  border-top: 0.2em solid black;
+  border-bottom: 0.2em solid black;
+  align-self: left;
 }
 
 .calendarHamburger:before {
@@ -60,7 +61,7 @@ b {
   top: 0.3em;
   left: 0px;
   width: 100%;
-  border-top: 0.2em solid #fff;
+  border-top: 0.2em solid black;
 }
 
 .grid-container {
