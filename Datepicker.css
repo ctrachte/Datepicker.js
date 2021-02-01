@@ -13,16 +13,21 @@ b {
 .presetMenuContainer {
   position: absolute;
   top: 0;
+  width: 33%;
+  height: auto;
+
 }
 .presetMenuContainer>ul {
   list-style-type: none;
   list-style: none;
+  justify-content: center;
+  margin: 0 auto;
 }
-.presetMenuContainer>ul>li {
+.presetMenuContainer>ul li {
   padding:10px;
-  width: 100%;
   height:auto;
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   background-color: #D6A9DD;
   color:#222831;
   border-radius: 5px;
