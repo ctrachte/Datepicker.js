@@ -624,11 +624,11 @@ class clsDatepicker {
             menuListElement.innerHTML = menuOption.title;
             menuListElement.addEventListener('click', function (event) {
                 this.dates.length = 0;
-                this.highlightDates();
-                this.dates.push(menuOption.values[0]);
-                this.dates.push(menuOption.values[1]);
+                this.highlightDates(true);
+                this.dates[0] = (menuOption.values[0]);
+                this.dates[1] = (menuOption.values[1]);
                 // invoke highlighting fn to ensure calendar UI is updated
-                this.highlightDates();
+                this.highlightDates(true);
                 this.setTime(true);
                 this.drawInputElement();
                 this.closePresetMenu();
@@ -832,7 +832,7 @@ class clsDatepicker {
         return new Object({ leading: leading, trailing: trailing });
     }
     // sets highlighted dates on calendar UI
-    highlightDates() {
+    highlightDates(setProgrammatically = false) {
         let days = this.containerElement.querySelectorAll('.day');
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
@@ -859,7 +859,7 @@ class clsDatepicker {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                if (firstDate === indexDate) {
+                if (firstDate === indexDate && !setProgrammatically) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 } else {
