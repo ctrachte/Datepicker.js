@@ -61,6 +61,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
+        this.drawPresetMenu();
         this.closeCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -575,25 +576,25 @@ class clsDatepicker {
         presetMenuContainer.setAttribute('class', 'presetMenuContainer');
         let menuOptionsContainer = document.createElement('ul');
         let menuOptions = [
-            { title: 'This Week', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
-            { title: 'Next Week', values: [this.moment.add(+1, 'week').startOf('week'), this.moment.add(+1, 'week').endOf('week')] },
-            { title: 'Last Week', values: [this.moment.add(-1, 'week').startOf('week'), this.moment.add(-1, 'week').endOf('week')] },
-            { title: 'This Month', values: [this.moment.startOf('month'), this.moment.endOf('month')] },
-            { title: 'Next Month', values: [this.moment.add(+1, 'month').startOf('month'), this.moment.add(+1, 'month').endOf('month')]},
-            { title: 'Last Month', values: [this.moment.add(-1, 'month').startOf('month'), this.moment.add(-1, 'month').endOf('month')] },
-            { title: 'This Year', values: [this.moment.startOf('year'), this.moment.endOf('year')] },
-            { title: 'Next Year', values: [this.moment.add(+1, 'year').startOf('year'), this.moment.add(+1, 'year').endOf('year')] },
-            { title: 'Last Year', values: [this.moment.add(-1, 'year').startOf('year'), this.moment.add(-1, 'year').endOf('year')] },
+            { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
+            { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
+            { title: 'Last Week', values: [moment().add(-1, 'week').startOf('week'), moment().add(-1, 'week').endOf('week')] },
+            { title: 'This Month', values: [moment().startOf('month'), moment().endOf('month')] },
+            { title: 'Next Month', values: [moment().add(+1, 'month').startOf('month'), moment().add(+1, 'month').endOf('month')]},
+            { title: 'Last Month', values: [moment().add(-1, 'month').startOf('month'), moment().add(-1, 'month').endOf('month')] },
+            { title: 'This Year', values: [moment().startOf('year'), moment().endOf('year')] },
+            { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
+            { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
         ];
-        for (menuOption of menuOptions) {
+        console.log(menuOptions);
+        for (let menuOption of menuOptions) {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
-            menuListElement.value = menuOption.values;
             menuListElement.innerHTML = menuOption.title;
             menuListElement.addEventListener('click', function (event) {
                 this.dates = [];
-                this.dates.push(event.target.value[0]);
-                this.dates.push(event.target.value[1]);
+                this.dates.push(menuOption.values[0]);
+                this.dates.push(menuOption.values[1]);
                 console.log(this.dates);
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
@@ -831,6 +832,7 @@ class clsDatepicker {
         this.containerElement.innerHTML = '';
         this.drawCalendar();
         this.drawInputElement();
+        this.drawPresetMenu();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
