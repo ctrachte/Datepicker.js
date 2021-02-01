@@ -144,6 +144,13 @@ class clsDatepicker {
         leftArrow.setAttribute('role', 'navigation');
         leftArrow.innerHTML = "&#8672;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
+        // hamburger menu icon
+        let menuIcon = document.createElement('span');
+        menuIcon.setAttribute('class', 'calendarHamburger');
+        menuIcon.addEventListener('click', function (event) {
+            this.openPresetMenu();
+        });
+        monthHeader.appendChild(menuIcon);
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
         rightArrow.setAttribute('style', 'background-color:transparent');
@@ -249,7 +256,6 @@ class clsDatepicker {
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
-
             // set calendar start/end dates in the UI
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
