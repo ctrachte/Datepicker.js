@@ -194,7 +194,6 @@ class clsDatepicker {
         // add day elements (day cells) to calendar
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys());
         let leadingTrailing = this.leadingTrailing();
-        console.log(leadingTrailing)
         let firstDayPos = this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1;
         let lastDayPos = this.moment._locale._weekdays.indexOf(this.lastDayOfMonth) + 1;
         //add last months trailing days to calendar
@@ -588,7 +587,6 @@ class clsDatepicker {
             { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
             { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
         ];
-        console.log(menuOptions);
         for (let menuOption of menuOptions) {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
@@ -764,18 +762,18 @@ class clsDatepicker {
         this.presetMenuContainer.hidePresetMenu();
     }
     // advances the calendar by one month
-    nextMonth(positiveValue) {
+    nextMonth(event, positiveValue = 1) {
         this.containerElement.innerHTML = "";
-        this.moment.add(positiveValue || 1, 'months');
+        this.moment.add(positiveValue, 'months');
         this.drawCalendar();
         this.setTime();
         this.highlightDates();
         this.openCalendar();
     }
     // moves the calendar back one month
-    lastMonth(negativeValue) {
+    lastMonth(event, negativeValue = -1) {
         this.containerElement.innerHTML = "";
-        this.moment.add(negativeValue || -1, 'months');
+        this.moment.add(negativeValue, 'months');
         this.drawCalendar();
         this.setTime();
         this.highlightDates();
