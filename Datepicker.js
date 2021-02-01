@@ -63,7 +63,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
-        if (this.presetMenu) {this.drawPresetMenu()};
+        if (this.presetMenu) { this.drawPresetMenu() };
         this.closeCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -597,8 +597,11 @@ class clsDatepicker {
                 this.dates = [];
                 this.dates.push(menuOption.values[0]);
                 this.dates.push(menuOption.values[1]);
+                // invoke highlighting fn to ensure calendar UI is updated
+                this.highlightDates();
+                this.setTime(true);
+                this.drawInputElement();
                 this.closePresetMenu();
-                console.log(this.dates);
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
         }
@@ -782,7 +785,7 @@ class clsDatepicker {
     leadingTrailing() {
         let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
         let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? parseInt(this.moment.year()) - 1 : parseInt(this.moment.year());
-        console.log(this.moment.month(), this.moment.year(), month, year)
+        // console.log(this.moment.month(), this.moment.year(), month, year)
         let prevMonth = year + "-" + month;
         let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
         let leading = [];
