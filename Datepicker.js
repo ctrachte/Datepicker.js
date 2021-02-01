@@ -764,18 +764,18 @@ class clsDatepicker {
         this.presetMenuContainer.hidePresetMenu();
     }
     // advances the calendar by one month
-    nextMonth() {
+    nextMonth(positiveValue) {
         this.containerElement.innerHTML = "";
-        this.moment.add(1, 'months');
+        this.moment.add(positiveValue || 1, 'months');
         this.drawCalendar();
         this.setTime();
         this.highlightDates();
         this.openCalendar();
     }
     // moves the calendar back one month
-    lastMonth() {
+    lastMonth(negativeValue) {
         this.containerElement.innerHTML = "";
-        this.moment.add(-1, 'months');
+        this.moment.add(negativeValue || -1, 'months');
         this.drawCalendar();
         this.setTime();
         this.highlightDates();
