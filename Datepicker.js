@@ -576,11 +576,11 @@ class clsDatepicker {
         let menuOptionsContainer = document.createElement('ul');
         let menuOptions = [
             { title: 'This Week', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
-            { title: 'Next Week', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
-            { title: 'This Month', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
-            { title: 'Next Month', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
-            { title: 'This Year', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
-            { title: 'Next Year', values: [this.moment.startOf('week'), this.moment.endOf('week')] },
+            { title: 'Next Week', values: [this.moment.add(+1, 'week').startOf('week'), this.moment.add(+1, 'week').endOf('week')] },
+            { title: 'This Month', values: [this.moment.startOf('month'), this.moment.endOf('month')] },
+            { title: 'Next Month', values: [this.moment.add(+1, 'month').startOf('month'), this.moment.add(+1, 'month').endOf('month')]},
+            { title: 'This Year', values: [this.moment.startOf('year'), this.moment.endOf('year')] },
+            { title: 'Next Year', values: [this.moment.add(+1, 'year').startOf('year'), this.moment.add(+1, 'year').endOf('year')] },
         ];
     }
     // setTime function - a helper method to set start/end time. This function is a void.
