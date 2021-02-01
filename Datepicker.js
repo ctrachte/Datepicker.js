@@ -63,7 +63,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
-        if (this.presetMenu) { this.drawPresetMenu() };
+        if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
         this.closeCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -137,16 +137,22 @@ class clsDatepicker {
         monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6; background-color: #222831;');
         let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
         // hamburger menu icon
-        let menuIconContainer = document.createElement('div');
-        menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
-        menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
-        menuIconContainer.setAttribute('role', 'menu');
+        this.menuIconContainer = document.createElement('div');
+        this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
+        this.menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
+        this.menuIconContainer.setAttribute('role', 'menu');
         let menuIcon = document.createElement('span');
         menuIcon.setAttribute('class', 'calendarHamburger');
         menuIcon.addEventListener('click', function (event) {
-            this.openPresetMenu();
+            if (this.menuIconContainer.classList.contains('open')) {
+                this.closePresetMenu();
+                this.menuIconContainer.classList.remove('open');
+            } else {
+                this.menuIconContainer.classList.add('open');
+                this.openPresetMenu();
+            }
         }.bind(this));
-        menuIconContainer.appendChild(menuIcon);
+        this.menuIconContainer.appendChild(menuIcon);
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
@@ -179,7 +185,7 @@ class clsDatepicker {
         }.bind(this));
         closeCalendarIconContainer.appendChild(closeCalendarIcon);
         // add all the UI elements to the calendar
-        calendar.appendChild(menuIconContainer);
+        calendar.appendChild(this.menuIconContainer);
         calendar.appendChild(leftArrow);
         calendar.appendChild(monthHeader);
         calendar.appendChild(rightArrow);

@@ -15,7 +15,7 @@ b {
   flex-wrap: wrap;
   align-content: center;
   position: absolute;
-  top: 10%;
+  top: 10px;
   right: 33%;
   width: 33%;
   height: auto;
@@ -91,11 +91,11 @@ b {
 
   @-webkit-keyframes menuanimatetop {
     from {top:-300px; opacity:0} 
-    to {top:10%; opacity:1}
+    to {top:10px; opacity:1}
   }
   @keyframes menuanimatetop {
     from {top:-300px; opacity:0}
-    to {top:10%; opacity:1}
+    to {top:10px; opacity:1}
   }
 
   @-webkit-keyframes animateleft {
