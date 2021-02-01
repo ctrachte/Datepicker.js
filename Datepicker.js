@@ -36,6 +36,8 @@ class clsDatepicker {
         this.drawInputElement = this.drawInputElement.bind(this);
         this.openCalendar = this.openCalendar.bind(this);
         this.closeCalendar = this.closeCalendar.bind(this);
+        this.openPresetMenu = this.openPresetMenu.bind(this);
+        this.closePresetMenu = this.closePresetMenu.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
@@ -61,7 +63,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
-        this.drawPresetMenu();
+        if (this.presetMenu) {this.drawPresetMenu()};
         this.closeCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -572,15 +574,15 @@ class clsDatepicker {
         }.bind(this));
     }
     drawPresetMenu() {
-        let presetMenuContainer = document.createElement('div');
-        presetMenuContainer.setAttribute('class', 'presetMenuContainer');
+        this.presetMenuContainer = document.createElement('div');
+        this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
         let menuOptionsContainer = document.createElement('ul');
         let menuOptions = [
             { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
             { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
             { title: 'Last Week', values: [moment().add(-1, 'week').startOf('week'), moment().add(-1, 'week').endOf('week')] },
             { title: 'This Month', values: [moment().startOf('month'), moment().endOf('month')] },
-            { title: 'Next Month', values: [moment().add(+1, 'month').startOf('month'), moment().add(+1, 'month').endOf('month')]},
+            { title: 'Next Month', values: [moment().add(+1, 'month').startOf('month'), moment().add(+1, 'month').endOf('month')] },
             { title: 'Last Month', values: [moment().add(-1, 'month').startOf('month'), moment().add(-1, 'month').endOf('month')] },
             { title: 'This Year', values: [moment().startOf('year'), moment().endOf('year')] },
             { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
@@ -595,12 +597,13 @@ class clsDatepicker {
                 this.dates = [];
                 this.dates.push(menuOption.values[0]);
                 this.dates.push(menuOption.values[1]);
+                this.closePresetMenu();
                 console.log(this.dates);
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
         }
-        presetMenuContainer.appendChild(menuOptionsContainer);
-        this.calendarElement.appendChild(presetMenuContainer);
+        this.presetMenuContainer.appendChild(menuOptionsContainer);
+        this.calendarElement.appendChild(this.presetMenuContainer);
     }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime(setProgrammatically = false) {
@@ -750,6 +753,13 @@ class clsDatepicker {
         this.drawInputElement();
         this.inputElement.showEl();
     }
+    // helper methods to open/close preset menu UI
+    openPresetMenu() {
+        this.presetMenuContainer.showPresetMenu();
+    }
+    closePresetMenu() {
+        this.presetMenuContainer.hidePresetMenu();
+    }
     // advances the calendar by one month
     nextMonth() {
         this.containerElement.innerHTML = "";
@@ -854,4 +864,10 @@ Element.prototype.hideCalendar = function () {
 }
 Element.prototype.showCalendar = function () {
     this.style.display = 'grid';
+}
+Element.prototype.hidePresetMenu = function () {
+    this.style.display = 'none';
+}
+Element.prototype.showPresetMenu = function () {
+    this.style.display = 'flex';
 }
