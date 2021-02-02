@@ -95,6 +95,17 @@ b {
   cursor: pointer;
 }
 
+.close-preset-menu {
+  position:absolute;
+  right:5px;
+  top:0;
+  margin:5px;
+}
+.close-preset-menu:hover {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;

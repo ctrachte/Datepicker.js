@@ -148,8 +148,8 @@ class clsDatepicker {
                     this.closePresetMenu();
                     this.menuIconContainer.classList.remove('open');
                 } else {
-                    this.menuIconContainer.classList.add('open');
                     this.openPresetMenu();
+                    this.menuIconContainer.classList.add('open');
                 }
             }.bind(this));
             this.menuIconContainer.appendChild(menuIcon);
@@ -634,9 +634,24 @@ class clsDatepicker {
                 this.setTime(true);
                 this.drawInputElement();
                 this.closePresetMenu();
+                this.menuIconContainer.classList.remove('open');
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
         }
+        // close calendar icon
+        let closePresetIconContainer = document.createElement('div');
+        closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
+        closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
+        closePresetIconContainer.setAttribute('role', 'button');
+        let closePresetIcon = document.createElement('span');
+        closePresetIcon.innerHTML = "&#10006;";
+        closePresetIcon.classList.add('close-preset-menu');
+        closePresetIconContainer.addEventListener('click', function (event) {
+            this.closePresetMenu();
+            this.menuIconContainer.classList.remove('open');
+        }.bind(this));
+        closePresetIconContainer.appendChild(closePresetIcon);
+        this.presetMenuContainer.appendChild(closePresetIconContainer);
         this.presetMenuContainer.appendChild(menuOptionsContainer);
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
