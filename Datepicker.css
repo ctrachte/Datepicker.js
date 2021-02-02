@@ -46,6 +46,11 @@ b {
   color:#222831;
   border-radius: 5px;
 }
+.presetMenuContainer>ul li:hover, li:active {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.85;
+}
 
 .calendarHamburger {
   position: relative;
@@ -56,6 +61,12 @@ b {
   border-top: 0.2em solid black;
   border-bottom: 0.2em solid black;
   align-self: left;
+}
+
+.calendarHamburger:hover {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.7;
 }
 
 .calendarHamburger:before {
@@ -298,7 +309,8 @@ b {
 
 .submitButton:hover, .cancelButton:hover {
   box-shadow:0px 20px 70px 1px #D6A9DD;
-  opacity: 0.7;
+  cursor: pointer;
+  opacity: 0.85;
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;
@@ -366,5 +378,6 @@ button, input[type="submit"], input[type="reset"] {
 
 .day:hover {
   cursor:pointer;
+  opacity: 0.85;
   box-shadow:0px 20px 70px 1px #D6A9DD;
 }

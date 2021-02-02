@@ -143,7 +143,7 @@ class clsDatepicker {
         this.menuIconContainer.setAttribute('role', 'menu');
         let menuIcon = document.createElement('span');
         menuIcon.setAttribute('class', 'calendarHamburger');
-        menuIcon.addEventListener('click', function (event) {
+        this.menuIconContainer.addEventListener('click', function (event) {
             if (this.menuIconContainer.classList.contains('open')) {
                 this.closePresetMenu();
                 this.menuIconContainer.classList.remove('open');
@@ -622,7 +622,7 @@ class clsDatepicker {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
             menuListElement.innerHTML = menuOption.title;
-            menuOptionsContainer.addEventListener('click', function (event) {
+            menuListElement.addEventListener('click', function (event) {
                 this.dates.length = 0;
                 this.highlightDates(true);
                 this.dates[0] = (menuOption.values[0]);
