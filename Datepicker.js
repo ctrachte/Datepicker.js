@@ -21,11 +21,11 @@ class clsDatepicker {
         this.options = options;
         this.containerElement = options.containerElement;
         this.moment = moment(moment(), "MM/DD/YYYY hh:mm A", true);
-        this.timePicker = this.options.timePicker ? this.options.timePicker : true;
-        this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true;
-        this.autoClose = this.options.autoClose ? this.options.autoClose : false;
-        this.singleDate = this.options.singleDate ? this.options.singleDate : false;
-        this.leadingTrailingDates = this.options.leadingTrailingDates ? this.options.leadingTrailingDates : true;
+        this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
+        this.presetMenu = this.options.presetMenu !== undefined ? this.options.presetMenu : true;
+        this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
+        this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
+        this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -141,18 +141,20 @@ class clsDatepicker {
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
         this.menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
         this.menuIconContainer.setAttribute('role', 'menu');
-        let menuIcon = document.createElement('span');
-        menuIcon.setAttribute('class', 'calendarHamburger');
-        this.menuIconContainer.addEventListener('click', function (event) {
-            if (this.menuIconContainer.classList.contains('open')) {
-                this.closePresetMenu();
-                this.menuIconContainer.classList.remove('open');
-            } else {
-                this.menuIconContainer.classList.add('open');
-                this.openPresetMenu();
-            }
-        }.bind(this));
-        this.menuIconContainer.appendChild(menuIcon);
+        if (this.presetMenu) {
+            let menuIcon = document.createElement('span');
+            menuIcon.setAttribute('class', 'calendarHamburger');
+            this.menuIconContainer.addEventListener('click', function (event) {
+                if (this.menuIconContainer.classList.contains('open')) {
+                    this.closePresetMenu();
+                    this.menuIconContainer.classList.remove('open');
+                } else {
+                    this.menuIconContainer.classList.add('open');
+                    this.openPresetMenu();
+                }
+            }.bind(this));
+            this.menuIconContainer.appendChild(menuIcon);
+        }
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
