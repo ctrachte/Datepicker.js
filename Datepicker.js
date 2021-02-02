@@ -622,7 +622,7 @@ class clsDatepicker {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
             menuListElement.innerHTML = menuOption.title;
-            menuListElement.addEventListener('click', function (event) {
+            menuOptionsContainer.addEventListener('click', function (event) {
                 this.dates.length = 0;
                 this.highlightDates(true);
                 this.dates[0] = (menuOption.values[0]);
