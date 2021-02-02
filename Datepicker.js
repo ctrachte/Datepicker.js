@@ -21,11 +21,11 @@ class clsDatepicker {
         this.options = options;
         this.containerElement = options.containerElement;
         this.moment = moment(moment(), "MM/DD/YYYY hh:mm A", true);
-        this.timePicker = this.options.timePicker ? this.options.timePicker : true;
-        this.presetMenu = this.options.presetMenu ? this.options.presetMenu : true;
-        this.autoClose = this.options.autoClose ? this.options.autoClose : false;
-        this.singleDate = this.options.singleDate ? this.options.singleDate : false;
-        this.leadingTrailingDates = this.options.leadingTrailingDates ? this.options.leadingTrailingDates : true;
+        this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
+        this.presetMenu = this.options.presetMenu !== undefined ? this.options.presetMenu : true;
+        this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
+        this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
+        this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -36,11 +36,14 @@ class clsDatepicker {
         this.drawInputElement = this.drawInputElement.bind(this);
         this.openCalendar = this.openCalendar.bind(this);
         this.closeCalendar = this.closeCalendar.bind(this);
+        this.openPresetMenu = this.openPresetMenu.bind(this);
+        this.closePresetMenu = this.closePresetMenu.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
+        this.drawPresetMenu = this.drawPresetMenu.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -60,6 +63,7 @@ class clsDatepicker {
         // this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
+        if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
         this.closeCalendar();
         // test logs
         // console.log(this.startOfMonth, this.endOfMonth);
@@ -130,31 +134,66 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7; background-color: #222831;');
+        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6; background-color: #222831;');
         let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
+        // hamburger menu icon
+        this.menuIconContainer = document.createElement('div');
+        this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
+        this.menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
+        this.menuIconContainer.setAttribute('role', 'menu');
+        if (this.presetMenu) {
+            let menuIcon = document.createElement('span');
+            menuIcon.setAttribute('class', 'calendarHamburger');
+            this.menuIconContainer.addEventListener('click', function (event) {
+                if (this.menuIconContainer.classList.contains('open')) {
+                    this.closePresetMenu();
+                    this.menuIconContainer.classList.remove('open');
+                } else {
+                    this.menuIconContainer.classList.add('open');
+                    this.openPresetMenu();
+                }
+            }.bind(this));
+            this.menuIconContainer.appendChild(menuIcon);
+        }
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
         leftArrow.setAttribute('style', 'background-color:transparent');
         leftArrow.setAttribute('aria-label', 'Previous Month Button');
         leftArrow.setAttribute('role', 'navigation');
-        leftArrow.innerHTML = "&#8672;";
+        leftArrow.innerHTML = "&#11164;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
+
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
         rightArrow.setAttribute('style', 'background-color:transparent');
         rightArrow.setAttribute('aria-label', 'Next Month Button');
         rightArrow.setAttribute('role', 'navigation');
-        rightArrow.innerHTML = "&#8674;"
+        rightArrow.innerHTML = "&#11166;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthText);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
+        // close calendar icon
+        let closeCalendarIconContainer = document.createElement('div');
+        closeCalendarIconContainer.setAttribute('style', 'grid-column-start: 7; grid-column-end: 8; background-color: transparent !important;');
+        closeCalendarIconContainer.setAttribute('aria-label', 'Preset Menu Button');
+        closeCalendarIconContainer.setAttribute('role', 'button');
+        let closeCalendarIcon = document.createElement('span');
+        closeCalendarIcon.innerHTML = "&#10006;";
+        closeCalendarIcon.classList.add('close-calendar-button');
+        closeCalendarIconContainer.addEventListener('click', function (event) {
+            this.closeCalendar();
+        }.bind(this));
+        closeCalendarIconContainer.appendChild(closeCalendarIcon);
         // add all the UI elements to the calendar
+        calendar.appendChild(this.menuIconContainer);
         calendar.appendChild(leftArrow);
         calendar.appendChild(monthHeader);
         calendar.appendChild(rightArrow);
+        calendar.appendChild(closeCalendarIconContainer);
+
         //add day header elements: "mon, tues, wed etc."
         this.moment._locale._weekdaysShort.forEach(function (day) {
             let dayHeader = document.createElement('div');
@@ -190,17 +229,16 @@ class clsDatepicker {
         // add day elements (day cells) to calendar
         let daysInMonth = Array.from(Array(this.moment.daysInMonth()).keys());
         let leadingTrailing = this.leadingTrailing();
-        console.log(leadingTrailing)
         let firstDayPos = this.moment._locale._weekdays.indexOf(this.firstDayOfMonth) + 1;
         let lastDayPos = this.moment._locale._weekdays.indexOf(this.lastDayOfMonth) + 1;
         //add last months trailing days to calendar
         if (this.leadingTrailingDates) {
-            for (let i=firstDayPos-1; i > 0; i--) {
+            for (let i = firstDayPos - 1; i > 0; i--) {
                 let dayCell = document.createElement('div');
-                dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] +1)));
+                dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] + 1)));
                 dayCell.classList.add("leading-trailing-day");
-                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i])+1);
-                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]+1)) + '');
+                dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]) + 1);
+                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i] + 1)) + '');
                 if (i === 0) {
                     dayCell.classList.add('grid-column-start:0;');
                 }
@@ -222,14 +260,14 @@ class clsDatepicker {
         }.bind(this));
         // add next months leading days to calendar.
         if (this.leadingTrailingDates) {
-            for (let i=1; i < 8-lastDayPos; i++) {
+            for (let i = 1; i < 8 - lastDayPos; i++) {
                 let dayCell = document.createElement('div');
                 dayCell.classList.add("next-month-day-" + i);
                 dayCell.classList.add("leading-trailing-day");
                 dayCell.innerHTML = i;
                 dayCell.setAttribute('aria-label', i + '-next-month');
                 if (i === 0) {
-                    dayCell.classList.add('grid-column-start:' + lastDayPos +';');
+                    dayCell.classList.add('grid-column-start:' + lastDayPos + ';');
                 }
                 calendar.appendChild(dayCell);
             }
@@ -246,7 +284,6 @@ class clsDatepicker {
             startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
-
             // set calendar start/end dates in the UI
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
@@ -569,6 +606,41 @@ class clsDatepicker {
             this.outsideCalendarClick(event);
         }.bind(this));
     }
+    drawPresetMenu() {
+        this.presetMenuContainer = document.createElement('div');
+        this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
+        let menuOptionsContainer = document.createElement('ul');
+        let menuOptions = [
+            { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
+            { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
+            { title: 'Last Week', values: [moment().add(-1, 'week').startOf('week'), moment().add(-1, 'week').endOf('week')] },
+            { title: 'This Month', values: [moment().startOf('month'), moment().endOf('month')] },
+            { title: 'Next Month', values: [moment().add(+1, 'month').startOf('month'), moment().add(+1, 'month').endOf('month')] },
+            { title: 'Last Month', values: [moment().add(-1, 'month').startOf('month'), moment().add(-1, 'month').endOf('month')] },
+            { title: 'This Year', values: [moment().startOf('year'), moment().endOf('year')] },
+            { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
+            { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
+        ];
+        for (let menuOption of menuOptions) {
+            let menuListElement = document.createElement('li');
+            menuListElement.setAttribute('class', menuOption.title + "-menu-option");
+            menuListElement.innerHTML = menuOption.title;
+            menuListElement.addEventListener('click', function (event) {
+                this.dates.length = 0;
+                this.highlightDates(true);
+                this.dates[0] = (menuOption.values[0]);
+                this.dates[1] = (menuOption.values[1]);
+                // invoke highlighting fn to ensure calendar UI is updated
+                this.highlightDates(true);
+                this.setTime(true);
+                this.drawInputElement();
+                this.closePresetMenu();
+            }.bind(this));
+            menuOptionsContainer.appendChild(menuListElement);
+        }
+        this.presetMenuContainer.appendChild(menuOptionsContainer);
+        this.calendarElement.appendChild(this.presetMenuContainer);
+    }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime(setProgrammatically = false) {
         this.startHour = this.timeElements.startHourValueEl.value;
@@ -717,29 +789,40 @@ class clsDatepicker {
         this.drawInputElement();
         this.inputElement.showEl();
     }
+    // helper methods to open/close preset menu UI
+    openPresetMenu() {
+        this.presetMenuContainer.showPresetMenu();
+    }
+    closePresetMenu() {
+        this.presetMenuContainer.hidePresetMenu();
+    }
     // advances the calendar by one month
-    nextMonth() {
+    nextMonth(event, positiveValue = 1) {
         this.containerElement.innerHTML = "";
-        this.moment.add(1, 'months');
+        this.moment.add(positiveValue, 'months');
         this.drawCalendar();
+        this.drawPresetMenu();
         this.setTime();
         this.highlightDates();
         this.openCalendar();
+        this.closePresetMenu();
     }
     // moves the calendar back one month
-    lastMonth() {
+    lastMonth(event, negativeValue = -1) {
         this.containerElement.innerHTML = "";
-        this.moment.add(-1, 'months');
+        this.moment.add(negativeValue, 'months');
         this.drawCalendar();
+        this.drawPresetMenu();
         this.setTime();
         this.highlightDates();
         this.openCalendar();
+        this.closePresetMenu();
     }
     // gets leading/trailing dates for calendar UI
     leadingTrailing() {
         let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
-        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0  ? parseInt(this.moment.year())-1 : parseInt(this.moment.year());
-        console.log(this.moment.month(), this.moment.year(), month, year)
+        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? parseInt(this.moment.year()) - 1 : parseInt(this.moment.year());
+        // console.log(this.moment.month(), this.moment.year(), month, year)
         let prevMonth = year + "-" + month;
         let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
         let leading = [];
@@ -749,10 +832,10 @@ class clsDatepicker {
             daysInPrevMonth--;
             leading.push(i);
         }
-        return new Object({leading: leading, trailing:trailing});
+        return new Object({ leading: leading, trailing: trailing });
     }
     // sets highlighted dates on calendar UI
-    highlightDates() {
+    highlightDates(setProgrammatically = false) {
         let days = this.containerElement.querySelectorAll('.day');
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
@@ -779,7 +862,7 @@ class clsDatepicker {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                if (firstDate === indexDate) {
+                if (firstDate === indexDate && !setProgrammatically) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 } else {
@@ -799,6 +882,7 @@ class clsDatepicker {
         this.containerElement.innerHTML = '';
         this.drawCalendar();
         this.drawInputElement();
+        this.drawPresetMenu();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
@@ -820,4 +904,10 @@ Element.prototype.hideCalendar = function () {
 }
 Element.prototype.showCalendar = function () {
     this.style.display = 'grid';
+}
+Element.prototype.hidePresetMenu = function () {
+    this.style.display = 'none';
+}
+Element.prototype.showPresetMenu = function () {
+    this.style.display = 'flex';
 }

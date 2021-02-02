@@ -9,6 +9,92 @@
 b {
   margin: 5px;
 }
+
+.presetMenuContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  position: absolute;
+  top: 10px;
+  right: 33%;
+  width: 33%;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  background-color: white !important;
+  -webkit-animation-name: menuanimatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: menuanimatetop;
+  animation-duration: 0.4s;
+  background-color: white !important;
+}
+
+.presetMenuContainer>ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  list-style-type: none;
+  list-style: none;
+}
+.presetMenuContainer>ul li {
+  width:70%;
+  padding:10px;
+  height:auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #E3E8F8;
+  color:#222831;
+  border-radius: 5px;
+}
+.presetMenuContainer>ul li:hover, li:active {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.85;
+}
+
+.calendarHamburger {
+  position: relative;
+  display: inline-block;
+  width: 1.25em;
+  height: 0.8em;
+  margin-right: 0.3em;
+  border-top: 0.2em solid black;
+  border-bottom: 0.2em solid black;
+  align-self: left;
+}
+
+.calendarHamburger:hover {
+  cursor: pointer;
+  font-size: 2rem;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.7;
+}
+
+.calendarHamburger:before {
+  content: "";
+  position: absolute;
+  top: 0.3em;
+  left: 0px;
+  width: 100%;
+  border-top: 0.2em solid black;
+}
+
+.close-calendar-button:hover {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.85;
+  font-size: 2rem;
+}
+
+.leftArrow, .rightArrow {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.leftArrow:hover, .rightArrow:hover {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
@@ -18,7 +104,6 @@ b {
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     border-radius: 5px;
-
     width: 730px;
     height: 80%;
   }
@@ -27,12 +112,28 @@ b {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
   }
-  
   @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
   }
-  
+
+  @-webkit-keyframes menuanimatetop {
+    from {top:-300px; opacity:0} 
+    to {top:10px; opacity:1}
+  }
+  @keyframes menuanimatetop {
+    from {top:-300px; opacity:0}
+    to {top:10px; opacity:1}
+  }
+
+  @-webkit-keyframes animateleft {
+    from {right:365px; opacity:0; z-index: -1;}
+    to {right:780px; opacity:1; z-index: 1;}
+  }
+  @keyframes animateleft {
+    from {right:365px; opacity:0; z-index: -1;}
+    to {right:780px; opacity:1; z-index: 1;}
+  }
   .grid-container > div {
     display: flex;
     justify-content: center;
@@ -225,7 +326,8 @@ b {
 
 .submitButton:hover, .cancelButton:hover {
   box-shadow:0px 20px 70px 1px #D6A9DD;
-  opacity: 0.7;
+  cursor: pointer;
+  opacity: 0.85;
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;
@@ -293,5 +395,6 @@ button, input[type="submit"], input[type="reset"] {
 
 .day:hover {
   cursor:pointer;
+  opacity: 0.85;
   box-shadow:0px 20px 70px 1px #D6A9DD;
 }
