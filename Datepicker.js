@@ -73,7 +73,6 @@ class clsDatepicker {
     drawInputElement() {
         this.inputElement.innerHTML = '';
         this.inputElement.setAttribute('class', 'launch');
-
         //This creates the heading elements for the start and end date titles
         let headingBlock = document.createElement('div');
         let startHead = document.createElement('div');
@@ -100,7 +99,7 @@ class clsDatepicker {
 
         let launchButton = document.createElement('div');
         let launchText = document.createElement('div');
-        launchText.innerHTML = 'CLICK TO SELECT';
+        launchText.innerHTML = 'CLICK TO SELECT &#128197;';
         launchButton.setAttribute('class', 'launchButton');
         launchText.setAttribute('class', 'launchText');
         launchButton.appendChild(launchText);
