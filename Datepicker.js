@@ -179,10 +179,11 @@ class clsDatepicker {
         let closeCalendarIconContainer = document.createElement('div');
         closeCalendarIconContainer.setAttribute('style', 'grid-column-start: 7; grid-column-end: 8; background-color: transparent !important;');
         closeCalendarIconContainer.setAttribute('aria-label', 'Preset Menu Button');
-        closeCalendarIconContainer.setAttribute('role', 'menu');
+        closeCalendarIconContainer.setAttribute('role', 'button');
         let closeCalendarIcon = document.createElement('span');
         closeCalendarIcon.innerHTML = "&#10006;";
-        closeCalendarIcon.addEventListener('click', function (event) {
+        closeCalendarIcon.classList.add('close-calendar-button');
+        closeCalendarIconContainer.addEventListener('click', function (event) {
             this.closeCalendar();
         }.bind(this));
         closeCalendarIconContainer.appendChild(closeCalendarIcon);

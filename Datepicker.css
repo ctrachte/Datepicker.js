@@ -65,6 +65,7 @@ b {
 
 .calendarHamburger:hover {
   cursor: pointer;
+  font-size: 2rem;
   box-shadow:0px 20px 70px 1px #D6A9DD;
   opacity: 0.7;
 }
@@ -76,6 +77,18 @@ b {
   left: 0px;
   width: 100%;
   border-top: 0.2em solid black;
+}
+
+.close-calendar-button:hover {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.85;
+  font-size: 2rem;
+}
+
+.leftArrow:hover, .rightArrow:hover {
+  font-size: 2rem;
+  cursor: pointer;
 }
 
 .grid-container {
