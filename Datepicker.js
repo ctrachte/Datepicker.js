@@ -161,7 +161,7 @@ class clsDatepicker {
         leftArrow.setAttribute('style', 'background-color:transparent');
         leftArrow.setAttribute('aria-label', 'Previous Month Button');
         leftArrow.setAttribute('role', 'navigation');
-        leftArrow.innerHTML = "&#8672;";
+        leftArrow.innerHTML = "&#11164;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
 
         let rightArrow = document.createElement('div');
@@ -169,7 +169,7 @@ class clsDatepicker {
         rightArrow.setAttribute('style', 'background-color:transparent');
         rightArrow.setAttribute('aria-label', 'Next Month Button');
         rightArrow.setAttribute('role', 'navigation');
-        rightArrow.innerHTML = "&#8674;"
+        rightArrow.innerHTML = "&#11166;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthText);
