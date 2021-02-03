@@ -351,39 +351,42 @@ class clsDatepicker {
             // startMinuteValueEl.setAttribute("ReadOnly", "true");
             // startMinuteValueEl.classList.add("ReadOnly");
             this.timeElements.startMinuteValueEl = startMinuteValueEl;
+            let startMinuteChange = function (event) {
+                let newVal = parseInt(startMinuteValueEl.value);
+                if (newVal > 59) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 23;
+                }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                startMinuteValueEl.value = newVal;
+                this.setTime();
+            }.bind(this);
+            startMinuteValueEl.addEventListener('change', startMinuteChange);
 
             let startMinuteUpDown = document.createElement("span");
             startMinuteUpDown.classList.add("TimeUpDown");
             startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
             // Up Minute
-            startMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-                let newVal = parseInt(startMinuteValueEl.value) + 1;
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 0) {
-                    newVal = 59;
+            startMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+                if (startMinuteValueEl.value % 15 ===0 ) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
+                } else {
+                    startMinuteValueEl.value++;
                 }
-                startMinuteValueEl.value = newVal;
-                if (startMinuteValueEl.value.length < 2) {
-                    startMinuteValueEl.value = "0" + startMinuteValueEl.value;
-                }
-                this.setTime();
-            }.bind(this);
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            };
             // Down Minute
-            startMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-                let newVal = parseInt(startMinuteValueEl.value) - 1;
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 0) {
-                    newVal = 59;
+            startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+                if (startMinuteValueEl.value % 15 ===0 ) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
+                } else {
+                    startMinuteValueEl.value--;
                 }
-                startMinuteValueEl.value = newVal;
-                if (startMinuteValueEl.value.length < 2) {
-                    startMinuteValueEl.value = "0" + startMinuteValueEl.value;
-                }
-                this.setTime();
-            }.bind(this);
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            };
 
             startMinute.appendChild(startMinuteUpDown);
 
