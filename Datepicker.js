@@ -192,7 +192,6 @@ class clsDatepicker {
         calendar.appendChild(monthHeader);
         calendar.appendChild(rightArrow);
         calendar.appendChild(closeCalendarIconContainer);
-
         //add day header elements: "mon, tues, wed etc."
         this.moment._locale._weekdaysShort.forEach(function (day) {
             let dayHeader = document.createElement('div');
@@ -301,12 +300,12 @@ class clsDatepicker {
 
             let startHour = document.createElement("div");
             startHour.classList.add("hour");
-            startHour.innerHTML = "<input type='number' value='" + this.startHour + "' />";
+            startHour.innerHTML = "<input type='number' min='1' max='23' value='" + this.startHour + "' />";
             startHour.style.gridColumn = "1 / span 2";
 
             let startHourValueEl = startHour.querySelector("input");
-            startHourValueEl.setAttribute("ReadOnly", "true");
-            startHourValueEl.classList.add("ReadOnly");
+            // startHourValueEl.setAttribute("ReadOnly", "true");
+            // startHourValueEl.classList.add("ReadOnly");
             this.timeElements.startHourValueEl = startHourValueEl;
 
             let startHourUpDown = document.createElement("span");
@@ -348,12 +347,12 @@ class clsDatepicker {
 
             let startMinute = document.createElement("div");
             startMinute.classList.add("minute");
-            startMinute.innerHTML = "<input type='number' value='" + this.startMinute + "' />";
+            startMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.startMinute + "' />";
             startMinute.style.gridColumn = "4 / span 2";
 
             let startMinuteValueEl = startMinute.querySelector("input");
-            startMinuteValueEl.setAttribute("ReadOnly", "true");
-            startMinuteValueEl.classList.add("ReadOnly");
+            // startMinuteValueEl.setAttribute("ReadOnly", "true");
+            // startMinuteValueEl.classList.add("ReadOnly");
             this.timeElements.startMinuteValueEl = startMinuteValueEl;
 
             let startMinuteUpDown = document.createElement("span");
@@ -447,12 +446,12 @@ class clsDatepicker {
 
                 let endHour = document.createElement("div");
                 endHour.classList.add("hour");
-                endHour.innerHTML = "<input type='number' value='" + this.endHour + "' />";
+                endHour.innerHTML = "<input type='number' min='1' max='23' value='" + this.endHour + "' />";
                 endHour.style.gridColumn = "1 / span 2";
 
                 let endHourValueEl = endHour.querySelector("input");
-                endHourValueEl.setAttribute("ReadOnly", "true");
-                endHourValueEl.classList.add("ReadOnly");
+                // endHourValueEl.setAttribute("ReadOnly", "true");
+                // endHourValueEl.classList.add("ReadOnly");
                 this.timeElements.endHourValueEl = endHourValueEl;
 
                 let endHourUpDown = document.createElement("span");
@@ -493,12 +492,12 @@ class clsDatepicker {
 
                 let endMinute = document.createElement("div");
                 endMinute.classList.add("minute");
-                endMinute.innerHTML = "<input type='number' value='" + this.endMinute + "' />";
+                endMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.endMinute + "' />";
                 endMinute.style.gridColumn = "4 / span 2";
 
                 let endMinuteValueEl = endMinute.querySelector("input");
-                endMinuteValueEl.setAttribute("ReadOnly", "true");
-                endMinuteValueEl.classList.add("ReadOnly");
+                // endMinuteValueEl.setAttribute("ReadOnly", "true");
+                // endMinuteValueEl.classList.add("ReadOnly");
                 this.timeElements.endMinuteValueEl = endMinuteValueEl;
 
                 let endMinuteUpDown = document.createElement("span");
