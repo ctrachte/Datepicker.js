@@ -300,10 +300,21 @@ class clsDatepicker {
 
             let startHour = document.createElement("div");
             startHour.classList.add("hour");
-            startHour.innerHTML = "<input type='number' min='1' max='23' value='" + this.startHour + "' />";
+            startHour.innerHTML = "<input id='startHour' type='number' min='1' max='23' value='" + this.startHour + "' />";
             startHour.style.gridColumn = "1 / span 2";
 
-            let startHourValueEl = startHour.querySelector("input");
+            let startHourValueEl = startHour.querySelector("#startHour");
+            let startHourChange = function (event) {
+                let newVal = parseInt(startHourValueEl.value);
+                if (newVal > 23) {
+                    newVal = 1;
+                } else if (newVal < 1) {
+                    newVal = 23;
+                }
+                startHourValueEl.value = newVal;
+                this.setTime();
+            }.bind(this);
+            startHourValueEl.addEventListener('change', startHourChange);
             // startHourValueEl.setAttribute("ReadOnly", "true");
             // startHourValueEl.classList.add("ReadOnly");
             this.timeElements.startHourValueEl = startHourValueEl;
@@ -311,32 +322,18 @@ class clsDatepicker {
             let startHourUpDown = document.createElement("span");
             startHourUpDown.classList.add("TimeUpDown");
             startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
             // Up Hour
-            startHourUpDown.querySelectorAll("div")[0].onclick = function () {
-                let newVal = parseInt(startHourValueEl.value) + 1;
-                if (newVal > 23) {
-                    newVal = 1;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                startHourValueEl.value = newVal;
-                this.setTime();
-            }.bind(this);
+            startHourUpDown.querySelectorAll("div")[0].onclick = () => {
+                startHourValueEl.value++;
+                startHourValueEl.dispatchEvent(new Event('change'));
+            };
             // Down Hour
-            startHourUpDown.querySelectorAll("div")[1].onclick = function () {
-                let newVal = parseInt(startHourValueEl.value) - 1;
-                if (newVal > 23) {
-                    newVal = 1;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                startHourValueEl.value = newVal;
-                this.setTime();
-            }.bind(this);
-
+            startHourUpDown.querySelectorAll("div")[1].onclick = () => {
+                startHourValueEl.value--;
+                startHourValueEl.dispatchEvent(new Event('change'));
+            };
+            //input change
             startHour.appendChild(startHourUpDown);
-
             startTimeElement.appendChild(startHour);
 
             let timeColon = document.createElement("div");
