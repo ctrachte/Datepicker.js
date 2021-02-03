@@ -6,6 +6,106 @@
     padding-top: 1vmax; 
 }
 
+b {
+  margin: 5px;
+}
+
+.presetMenuContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  position: absolute;
+  top: 10px;
+  right: 33%;
+  width: 33%;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  background-color: white !important;
+  -webkit-animation-name: menuanimatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: menuanimatetop;
+  animation-duration: 0.4s;
+  background-color: white !important;
+}
+
+.presetMenuContainer>ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  list-style-type: none;
+  list-style: none;
+}
+.presetMenuContainer>ul li {
+  width:70%;
+  padding:10px;
+  height:auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #E3E8F8;
+  color:#222831;
+  border-radius: 5px;
+}
+.presetMenuContainer>ul li:hover, li:active {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.85;
+}
+
+.calendarHamburger {
+  position: relative;
+  display: inline-block;
+  width: 1.25em;
+  height: 0.8em;
+  margin-right: 0.3em;
+  border-top: 0.2em solid black;
+  border-bottom: 0.2em solid black;
+  align-self: left;
+}
+
+.calendarHamburger:hover {
+  cursor: pointer;
+  font-size: 2rem;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.7;
+}
+
+.calendarHamburger:before {
+  content: "";
+  position: absolute;
+  top: 0.3em;
+  left: 0px;
+  width: 100%;
+  border-top: 0.2em solid black;
+}
+
+.close-calendar-button:hover {
+  cursor: pointer;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
+  opacity: 0.85;
+  font-size: 2rem;
+}
+
+.leftArrow, .rightArrow {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.leftArrow:hover, .rightArrow:hover {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.close-preset-menu {
+  position:absolute;
+  right:5px;
+  top:0;
+  margin:5px;
+}
+.close-preset-menu:hover {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
@@ -14,24 +114,37 @@
     margin:auto;
     position: relative;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    /* -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s; */
-    width: 720px;
+    border-radius: 5px;
+    width: 730px;
     height: 80%;
   }
   /* animations for calendar UI */
-  /* @-webkit-keyframes animatetop {
+  @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
   }
-  
   @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
-  } */
-  
+  }
+
+  @-webkit-keyframes menuanimatetop {
+    from {top:-300px; opacity:0} 
+    to {top:10px; opacity:1}
+  }
+  @keyframes menuanimatetop {
+    from {top:-300px; opacity:0}
+    to {top:10px; opacity:1}
+  }
+
+  @-webkit-keyframes animateleft {
+    from {right:365px; opacity:0; z-index: -1;}
+    to {right:780px; opacity:1; z-index: 1;}
+  }
+  @keyframes animateleft {
+    from {right:365px; opacity:0; z-index: -1;}
+    to {right:780px; opacity:1; z-index: 1;}
+  }
   .grid-container > div {
     display: flex;
     justify-content: center;
@@ -47,16 +160,30 @@
     background-color: #222831;
     color:white;   
     box-shadow:0px 20px 70px 1px #D6A9DD;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #D6A9DD;  
   }
 
   .grid-container > .day {
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
     padding: 24px;
+    height: 48px;
+    width: 48px;
     transition: all, 0.1s;   
   }
-
+  .grid-container > .leading-trailing-day {
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    padding: 24px;
+    height: 48px;
+    width: 48px;
+    color: grey;
+    background-color: lightgrey;
+    transition: all, 0.1s;   
+  }
   .grid-container > .day.highlighted {
     background-color: #222831;
     color:white;
@@ -71,7 +198,7 @@
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
-    color: #E3E8F8;
+    color: white;
   }
 
   .grid-container > .monthHeader > .leftArrow {
@@ -124,25 +251,27 @@
     width: 2em;
     display: block;
     float: left;
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
     clear: both;
     text-align: center;
-    vertical-align: middle;
   }
-  .hour input[type=number]:focus, .minute input[type=number]:focus {
+  .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
     background: none;	  
     border:none;
     background-image:none;
     background-color:transparent;
     border: 1px solid #2b4c68;
     width: calc(2em - 4px);
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
   }
-  .hour .ReadOnly:focus, .minute .ReadOnly:focus {
+  .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
     border: none !important;
     outline: none !important;
     width: 2em !important;
-    padding:0; margin: 0;
+    padding:0;
+    margin-top: 10%;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -166,6 +295,11 @@
     cursor: pointer;
     color: #222831;
   }  
+  .TimeUpDown div:hover {
+    opacity: 0.7;
+    cursor:pointer;
+    box-shadow:0px 20px 70px 1px #D6A9DD;
+  }
   .ampm {
     border-radius: 5px;
     border: 2px solid #222831;
@@ -187,7 +321,7 @@
   font-size: 2rem;
   background-color: #ffb8ca;
   text-align: center;
-  border-radius: 10px; 
+  border-radius: 5px; 
   transition: all, 0.1s;
   border-style: none;
 }
@@ -196,18 +330,15 @@
   font-size: 3rem;
   background-color: #b8ffca;
   text-align: center;
-  border-radius: 10px; 
+  border-radius: 5px; 
   transition: all, 0.1s;
   border-style: none;
 }
 
 .submitButton:hover, .cancelButton:hover {
-  background-color: #222831;
-  color:white;   
   box-shadow:0px 20px 70px 1px #D6A9DD;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #D6A9DD;
+  cursor: pointer;
+  opacity: 0.85;
 }
 button, input[type="submit"], input[type="reset"] {
 	background: none;
@@ -222,4 +353,59 @@ button, input[type="submit"], input[type="reset"] {
 .disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.launch {
+  float: left;
+  border-style: solid;
+  border-color: #E4E8FB;
+  border-width: 2px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.headingBlock {
+  float: left;
+  background-color: #E4E8FB;
+  text-align: right;
+  min-width: 100px;
+  line-height: 40px;
+  padding: 0px 10px 0px 0px;
+}
+
+.timeBlock {
+  float: left;
+  min-width: 100px;
+  line-height: 40px;
+  padding: 0px 20px;
+}
+
+.launchButton {
+  display:none;
+  float: left;
+  position: absolute;
+  text-align: center;
+  color: #222831;
+  width:250px;
+  line-height: 80px;
+  border-radius: 5px;
+}
+
+.launch:hover > .launchButton {
+  display:block;
+  cursor:pointer;
+}
+.launch:hover > .timeBlock {
+  cursor:pointer;
+  opacity: 0.2;
+}
+.launch:hover > .headingBlock {
+  cursor:pointer;
+  opacity: 0.2;
+}
+
+.day:hover {
+  cursor:pointer;
+  opacity: 0.85;
+  box-shadow:0px 20px 70px 1px #D6A9DD;
 }
