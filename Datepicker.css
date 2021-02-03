@@ -409,3 +409,32 @@ button, input[type="submit"], input[type="reset"] {
   opacity: 0.85;
   box-shadow:0px 20px 70px 1px #D6A9DD;
 }
+
+
+/* Sundown Color Theme Swatches in Hex */
+.Sundown-Yellow { color: #FCBB6D; }
+.Sundown-Red { color: #D8737F; }
+.Sundown-Violet { color: #AB6C8C; }
+.Sundown-Purple { color: #685D79; }
+.Sundown-Blue { color: #475C7A; }
+
+/* Army Color Theme Swatches in Hex */
+.Army-Black { color: #000000; }
+.Army-Yellow { color: #FDD42E; }
+.Army-Brown-Light { color: #C0B6A5; }
+.Army-Brown-Dark { color: #918B7E; }
+.Army-White { color: #E6E8EB; }
+
+/* PEC Color Theme Swatches in Hex */
+.PEC-Shadow { color: #B9BBBD; }
+.PEC-Red { color: #D72027; }
+.PEC-Blue { color: #196DAB; }
+.PEC-White { color: #FAFCFF; }
+.PEC-Silver { color: #E6E8EB; }
+
+/* ARMPEC Color Theme Swatches in Hex */
+.ARMPEC-Dark { color: #0F3F61; }
+.ARMPEC-Blue{ color: #196DAB; }
+.ARMPEC-Light { color: #C0B6A5; }
+.ARMPEC-White { color: #E6E8EB; }
+.ARMPEC-Yellow { color: #FDD42E; }
