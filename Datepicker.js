@@ -311,6 +311,9 @@ class clsDatepicker {
                 } else if (newVal < 1) {
                     newVal = 23;
                 }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
                 startHourValueEl.value = newVal;
                 this.setTime();
             }.bind(this);
@@ -454,7 +457,9 @@ class clsDatepicker {
                     } else if (newVal < 1) {
                         newVal = 23;
                     }
-                    endHourValueEl.value = newVal;
+                    if (newVal < 10) {
+                        newVal = "0" + newVal;
+                    }
                     this.setTime();
                 }.bind(this);
                 endHourValueEl.addEventListener('change', endHourChange);
