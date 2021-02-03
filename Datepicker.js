@@ -352,7 +352,7 @@ class clsDatepicker {
                 if (newVal > 59) {
                     newVal = 0;
                 } else if (newVal < 1) {
-                    newVal = 23;
+                    newVal = 59;
                 }
                 if (newVal < 10) {
                     newVal = "0" + newVal;
@@ -494,7 +494,7 @@ class clsDatepicker {
                     if (newVal > 59) {
                         newVal = 0;
                     } else if (newVal < 1) {
-                        newVal = 23;
+                        newVal = 59;
                     }
                     if (newVal < 10) {
                         newVal = "0" + newVal;
