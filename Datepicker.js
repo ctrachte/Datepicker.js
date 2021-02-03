@@ -192,7 +192,6 @@ class clsDatepicker {
         calendar.appendChild(monthHeader);
         calendar.appendChild(rightArrow);
         calendar.appendChild(closeCalendarIconContainer);
-
         //add day header elements: "mon, tues, wed etc."
         this.moment._locale._weekdaysShort.forEach(function (day) {
             let dayHeader = document.createElement('div');
@@ -301,43 +300,41 @@ class clsDatepicker {
 
             let startHour = document.createElement("div");
             startHour.classList.add("hour");
-            startHour.innerHTML = "<input type='number' value='" + this.startHour + "' />";
+            startHour.innerHTML = "<input id='startHour' type='number' min='1' max='23' value='" + this.startHour + "' />";
             startHour.style.gridColumn = "1 / span 2";
 
-            let startHourValueEl = startHour.querySelector("input");
-            startHourValueEl.setAttribute("ReadOnly", "true");
-            startHourValueEl.classList.add("ReadOnly");
+            let startHourValueEl = startHour.querySelector("#startHour");
+            let startHourChange = function (event) {
+                let newVal = parseInt(startHourValueEl.value);
+                if (newVal > 23) {
+                    newVal = 1;
+                } else if (newVal < 1) {
+                    newVal = 23;
+                }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                startHourValueEl.value = newVal;
+                this.setTime();
+            }.bind(this);
+            startHourValueEl.addEventListener('change', startHourChange);
             this.timeElements.startHourValueEl = startHourValueEl;
 
             let startHourUpDown = document.createElement("span");
             startHourUpDown.classList.add("TimeUpDown");
             startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
             // Up Hour
-            startHourUpDown.querySelectorAll("div")[0].onclick = function () {
-                let newVal = parseInt(startHourValueEl.value) + 1;
-                if (newVal > 23) {
-                    newVal = 1;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                startHourValueEl.value = newVal;
-                this.setTime();
-            }.bind(this);
+            startHourUpDown.querySelectorAll("div")[0].onclick = () => {
+                startHourValueEl.value++;
+                startHourValueEl.dispatchEvent(new Event('change'));
+            };
             // Down Hour
-            startHourUpDown.querySelectorAll("div")[1].onclick = function () {
-                let newVal = parseInt(startHourValueEl.value) - 1;
-                if (newVal > 23) {
-                    newVal = 1;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                startHourValueEl.value = newVal;
-                this.setTime();
-            }.bind(this);
-
+            startHourUpDown.querySelectorAll("div")[1].onclick = () => {
+                startHourValueEl.value--;
+                startHourValueEl.dispatchEvent(new Event('change'));
+            };
+            //input change
             startHour.appendChild(startHourUpDown);
-
             startTimeElement.appendChild(startHour);
 
             let timeColon = document.createElement("div");
@@ -348,46 +345,47 @@ class clsDatepicker {
 
             let startMinute = document.createElement("div");
             startMinute.classList.add("minute");
-            startMinute.innerHTML = "<input type='number' value='" + this.startMinute + "' />";
+            startMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.startMinute + "' />";
             startMinute.style.gridColumn = "4 / span 2";
 
             let startMinuteValueEl = startMinute.querySelector("input");
-            startMinuteValueEl.setAttribute("ReadOnly", "true");
-            startMinuteValueEl.classList.add("ReadOnly");
             this.timeElements.startMinuteValueEl = startMinuteValueEl;
+            let startMinuteChange = function (event) {
+                let newVal = parseInt(startMinuteValueEl.value);
+                if (newVal > 59) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 59;
+                }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                startMinuteValueEl.value = newVal;
+                this.setTime();
+            }.bind(this);
+            startMinuteValueEl.addEventListener('change', startMinuteChange);
 
             let startMinuteUpDown = document.createElement("span");
             startMinuteUpDown.classList.add("TimeUpDown");
             startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
             // Up Minute
-            startMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-                let newVal = parseInt(startMinuteValueEl.value) + 1;
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 0) {
-                    newVal = 59;
+            startMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+                if (startMinuteValueEl.value % 15 === 0) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
+                } else {
+                    startMinuteValueEl.value++;
                 }
-                startMinuteValueEl.value = newVal;
-                if (startMinuteValueEl.value.length < 2) {
-                    startMinuteValueEl.value = "0" + startMinuteValueEl.value;
-                }
-                this.setTime();
-            }.bind(this);
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            };
             // Down Minute
-            startMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-                let newVal = parseInt(startMinuteValueEl.value) - 1;
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 0) {
-                    newVal = 59;
+            startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+                if (startMinuteValueEl.value % 15 === 0) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
+                } else {
+                    startMinuteValueEl.value--;
                 }
-                startMinuteValueEl.value = newVal;
-                if (startMinuteValueEl.value.length < 2) {
-                    startMinuteValueEl.value = "0" + startMinuteValueEl.value;
-                }
-                this.setTime();
-            }.bind(this);
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            };
 
             startMinute.appendChild(startMinuteUpDown);
 
@@ -447,40 +445,38 @@ class clsDatepicker {
 
                 let endHour = document.createElement("div");
                 endHour.classList.add("hour");
-                endHour.innerHTML = "<input type='number' value='" + this.endHour + "' />";
+                endHour.innerHTML = "<input type='number' min='1' max='23' value='" + this.endHour + "' />";
                 endHour.style.gridColumn = "1 / span 2";
 
                 let endHourValueEl = endHour.querySelector("input");
-                endHourValueEl.setAttribute("ReadOnly", "true");
-                endHourValueEl.classList.add("ReadOnly");
                 this.timeElements.endHourValueEl = endHourValueEl;
+                let endHourChange = function (event) {
+                    let newVal = parseInt(endHourValueEl.value);
+                    if (newVal > 23) {
+                        newVal = 1;
+                    } else if (newVal < 1) {
+                        newVal = 23;
+                    }
+                    if (newVal < 10) {
+                        newVal = "0" + newVal;
+                    }
+                    this.setTime();
+                }.bind(this);
+                endHourValueEl.addEventListener('change', endHourChange);
 
                 let endHourUpDown = document.createElement("span");
                 endHourUpDown.classList.add("TimeUpDown");
                 endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
                 // Up Hour
-                endHourUpDown.querySelectorAll("div")[0].onclick = function () {
-                    let newVal = parseInt(endHourValueEl.value) + 1;
-                    if (newVal > 23) {
-                        newVal = 1;
-                    } else if (newVal < 1) {
-                        newVal = 23;
-                    }
-                    endHourValueEl.value = newVal;
-                    this.setTime(false);
-                }.bind(this);
-                // Down hour
-                endHourUpDown.querySelectorAll("div")[1].onclick = function () {
-                    let newVal = parseInt(endHourValueEl.value) - 1;
-                    if (newVal > 23) {
-                        newVal = 1;
-                    } else if (newVal < 1) {
-                        newVal = 23;
-                    }
-                    endHourValueEl.value = newVal;
-                    this.setTime(false);
-                }.bind(this);
+                endHourUpDown.querySelectorAll("div")[0].onclick = () => {
+                    endHourValueEl.value++;
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                };
+                // Down Hour
+                endHourUpDown.querySelectorAll("div")[1].onclick = () => {
+                    endHourValueEl.value--;
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                };
 
                 endHour.appendChild(endHourUpDown);
                 endTimeElement.appendChild(endHour);
@@ -493,46 +489,46 @@ class clsDatepicker {
 
                 let endMinute = document.createElement("div");
                 endMinute.classList.add("minute");
-                endMinute.innerHTML = "<input type='number' value='" + this.endMinute + "' />";
+                endMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.endMinute + "' />";
                 endMinute.style.gridColumn = "4 / span 2";
 
                 let endMinuteValueEl = endMinute.querySelector("input");
-                endMinuteValueEl.setAttribute("ReadOnly", "true");
-                endMinuteValueEl.classList.add("ReadOnly");
                 this.timeElements.endMinuteValueEl = endMinuteValueEl;
-
+                let endMinuteChange = function (event) {
+                    let newVal = parseInt(endMinuteValueEl.value);
+                    if (newVal > 59) {
+                        newVal = 0;
+                    } else if (newVal < 1) {
+                        newVal = 59;
+                    }
+                    if (newVal < 10) {
+                        newVal = "0" + newVal;
+                    }
+                    endMinuteValueEl.value = newVal;
+                    this.setTime();
+                }.bind(this);
+                endMinuteValueEl.addEventListener('change', endMinuteChange);
                 let endMinuteUpDown = document.createElement("span");
                 endMinuteUpDown.classList.add("TimeUpDown");
                 endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
                 // Up Minute
-                endMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-                    let newVal = parseInt(endMinuteValueEl.value) + 1;
-                    if (newVal > 59) {
-                        newVal = 0;
-                    } else if (newVal < 0) {
-                        newVal = 59;
+                endMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+                    if (endMinuteValueEl.value % 15 === 0) {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
+                    } else {
+                        endMinuteValueEl.value++;
                     }
-                    endMinuteValueEl.value = newVal;
-                    if (endMinuteValueEl.value.length < 2) {
-                        endMinuteValueEl.value = "0" + endMinuteValueEl.value;
-                    }
-                    this.setTime();
-                }.bind(this);
+                    endMinuteValueEl.dispatchEvent(new Event('change'));
+                };
                 // Down Minute
-                endMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-                    let newVal = parseInt(endMinuteValueEl.value) - 1;
-                    if (newVal > 59) {
-                        newVal = 0;
-                    } else if (newVal < 0) {
-                        newVal = 59;
+                endMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+                    if (endMinuteValueEl.value % 15 === 0) {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
+                    } else {
+                        endMinuteValueEl.value--;
                     }
-                    endMinuteValueEl.value = newVal;
-                    if (endMinuteValueEl.value.length < 2) {
-                        endMinuteValueEl.value = "0" + endMinuteValueEl.value;
-                    }
-                    this.setTime();
-                }.bind(this);
+                    endMinuteValueEl.dispatchEvent(new Event('change'));
+                };
                 endMinute.appendChild(endMinuteUpDown);
                 endTimeElement.appendChild(endMinute);
                 calendar.appendChild(endTimeElement);
