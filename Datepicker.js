@@ -446,36 +446,32 @@ class clsDatepicker {
                 endHour.style.gridColumn = "1 / span 2";
 
                 let endHourValueEl = endHour.querySelector("input");
-                // endHourValueEl.setAttribute("ReadOnly", "true");
-                // endHourValueEl.classList.add("ReadOnly");
                 this.timeElements.endHourValueEl = endHourValueEl;
+                let endHourChange = function (event) {
+                    let newVal = parseInt(endHourValueEl.value);
+                    if (newVal > 23) {
+                        newVal = 1;
+                    } else if (newVal < 1) {
+                        newVal = 23;
+                    }
+                    endHourValueEl.value = newVal;
+                    this.setTime();
+                }.bind(this);
+                endHourValueEl.addEventListener('change', endHourChange);
 
                 let endHourUpDown = document.createElement("span");
                 endHourUpDown.classList.add("TimeUpDown");
                 endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-
                 // Up Hour
-                endHourUpDown.querySelectorAll("div")[0].onclick = function () {
-                    let newVal = parseInt(endHourValueEl.value) + 1;
-                    if (newVal > 23) {
-                        newVal = 1;
-                    } else if (newVal < 1) {
-                        newVal = 23;
-                    }
-                    endHourValueEl.value = newVal;
-                    this.setTime(false);
-                }.bind(this);
-                // Down hour
-                endHourUpDown.querySelectorAll("div")[1].onclick = function () {
-                    let newVal = parseInt(endHourValueEl.value) - 1;
-                    if (newVal > 23) {
-                        newVal = 1;
-                    } else if (newVal < 1) {
-                        newVal = 23;
-                    }
-                    endHourValueEl.value = newVal;
-                    this.setTime(false);
-                }.bind(this);
+                endHourUpDown.querySelectorAll("div")[0].onclick = () => {
+                    endHourValueEl.value++;
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                };
+                // Down Hour
+                endHourUpDown.querySelectorAll("div")[1].onclick = () => {
+                    endHourValueEl.value--;
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                };
 
                 endHour.appendChild(endHourUpDown);
                 endTimeElement.appendChild(endHour);
@@ -492,8 +488,6 @@ class clsDatepicker {
                 endMinute.style.gridColumn = "4 / span 2";
 
                 let endMinuteValueEl = endMinute.querySelector("input");
-                // endMinuteValueEl.setAttribute("ReadOnly", "true");
-                // endMinuteValueEl.classList.add("ReadOnly");
                 this.timeElements.endMinuteValueEl = endMinuteValueEl;
                 let endMinuteChange = function (event) {
                     let newVal = parseInt(endMinuteValueEl.value);
