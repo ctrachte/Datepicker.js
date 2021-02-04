@@ -1,31 +1,31 @@
 :root { 
 /* Sundown Color Theme Swatches in Hex */
---Sundown-Yellow: #FCBB6D;
---Sundown-Red: #D8737F;
---Sundown-Violet: #AB6C8C;
---Sundown-Purple: #685D79;
---Sundown-Blue: #475C7A;
+--Accent: #FCBB6D;
+--Background: #D8737F;
+--Primary: #AB6C8C;
+--Secondary: #685D79;
+--Shadow: #475C7A;
 
 /* Army Color Theme Swatches in Hex */
---Army-Black: #000000;
---Army-Yellow: #FDD42E;
---Army-Brown-Light: #C0B6A5;
---Army-Brown-Dark: #918B7E;
---Army-White: #E6E8EB;
+/* --Shadow: #000000;
+--Accent: #FDD42E;
+--Primary: #C0B6A5;
+--Secondary: #918B7E;
+--Background: #E6E8EB; */
 
 /* PEC Color Theme Swatches in Hex */
---PEC-Shadow: #B9BBBD;
---PEC-Red: #D72027;
---PEC-Blue: #196DAB;
---PEC-White: #FAFCFF;
---PEC-Silver: #E6E8EB;
+/* --Shadow: #B9BBBD;
+--Accent: #D72027;
+--Primary: #196DAB;
+--Secondary: #FAFCFF;
+--Background: #E6E8EB; */
 
 /* ARMPEC Color Theme Swatches in Hex */
---ARMPEC-Dark: #0F3F61;
---ARMPEC-Blue: #196DAB;
---ARMPEC-Light: #C0B6A5;
---ARMPEC-White: #E6E8EB;
---ARMPEC-Yellow: #FDD42E;
+/* --Shadow: #0F3F61;
+--Primary: #196DAB;
+--Secondary: #C0B6A5;
+--Background: #E6E8EB;
+--Accent: #FDD42E; */
 
 }
 
