@@ -403,7 +403,7 @@ button, input[type="submit"], input[type="reset"] {
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
-  color: var(--Primary);
+  color: var(--Shadow);
 }
 
 .headingBlock {
