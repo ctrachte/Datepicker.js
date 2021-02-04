@@ -1,30 +1,33 @@
+:root { 
 /* Sundown Color Theme Swatches in Hex */
-.Sundown-Yellow { color: #FCBB6D; }
-.Sundown-Red { color: #D8737F; }
-.Sundown-Violet { color: #AB6C8C; }
-.Sundown-Purple { color: #685D79; }
-.Sundown-Blue { color: #475C7A; }
+--Sundown-Yellow: #FCBB6D;
+--Sundown-Red: #D8737F;
+--Sundown-Violet: #AB6C8C;
+--Sundown-Purple: #685D79;
+--Sundown-Blue: #475C7A;
 
 /* Army Color Theme Swatches in Hex */
-.Army-Black { color: #000000; }
-.Army-Yellow { color: #FDD42E; }
-.Army-Brown-Light { color: #C0B6A5; }
-.Army-Brown-Dark { color: #918B7E; }
-.Army-White { color: #E6E8EB; }
+--Army-Black: #000000;
+--Army-Yellow: #FDD42E;
+--Army-Brown-Light: #C0B6A5;
+--Army-Brown-Dark: #918B7E;
+--Army-White: #E6E8EB;
 
 /* PEC Color Theme Swatches in Hex */
-.PEC-Shadow { color: #B9BBBD; }
-.PEC-Red { color: #D72027; }
-.PEC-Blue { color: #196DAB; }
-.PEC-White { color: #FAFCFF; }
-.PEC-Silver { color: #E6E8EB; }
+--PEC-Shadow: #B9BBBD;
+--PEC-Red: #D72027;
+--PEC-Blue: #196DAB;
+--PEC-White: #FAFCFF;
+--PEC-Silver: #E6E8EB;
 
 /* ARMPEC Color Theme Swatches in Hex */
-.ARMPEC-Dark { color: #0F3F61; }
-.ARMPEC-Blue{ color: #196DAB; }
-.ARMPEC-Light { color: #C0B6A5; }
-.ARMPEC-White { color: #E6E8EB; }
-.ARMPEC-Yellow { color: #FDD42E; }
+--ARMPEC-Dark: #0F3F61;
+--ARMPEC-Blue: #196DAB;
+--ARMPEC-Light: #C0B6A5;
+--ARMPEC-White: #E6E8EB;
+--ARMPEC-Yellow: #FDD42E;
+
+}
 
 .DatepickerContainer {
     margin: 0 auto;
