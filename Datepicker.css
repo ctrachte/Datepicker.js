@@ -39,6 +39,12 @@
 .DatepickerContainer>.grid-container {
   background-color: var(--Background);
 }
+
+.DatepickerContainer>.monthHeader {
+  background-color: var(--Primary);
+  color:var(--Accent);
+}
+
 b {
   margin: 5px;
 }
@@ -265,6 +271,7 @@ b {
 
   .startTimeElement, .endTimeElement, .startTimeElement input, .endTimeElement input {
     font-size: 1.54em !important;
+    color: var(--Background);
   }
   .startTimeElement, .endTimeElement {
     display: grid;
@@ -275,41 +282,35 @@ b {
     align-items: center;
   }
   .hour input, .minute input {
-    background: none;	  
-    border:none;
-    background-image:none;
-    background-color:transparent;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    width: 2em;
+    background: var(--Primary) !important;	  
+    background-image:none !important;
+    border: none !important;
+    background-color: var(--Primary) !important;
+    color: var(--Accent);
+    width: calc(2em - 4px);
     display: block;
     float: left;
     padding:0;
     margin-top: 10%;
     clear: both;
     text-align: center;
+    outline: none !important;
   }
   .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
-    background: none;	  
-    border:none;
-    background-image:none;
-    background-color:transparent;
-    border: 1px solid var(--Primary);
     width: calc(2em - 4px);
+    border: 2.5px solid var(--Accent) !important;
+    border-radius: 5px;
     padding:0;
+    outline: 2.5px solid var(--Primary) !important;
     margin-top: 10%;
   }
   .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
-    border: none !important;
-    outline: none !important;
-    width: 2em !important;
+    width: calc(2em - 4px);
+    border: 2.5px solid var(--Accent) !important;
     padding:0;
+    border-radius: 5px;
+    outline: 2.5px solid var(--Primary) !important;
     margin-top: 10%;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
   }
   /* Chrome, Safari, Edge, Opera */
   .hour input::-webkit-outer-spin-button, .hour input::-webkit-inner-spin-button, .minute input::-webkit-outer-spin-button, .minute input::-webkit-inner-spin-button {
@@ -323,11 +324,11 @@ b {
   .TimeUpDown {
     margin-left: 5px;
     float: left;
-    color: var(--Primary);
+    color: var(--Background);
   }
   .TimeUpDown div {
     cursor: pointer;
-    color: var(--Primary);
+    color: var(--Background);
   }  
   .TimeUpDown div:hover {
     opacity: 0.7;
@@ -353,16 +354,18 @@ b {
 /* submit button styling */
 .cancelButton {
   font-size: 2rem;
-  background-color: var(--Background);
+  background-color: var(--Primary);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;
   border-style: none;
+  color: var(--Accent);
 }
 
 .submitButton {
   font-size: 3rem;
-  background-color: var(--Primary);
+  background-color: var(--Accent);
+  color:var(--Primary);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;

@@ -133,7 +133,7 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6; background-color: #222831;');
+        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6;');
         let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
