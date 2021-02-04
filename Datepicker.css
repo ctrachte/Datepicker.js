@@ -14,9 +14,9 @@
 --Shadow: #E6E8EB;
 
 /* PEC Color Theme Swatches in Hex */
-/* --Shadow: #B9BBBD;
---Accent: #D72027;
---Primary: #196DAB;
+/* --Primary: #999999;
+--Shadow: #B9BBBD;
+--Accent: #196DAB;
 --Secondary: #FAFCFF;
 --Background: #E6E8EB; */
 
@@ -26,7 +26,6 @@
 --Secondary: #C0B6A5;
 --Background: #E6E8EB;
 --Accent: #FDD42E; */
-
 }
 
 .DatepickerContainer {
@@ -118,7 +117,6 @@ b {
 
 .close-calendar-button:hover {
   cursor: pointer;
-  box-shadow:0px 20px 70px 1px var(--Shadow);
   opacity: 0.85;
   font-size: 2rem;
 }
