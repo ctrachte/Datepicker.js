@@ -1,17 +1,17 @@
 :root { 
 /* Sundown Color Theme Swatches in Hex */
---Accent: #FCBB6D;
+/* --Accent: #FCBB6D;
 --Background: #D8737F;
 --Secondary: #AB6C8C;
 --Primary: #685D79;
---Shadow: #475C7A;
+--Shadow: #475C7A; */
 
 /* Army Color Theme Swatches in Hex */
-/* --Shadow: #000000;
---Accent: #FDD42E;
---Primary: #C0B6A5;
---Secondary: #918B7E;
---Background: #E6E8EB; */
+--Accent: #000000;
+--Secondary: #FDD42E;
+--Background: #C0B6A5;
+--Primary: #918B7E;
+--Shadow: #E6E8EB;
 
 /* PEC Color Theme Swatches in Hex */
 /* --Shadow: #B9BBBD;
@@ -223,7 +223,7 @@ b {
     padding: 24px;
     height: 48px;
     width: 48px;
-    color: var(--Secondary);
+    color: var(--Primary);
     background-color: var(--Shadow);
     opacity: 0.6;
     transition: all, 0.1s;   
@@ -403,7 +403,7 @@ button, input[type="submit"], input[type="reset"] {
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
-  color: var(--Shadow);
+  color: var(--Accent);
 }
 
 .headingBlock {
