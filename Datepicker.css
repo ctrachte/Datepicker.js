@@ -96,25 +96,24 @@ b {
   width: 1.25em;
   height: 0.8em;
   margin-right: 0.3em;
-  border-top: 0.2em solid black;
-  border-bottom: 0.2em solid black;
+  border-top: 0.2em solid var(--Primary);
+  border-bottom: 0.2em solid var(--Primary);
   align-self: left;
 }
 
 .calendarHamburger:hover {
   cursor: pointer;
   font-size: 2rem;
-  box-shadow:0px 20px 70px 1px var(--Shadow);
   opacity: 0.7;
 }
 
-.calendarHamburger:before {
+.calendarHamburger::before {
   content: "";
   position: absolute;
   top: 0.3em;
   left: 0px;
   width: 100%;
-  border-top: 0.2em solid black;
+  border-top: 0.2em solid var(--Primary);
 }
 
 .close-calendar-button:hover {
@@ -127,6 +126,7 @@ b {
 .leftArrow, .rightArrow {
   font-size: 1.5rem;
   cursor: pointer;
+  color: var(--Primary) !important;
 }
 .leftArrow:hover, .rightArrow:hover {
   font-size: 2rem;
@@ -137,6 +137,7 @@ b {
   position:absolute;
   right:5px;
   top:0;
+  color: var(--Primary);
   margin:5px;
 }
 .close-preset-menu:hover {
@@ -144,6 +145,9 @@ b {
   cursor: pointer;
 }
 
+.close-calendar-button {
+  color: var(--Primary) !important;
+}
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
@@ -399,6 +403,7 @@ button, input[type="submit"], input[type="reset"] {
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
+  color: var(--Primary);
 }
 
 .headingBlock {
