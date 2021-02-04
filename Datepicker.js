@@ -133,7 +133,7 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6; background-color: #222831;');
+        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6;');
         let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
@@ -304,8 +304,9 @@ class clsDatepicker {
             startHour.style.gridColumn = "1 / span 2";
 
             let startHourValueEl = startHour.querySelector("#startHour");
+            this.timeElements.startHourValueEl = startHourValueEl;
             let startHourChange = function (event) {
-                let newVal = parseInt(startHourValueEl.value);
+                let newVal = parseInt(this.timeElements.startHourValueEl.value);
                 if (newVal > 23) {
                     newVal = 1;
                 } else if (newVal < 1) {
@@ -314,11 +315,10 @@ class clsDatepicker {
                 if (newVal < 10) {
                     newVal = "0" + newVal;
                 }
-                startHourValueEl.value = newVal;
+                this.timeElements.startHourValueEl.value = newVal;
                 this.setTime();
             }.bind(this);
             startHourValueEl.addEventListener('change', startHourChange);
-            this.timeElements.startHourValueEl = startHourValueEl;
 
             let startHourUpDown = document.createElement("span");
             startHourUpDown.classList.add("TimeUpDown");
@@ -351,7 +351,7 @@ class clsDatepicker {
             let startMinuteValueEl = startMinute.querySelector("input");
             this.timeElements.startMinuteValueEl = startMinuteValueEl;
             let startMinuteChange = function (event) {
-                let newVal = parseInt(startMinuteValueEl.value);
+                let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
                 if (newVal > 59) {
                     newVal = 0;
                 } else if (newVal < 1) {
@@ -360,7 +360,7 @@ class clsDatepicker {
                 if (newVal < 10) {
                     newVal = "0" + newVal;
                 }
-                startMinuteValueEl.value = newVal;
+                this.timeElements.startMinuteValueEl.value = newVal;
                 this.setTime();
             }.bind(this);
             startMinuteValueEl.addEventListener('change', startMinuteChange);
@@ -445,13 +445,13 @@ class clsDatepicker {
 
                 let endHour = document.createElement("div");
                 endHour.classList.add("hour");
-                endHour.innerHTML = "<input type='number' min='1' max='23' value='" + this.endHour + "' />";
+                endHour.innerHTML = "<input id='endHour' type='number' min='1' max='23' value='" + this.endHour + "' />";
                 endHour.style.gridColumn = "1 / span 2";
 
-                let endHourValueEl = endHour.querySelector("input");
+                let endHourValueEl = endHour.querySelector("#endHour");
                 this.timeElements.endHourValueEl = endHourValueEl;
                 let endHourChange = function (event) {
-                    let newVal = parseInt(endHourValueEl.value);
+                    let newVal = parseInt(this.timeElements.endHourValueEl.value);
                     if (newVal > 23) {
                         newVal = 1;
                     } else if (newVal < 1) {
@@ -460,6 +460,7 @@ class clsDatepicker {
                     if (newVal < 10) {
                         newVal = "0" + newVal;
                     }
+                    this.timeElements.endHourValueEl.value = newVal;
                     this.setTime();
                 }.bind(this);
                 endHourValueEl.addEventListener('change', endHourChange);
@@ -495,7 +496,7 @@ class clsDatepicker {
                 let endMinuteValueEl = endMinute.querySelector("input");
                 this.timeElements.endMinuteValueEl = endMinuteValueEl;
                 let endMinuteChange = function (event) {
-                    let newVal = parseInt(endMinuteValueEl.value);
+                    let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
                     if (newVal > 59) {
                         newVal = 0;
                     } else if (newVal < 1) {
@@ -504,7 +505,7 @@ class clsDatepicker {
                     if (newVal < 10) {
                         newVal = "0" + newVal;
                     }
-                    endMinuteValueEl.value = newVal;
+                    this.timeElements.endMinuteValueEl.value = newVal;
                     this.setTime();
                 }.bind(this);
                 endMinuteValueEl.addEventListener('change', endMinuteChange);
