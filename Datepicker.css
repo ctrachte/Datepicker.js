@@ -2,8 +2,8 @@
 /* Sundown Color Theme Swatches in Hex */
 --Accent: #FCBB6D;
 --Background: #D8737F;
---Primary: #AB6C8C;
---Secondary: #685D79;
+--Secondary: #AB6C8C;
+--Primary: #685D79;
 --Shadow: #475C7A;
 
 /* Army Color Theme Swatches in Hex */
@@ -51,12 +51,11 @@ b {
   height: auto;
   margin: 0 auto;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  background-color: white !important;
+  background-color: var(--Background) !important;
   -webkit-animation-name: menuanimatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: menuanimatetop;
   animation-duration: 0.4s;
-  background-color: white !important;
 }
 
 .presetMenuContainer>ul {
@@ -72,13 +71,13 @@ b {
   height:auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: #E3E8F8;
-  color:#222831;
+  background-color:var(--Background);
+  color:var(--Accent);
   border-radius: 5px;
 }
 .presetMenuContainer>ul li:hover, li:active {
   cursor: pointer;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Shadow);
   opacity: 0.85;
 }
 
@@ -96,7 +95,7 @@ b {
 .calendarHamburger:hover {
   cursor: pointer;
   font-size: 2rem;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Shadow);
   opacity: 0.7;
 }
 
@@ -111,7 +110,7 @@ b {
 
 .close-calendar-button:hover {
   cursor: pointer;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Shadow);
   opacity: 0.85;
   font-size: 2rem;
 }
@@ -143,7 +142,7 @@ b {
     padding: 10px;
     margin:auto;
     position: relative;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
     border-radius: 5px;
     width: 730px;
     height: 80%;
@@ -179,7 +178,7 @@ b {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #E3E8F8;
+    background-color: var(--Background);
     text-align: center;
     font-size: 24px;
     border-radius: 5px; 
@@ -187,9 +186,9 @@ b {
   }
 
   .grid-container > div.active {
-    background-color: #222831;
+    background-color: var(--Secondary);
     color:white;   
-    box-shadow:0px 20px 70px 1px #D6A9DD;
+    box-shadow:0px 20px 70px 1px var(--Shadow);
   }
 
   .grid-container > .day {
@@ -210,13 +209,13 @@ b {
     padding: 24px;
     height: 48px;
     width: 48px;
-    color: grey;
-    background-color: lightgrey;
+    color: var(--Shadow);
+    background-color: var(--Background);
     transition: all, 0.1s;   
   }
   .grid-container > .day.highlighted {
-    background-color: #222831;
-    color:white;
+    background-color: var(--Secondary);
+    color:var(--Accent);
     box-shadow:0px 20px 70px 1px #B7C0DD;   
   }
 
@@ -228,7 +227,7 @@ b {
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
-    color: white;
+    color:var(--Accent);
   }
 
   .grid-container > .monthHeader > .leftArrow {
@@ -291,7 +290,7 @@ b {
     border:none;
     background-image:none;
     background-color:transparent;
-    border: 1px solid #2b4c68;
+    border: 1px solid var(--Primary);
     width: calc(2em - 4px);
     padding:0;
     margin-top: 10%;
@@ -319,37 +318,37 @@ b {
   .TimeUpDown {
     margin-left: 5px;
     float: left;
-    color: #222831;
+    color: var(--Primary);
   }
   .TimeUpDown div {
     cursor: pointer;
-    color: #222831;
+    color: var(--Primary);
   }  
   .TimeUpDown div:hover {
     opacity: 0.7;
     cursor:pointer;
-    box-shadow:0px 20px 70px 1px #D6A9DD;
+    box-shadow:0px 20px 70px 1px var(--Shadow);
   }
   .ampm {
     border-radius: 5px;
-    border: 2px solid #222831;
+    border: 2px solid var(--Primary);
   }
   .am, .pm {
     cursor: pointer;
     padding: 2px;
   }
   .am[selected], .pm[selected]{
-    background-color: #222831;
-    color: #fff;
+    background-color: var(--Background);
+    color: var(--Accent);
   }
   .am {
-    border-bottom: 1px solid #222831;
+    border-bottom: 1px solid var(--Primary);
   }
 
 /* submit button styling */
 .cancelButton {
   font-size: 2rem;
-  background-color: #ffb8ca;
+  background-color: var(--Background);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;
@@ -358,7 +357,7 @@ b {
 
 .submitButton {
   font-size: 3rem;
-  background-color: #b8ffca;
+  background-color: var(--Primary);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;
@@ -366,7 +365,7 @@ b {
 }
 
 .submitButton:hover, .cancelButton:hover {
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Shadow);
   cursor: pointer;
   opacity: 0.85;
 }
@@ -388,7 +387,7 @@ button, input[type="submit"], input[type="reset"] {
 .launch {
   float: left;
   border-style: solid;
-  border-color: #E4E8FB;
+  border-color: var(--Accent);
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
@@ -396,7 +395,7 @@ button, input[type="submit"], input[type="reset"] {
 
 .headingBlock {
   float: left;
-  background-color: #E4E8FB;
+  background-color: var(--Background);
   text-align: right;
   min-width: 100px;
   line-height: 40px;
@@ -415,7 +414,7 @@ button, input[type="submit"], input[type="reset"] {
   float: left;
   position: absolute;
   text-align: center;
-  color: #222831;
+  color: var(--Primary);
   width:250px;
   line-height: 80px;
   border-radius: 5px;
@@ -437,7 +436,7 @@ button, input[type="submit"], input[type="reset"] {
 .day:hover {
   cursor:pointer;
   opacity: 0.85;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Secondary);
 }
 
 
