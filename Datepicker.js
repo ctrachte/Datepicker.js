@@ -44,6 +44,7 @@ class clsDatepicker {
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
+        this.snapTo = this.snapTo.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -894,6 +895,11 @@ class clsDatepicker {
         this.drawCalendar();
         this.drawInputElement();
         this.drawPresetMenu();
+    }
+    // helper that snaps the calendar UI to a given date
+    snapTo(date = this.moment) {
+        this.moment = this.moment(date);
+        this.drawCalendar();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
