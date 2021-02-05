@@ -908,6 +908,9 @@ class clsDatepicker {
         this.setTime(true);
         this.highlightDates(true);
     }
+    // helper to make time military
+    toMilitaryTime(hour) {
+    }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
 Element.prototype.hideEl = function () {
