@@ -25,7 +25,7 @@ class clsDatepicker {
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
-        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : true;
+        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
         this.format = this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A";
         this.moment = moment(moment(), this.format, true);
 
@@ -254,7 +254,7 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("MM/DD/YYYY hh:mm A");
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format(this.format);
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', parseInt(day) + 1 + '-previous-month');
             dayCell.value = dateString;
@@ -769,25 +769,25 @@ class clsDatepicker {
         if (!this.singleDate) {
             if (this.dates.length > 1 || this.dates.length < 1) {
                 this.dates = [];
-                this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
+                this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
                 this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
             } else {
                 if (moment(this.dates[0]) > moment(dayCell.value)) {
                     let largerDate = this.dates[0];
                     this.dates = [];
-                    this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
-                    this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
+                    this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
+                    this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                     this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
                     this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
                 } else {
-                    this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
+                    this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format(this.format);
                     this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
                 }
             }
         } else {
             this.dates = [];
-            this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
+            this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
             this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
         }
         // autoClose the calendar when a single date or date range is selected 
