@@ -25,7 +25,7 @@ class clsDatepicker {
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
-        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : true;
+        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
         this.moment = moment(moment(), (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A"), true);
 
         // methods
@@ -47,7 +47,7 @@ class clsDatepicker {
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
         this.snapTo = this.snapTo.bind(this);
-        this.toMilitaryTime = this.toMilitaryTime.bind(this);
+        this.toAmPm = this.toAmPm.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -290,8 +290,8 @@ class clsDatepicker {
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
             startDateElement.innerHTML = `<b>Date:  --/--/----  --:--  </b>`;
-            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;')
-            startDateElement.classList.add('startDateElement')
+            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+            startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
         // timepicker init based on options
@@ -319,7 +319,7 @@ class clsDatepicker {
                 if (newVal < 10) {
                     newVal = "0" + newVal;
                 }
-                this.timeElements.startHourValueEl.value = newVal;
+                this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
                 this.setTime();
             }.bind(this);
             startHourValueEl.addEventListener('change', startHourChange);
@@ -464,7 +464,7 @@ class clsDatepicker {
                     if (newVal < 10) {
                         newVal = "0" + newVal;
                     }
-                    this.timeElements.endHourValueEl.value = newVal;
+                    this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
                     this.setTime();
                 }.bind(this);
                 endHourValueEl.addEventListener('change', endHourChange);
@@ -920,7 +920,8 @@ class clsDatepicker {
         this.highlightDates(true);
     }
     // helper to make time military
-    toMilitaryTime(hour) {
+    toAmPm(hour) {
+        return hour > 12 ? hour-12 : hour;
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
