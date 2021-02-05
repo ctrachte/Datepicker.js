@@ -20,12 +20,14 @@ class clsDatepicker {
          */
         this.options = options;
         this.containerElement = options.containerElement;
-        this.moment = moment(moment(), "MM/DD/YYYY hh:mm A", true);
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
         this.presetMenu = this.options.presetMenu !== undefined ? this.options.presetMenu : true;
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
+        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : true;
+        this.moment = moment(moment(), (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A"), true);
+
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -45,6 +47,7 @@ class clsDatepicker {
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
         this.snapTo = this.snapTo.bind(this);
+        this.toMilitaryTime = this.toMilitaryTime.bind(this);
         this.dates = [];
         /**
          * @type {object} timeElements holds references to element objects that contain values that make up time
@@ -674,7 +677,11 @@ class clsDatepicker {
         let startDate = this.dates[0];
         this.dates = [];
         if (startDate) {
-            this.dates[0] = moment(startDate).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY hh:mm A");
+            if (!this.militaryTime) {
+                this.dates[0] = moment(startDate).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY h:mm A");
+            } else {
+                this.dates[0] = moment(startDate).set({ h: this.startHour, m: this.startMinute }).format("MM/DD/YYYY HH:mm:ss");
+            }
             if (!this.singleDate) {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
             } else {
@@ -682,7 +689,11 @@ class clsDatepicker {
             }
         }
         if (endDate && !this.singleDate) {
-            this.dates[1] = moment(endDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY hh:mm A");
+            if (!this.militaryTime) {
+                this.dates[1] = moment(endDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY h:mm A");
+            } else {
+                this.dates[1] = moment(endDate).set({ h: this.endHour, m: this.endMinute }).format("MM/DD/YYYY HH:mm:ss");
+            }
             this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
         }
     }
