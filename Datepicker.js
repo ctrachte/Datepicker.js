@@ -62,10 +62,10 @@ class clsDatepicker {
         this.timeElements = {};
         this.startHour = "12";
         this.startMinute = "00";
-        // this.startAmPm = "AM";
+        this.startAmPm = "AM";
         this.endHour = "12";
         this.endMinute = "00";
-        // this.endAmPm = "AM";
+        this.endAmPm = "AM";
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
@@ -411,7 +411,7 @@ class clsDatepicker {
                     this.startAmPm = "AM";
                     startam.setAttribute("SELECTED", "true");
                     startpm.removeAttribute("SELECTED");
-                    this.setTime();
+                    startHourValueEl.dispatchEvent(new Event('change'));
                 }.bind(this);
                 startampm.appendChild(startam);
     
@@ -423,7 +423,7 @@ class clsDatepicker {
                     this.startAmPm = "PM";
                     startpm.setAttribute("SELECTED", "true");
                     startam.removeAttribute("SELECTED");
-                    this.setTime();
+                    startHourValueEl.dispatchEvent(new Event('change'));
                 }.bind(this);
                 if (this.startAmPm === "PM") {
                     startpm.setAttribute("SELECTED", "true");
@@ -555,7 +555,7 @@ class clsDatepicker {
                         this.endAmPm = "AM";
                         endam.setAttribute("SELECTED", "true");
                         endpm.removeAttribute("SELECTED");
-                        this.setTime();
+                        endHourValueEl.dispatchEvent(new Event('change'));
                     }.bind(this);
                     endampm.appendChild(endam);
     
@@ -566,7 +566,7 @@ class clsDatepicker {
                         this.endAmPm = "PM";
                         endpm.setAttribute("SELECTED", "true");
                         endam.removeAttribute("SELECTED");
-                        this.setTime();
+                        endHourValueEl.dispatchEvent(new Event('change'));
                     }.bind(this);
                     if (this.endAmPm === "PM") {
                         endpm.setAttribute("SELECTED", "true");
