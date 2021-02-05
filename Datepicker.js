@@ -316,7 +316,7 @@ class clsDatepicker {
                 } else if (newVal < 1) {
                     newVal = 23;
                 }
-                if (newVal < 10) {
+                if (newVal < 10 && this.militaryTime) {
                     newVal = "0" + newVal;
                 }
                 this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
@@ -461,7 +461,7 @@ class clsDatepicker {
                     } else if (newVal < 1) {
                         newVal = 23;
                     }
-                    if (newVal < 10) {
+                    if (newVal < 10 && this.militaryTime) {
                         newVal = "0" + newVal;
                     }
                     this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
