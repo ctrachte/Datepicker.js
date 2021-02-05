@@ -904,6 +904,7 @@ class clsDatepicker {
         this.drawCalendar();
         this.drawInputElement();
         this.drawPresetMenu();
+        this.closePresetMenu();
         this.setTime(true);
         this.highlightDates(true);
     }
