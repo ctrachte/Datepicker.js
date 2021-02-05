@@ -671,7 +671,7 @@ class clsDatepicker {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
             }
             if (this.endAmPm === "PM") {
-                this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value);
+                this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
         }
 
@@ -690,7 +690,7 @@ class clsDatepicker {
         let startDate = this.dates[0];
         this.dates = [];
         if (startDate) {
-            this.dates[0] = moment(startDate).set({ h: this.startHour, m: this.startMinute }).format(this.format);
+            this.dates[0] = moment(startDate).set({ H: this.startHour, m: this.startMinute }).format(this.format);
             if (!this.singleDate) {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
             } else {
@@ -698,7 +698,7 @@ class clsDatepicker {
             }
         }
         if (endDate && !this.singleDate) {
-            this.dates[1] = moment(endDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
+            this.dates[1] = moment(endDate).set({ H: this.endHour, m: this.endMinute }).format(this.format);
             this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
         }
     }
@@ -926,9 +926,11 @@ class clsDatepicker {
     }
     // helper to make time military
     toAmPm(hour) {
+        hour = parseInt(hour);
         return hour >= 12 ? hour - 12 : hour;
     }
     toMilitary(hour) {
+        hour = parseInt(hour);
         return hour <= 12 ? hour + 12 : hour;
     }
 }
