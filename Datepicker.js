@@ -631,6 +631,7 @@ class clsDatepicker {
                 this.highlightDates(true);
                 this.setTime(true);
                 this.drawInputElement();
+                this.snapTo(this.dates[0]);
                 this.closePresetMenu();
                 this.menuIconContainer.classList.remove('open');
             }.bind(this));
@@ -898,8 +899,13 @@ class clsDatepicker {
     }
     // helper that snaps the calendar UI to a given date
     snapTo(date = this.moment) {
-        this.moment = this.moment(date);
+        this.moment = moment(date);
+        this.containerElement.innerHTML = '';
         this.drawCalendar();
+        this.drawInputElement();
+        this.drawPresetMenu();
+        this.setTime(true);
+        this.highlightDates(true);
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
