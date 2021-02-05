@@ -25,8 +25,9 @@ class clsDatepicker {
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
-        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
-        this.moment = moment(moment(), (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A"), true);
+        this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : true;
+        this.format = this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A";
+        this.moment = moment(moment(), this.format, true);
 
         // methods
         this.drawCalendar = this.drawCalendar.bind(this);
@@ -394,44 +395,46 @@ class clsDatepicker {
             startMinute.appendChild(startMinuteUpDown);
 
             startTimeElement.appendChild(startMinute);
-
-            // let startampm = document.createElement("div");
-            // startampm.classList.add("ampm");
-            // startampm.innerHTML = "";
-            // startampm.style.gridColumn = "6 / span 1";
-            // this.timeElements.startampm = startampm;
-
-            // let startam = document.createElement("div");
-            // startam.classList.add("am");
-            // startam.innerHTML = "AM";
-
-            // startam.onclick = function () {
-            //     this.startAmPm = "AM";
-            //     startam.setAttribute("SELECTED", "true");
-            //     startpm.removeAttribute("SELECTED");
-            //     this.setTime();
-            // }.bind(this);
-            // startampm.appendChild(startam);
-
-            // let startpm = document.createElement("div");
-            // startpm.classList.add("pm");
-            // startpm.innerHTML = "PM";
-
-            // startpm.onclick = function () {
-            //     this.startAmPm = "PM";
-            //     startpm.setAttribute("SELECTED", "true");
-            //     startam.removeAttribute("SELECTED");
-            //     this.setTime();
-            // }.bind(this);
-            // if (this.startAmPm === "PM") {
-            //     startpm.setAttribute("SELECTED", "true");
-            //     startam.removeAttribute("SELECTED");
-            // } else {
-            //     startam.setAttribute("SELECTED", "true");
-            //     startpm.removeAttribute("SELECTED");
-            // }
-            // startampm.appendChild(startpm);
-            // startTimeElement.appendChild(startampm);
+            // start am/pm elements if not military time
+            if (!this.militaryTime) {
+                let startampm = document.createElement("div");
+                startampm.classList.add("ampm");
+                startampm.innerHTML = "";
+                startampm.style.gridColumn = "6 / span 1";
+                this.timeElements.startampm = startampm;
+    
+                let startam = document.createElement("div");
+                startam.classList.add("am");
+                startam.innerHTML = "AM";
+    
+                startam.onclick = function () {
+                    this.startAmPm = "AM";
+                    startam.setAttribute("SELECTED", "true");
+                    startpm.removeAttribute("SELECTED");
+                    this.setTime();
+                }.bind(this);
+                startampm.appendChild(startam);
+    
+                let startpm = document.createElement("div");
+                startpm.classList.add("pm");
+                startpm.innerHTML = "PM";
+    
+                startpm.onclick = function () {
+                    this.startAmPm = "PM";
+                    startpm.setAttribute("SELECTED", "true");
+                    startam.removeAttribute("SELECTED");
+                    this.setTime();
+                }.bind(this);
+                if (this.startAmPm === "PM") {
+                    startpm.setAttribute("SELECTED", "true");
+                    startam.removeAttribute("SELECTED");
+                } else {
+                    startam.setAttribute("SELECTED", "true");
+                    startpm.removeAttribute("SELECTED");
+                }
+                startampm.appendChild(startpm);
+                startTimeElement.appendChild(startampm);
+            }
             calendar.appendChild(startTimeElement);
         }
 
@@ -537,41 +540,44 @@ class clsDatepicker {
                 endMinute.appendChild(endMinuteUpDown);
                 endTimeElement.appendChild(endMinute);
                 calendar.appendChild(endTimeElement);
-                // let endampm = document.createElement("div");
-                // endampm.classList.add("ampm");
-                // endampm.innerHTML = "";
-                // endampm.style.gridColumn = "6 / span 1";
-                // this.timeElements.endampm = endampm;
-
-                // let endam = document.createElement("div");
-                // endam.classList.add("am");
-                // endam.innerHTML = "AM";
-                // endam.onclick = function () {
-                //     this.endAmPm = "AM";
-                //     endam.setAttribute("SELECTED", "true");
-                //     endpm.removeAttribute("SELECTED");
-                //     this.setTime();
-                // }.bind(this);
-                // endampm.appendChild(endam);
-
-                // let endpm = document.createElement("div");
-                // endpm.classList.add("pm");
-                // endpm.innerHTML = "PM";
-                // endpm.onclick = function () {
-                //     this.endAmPm = "PM";
-                //     endpm.setAttribute("SELECTED", "true");
-                //     endam.removeAttribute("SELECTED");
-                //     this.setTime();
-                // }.bind(this);
-                // if (this.endAmPm === "PM") {
-                //     endpm.setAttribute("SELECTED", "true");
-                //     endam.removeAttribute("SELECTED");
-                // } else {
-                //     endam.setAttribute("SELECTED", "true");
-                //     endpm.removeAttribute("SELECTED");
-                // }
-                // endampm.appendChild(endpm);
-                // endTimeElement.appendChild(endampm);
+                // am/pm elements if not military time
+                if (!this.militaryTime) {
+                    let endampm = document.createElement("div");
+                    endampm.classList.add("ampm");
+                    endampm.innerHTML = "";
+                    endampm.style.gridColumn = "6 / span 1";
+                    this.timeElements.endampm = endampm;
+    
+                    let endam = document.createElement("div");
+                    endam.classList.add("am");
+                    endam.innerHTML = "AM";
+                    endam.onclick = function () {
+                        this.endAmPm = "AM";
+                        endam.setAttribute("SELECTED", "true");
+                        endpm.removeAttribute("SELECTED");
+                        this.setTime();
+                    }.bind(this);
+                    endampm.appendChild(endam);
+    
+                    let endpm = document.createElement("div");
+                    endpm.classList.add("pm");
+                    endpm.innerHTML = "PM";
+                    endpm.onclick = function () {
+                        this.endAmPm = "PM";
+                        endpm.setAttribute("SELECTED", "true");
+                        endam.removeAttribute("SELECTED");
+                        this.setTime();
+                    }.bind(this);
+                    if (this.endAmPm === "PM") {
+                        endpm.setAttribute("SELECTED", "true");
+                        endam.removeAttribute("SELECTED");
+                    } else {
+                        endam.setAttribute("SELECTED", "true");
+                        endpm.removeAttribute("SELECTED");
+                    }
+                    endampm.appendChild(endpm);
+                    endTimeElement.appendChild(endampm);
+                }
 
             }
 
@@ -922,6 +928,9 @@ class clsDatepicker {
     // helper to make time military
     toAmPm(hour) {
         return hour > 12 ? hour-12 : hour;
+    }
+    toMilitary(hour) {
+        return hour+12;
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
