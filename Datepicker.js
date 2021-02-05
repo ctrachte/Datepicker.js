@@ -311,7 +311,7 @@ class clsDatepicker {
             let startHourValueEl = startHour.querySelector("#startHour");
             this.timeElements.startHourValueEl = startHourValueEl;
             let startHourChange = function (event) {
-                let newVal = this.toMilitary(parseInt(this.timeElements.startHourValueEl.value));
+                let newVal = !this.militaryTime  ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
                 if (newVal > 23) {
                     newVal = 1;
                 } else if (newVal < 1) {
@@ -411,6 +411,7 @@ class clsDatepicker {
                     this.startAmPm = "AM";
                     startam.setAttribute("SELECTED", "true");
                     startpm.removeAttribute("SELECTED");
+                    startHourValueEl.dispatchEvent(new Event('change'));
                 }.bind(this);
                 startampm.appendChild(startam);
 
@@ -422,6 +423,7 @@ class clsDatepicker {
                     this.startAmPm = "PM";
                     startpm.setAttribute("SELECTED", "true");
                     startam.removeAttribute("SELECTED");
+                    startHourValueEl.dispatchEvent(new Event('change'));
                 }.bind(this);
                 if (this.startAmPm === "PM") {
                     startpm.setAttribute("SELECTED", "true");
@@ -456,7 +458,7 @@ class clsDatepicker {
                 let endHourValueEl = endHour.querySelector("#endHour");
                 this.timeElements.endHourValueEl = endHourValueEl;
                 let endHourChange = function (event) {
-                    let newVal = this.toMilitary(parseInt(this.timeElements.endHourValueEl.value));
+                    let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value))  : parseInt(this.timeElements.endHourValueEl.value);
                     if (newVal > 23) {
                         newVal = 1;
                     } else if (newVal < 1) {
@@ -553,6 +555,7 @@ class clsDatepicker {
                         this.endAmPm = "AM";
                         endam.setAttribute("SELECTED", "true");
                         endpm.removeAttribute("SELECTED");
+                        endHourValueEl.dispatchEvent(new Event('change'));
                     }.bind(this);
                     endampm.appendChild(endam);
 
@@ -563,6 +566,7 @@ class clsDatepicker {
                         this.endAmPm = "PM";
                         endpm.setAttribute("SELECTED", "true");
                         endam.removeAttribute("SELECTED");
+                        endHourValueEl.dispatchEvent(new Event('change'));
                     }.bind(this);
                     if (this.endAmPm === "PM") {
                         endpm.setAttribute("SELECTED", "true");
