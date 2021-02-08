@@ -331,13 +331,16 @@ class clsDatepicker {
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
         }.bind(this));
+        
     }
     drawStartTimePicker () {
         let startTimeElement = document.createElement('div');
         startTimeElement.classList.add("startTimeElement");
         startTimeElement.style.gridColumnStart = 4;
         startTimeElement.style.gridColumnEnd = 8;
-
+        if (!this.militaryTime){
+            this.startHour = this.toAmPm(parseInt(this.startHour));
+        }
         let startHour = document.createElement("div");
         startHour.classList.add("hour");
         startHour.innerHTML = "<input id='startHour' type='number' min='1' max='23' value='" + this.startHour + "' />";
@@ -345,6 +348,7 @@ class clsDatepicker {
 
         let startHourValueEl = startHour.querySelector("#startHour");
         this.timeElements.startHourValueEl = startHourValueEl;
+
         let startHourChange = function (event) {
             let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
             if (newVal > 23) {
@@ -382,7 +386,9 @@ class clsDatepicker {
         timeColon.classList.add("timeColon");
         timeColon.style.gridColumn = "3 / span 1";
         startTimeElement.appendChild(timeColon);
-
+        if (parseInt(this.startMinute) < 10) {
+            this.startMinute = "0" + parseInt(this.startMinute);
+        }
         let startMinute = document.createElement("div");
         startMinute.classList.add("minute");
         startMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.startMinute + "' />";
@@ -485,7 +491,9 @@ class clsDatepicker {
             endTimeElement.classList.add("endTimeElement");
             endTimeElement.style.gridColumnStart = 4;
             endTimeElement.style.gridColumnEnd = 8;
-
+            if (!this.militaryTime){
+                this.endHour = this.toAmPm(parseInt(this.endHour));
+            }
             let endHour = document.createElement("div");
             endHour.classList.add("hour");
             endHour.innerHTML = "<input id='endHour' type='number' min='1' max='23' value='" + this.endHour + "' />";
@@ -530,7 +538,9 @@ class clsDatepicker {
             timeColon.classList.add("timeColon");
             timeColon.style.gridColumn = "3 / span 1";
             endTimeElement.appendChild(timeColon);
-
+            if (parseInt(this.endMinute) < 10) {
+                this.endMinute = "0" + parseInt(this.endMinute);
+            }
             let endMinute = document.createElement("div");
             endMinute.classList.add("minute");
             endMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.endMinute + "' />";
@@ -669,7 +679,7 @@ class clsDatepicker {
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
     // setTime function - a helper method to set start/end time. This function is a void.
-    setTime(setProgrammatically = false, AmPmTarget = "none") {
+    setTime(setProgrammatically = false) {
         this.startHour = parseInt(this.timeElements.startHourValueEl.value);
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
@@ -776,10 +786,10 @@ class clsDatepicker {
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
-        this.startHour = this.timeElements.startHourValueEl.value;
-        this.startMinute = this.timeElements.startMinuteValueEl.value;
-        this.endHour = this.timeElements.endHourValueEl.value;
-        this.endMinute = this.timeElements.endMinuteValueEl.value;
+        this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+        this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+        this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+        this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
@@ -865,8 +875,8 @@ class clsDatepicker {
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
         this.drawPresetMenu();
-        this.setTime();
         this.highlightDates();
+        this.setTime();
         this.openCalendar();
         this.closePresetMenu();
     }
@@ -876,8 +886,8 @@ class clsDatepicker {
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
         this.drawPresetMenu();
-        this.setTime();
         this.highlightDates();
+        this.setTime();
         this.openCalendar();
         this.closePresetMenu();
     }
