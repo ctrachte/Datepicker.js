@@ -64,10 +64,10 @@ class clsDatepicker {
         this.timeElements = {};
         this.startHour = "12";
         this.startMinute = "00";
-        this.startAmPm = "AM";
+        this.startAmPm = "PM";
         this.endHour = "12";
         this.endMinute = "00";
-        this.endAmPm = "AM";
+        this.endAmPm = "PM";
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
@@ -467,7 +467,6 @@ class clsDatepicker {
                 startam.removeAttribute("SELECTED");
                 this.setTime();
             }.bind(this);
-            this.startAmPm = "PM";
             if (this.startAmPm === "PM") {
                 startpm.setAttribute("SELECTED", "true");
                 startam.removeAttribute("SELECTED");
@@ -614,7 +613,6 @@ class clsDatepicker {
                     endam.removeAttribute("SELECTED");
                     this.setTime();
                 }.bind(this);
-                this.endAmPm = "PM";
                 if (this.endAmPm === "PM") {
                     endpm.setAttribute("SELECTED", "true");
                     endam.removeAttribute("SELECTED");
