@@ -680,9 +680,13 @@ class clsDatepicker {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
+                this.timeElements.startHourValueEl.value = 1;
+                this.timeElements.startHourValueEl.dispatchEvent(new Event('change'));
                 this.startHour = 1;
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+                this.timeElements.endHourValueEl.value = 1;
+                this.timeElements.endHourValueEl.dispatchEvent(new Event('change'));
                 this.endHour = 1;
             }
         }
@@ -782,9 +786,13 @@ class clsDatepicker {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
+                this.timeElements.startHourValueEl.value = 1;
+                this.timeElements.startHourValueEl.dispatchEvent(new Event('change'));
                 this.startHour = 1;
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+                this.timeElements.endHourValueEl.value = 1;
+                this.timeElements.endHourValueEl.dispatchEvent(new Event('change'));
                 this.endHour = 1;
             }
         }
