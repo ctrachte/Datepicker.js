@@ -312,10 +312,10 @@ class clsDatepicker {
             this.timeElements.startHourValueEl = startHourValueEl;
             let startHourChange = function (event) {
                 let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-                if (newVal > 24) {
+                if (newVal > 23) {
                     newVal = 0;
                 } else if (newVal < 1) {
-                    newVal = 24;
+                    newVal = 23;
                 }
                 if (newVal < 10 && this.militaryTime) {
                     newVal = "0" + newVal;
@@ -461,10 +461,10 @@ class clsDatepicker {
                 this.timeElements.endHourValueEl = endHourValueEl;
                 let endHourChange = function (event) {
                     let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                    if (newVal > 24) {
+                    if (newVal > 23) {
                         newVal = 0;
                     } else if (newVal < 1) {
-                        newVal = 24;
+                        newVal = 23;
                     }
                     if (newVal < 10 && this.militaryTime) {
                         newVal = "0" + newVal;
