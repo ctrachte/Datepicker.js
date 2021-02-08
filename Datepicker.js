@@ -47,7 +47,8 @@ class clsDatepicker {
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
-        this.drawTimePicker = this.drawTimePicker.bind(this);
+        this.drawStartTimePicker = this.drawStartTimePicker.bind(this);
+        this.drawEndTimePicker = this.drawEndTimePicker.bind(this);
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
         this.dates = [];
@@ -945,6 +946,7 @@ class clsDatepicker {
         this.drawCalendar();
         this.drawInputElement();
         this.drawPresetMenu();
+        this.closePresetMenu();
     }
     // helper that snaps the calendar UI to a given date
     snapTo(date = this.moment) {
