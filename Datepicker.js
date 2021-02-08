@@ -311,9 +311,9 @@ class clsDatepicker {
             let startHourValueEl = startHour.querySelector("#startHour");
             this.timeElements.startHourValueEl = startHourValueEl;
             let startHourChange = function (event) {
-                let newVal = !this.militaryTime  ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
+                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
                 if (newVal > 24) {
-                    newVal = 1;
+                    newVal = 0;
                 } else if (newVal < 1) {
                     newVal = 24;
                 }
@@ -458,9 +458,9 @@ class clsDatepicker {
                 let endHourValueEl = endHour.querySelector("#endHour");
                 this.timeElements.endHourValueEl = endHourValueEl;
                 let endHourChange = function (event) {
-                    let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value))  : parseInt(this.timeElements.endHourValueEl.value);
+                    let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
                     if (newVal > 24) {
-                        newVal = 1;
+                        newVal = 0;
                     } else if (newVal < 1) {
                         newVal = 24;
                     }
@@ -676,6 +676,12 @@ class clsDatepicker {
             }
             if (this.endAmPm === "PM") {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
+            }
+            if (parseInt(this.startHour) === 12) {
+                this.startHour = 0;
+            }
+            if (parseInt(this.endHour) === 12) {
+                this.endHour = 0;
             }
         }
 
@@ -931,11 +937,17 @@ class clsDatepicker {
     // helper to make time military
     toAmPm(hour) {
         hour = parseInt(hour);
-        return hour >= 12 ? hour - 12 : hour;
+        if (hour === 12) {
+            return hour;
+        } else if (hour === 0) {
+            return 0;
+        } else {
+            return hour > 11 ? hour - 12 : hour;
+        }
     }
     toMilitary(hour) {
         hour = parseInt(hour);
-        return hour <= 12 ? hour + 12 : hour;
+        return hour <= 11 ? hour + 12 : hour;
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
