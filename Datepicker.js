@@ -378,7 +378,7 @@ class clsDatepicker {
                 if (startMinuteValueEl.value % 15 === 0) {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
                 } else {
-                    startMinuteValueEl.value++;
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
                 }
                 startMinuteValueEl.dispatchEvent(new Event('change'));
             };
@@ -387,7 +387,7 @@ class clsDatepicker {
                 if (startMinuteValueEl.value % 15 === 0) {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
                 } else {
-                    startMinuteValueEl.value--;
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
                 }
                 startMinuteValueEl.dispatchEvent(new Event('change'));
             };
@@ -524,7 +524,7 @@ class clsDatepicker {
                     if (endMinuteValueEl.value % 15 === 0) {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
                     } else {
-                        endMinuteValueEl.value++;
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
                     }
                     endMinuteValueEl.dispatchEvent(new Event('change'));
                 };
@@ -533,7 +533,7 @@ class clsDatepicker {
                     if (endMinuteValueEl.value % 15 === 0) {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
                     } else {
-                        endMinuteValueEl.value--;
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
                     }
                     endMinuteValueEl.dispatchEvent(new Event('change'));
                 };
@@ -553,6 +553,7 @@ class clsDatepicker {
                     endam.innerHTML = "AM";
                     endam.onclick = function () {
                         this.endAmPm = "AM";
+                        console.log("end am clicked", this);
                         endam.setAttribute("SELECTED", "true");
                         endpm.removeAttribute("SELECTED");
                         endHourValueEl.dispatchEvent(new Event('change'));
@@ -563,6 +564,7 @@ class clsDatepicker {
                     endpm.classList.add("pm");
                     endpm.innerHTML = "PM";
                     endpm.onclick = function () {
+                        console.log("end am clicked", this);
                         this.endAmPm = "PM";
                         endpm.setAttribute("SELECTED", "true");
                         endam.removeAttribute("SELECTED");
@@ -677,10 +679,10 @@ class clsDatepicker {
             if (this.endAmPm === "PM") {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
-            if (parseInt(this.startHour) === 12) {
+            if (parseInt(this.startHour) === 12 && this.endAmPm === "AM") {
                 this.startHour = 0;
             }
-            if (parseInt(this.endHour) === 12) {
+            if (parseInt(this.endHour) === 12 && this.endAmPm === "AM") {
                 this.endHour = 0;
             }
         }
@@ -774,6 +776,20 @@ class clsDatepicker {
         this.startMinute = this.timeElements.startMinuteValueEl.value;
         this.endHour = this.timeElements.endHourValueEl.value;
         this.endMinute = this.timeElements.endMinuteValueEl.value;
+        if (!this.militaryTime) {
+            if (this.startAmPm === "PM") {
+                this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
+            }
+            if (this.endAmPm === "PM") {
+                this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
+            }
+            if (parseInt(this.startHour) === 12 && this.endAmPm === "AM") {
+                this.startHour = 0;
+            }
+            if (parseInt(this.endHour) === 12 && this.endAmPm === "AM") {
+                this.endHour = 0;
+            }
+        }
         // set the start/end date in both the UI and the class's state
         if (!this.singleDate) {
             if (this.dates.length > 1 || this.dates.length < 1) {
