@@ -47,6 +47,7 @@ class clsDatepicker {
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
+        this.drawTimePicker = this.drawTimePicker.bind(this);
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
         this.dates = [];
@@ -614,6 +615,9 @@ class clsDatepicker {
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
         }.bind(this));
+    }
+    drawTimePicker() {
+
     }
     drawPresetMenu() {
         this.presetMenuContainer = document.createElement('div');
