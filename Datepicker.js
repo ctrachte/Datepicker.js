@@ -297,6 +297,7 @@ class clsDatepicker {
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
+        this.calendarElement = calendar;
         // timepicker init based on options
         if (this.timePicker) {
             this.drawStartTimePicker();
@@ -326,7 +327,6 @@ class clsDatepicker {
         calendar.appendChild(submitButton);
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
-        this.calendarElement = calendar;
         // add the click off method to hide calendar when user clicks off:
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
@@ -480,7 +480,7 @@ class clsDatepicker {
             endDateElement.classList.add('endDateElement');
             endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
             endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
-            calendar.appendChild(endDateElement);
+            this.calendarElement.appendChild(endDateElement);
             let endTimeElement = document.createElement('div');
             endTimeElement.classList.add("endTimeElement");
             endTimeElement.style.gridColumnStart = 4;
