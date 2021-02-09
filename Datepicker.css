@@ -1,9 +1,47 @@
+:root { 
+/* Sundown Color Theme Swatches in Hex */
+/* --Accent: #FCBB6D;
+--Background: #D8737F;
+--Secondary: #AB6C8C;
+--Primary: #685D79;
+--Shadow: #475C7A; */
+
+/* Army Color Theme Swatches in Hex */
+--Accent: #000000;
+--Secondary: #FDD42E;
+--Background: #C0B6A5;
+--Primary: #918B7E;
+--Shadow: #E6E8EB;
+
+/* PEC Color Theme Swatches in Hex */
+/* --Secondary: #999999;
+--Shadow: #B9BBBD;
+--Accent: #196DAB;
+--Primary: #FAFCFF;
+--Background: #E6E8EB; */
+
+/* ARMPEC Color Theme Swatches in Hex */
+/* --Shadow: #0F3F61;
+--Primary: #196DAB;
+--Secondary: #C0B6A5;
+--Background: #E6E8EB;
+--Accent: #FDD42E; */
+}
 
 .DatepickerContainer {
     margin: 0 auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
     padding-top: 1vmax; 
+}
+
+.DatepickerContainer>.grid-container {
+  background-color: var(--Background);
+}
+
+.DatepickerContainer>.monthHeader {
+  background-color: var(--Primary);
+  color:var(--Accent);
 }
 
 b {
@@ -20,13 +58,12 @@ b {
   width: 33%;
   height: auto;
   margin: 0 auto;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  background-color: white !important;
+  box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
+  background-color: var(--Background) !important;
   -webkit-animation-name: menuanimatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: menuanimatetop;
   animation-duration: 0.4s;
-  background-color: white !important;
 }
 
 .presetMenuContainer>ul {
@@ -42,13 +79,13 @@ b {
   height:auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: #E3E8F8;
-  color:#222831;
+  background-color:var(--Primary);
+  color:var(--Accent);
   border-radius: 5px;
 }
 .presetMenuContainer>ul li:hover, li:active {
   cursor: pointer;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Shadow);
   opacity: 0.85;
 }
 
@@ -58,30 +95,28 @@ b {
   width: 1.25em;
   height: 0.8em;
   margin-right: 0.3em;
-  border-top: 0.2em solid black;
-  border-bottom: 0.2em solid black;
+  border-top: 0.2em solid var(--Primary);
+  border-bottom: 0.2em solid var(--Primary);
   align-self: left;
 }
 
 .calendarHamburger:hover {
   cursor: pointer;
   font-size: 2rem;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
   opacity: 0.7;
 }
 
-.calendarHamburger:before {
+.calendarHamburger::before {
   content: "";
   position: absolute;
   top: 0.3em;
   left: 0px;
   width: 100%;
-  border-top: 0.2em solid black;
+  border-top: 0.2em solid var(--Primary);
 }
 
 .close-calendar-button:hover {
   cursor: pointer;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
   opacity: 0.85;
   font-size: 2rem;
 }
@@ -89,6 +124,7 @@ b {
 .leftArrow, .rightArrow {
   font-size: 1.5rem;
   cursor: pointer;
+  color: var(--Primary) !important;
 }
 .leftArrow:hover, .rightArrow:hover {
   font-size: 2rem;
@@ -99,6 +135,7 @@ b {
   position:absolute;
   right:5px;
   top:0;
+  color: var(--Primary);
   margin:5px;
 }
 .close-preset-menu:hover {
@@ -106,6 +143,9 @@ b {
   cursor: pointer;
 }
 
+.close-calendar-button {
+  color: var(--Primary) !important;
+}
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
@@ -113,7 +153,7 @@ b {
     padding: 10px;
     margin:auto;
     position: relative;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
     border-radius: 5px;
     width: 730px;
     height: 80%;
@@ -149,7 +189,8 @@ b {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #E3E8F8;
+    background-color: var(--Primary);
+    color: var(--Accent);
     text-align: center;
     font-size: 24px;
     border-radius: 5px; 
@@ -157,9 +198,9 @@ b {
   }
 
   .grid-container > div.active {
-    background-color: #222831;
-    color:white;   
-    box-shadow:0px 20px 70px 1px #D6A9DD;
+    background-color: var(--Accent);
+    color:var(--Shadow);   
+    box-shadow:0px 20px 70px 1px var(--Shadow);
   }
 
   .grid-container > .day {
@@ -180,14 +221,15 @@ b {
     padding: 24px;
     height: 48px;
     width: 48px;
-    color: grey;
-    background-color: lightgrey;
+    color: var(--Primary);
+    background-color: var(--Shadow);
+    opacity: 0.6;
     transition: all, 0.1s;   
   }
   .grid-container > .day.highlighted {
-    background-color: #222831;
-    color:white;
-    box-shadow:0px 20px 70px 1px #B7C0DD;   
+    background-color: var(--Accent);
+    color:var(--Shadow);
+    box-shadow:0px 20px 70px 1px var(--Shadow);   
   }
 
   .grid-container > .dayHeader {
@@ -198,7 +240,7 @@ b {
     padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
-    color: white;
+    color:var(--Accent);
   }
 
   .grid-container > .monthHeader > .leftArrow {
@@ -231,6 +273,7 @@ b {
 
   .startTimeElement, .endTimeElement, .startTimeElement input, .endTimeElement input {
     font-size: 1.54em !important;
+    color: var(--Background);
   }
   .startTimeElement, .endTimeElement {
     display: grid;
@@ -241,41 +284,35 @@ b {
     align-items: center;
   }
   .hour input, .minute input {
-    background: none;	  
-    border:none;
-    background-image:none;
-    background-color:transparent;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    width: 2em;
+    background: var(--Primary) !important;	  
+    background-image:none !important;
+    border: none !important;
+    background-color: var(--Primary) !important;
+    color: var(--Accent);
+    width: calc(2em - 4px);
     display: block;
     float: left;
     padding:0;
     margin-top: 10%;
     clear: both;
     text-align: center;
+    outline: none !important;
   }
   .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
-    background: none;	  
-    border:none;
-    background-image:none;
-    background-color:transparent;
-    border: 1px solid #2b4c68;
     width: calc(2em - 4px);
+    border: 2.5px solid var(--Accent) !important;
+    border-radius: 5px;
     padding:0;
+    outline: 2.5px solid var(--Primary) !important;
     margin-top: 10%;
   }
   .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
-    border: none !important;
-    outline: none !important;
-    width: 2em !important;
+    width: calc(2em - 4px);
+    border: 2.5px solid var(--Accent) !important;
     padding:0;
+    border-radius: 5px;
+    outline: 2.5px solid var(--Primary) !important;
     margin-top: 10%;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
   }
   /* Chrome, Safari, Edge, Opera */
   .hour input::-webkit-outer-spin-button, .hour input::-webkit-inner-spin-button, .minute input::-webkit-outer-spin-button, .minute input::-webkit-inner-spin-button {
@@ -289,46 +326,48 @@ b {
   .TimeUpDown {
     margin-left: 5px;
     float: left;
-    color: #222831;
+    color: var(--Background);
   }
   .TimeUpDown div {
     cursor: pointer;
-    color: #222831;
+    color: var(--Background);
   }  
   .TimeUpDown div:hover {
     opacity: 0.7;
     cursor:pointer;
-    box-shadow:0px 20px 70px 1px #D6A9DD;
+    box-shadow:0px 20px 70px 1px var(--Shadow);
   }
   .ampm {
     border-radius: 5px;
-    border: 2px solid #222831;
+    border: 2px solid var(--Primary);
   }
   .am, .pm {
     cursor: pointer;
     padding: 2px;
   }
   .am[selected], .pm[selected]{
-    background-color: #222831;
-    color: #fff;
+    background-color: var(--Background);
+    color: var(--Accent);
   }
   .am {
-    border-bottom: 1px solid #222831;
+    border-bottom: 1px solid var(--Primary);
   }
 
 /* submit button styling */
 .cancelButton {
   font-size: 2rem;
-  background-color: #ffb8ca;
+  background-color: var(--Primary);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;
   border-style: none;
+  color: var(--Accent);
 }
 
 .submitButton {
   font-size: 3rem;
-  background-color: #b8ffca;
+  background-color: var(--Accent);
+  color:var(--Primary);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;
@@ -336,7 +375,7 @@ b {
 }
 
 .submitButton:hover, .cancelButton:hover {
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Shadow);
   cursor: pointer;
   opacity: 0.85;
 }
@@ -358,15 +397,16 @@ button, input[type="submit"], input[type="reset"] {
 .launch {
   float: left;
   border-style: solid;
-  border-color: #E4E8FB;
+  border-color: var(--Accent);
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
+  color: var(--Accent);
 }
 
 .headingBlock {
   float: left;
-  background-color: #E4E8FB;
+  background-color: var(--Background);
   text-align: right;
   min-width: 100px;
   line-height: 40px;
@@ -385,7 +425,7 @@ button, input[type="submit"], input[type="reset"] {
   float: left;
   position: absolute;
   text-align: center;
-  color: #222831;
+  color: var(--Primary);
   width:250px;
   line-height: 80px;
   border-radius: 5px;
@@ -407,34 +447,7 @@ button, input[type="submit"], input[type="reset"] {
 .day:hover {
   cursor:pointer;
   opacity: 0.85;
-  box-shadow:0px 20px 70px 1px #D6A9DD;
+  box-shadow:0px 20px 70px 1px var(--Secondary);
 }
 
 
-/* Sundown Color Theme Swatches in Hex */
-.Sundown-Yellow { color: #FCBB6D; }
-.Sundown-Red { color: #D8737F; }
-.Sundown-Violet { color: #AB6C8C; }
-.Sundown-Purple { color: #685D79; }
-.Sundown-Blue { color: #475C7A; }
-
-/* Army Color Theme Swatches in Hex */
-.Army-Black { color: #000000; }
-.Army-Yellow { color: #FDD42E; }
-.Army-Brown-Light { color: #C0B6A5; }
-.Army-Brown-Dark { color: #918B7E; }
-.Army-White { color: #E6E8EB; }
-
-/* PEC Color Theme Swatches in Hex */
-.PEC-Shadow { color: #B9BBBD; }
-.PEC-Red { color: #D72027; }
-.PEC-Blue { color: #196DAB; }
-.PEC-White { color: #FAFCFF; }
-.PEC-Silver { color: #E6E8EB; }
-
-/* ARMPEC Color Theme Swatches in Hex */
-.ARMPEC-Dark { color: #0F3F61; }
-.ARMPEC-Blue{ color: #196DAB; }
-.ARMPEC-Light { color: #C0B6A5; }
-.ARMPEC-White { color: #E6E8EB; }
-.ARMPEC-Yellow { color: #FDD42E; }
