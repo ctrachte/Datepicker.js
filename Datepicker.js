@@ -135,7 +135,20 @@ class clsDatepicker {
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
         monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6;');
-        let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
+        let monthSelect = document.createElement('select');
+        monthSelect.setAttribute("name", "months");
+        monthSelect.setAttribute("class", "datepicker-month-select");
+        monthSelect.setAttribute("aria-labeled-by", "class");
+        console.log(this.moment._locale)
+        this.moment._locale._months.forEach(function (month) {
+            let option = document.createElement('option');
+            option.innerHTML = month;
+            option.value = this.moment._locale._months[month];
+            if (month === this.moment._locale._months[this.moment.month()]){
+                option.selected = true;
+            }
+        }.bind(this));
+        let monthText = document.createTextNode(" - " + this.moment.format("YYYY"));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
@@ -172,6 +185,7 @@ class clsDatepicker {
         rightArrow.innerHTML = "&#11166;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
+        monthHeader.appendChild(monthSelect);
         monthHeader.appendChild(monthText);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
@@ -325,15 +339,15 @@ class clsDatepicker {
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
         }.bind(this));
-        
+
     }
     // draws start time picker
-    drawStartTimePicker () {
+    drawStartTimePicker() {
         let startTimeElement = document.createElement('div');
         startTimeElement.classList.add("startTimeElement");
         startTimeElement.style.gridColumnStart = 4;
         startTimeElement.style.gridColumnEnd = 8;
-        if (!this.militaryTime){
+        if (!this.militaryTime) {
             this.startHour = this.toAmPm(parseInt(this.startHour));
         }
         let startHour = document.createElement("div");
@@ -443,8 +457,7 @@ class clsDatepicker {
             startam.classList.add("am");
             startam.innerHTML = "AM";
 
-            startam.onclick = function () 
-            {
+            startam.onclick = function () {
                 this.startAmPm = "AM";
                 startam.setAttribute("SELECTED", "true");
                 startpm.removeAttribute("SELECTED");
@@ -475,7 +488,7 @@ class clsDatepicker {
         this.calendarElement.appendChild(startTimeElement);
     }
     // draws end time picker if allowed programmatically.
-    drawEndTimePicker () {
+    drawEndTimePicker() {
         if (!this.singleDate) {
             let endDateElement = document.createElement('div');
             endDateElement.classList.add('endDateElement');
@@ -486,7 +499,7 @@ class clsDatepicker {
             endTimeElement.classList.add("endTimeElement");
             endTimeElement.style.gridColumnStart = 4;
             endTimeElement.style.gridColumnEnd = 8;
-            if (!this.militaryTime){
+            if (!this.militaryTime) {
                 this.endHour = this.toAmPm(parseInt(this.endHour));
             }
             let endHour = document.createElement("div");
