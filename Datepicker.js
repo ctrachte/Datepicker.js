@@ -22,6 +22,7 @@ class clsDatepicker {
         this.containerElement = options.containerElement;
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
         this.presetMenu = this.options.presetMenu !== undefined ? this.options.presetMenu : true;
+        this.menuOptions = this.options.menuOptions !== undefined ? this.options.menuOptions : [];
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
@@ -640,6 +641,11 @@ class clsDatepicker {
             { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
             { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
         ];
+        if (this.menuOptions !== undefined && this.menuOptions.length) {
+            for (let i = 0; i < menuOptions.length; i++) {
+                menuOptions.push(menuOptions[i]);
+            }
+        }
         for (let menuOption of menuOptions) {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
@@ -682,6 +688,7 @@ class clsDatepicker {
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
@@ -696,6 +703,7 @@ class clsDatepicker {
                 this.endHour = 0;
             }
         }
+        // sets the UI and the state if .value() was used to set dates/times
         if (setProgrammatically) {
             this.timeElements.startHourValueEl.value = this.dates[0] ? moment(this.dates[0]).hour() : this.timeElements.startHourValueEl.value;
             this.timeElements.startMinuteValueEl.value = this.dates[0] ? moment(this.dates[0]).minutes() : this.timeElements.startMinuteValueEl.value;
@@ -709,6 +717,7 @@ class clsDatepicker {
         let endDate = this.dates[1];
         let startDate = this.dates[0];
         this.dates = [];
+        // update the UI based on the state 
         if (startDate) {
             this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
             if (!this.singleDate) {
