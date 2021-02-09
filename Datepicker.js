@@ -6,7 +6,7 @@ class clsDatepicker {
             throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
         }
         if (options.containerElement === undefined || !options.containerElement) {
-            throw "Error: you must assign a container element in the Datepicker.js options object!";
+            throw "Error: you must specify a container element in the Datepicker.js options object!";
         }
         // options
         /**
@@ -17,6 +17,10 @@ class clsDatepicker {
          * @property {Boolean} this.options.autoClose Optional - whether or not the datepicker autocloses when selection is complete - Defaults to false
          * @property {Boolean} this.options.singleDate Optional - whether the datepicker allows single date choice, or date range - Defaults to false
          * @property {Boolean} this.options.leadingTrailingDates Optional - whether the datepicker shows leading/trailing dates on the calendar - Defaults to true
+         * @property {Boolean} this.options.militaryTime Optional - 24h format for military time - Defaults to false (12h, am/pm)
+         * @property {string} this.options.format Optional - Must be a Valid Moment.js format. defaults to "MM/DD/YYYY hh:mm A"
+         * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
+         * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
          */
         this.options = options;
         this.containerElement = options.containerElement;
@@ -29,8 +33,7 @@ class clsDatepicker {
         this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
         this.format = this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A";
         this.moment = moment(moment(), this.format, true);
-
-        // methods
+        // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
@@ -52,16 +55,8 @@ class clsDatepicker {
         this.drawEndTimePicker = this.drawEndTimePicker.bind(this);
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
+        // state values, not typically set programmatically.
         this.dates = [];
-        /**
-         * @type {object} timeElements holds references to element objects that contain values that make up time
-         * @property {string} this.timeElements.startHourValueEl
-         * @property {string} this.timeElements.startMinuteValueEl
-         * @property {string} this.timeElements.startampm
-         * @property {string} this.timeElements.endHourValueEl
-         * @property {string} this.timeElements.endMinuteValueEl
-         * @property {string} this.timeElements.endampm
-         */
         this.timeElements = {};
         this.startHour = "12";
         this.startMinute = "00";
@@ -69,13 +64,11 @@ class clsDatepicker {
         this.endHour = "12";
         this.endMinute = "00";
         this.endAmPm = "PM";
+        // initialization logic (constructor)
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
         this.closeCalendar();
-        // test logs
-        // console.log(this.startOfMonth, this.endOfMonth);
-        // console.log(this.moment.daysInMonth());
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
@@ -334,6 +327,7 @@ class clsDatepicker {
         }.bind(this));
         
     }
+    // draws start time picker
     drawStartTimePicker () {
         let startTimeElement = document.createElement('div');
         startTimeElement.classList.add("startTimeElement");
@@ -480,6 +474,7 @@ class clsDatepicker {
         }
         this.calendarElement.appendChild(startTimeElement);
     }
+    // draws end time picker if allowed programmatically.
     drawEndTimePicker () {
         if (!this.singleDate) {
             let endDateElement = document.createElement('div');
@@ -626,10 +621,12 @@ class clsDatepicker {
             }
         }
     }
+    // draws preset menu and options if allowed programmatically.
     drawPresetMenu() {
         this.presetMenuContainer = document.createElement('div');
         this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
         let menuOptionsContainer = document.createElement('ul');
+        // default preset menu options
         let menuOptions = [
             { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
             { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
@@ -641,11 +638,13 @@ class clsDatepicker {
             { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
             { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
         ];
+        // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length) {
             for (let i = 0; i < menuOptions.length; i++) {
                 menuOptions.push(menuOptions[i]);
             }
         }
+        // adds all options to the UI
         for (let menuOption of menuOptions) {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
@@ -665,7 +664,7 @@ class clsDatepicker {
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
         }
-        // close calendar icon
+        // close preset menu icon
         let closePresetIconContainer = document.createElement('div');
         closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
         closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
@@ -778,9 +777,11 @@ class clsDatepicker {
     isVisible(elem) {
         return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
     }
+    // to test clicks outside calendar element to close it
     isOutsideCalendar(event) {
         return (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target) && !event.target.classList.contains('leftArrow') && !event.target.classList.contains("rightArrow"));
     }
+    // closes calendar if clicks are outside boundaries
     outsideCalendarClick(event) {
         if (this.isOutsideCalendar(event)) {
             this.closeCalendar();
@@ -953,6 +954,7 @@ class clsDatepicker {
             }.bind(this));
         }
     }
+    // resets Calendar and Input element to their default state with no Date/Times selected
     resetCalendar() {
         this.dates = [];
         this.containerElement.innerHTML = '';
@@ -972,7 +974,7 @@ class clsDatepicker {
         this.setTime(true);
         this.highlightDates(true);
     }
-    // helper to make time military
+    // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
         hour = parseInt(hour);
         if (hour === 12) {
