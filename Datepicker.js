@@ -139,7 +139,6 @@ class clsDatepicker {
         monthSelect.setAttribute("name", "months");
         monthSelect.setAttribute("class", "datepicker-month-select");
         monthSelect.setAttribute("aria-labeled-by", "class");
-        console.log(this.moment._locale)
         this.moment._locale._months.forEach(function (month) {
             let option = document.createElement('option');
             option.innerHTML = month;
@@ -147,6 +146,7 @@ class clsDatepicker {
             if (month === this.moment._locale._months[this.moment.month()]){
                 option.selected = true;
             }
+            monthSelect.appendChild(option);
         }.bind(this));
         let monthText = document.createTextNode(" - " + this.moment.format("YYYY"));
         // hamburger menu icon
