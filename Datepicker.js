@@ -639,9 +639,9 @@ class clsDatepicker {
             { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
         ];
         // adds any menu options passed into the class constructor options programmatically
-        if (this.menuOptions !== undefined && this.menuOptions.length) {
-            for (let i = 0; i < menuOptions.length; i++) {
-                menuOptions.push(menuOptions[i]);
+        if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
+            for (let i = 0; i < this.menuOptions.length; i++) {
+                menuOptions.push(this.menuOptions[i]);
             }
         }
         // adds all options to the UI
