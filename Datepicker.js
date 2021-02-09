@@ -258,7 +258,7 @@ class clsDatepicker {
             dayCell.innerHTML = parseInt(day) + 1;
             let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format(this.format);
             dayCell.setAttribute('role', 'button');
-            dayCell.setAttribute('aria-label', parseInt(day) + 1 + '-previous-month');
+            dayCell.setAttribute('aria-label', 'day-' + parseInt(day) + 1 + '-previous-month');
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
@@ -270,7 +270,7 @@ class clsDatepicker {
                 dayCell.classList.add("next-month-day-" + i);
                 dayCell.classList.add("leading-trailing-day");
                 dayCell.innerHTML = i;
-                dayCell.setAttribute('aria-label', i + '-next-month');
+                dayCell.setAttribute('aria-label', 'day-' + i + '-next-month');
                 if (i === 0) {
                     dayCell.classList.add('grid-column-start:' + lastDayPos + ';');
                 }
@@ -293,7 +293,7 @@ class clsDatepicker {
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
             startDateElement.innerHTML = `<b>Date:  --/--/----  --:--  </b>`;
-            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
