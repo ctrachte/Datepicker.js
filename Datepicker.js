@@ -139,16 +139,21 @@ class clsDatepicker {
         monthSelect.setAttribute("name", "months");
         monthSelect.setAttribute("class", "datepicker-month-select");
         monthSelect.setAttribute("aria-labeled-by", "class");
-        this.moment._locale._months.forEach(function (month) {
+        monthSelect.setAttribute('style', 'background-color: transparent !important;');
+        this.moment._locale._months.forEach(function (month, index) {
             let option = document.createElement('option');
             option.innerHTML = month;
-            option.value = this.moment._locale._months[month];
-            if (month === this.moment._locale._months[this.moment.month()]){
+            option.value = index + 1;
+            if (month === this.moment._locale._months[this.moment.month()]) {
                 option.selected = true;
             }
             monthSelect.appendChild(option);
         }.bind(this));
-        let monthText = document.createTextNode(" - " + this.moment.format("YYYY"));
+        monthSelect.addEventListener('change', function (e) {
+            this.moment.month(monthSelect.value - 1);
+            this.snapTo();
+        }.bind(this));
+        let monthText = document.createTextNode("- " + this.moment.format("YYYY"));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
