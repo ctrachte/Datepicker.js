@@ -44,6 +44,11 @@
   color:var(--Accent);
 }
 
+.datepicker-month-select {
+  -webkit-appearance: none;
+  outline: none;
+}
+
 b {
   margin: 5px;
 }
