@@ -135,6 +135,7 @@ class clsDatepicker {
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
         monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6;');
+        // month selector to pick month from dropdown
         let monthSelect = document.createElement('select');
         monthSelect.setAttribute("name", "months");
         monthSelect.setAttribute("class", "datepicker-month-select");
@@ -152,7 +153,21 @@ class clsDatepicker {
             this.moment.month(monthSelect.value - 1);
             this.snapTo();
         }.bind(this));
-
+        // year selector to type custom year
+        let yearInput = document.createElement('input');
+        yearInput.setAttribute("type", "number");
+        yearInput.setAttribute("name", "year");
+        yearInput.setAttribute("class", "datepicker-year-input");
+        yearInput.setAttribute("aria-label", "datepicker-year-input");
+        yearInput.value = this.moment.year();
+        yearInput.addEventListener('change', function (e) {
+            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20) ) {
+                yearInput.value = this.moment.year();
+                return;
+            }
+            this.moment.year(yearInput.value);
+            this.snapTo();
+        }.bind(this));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
@@ -190,6 +205,7 @@ class clsDatepicker {
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthSelect);
+        monthHeader.appendChild(yearInput);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
         // close calendar icon

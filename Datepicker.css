@@ -46,7 +46,7 @@
   color:var(--Accent);
 }
 
-.datepicker-month-select {
+.datepicker-month-select, .datepicker-year-input {
   outline: none !important;
   border-style: none !important;
   caret-color: var(--Accent) !important;
