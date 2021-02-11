@@ -44,6 +44,9 @@
 .DatepickerContainer>.monthHeader {
   background-color: var(--Primary);
   color:var(--Accent);
+  text-align: center;
+  align-items: center;
+  display: inline-block;
 }
 
 .datepicker-month-select, .datepicker-year-input {
@@ -60,6 +63,41 @@
   justify-content:center !important;
   display: flex !important;
   vertical-align: middle !important;
+}
+
+.monthHeader> select {
+  background: var(--Secondary) !important;	  
+  background-image:none !important;
+  border: none !important;
+  background-color: var(--Primary) !important;
+  width: 144px;
+  padding:0;
+  clear: both;
+  text-align: center;
+}
+.monthHeader> input[type=number] {
+  background: var(--Secondary) !important;	  
+  background-image:none !important;
+  border: none !important;
+  background-color: var(--Primary) !important;
+  width: 96px;
+  padding:0;
+  clear: both;
+  text-align: center;
+}
+.monthHeader input[type=number]:focus, .monthHeader input[type=number]:active, .monthHeader input[type=number]:focus, .monthHeader input[type=number]:active {
+  width: 96px;
+  border: 2.5px solid var(--Selection) !important;
+  border-radius: 5px;
+  padding:0;
+  outline: 2.5px solid var(--Primary) !important;
+}
+.monthHeader select:focus, .monthHeader select:active, .monthHeader select:focus, .monthHeader select:active {
+  width: 144px;
+  border: 2.5px solid var(--Selection) !important;
+  border-radius: 5px;
+  padding:0;
+  outline: 2.5px solid var(--Primary) !important;
 }
 
 .datepicker-month-select:hover {
@@ -344,6 +382,7 @@ b {
     text-align: center;
     outline: none !important;
   }
+
   .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
     width: calc(2em - 4px);
     border: 2.5px solid var(--Selection) !important;
@@ -352,6 +391,7 @@ b {
     outline: 2.5px solid var(--Primary) !important;
     margin-top: 10%;
   }
+
   .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
     width: calc(2em - 4px);
     border: 2.5px solid var(--Selection) !important;
@@ -366,8 +406,9 @@ b {
     margin: 0;
   }
   /* Firefox */
-  .hour input[type=number], .minute input[type=number] {
+  .hour input[type=number], .minute input[type=number], .monthHeader input[type=number] {
     -moz-appearance: textfield;
+    -webkit-appearance: textfield;
   }
   .TimeUpDown {
     margin-left: 5px;
