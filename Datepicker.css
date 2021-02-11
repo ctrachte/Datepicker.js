@@ -47,11 +47,12 @@
 }
 
 .datepicker-month-select {
-  -webkit-appearance: none !important;
   outline: none !important;
   border-style: none !important;
+  caret-color: var(--Accent) !important;
   background-color: var(--Primary) !important;
   color: var(--Accent) !important;
+  padding-left: 0 !important;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   font-size: 1.5rem !important;
   font-weight: bold !important;
@@ -74,11 +75,15 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   font-size: 1.5rem !important;
   font-weight: bold !important;
-  padding: 5px impo !important;
+  padding: 5px !important;
   align-items:center !important;
   justify-content:center !important;
   display: flex !important;
   vertical-align: middle !important;
+}
+.datepicker-month-select> option:active, option:focus, option:hover {
+  background-color: var(--Accent) !important;
+  color: var(--Primary) !important;
 }
 
 b {

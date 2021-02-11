@@ -152,7 +152,7 @@ class clsDatepicker {
             this.moment.month(monthSelect.value - 1);
             this.snapTo();
         }.bind(this));
-        let monthText = document.createTextNode("- " + this.moment.format("YYYY"));
+
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
@@ -190,7 +190,6 @@ class clsDatepicker {
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthSelect);
-        monthHeader.appendChild(monthText);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
         // close calendar icon
