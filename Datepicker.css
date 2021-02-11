@@ -52,7 +52,6 @@
 .datepicker-month-select, .datepicker-year-input {
   outline: none !important;
   border-style: none !important;
-  caret-color: var(--Accent) !important;
   background-color: var(--Primary) !important;
   color: var(--Accent) !important;
   padding-left: 0 !important;
@@ -106,7 +105,7 @@
   display: flex !important;
   vertical-align: middle !important;
 }
-.datepicker-month-select> option:active, option:focus, option:hover {
+.datepicker-month-select> option:active, option:focus {
   background-color: var(--Accent) !important;
   color: var(--Primary) !important;
 }
