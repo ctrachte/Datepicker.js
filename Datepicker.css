@@ -409,16 +409,16 @@ button, input[type="submit"], input[type="reset"] {
 .launch {
   float: left;
   border-style: solid;
-  border-color: var(--Shadow);
+  border-color: var(--Selection);
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
-  color: var(--Primary);
+  color:var(--Primary);
 }
 
 .headingBlock {
   float: left;
-  background-color: var(--Shadow);
+  background-color: var(--Selection);
   text-align: right;
   min-width: 100px;
   line-height: 40px;
@@ -431,7 +431,7 @@ button, input[type="submit"], input[type="reset"] {
   line-height: 40px;
   padding: 0px 20px;
   background-color: var(--Primary);
-  color: var(--Shadow);
+  color: var(--Selection);
 }
 
 .launchButton {
@@ -439,7 +439,7 @@ button, input[type="submit"], input[type="reset"] {
   float: left;
   position: absolute;
   text-align: center;
-  color: var(--Shadow);
+  color: var(--Primary);
   width:250px;
   line-height: 80px;
   border-radius: 5px;
