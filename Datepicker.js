@@ -138,8 +138,7 @@ class clsDatepicker {
         let monthSelect = document.createElement('select');
         monthSelect.setAttribute("name", "months");
         monthSelect.setAttribute("class", "datepicker-month-select");
-        monthSelect.setAttribute("aria-labeled-by", "class");
-        monthSelect.setAttribute('style', 'background-color: transparent !important;');
+        monthSelect.setAttribute("aria-label", "datepicker-month-select");
         this.moment._locale._months.forEach(function (month, index) {
             let option = document.createElement('option');
             option.innerHTML = month;
