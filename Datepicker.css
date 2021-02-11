@@ -1,15 +1,15 @@
 :root { 
 
 /* Sundown Color Theme Swatches in Hex */
---Primary: #556b97;
+/* --Primary: #556b97;
 --Secondary: #364a62;
 --Shadow: #272727;
 --Selection: #a3c5f1;
---Accent: #62f0c8;
+--Accent: #62f0c8; */
 
 /* Army Color Theme Swatches in Hex */
-/* 
---Primary: #918b7e;
+
+/* --Primary: #918b7e;
 --Secondary: #666158;
 --Shadow: #000000;
 --Selection: #e6e8eb;
@@ -22,12 +22,12 @@
 --Selection: #196dab;
 --Accent: #d72027; */
 
-/* ARMPEC Color Theme Swatches in Hex */
-/* --Primary: #ffffff;
+/* PEC TEAM Color Theme Swatches in Hex */
+--Primary: #ffffff;
 --Secondary: #e0e0e0;
 --Shadow: #333333;
 --Selection: #002e5f;
---Accent: #c0143c; */
+--Accent: #c0143c;
 }
 
 .DatepickerContainer {
