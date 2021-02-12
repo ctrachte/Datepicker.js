@@ -805,6 +805,13 @@ class clsDatepicker {
             this.drawInputElement();
         }
     }
+    // returns start date only
+    startDate() {
+        return new Date(this.dates[0]);
+    }
+    endDate() {
+        return new Date(this.dates[1]);
+    }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
         return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
