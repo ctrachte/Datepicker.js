@@ -766,13 +766,17 @@ class clsDatepicker {
     value(dates, format = this.format) {
         if (typeof dates === "object") {
             if (dates[0]) {
-                this.dates[0] = moment(dates[0], format);
+                this.dates[0] = moment(dates[0], format)._i;
             }
             if (dates[1]) {
-                this.dates[1] = moment(dates[1], format);
+                this.dates[1] = moment(dates[1], format)._i;
             }
             if (!dates[0] && !dates[1] && typeof dates === "object") {
+                if (!this.singleDate) {
+                    console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
+                }
                 this.dates[1] = moment(dates[1], format)._i;
+                this.dates[0] = moment(this.dates[0], format)._i;
             } 
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
@@ -795,6 +799,9 @@ class clsDatepicker {
                 return dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
+            if (!this.singleDate) {
+                console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
+            }
             this.dates[0] = moment(dates, format)._i;
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
@@ -813,7 +820,7 @@ class clsDatepicker {
         if (value) {
             this.value(["", value]);
         }
-        return typeof new Date(this.dates[1]);
+        return new Date(this.dates[1]);
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
