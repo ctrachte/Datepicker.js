@@ -1027,13 +1027,24 @@ class clsDatepicker {
     // helper that snaps the calendar UI to a given date
     snapTo(date = this.moment) {
         this.moment = moment(date);
-        this.containerElement.innerHTML = '';
-        this.drawCalendar();
-        this.drawInputElement();
-        this.drawPresetMenu();
-        this.closePresetMenu();
-        this.setTime(true);
-        this.highlightDates(true);
+        if (this.isVisible(this.calendarElement)) {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            this.setTime(true);
+            this.highlightDates(true);
+        } else {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            this.setTime(true);
+            this.highlightDates(true);
+            this.closeCalendar();
+        }
     }
     // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
