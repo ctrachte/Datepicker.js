@@ -765,26 +765,26 @@ class clsDatepicker {
     // helper method to set dates if provided, return dates if not.
     value(dates, format = this.format) {
         if (typeof dates === "object") {
-            // user supplied at least one date, set that date in the UI and Datepicker state.
-            this.dates[0] = dates[0] ? moment(dates[0])._i : this.dates[0];
-            this.dates[1] = dates[1] ? moment(dates[1])._i : this.dates[1];
-            if (this.dates[0]) {
-                this.dates[0] = moment(dates[0], format)._i;
+            if (dates[0]) {
+                this.dates[0] = moment(dates[0], format);
             }
             if (dates[1]) {
-                this.dates[1] = moment(dates[1], format)._i;
+                this.dates[1] = moment(dates[1], format);
             }
+            if (!dates[0] && !dates[1] && typeof dates === "object") {
+                this.dates[1] = moment(dates[1], format)._i;
+            } 
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
             this.setTime(true);
             this.drawInputElement();
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
-            if (dates[0]) {
-                dates[0] = moment(dates[0]).format(format)._i;
+            if (this.dates[0]) {
+                this.dates[0] = moment(this.dates[0]).format(format);
             }
-            if (dates[1]) {
-                dates[1] = moment(dates[1]).format(format)._i;
+            if (this.dates[1]) {
+                this.dates[1] = moment(this.dates[1]).format(format);
             }
             if (this.singleDate) {
                 return new Date(this.dates[0])
@@ -813,7 +813,7 @@ class clsDatepicker {
         if (value) {
             this.value(["", value]);
         }
-        return new Date(this.dates[1]);
+        return typeof new Date(this.dates[1]);
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
