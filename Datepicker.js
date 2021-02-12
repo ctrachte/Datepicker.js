@@ -161,7 +161,7 @@ class clsDatepicker {
         yearInput.setAttribute("aria-label", "datepicker-year-input");
         yearInput.value = this.moment.year();
         yearInput.addEventListener('change', function (e) {
-            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20) ) {
+            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
                 yearInput.value = this.moment.year();
                 return;
             }
@@ -763,28 +763,28 @@ class clsDatepicker {
         }
     }
     // helper method to set dates if provided, return dates if not.
-    value(dates, format) {
+    value(dates, format = this.format) {
         if (typeof dates === "object") {
             // user supplied at least one date, set that date in the UI and Datepicker state.
-            this.dates[0] = moment(dates[0])._i;
-            this.dates[1] = dates[1] ? moment(dates[1])._i : "";
-            if (format) {
+            this.dates[0] = dates[0] ? moment(dates[0])._i : this.dates[0];
+            this.dates[1] = dates[1] ? moment(dates[1])._i : this.dates[1];
+            if (this.dates[0]) {
                 this.dates[0] = moment(dates[0], format)._i;
-                if (dates[1]) {
-                    this.dates[1] = moment(dates[1], format)._i;
-                }
+            }
+            if (dates[1]) {
+                this.dates[1] = moment(dates[1], format)._i;
             }
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
             this.setTime(true);
             this.drawInputElement();
-        } else if (!dates || typeof dates === undefined) {
+        } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
-            if (format) {
+            if (dates[0]) {
                 dates[0] = moment(dates[0]).format(format)._i;
-                if (dates[1]) {
-                    dates[1] = moment(dates[1]).format(format)._i;
-                }
+            }
+            if (dates[1]) {
+                dates[1] = moment(dates[1]).format(format)._i;
             }
             if (this.singleDate) {
                 return new Date(this.dates[0])
@@ -795,10 +795,7 @@ class clsDatepicker {
                 return dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
-            this.dates[0] = moment(dates)._i;
-            if (format) {
-                this.dates[0] = moment(dates, format)._i;
-            }
+            this.dates[0] = moment(dates, format)._i;
             // invoke highlighting fn to ensure calendar UI is updated
             this.highlightDates();
             this.setTime(true);
@@ -806,10 +803,16 @@ class clsDatepicker {
         }
     }
     // returns start date only
-    startDate() {
+    startDate(value) {
+        if (value) {
+            this.value([value, ""]);
+        }
         return new Date(this.dates[0]);
     }
-    endDate() {
+    endDate(value) {
+        if (value) {
+            this.value(["", value]);
+        }
         return new Date(this.dates[1]);
     }
     // helpers to hide calendar when clicked off.
