@@ -783,7 +783,7 @@ class clsDatepicker {
             // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
-                console.warn("Datepicker.js - WARNING: Entered a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+                console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
                 dates[0] = this.dates[1];
                 dates[1] = this.dates[0];
                 this.dates = dates;
@@ -813,7 +813,7 @@ class clsDatepicker {
             // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
-                console.warn("Datepicker.js - WARNING: Entered a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+                console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
                 dates[0] = this.dates[1];
                 dates[1] = this.dates[0];
                 this.dates = dates;
