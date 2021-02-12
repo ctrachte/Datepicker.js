@@ -47,6 +47,8 @@ class clsDatepicker {
         this.closePresetMenu = this.closePresetMenu.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
+        this.startDate = this.startDate.bind(this);
+        this.endDate = this.endDate.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
@@ -161,7 +163,7 @@ class clsDatepicker {
         yearInput.setAttribute("aria-label", "datepicker-year-input");
         yearInput.value = this.moment.year();
         yearInput.addEventListener('change', function (e) {
-            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20) ) {
+            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
                 yearInput.value = this.moment.year();
                 return;
             }
@@ -763,28 +765,37 @@ class clsDatepicker {
         }
     }
     // helper method to set dates if provided, return dates if not.
-    value(dates, format) {
+    value(dates, format = this.format) {
         if (typeof dates === "object") {
-            // user supplied at least one date, set that date in the UI and Datepicker state.
-            this.dates[0] = moment(dates[0])._i;
-            this.dates[1] = dates[1] ? moment(dates[1])._i : "";
-            if (format) {
+            if (dates[0]) {
                 this.dates[0] = moment(dates[0], format)._i;
-                if (dates[1]) {
-                    this.dates[1] = moment(dates[1], format)._i;
-                }
             }
-            // invoke highlighting fn to ensure calendar UI is updated
-            this.highlightDates();
-            this.setTime(true);
-            this.drawInputElement();
-        } else if (!dates || typeof dates === undefined) {
-            // no date supplied, return the dates from the Datepicker state
-            if (format) {
-                dates[0] = moment(dates[0]).format(format)._i;
-                if (dates[1]) {
-                    dates[1] = moment(dates[1]).format(format)._i;
+            if (dates[1]) {
+                this.dates[1] = moment(dates[1], format)._i;
+            }
+            if (!dates[0] && !dates[1] && typeof dates === "object") {
+                if (!this.singleDate) {
+                    console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
+                this.dates[1] = moment(dates, format)._i;
+                this.dates[0] = moment(this.dates[0], format)._i;
+            }
+            // ensure calendar UI is updated
+            if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+                let dates = [];
+                console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+                dates[0] = this.dates[1];
+                dates[1] = this.dates[0];
+                this.dates = dates;
+            }
+            this.snapTo(this.dates[0]);
+        } else if (!dates || typeof dates === undefined || !this.dates.length) {
+            // no date supplied, return the dates from the Datepicker state
+            if (this.dates[0]) {
+                this.dates[0] = moment(this.dates[0]).format(format);
+            }
+            if (this.dates[1]) {
+                this.dates[1] = moment(this.dates[1]).format(format);
             }
             if (this.singleDate) {
                 return new Date(this.dates[0])
@@ -795,15 +806,33 @@ class clsDatepicker {
                 return dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
-            this.dates[0] = moment(dates)._i;
-            if (format) {
-                this.dates[0] = moment(dates, format)._i;
+            if (!this.singleDate) {
+                console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
             }
-            // invoke highlighting fn to ensure calendar UI is updated
-            this.highlightDates();
-            this.setTime(true);
-            this.drawInputElement();
+            this.dates[0] = moment(dates, format)._i;
+            // ensure calendar UI is updated
+            if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+                let dates = [];
+                console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+                dates[0] = this.dates[1];
+                dates[1] = this.dates[0];
+                this.dates = dates;
+            }
+            this.snapTo(this.dates[0]);
         }
+    }
+    // returns start date only
+    startDate(value) {
+        if (value) {
+            this.value([value, ""]);
+        }
+        return new Date(this.dates[0]);
+    }
+    endDate(value) {
+        if (value) {
+            this.value(["", value]);
+        }
+        return new Date(this.dates[1]);
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
@@ -998,13 +1027,24 @@ class clsDatepicker {
     // helper that snaps the calendar UI to a given date
     snapTo(date = this.moment) {
         this.moment = moment(date);
-        this.containerElement.innerHTML = '';
-        this.drawCalendar();
-        this.drawInputElement();
-        this.drawPresetMenu();
-        this.closePresetMenu();
-        this.setTime(true);
-        this.highlightDates(true);
+        if (this.isVisible(this.calendarElement)) {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            this.setTime(true);
+            this.highlightDates(true);
+        } else {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            this.setTime(true);
+            this.highlightDates(true);
+            this.closeCalendar();
+        }
     }
     // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
