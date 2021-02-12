@@ -47,6 +47,8 @@ class clsDatepicker {
         this.closePresetMenu = this.closePresetMenu.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
+        this.startDate = this.startDate.bind(this);
+        this.endDate = this.endDate.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
@@ -777,8 +779,14 @@ class clsDatepicker {
                 }
                 this.dates[1] = moment(dates, format)._i;
                 this.dates[0] = moment(this.dates[0], format)._i;
-            } 
+            }
             // ensure calendar UI is updated
+            if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+                let dates = [];
+                dates[0] = this.dates[1];
+                dates[1] = this.dates[0];
+                this.dates = dates;
+            }
             this.snapTo(this.dates[0]);
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
@@ -802,6 +810,12 @@ class clsDatepicker {
             }
             this.dates[0] = moment(dates, format)._i;
             // ensure calendar UI is updated
+            if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+                let dates = [];
+                dates[0] = this.dates[1];
+                dates[1] = this.dates[0];
+                this.dates = dates;
+            }
             this.snapTo(this.dates[0]);
         }
     }
