@@ -775,13 +775,11 @@ class clsDatepicker {
                 if (!this.singleDate) {
                     console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
-                this.dates[1] = moment(dates[1], format)._i;
+                this.dates[1] = moment(dates, format)._i;
                 this.dates[0] = moment(this.dates[0], format)._i;
             } 
-            // invoke highlighting fn to ensure calendar UI is updated
-            this.highlightDates();
-            this.setTime(true);
-            this.drawInputElement();
+            // ensure calendar UI is updated
+            this.snapTo(this.dates[0]);
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
             if (this.dates[0]) {
@@ -803,10 +801,8 @@ class clsDatepicker {
                 console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
             }
             this.dates[0] = moment(dates, format)._i;
-            // invoke highlighting fn to ensure calendar UI is updated
-            this.highlightDates();
-            this.setTime(true);
-            this.drawInputElement();
+            // ensure calendar UI is updated
+            this.snapTo(this.dates[0]);
         }
     }
     // returns start date only
