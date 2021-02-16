@@ -503,6 +503,8 @@ class clsDatepicker {
                 startam.setAttribute("SELECTED", "true");
                 startpm.removeAttribute("SELECTED");
             }
+            this.timeElements.startam = startam;
+            this.timeElements.startpm = startpm;
             startampm.appendChild(startpm);
             startTimeElement.appendChild(startampm);
         }
@@ -652,6 +654,8 @@ class clsDatepicker {
                 }
                 endampm.appendChild(endpm);
                 endTimeElement.appendChild(endampm);
+                this.timeElements.endam = endam;
+                this.timeElements.endpm = endpm;
             }
         }
     }
@@ -660,17 +664,18 @@ class clsDatepicker {
         this.presetMenuContainer = document.createElement('div');
         this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
         let menuOptionsContainer = document.createElement('ul');
+        let today = new Date();
         // default preset menu options
         let menuOptions = [
-            { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
-            { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
-            { title: 'Last Week', values: [moment().add(-1, 'week').startOf('week'), moment().add(-1, 'week').endOf('week')] },
-            { title: 'This Month', values: [moment().startOf('month'), moment().endOf('month')] },
-            { title: 'Next Month', values: [moment().add(+1, 'month').startOf('month'), moment().add(+1, 'month').endOf('month')] },
-            { title: 'Last Month', values: [moment().add(-1, 'month').startOf('month'), moment().add(-1, 'month').endOf('month')] },
-            { title: 'This Year', values: [moment().startOf('year'), moment().endOf('year')] },
-            { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
-            { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
+            { title: 'This Week', values: [moment(today).startOf('week'), moment(today).endOf('week')] },
+            { title: 'Next Week', values: [moment(today).add(+1, 'week').startOf('week'), moment(today).add(+1, 'week').endOf('week')] },
+            { title: 'Last Week', values: [moment(today).add(-1, 'week').startOf('week'), moment(today).add(-1, 'week').endOf('week')] },
+            { title: 'This Month', values: [moment(today).startOf('month'), moment(today).endOf('month')] },
+            { title: 'Next Month', values: [moment(today).add(+1, 'month').startOf('month'), moment(today).add(+1, 'month').endOf('month')] },
+            { title: 'Last Month', values: [moment(today).add(-1, 'month').startOf('month'), moment(today).add(-1, 'month').endOf('month')] },
+            { title: 'This Year', values: [moment(today).startOf('year'), moment(today).endOf('year')] },
+            { title: 'Next Year', values: [moment(today).add(+1, 'year').startOf('year'), moment(today).add(+1, 'year').endOf('year')] },
+            { title: 'Last Year', values: [moment(today).add(-1, 'year').startOf('year'), moment(today).add(-1, 'year').endOf('year')] },
         ];
         // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
@@ -723,6 +728,24 @@ class clsDatepicker {
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
         // Sanitizes the UI and the state if .value() was used to set dates/times
         if (setProgrammatically) {
+            if (!this.militaryTime) {
+                this.endAmPm = this.endAmPm > 12 ? "AM" : "PM";
+                this.startAmPm = this.startAmPm > 12 ? "AM" : "PM";
+                if (this.endAmPm === "PM") {
+                    this.timeElements.endpm.setAttribute("SELECTED", "true");
+                    this.timeElements.endam.removeAttribute("SELECTED");
+                } else {
+                    this.timeElements.endam.setAttribute("SELECTED", "true");
+                    this.timeElements.endpm.removeAttribute("SELECTED");
+                }
+                if (this.startAmPm === "PM") {
+                    this.timeElements.startpm.setAttribute("SELECTED", "true");
+                    this.timeElements.startam.removeAttribute("SELECTED");
+                } else {
+                    this.timeElements.startam.setAttribute("SELECTED", "true");
+                    this.timeElements.startpm.removeAttribute("SELECTED");
+                }
+            }
             this.timeElements.startHourValueEl.value = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
             this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
             this.timeElements.endHourValueEl.value = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
