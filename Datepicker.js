@@ -728,9 +728,17 @@ class clsDatepicker {
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
         // Sanitizes the UI and the state if .value() was used to set dates/times
         if (setProgrammatically) {
-            this.timeElements.startHourValueEl.value = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
+            let startHour = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
+            if (!startHour) {
+                startHour = 12;
+            }
+            let endHour =  this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            if (!endHour) {
+                endHour = 12;
+            }
+            this.timeElements.startHourValueEl.value = startHour;
             this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
-            this.timeElements.endHourValueEl.value = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            this.timeElements.endHourValueEl.value = endHour;
             this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
             this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
