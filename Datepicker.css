@@ -1,31 +1,33 @@
 :root { 
+
 /* Sundown Color Theme Swatches in Hex */
-/* --Accent: #FCBB6D;
---Background: #D8737F;
---Secondary: #AB6C8C;
---Primary: #685D79;
---Shadow: #475C7A; */
+/* --Primary: #556b97;
+--Secondary: #364a62;
+--Shadow: #272727;
+--Selection: #a3c5f1;
+--Accent: #62f0c8; */
 
 /* Army Color Theme Swatches in Hex */
---Accent: #000000;
---Secondary: #FDD42E;
---Background: #C0B6A5;
---Primary: #918B7E;
---Shadow: #E6E8EB;
+
+/* --Primary: #918b7e;
+--Secondary: #666158;
+--Shadow: #000000;
+--Selection: #e6e8eb;
+--Accent: #fdd42e; */
 
 /* PEC Color Theme Swatches in Hex */
-/* --Secondary: #999999;
---Shadow: #B9BBBD;
---Accent: #196DAB;
---Primary: #FAFCFF;
---Background: #E6E8EB; */
+/* --Primary: #fafcff;
+--Secondary: #e6e8eb;
+--Shadow: #333333;
+--Selection: #196dab;
+--Accent: #d72027; */
 
-/* ARMPEC Color Theme Swatches in Hex */
-/* --Shadow: #0F3F61;
---Primary: #196DAB;
---Secondary: #C0B6A5;
---Background: #E6E8EB;
---Accent: #FDD42E; */
+/* PEC TEAM Color Theme Swatches in Hex */
+--Primary: #ffffff;
+--Secondary: #e0e0e0;
+--Shadow: #333333;
+--Selection: #002e5f;
+--Accent: #c0143c;
 }
 
 .DatepickerContainer {
@@ -36,12 +38,76 @@
 }
 
 .DatepickerContainer>.grid-container {
-  background-color: var(--Background);
+  background-color: var(--Secondary);
 }
 
 .DatepickerContainer>.monthHeader {
   background-color: var(--Primary);
   color:var(--Accent);
+  text-align: center;
+  align-items: center;
+  display: inline-block;
+}
+
+.datepicker-month-select, .datepicker-year-input {
+  outline: none !important;
+  border-style: none !important;
+  background-color: var(--Primary) !important;
+  color: var(--Accent) !important;
+  padding-left: 0 !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  align-items:center !important;
+  justify-content:center !important;
+  display: flex !important;
+  vertical-align: middle !important;
+}
+
+.monthHeader> select {
+  background: var(--Secondary) !important;	  
+  background-image:none !important;
+  border: none !important;
+  background-color: var(--Primary) !important;
+  width: 148px;
+  padding:0;
+  clear: both;
+  text-align: center;
+}
+
+.monthHeader> input[type=number] {
+  background: var(--Secondary) !important;	  
+  background-image:none !important;
+  border: none !important;
+  background-color: var(--Primary) !important;
+  width: 90px;
+  padding:0;
+  clear: both;
+  text-align: center;
+}
+
+.datepicker-month-select:hover {
+  cursor: pointer;
+}
+
+.datepicker-month-select> option {
+  border-style: none !important;
+  -webkit-appearance: none !important;
+  outline: none !important;
+  background-color: var(--Primary) !important;
+  color: var(--Accent) !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  padding: 5px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  display: flex !important;
+  vertical-align: middle !important;
+}
+.datepicker-month-select> option:active, option:focus {
+  background-color: var(--Accent) !important;
+  color: var(--Primary) !important;
 }
 
 b {
@@ -59,7 +125,7 @@ b {
   height: auto;
   margin: 0 auto;
   box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
-  background-color: var(--Background) !important;
+  background-color: var(--Primary) !important;
   -webkit-animation-name: menuanimatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: menuanimatetop;
@@ -79,13 +145,13 @@ b {
   height:auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color:var(--Primary);
-  color:var(--Accent);
+  background-color:var(--Secondary);
+  color:var(--Shadow);
   border-radius: 5px;
 }
 .presetMenuContainer>ul li:hover, li:active {
   cursor: pointer;
-  box-shadow:0px 20px 70px 1px var(--Shadow);
+  box-shadow:1px 1px 10px 1px var(--Shadow);
   opacity: 0.85;
 }
 
@@ -95,8 +161,8 @@ b {
   width: 1.25em;
   height: 0.8em;
   margin-right: 0.3em;
-  border-top: 0.2em solid var(--Primary);
-  border-bottom: 0.2em solid var(--Primary);
+  border-top: 0.2em solid var(--Selection);
+  border-bottom: 0.2em solid var(--Selection);
   align-self: left;
 }
 
@@ -112,7 +178,7 @@ b {
   top: 0.3em;
   left: 0px;
   width: 100%;
-  border-top: 0.2em solid var(--Primary);
+  border-top: 0.2em solid var(--Selection);
 }
 
 .close-calendar-button:hover {
@@ -124,7 +190,7 @@ b {
 .leftArrow, .rightArrow {
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--Primary) !important;
+  color: var(--Accent) !important;
 }
 .leftArrow:hover, .rightArrow:hover {
   font-size: 2rem;
@@ -135,7 +201,7 @@ b {
   position:absolute;
   right:5px;
   top:0;
-  color: var(--Primary);
+  color: var(--Shadow);
   margin:5px;
 }
 .close-preset-menu:hover {
@@ -144,7 +210,7 @@ b {
 }
 
 .close-calendar-button {
-  color: var(--Primary) !important;
+  color: var(--Selection) !important;
 }
 .grid-container {
     display: grid;
@@ -190,7 +256,7 @@ b {
     justify-content: center;
     align-items: center;
     background-color: var(--Primary);
-    color: var(--Accent);
+    color: var(--Shadow);
     text-align: center;
     font-size: 24px;
     border-radius: 5px; 
@@ -198,9 +264,9 @@ b {
   }
 
   .grid-container > div.active {
-    background-color: var(--Accent);
-    color:var(--Shadow);   
-    box-shadow:0px 20px 70px 1px var(--Shadow);
+    background-color: var(--Selection);
+    color:var(--Primary);   
+    /* box-shadow:0px 20px 70px 1px var(--Shadow); */
   }
 
   .grid-container > .day {
@@ -221,19 +287,21 @@ b {
     padding: 24px;
     height: 48px;
     width: 48px;
-    color: var(--Primary);
-    background-color: var(--Shadow);
-    opacity: 0.6;
+    color: var(--Shadow);
+    background-color: var(--Secondary);
+    /* opacity: 0.6; */
     transition: all, 0.1s;   
   }
   .grid-container > .day.highlighted {
-    background-color: var(--Accent);
-    color:var(--Shadow);
-    box-shadow:0px 20px 70px 1px var(--Shadow);   
+    background-color: var(--Selection);
+    color:var(--Primary);
+    /* box-shadow:0px 20px 70px 1px var(--Shadow);    */
   }
 
   .grid-container > .dayHeader {
     padding: 20px;
+    color: var(--Primary);
+    background-color: var(--Shadow);
   }
 
   .grid-container > .monthHeader {
@@ -252,6 +320,7 @@ b {
     display: flex;
     justify-content: center;
     align-items: center;
+    color:var(--Accent);
   }
   .grid-container > .monthHeader > .rightArrow {
     vertical-align: middle;
@@ -262,6 +331,7 @@ b {
     display: flex;
     justify-content: center;
     align-items: center;
+    color:var(--Accent);
   }
   .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {
     font-size: 1rem !important;
@@ -273,7 +343,7 @@ b {
 
   .startTimeElement, .endTimeElement, .startTimeElement input, .endTimeElement input {
     font-size: 1.54em !important;
-    color: var(--Background);
+    color: var(--Shadow);
   }
   .startTimeElement, .endTimeElement {
     display: grid;
@@ -284,11 +354,11 @@ b {
     align-items: center;
   }
   .hour input, .minute input {
-    background: var(--Primary) !important;	  
+    background: var(--Secondary) !important;	  
     background-image:none !important;
     border: none !important;
     background-color: var(--Primary) !important;
-    color: var(--Accent);
+    color: var(--Shadow);
     width: calc(2em - 4px);
     display: block;
     float: left;
@@ -298,17 +368,19 @@ b {
     text-align: center;
     outline: none !important;
   }
+
   .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
     width: calc(2em - 4px);
-    border: 2.5px solid var(--Accent) !important;
+    border: 2.5px solid var(--Selection) !important;
     border-radius: 5px;
     padding:0;
     outline: 2.5px solid var(--Primary) !important;
     margin-top: 10%;
   }
+
   .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
     width: calc(2em - 4px);
-    border: 2.5px solid var(--Accent) !important;
+    border: 2.5px solid var(--Selection) !important;
     padding:0;
     border-radius: 5px;
     outline: 2.5px solid var(--Primary) !important;
@@ -320,43 +392,45 @@ b {
     margin: 0;
   }
   /* Firefox */
-  .hour input[type=number], .minute input[type=number] {
+  .hour input[type=number], .minute input[type=number], .monthHeader input[type=number] {
     -moz-appearance: textfield;
+    -webkit-appearance: textfield;
   }
   .TimeUpDown {
     margin-left: 5px;
     float: left;
-    color: var(--Background);
+    color: var(--Shadow);
   }
   .TimeUpDown div {
     cursor: pointer;
-    color: var(--Background);
+    color: var(--Shadow);
   }  
   .TimeUpDown div:hover {
     opacity: 0.7;
     cursor:pointer;
-    box-shadow:0px 20px 70px 1px var(--Shadow);
+    /* box-shadow:1px 1px 5px 1px var(--Shadow); */
   }
   .ampm {
     border-radius: 5px;
-    border: 2px solid var(--Primary);
+    border: 2px solid var(--Selection);
+    color: var(--Secondary);
   }
   .am, .pm {
     cursor: pointer;
     padding: 2px;
   }
   .am[selected], .pm[selected]{
-    background-color: var(--Background);
-    color: var(--Accent);
+    background-color: var(--Selection);
+    color: var(--Primary);
   }
   .am {
-    border-bottom: 1px solid var(--Primary);
+    border-bottom: 1px solid var(--Selection);
   }
 
 /* submit button styling */
 .cancelButton {
   font-size: 2rem;
-  background-color: var(--Primary);
+  background-color: var(--Shadow);
   text-align: center;
   border-radius: 5px; 
   transition: all, 0.1s;
@@ -366,7 +440,7 @@ b {
 
 .submitButton {
   font-size: 3rem;
-  background-color: var(--Accent);
+  background-color: var(--Selection);
   color:var(--Primary);
   text-align: center;
   border-radius: 5px; 
@@ -375,7 +449,7 @@ b {
 }
 
 .submitButton:hover, .cancelButton:hover {
-  box-shadow:0px 20px 70px 1px var(--Shadow);
+  box-shadow:1px 1px 5px 1px var(--Shadow);
   cursor: pointer;
   opacity: 0.85;
 }
@@ -390,23 +464,23 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .disabled {
-  opacity: 0.6;
+  /* opacity: 0.6; */
   cursor: not-allowed;
 }
 
 .launch {
   float: left;
   border-style: solid;
-  border-color: var(--Accent);
+  border-color: var(--Selection);
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
-  color: var(--Accent);
+  color:var(--Primary);
 }
 
 .headingBlock {
   float: left;
-  background-color: var(--Background);
+  background-color: var(--Selection);
   text-align: right;
   min-width: 100px;
   line-height: 40px;
@@ -418,6 +492,8 @@ button, input[type="submit"], input[type="reset"] {
   min-width: 100px;
   line-height: 40px;
   padding: 0px 20px;
+  background-color: var(--Primary);
+  color: var(--Selection);
 }
 
 .launchButton {
@@ -425,7 +501,7 @@ button, input[type="submit"], input[type="reset"] {
   float: left;
   position: absolute;
   text-align: center;
-  color: var(--Primary);
+  color: var(--Selection);
   width:250px;
   line-height: 80px;
   border-radius: 5px;
@@ -447,7 +523,7 @@ button, input[type="submit"], input[type="reset"] {
 .day:hover {
   cursor:pointer;
   opacity: 0.85;
-  box-shadow:0px 20px 70px 1px var(--Secondary);
+  box-shadow:0px 0px 5px 1px var(--Shadow);
 }
 
 

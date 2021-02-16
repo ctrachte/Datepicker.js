@@ -6,7 +6,7 @@ class clsDatepicker {
             throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
         }
         if (options.containerElement === undefined || !options.containerElement) {
-            throw "Error: you must assign a container element in the Datepicker.js options object!";
+            throw "Error: you must specify a container element in the Datepicker.js options object!";
         }
         // options
         /**
@@ -17,19 +17,23 @@ class clsDatepicker {
          * @property {Boolean} this.options.autoClose Optional - whether or not the datepicker autocloses when selection is complete - Defaults to false
          * @property {Boolean} this.options.singleDate Optional - whether the datepicker allows single date choice, or date range - Defaults to false
          * @property {Boolean} this.options.leadingTrailingDates Optional - whether the datepicker shows leading/trailing dates on the calendar - Defaults to true
+         * @property {Boolean} this.options.militaryTime Optional - 24h format for military time - Defaults to false (12h, am/pm)
+         * @property {string} this.options.format Optional - Must be a Valid Moment.js format. defaults to "MM/DD/YYYY hh:mm A"
+         * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
+         * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
          */
         this.options = options;
         this.containerElement = options.containerElement;
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
         this.presetMenu = this.options.presetMenu !== undefined ? this.options.presetMenu : true;
+        this.menuOptions = this.options.menuOptions !== undefined ? this.options.menuOptions : [];
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
         this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
         this.format = this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A";
         this.moment = moment(moment(), this.format, true);
-
-        // methods
+        // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
@@ -43,36 +47,30 @@ class clsDatepicker {
         this.closePresetMenu = this.closePresetMenu.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
         this.value = this.value.bind(this);
+        this.startDate = this.startDate.bind(this);
+        this.endDate = this.endDate.bind(this);
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
+        this.drawStartTimePicker = this.drawStartTimePicker.bind(this);
+        this.drawEndTimePicker = this.drawEndTimePicker.bind(this);
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
+        // state values, not typically set programmatically.
         this.dates = [];
-        /**
-         * @type {object} timeElements holds references to element objects that contain values that make up time
-         * @property {string} this.timeElements.startHourValueEl
-         * @property {string} this.timeElements.startMinuteValueEl
-         * @property {string} this.timeElements.startampm
-         * @property {string} this.timeElements.endHourValueEl
-         * @property {string} this.timeElements.endMinuteValueEl
-         * @property {string} this.timeElements.endampm
-         */
         this.timeElements = {};
         this.startHour = "12";
         this.startMinute = "00";
-        this.startAmPm = "AM";
+        this.startAmPm = "PM";
         this.endHour = "12";
         this.endMinute = "00";
-        this.endAmPm = "AM";
+        this.endAmPm = "PM";
+        // initialization logic (constructor)
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
         this.closeCalendar();
-        // test logs
-        // console.log(this.startOfMonth, this.endOfMonth);
-        // console.log(this.moment.daysInMonth());
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
@@ -139,7 +137,39 @@ class clsDatepicker {
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
         monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6;');
-        let monthText = document.createTextNode(this.moment._locale._months[this.moment.month()] + " - " + this.moment.format("YYYY"));
+        // month selector to pick month from dropdown
+        let monthSelect = document.createElement('select');
+        monthSelect.setAttribute("name", "months");
+        monthSelect.setAttribute("class", "datepicker-month-select");
+        monthSelect.setAttribute("aria-label", "datepicker-month-select");
+        this.moment._locale._months.forEach(function (month, index) {
+            let option = document.createElement('option');
+            option.innerHTML = month;
+            option.value = index + 1;
+            if (month === this.moment._locale._months[this.moment.month()]) {
+                option.selected = true;
+            }
+            monthSelect.appendChild(option);
+        }.bind(this));
+        monthSelect.addEventListener('change', function (e) {
+            this.moment.month(monthSelect.value - 1);
+            this.snapTo();
+        }.bind(this));
+        // year selector to type custom year
+        let yearInput = document.createElement('input');
+        yearInput.setAttribute("type", "number");
+        yearInput.setAttribute("name", "year");
+        yearInput.setAttribute("class", "datepicker-year-input");
+        yearInput.setAttribute("aria-label", "datepicker-year-input");
+        yearInput.value = this.moment.year();
+        yearInput.addEventListener('change', function (e) {
+            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
+                yearInput.value = this.moment.year();
+                return;
+            }
+            this.moment.year(yearInput.value);
+            this.snapTo();
+        }.bind(this));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
@@ -176,7 +206,8 @@ class clsDatepicker {
         rightArrow.innerHTML = "&#11166;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
-        monthHeader.appendChild(monthText);
+        monthHeader.appendChild(monthSelect);
+        monthHeader.appendChild(yearInput);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
         // close calendar icon
@@ -256,7 +287,7 @@ class clsDatepicker {
             dayCell.innerHTML = parseInt(day) + 1;
             let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format(this.format);
             dayCell.setAttribute('role', 'button');
-            dayCell.setAttribute('aria-label', parseInt(day) + 1 + '-previous-month');
+            dayCell.setAttribute('aria-label', 'day-' + parseInt(day) + 1 + '-previous-month');
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
@@ -268,7 +299,7 @@ class clsDatepicker {
                 dayCell.classList.add("next-month-day-" + i);
                 dayCell.classList.add("leading-trailing-day");
                 dayCell.innerHTML = i;
-                dayCell.setAttribute('aria-label', i + '-next-month');
+                dayCell.setAttribute('aria-label', 'day-' + i + '-next-month');
                 if (i === 0) {
                     dayCell.classList.add('grid-column-start:' + lastDayPos + ';');
                 }
@@ -291,299 +322,15 @@ class clsDatepicker {
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
             startDateElement.innerHTML = `<b>Date:  --/--/----  --:--  </b>`;
-            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
+        this.calendarElement = calendar;
         // timepicker init based on options
         if (this.timePicker) {
-
-            let startTimeElement = document.createElement('div');
-            startTimeElement.classList.add("startTimeElement");
-            startTimeElement.style.gridColumnStart = 4;
-            startTimeElement.style.gridColumnEnd = 8;
-
-            let startHour = document.createElement("div");
-            startHour.classList.add("hour");
-            startHour.innerHTML = "<input id='startHour' type='number' min='1' max='23' value='" + this.startHour + "' />";
-            startHour.style.gridColumn = "1 / span 2";
-
-            let startHourValueEl = startHour.querySelector("#startHour");
-            this.timeElements.startHourValueEl = startHourValueEl;
-            let startHourChange = function (event) {
-                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-                if (newVal > 23) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                if (newVal < 10 && this.militaryTime) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-                this.setTime();
-            }.bind(this);
-            startHourValueEl.addEventListener('change', startHourChange);
-
-            let startHourUpDown = document.createElement("span");
-            startHourUpDown.classList.add("TimeUpDown");
-            startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-            // Up Hour
-            startHourUpDown.querySelectorAll("div")[0].onclick = () => {
-                startHourValueEl.value++;
-                startHourValueEl.dispatchEvent(new Event('change'));
-            };
-            // Down Hour
-            startHourUpDown.querySelectorAll("div")[1].onclick = () => {
-                startHourValueEl.value--;
-                startHourValueEl.dispatchEvent(new Event('change'));
-            };
-            //input change
-            startHour.appendChild(startHourUpDown);
-            startTimeElement.appendChild(startHour);
-
-            let timeColon = document.createElement("div");
-            timeColon.innerHTML = ":";
-            timeColon.classList.add("timeColon");
-            timeColon.style.gridColumn = "3 / span 1";
-            startTimeElement.appendChild(timeColon);
-
-            let startMinute = document.createElement("div");
-            startMinute.classList.add("minute");
-            startMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.startMinute + "' />";
-            startMinute.style.gridColumn = "4 / span 2";
-
-            let startMinuteValueEl = startMinute.querySelector("input");
-            this.timeElements.startMinuteValueEl = startMinuteValueEl;
-            let startMinuteChange = function (event) {
-                let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 59;
-                }
-                if (newVal < 10) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.startMinuteValueEl.value = newVal;
-                this.setTime();
-            }.bind(this);
-            startMinuteValueEl.addEventListener('change', startMinuteChange);
-
-            let startMinuteUpDown = document.createElement("span");
-            startMinuteUpDown.classList.add("TimeUpDown");
-            startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-            // Up Minute
-            startMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
-                if (startMinuteValueEl.value % 15 === 0) {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
-                } else {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
-                }
-                startMinuteValueEl.dispatchEvent(new Event('change'));
-            };
-            // Down Minute
-            startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
-                if (startMinuteValueEl.value % 15 === 0) {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
-                } else {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
-                }
-                startMinuteValueEl.dispatchEvent(new Event('change'));
-            };
-
-            startMinute.appendChild(startMinuteUpDown);
-
-            startTimeElement.appendChild(startMinute);
-            // start am/pm elements if not military time
-            if (!this.militaryTime) {
-                let startampm = document.createElement("div");
-                startampm.classList.add("ampm");
-                startampm.innerHTML = "";
-                startampm.style.gridColumn = "6 / span 1";
-                this.timeElements.startampm = startampm;
-
-                let startam = document.createElement("div");
-                startam.classList.add("am");
-                startam.innerHTML = "AM";
-
-                startam.onclick = function () 
-                {
-                    this.startAmPm = "AM";
-                    startam.setAttribute("SELECTED", "true");
-                    startpm.removeAttribute("SELECTED");
-                    this.setTime();
-                }.bind(this);
-                startampm.appendChild(startam);
-
-                let startpm = document.createElement("div");
-                startpm.classList.add("pm");
-                startpm.innerHTML = "PM";
-
-                startpm.onclick = function () {
-                    this.startAmPm = "PM";
-                    startpm.setAttribute("SELECTED", "true");
-                    startam.removeAttribute("SELECTED");
-                    this.setTime();
-                }.bind(this);
-                this.startAmPm = "PM";
-                if (this.startAmPm === "PM") {
-                    startpm.setAttribute("SELECTED", "true");
-                    startam.removeAttribute("SELECTED");
-                } else {
-                    startam.setAttribute("SELECTED", "true");
-                    startpm.removeAttribute("SELECTED");
-                }
-                startampm.appendChild(startpm);
-                startTimeElement.appendChild(startampm);
-            }
-            calendar.appendChild(startTimeElement);
-        }
-
-        if (this.timePicker) {
-            if (!this.singleDate) {
-                let endDateElement = document.createElement('div');
-                endDateElement.classList.add('endDateElement');
-                endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
-                calendar.appendChild(endDateElement);
-                let endTimeElement = document.createElement('div');
-                endTimeElement.classList.add("endTimeElement");
-                endTimeElement.style.gridColumnStart = 4;
-                endTimeElement.style.gridColumnEnd = 8;
-
-                let endHour = document.createElement("div");
-                endHour.classList.add("hour");
-                endHour.innerHTML = "<input id='endHour' type='number' min='1' max='23' value='" + this.endHour + "' />";
-                endHour.style.gridColumn = "1 / span 2";
-
-                let endHourValueEl = endHour.querySelector("#endHour");
-                this.timeElements.endHourValueEl = endHourValueEl;
-                let endHourChange = function (event) {
-                    let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                    if (newVal > 23) {
-                        newVal = 0;
-                    } else if (newVal < 1) {
-                        newVal = 23;
-                    }
-                    if (newVal < 10 && this.militaryTime) {
-                        newVal = "0" + newVal;
-                    }
-                    this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-                    this.setTime();
-                }.bind(this);
-                endHourValueEl.addEventListener('change', endHourChange);
-
-                let endHourUpDown = document.createElement("span");
-                endHourUpDown.classList.add("TimeUpDown");
-                endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-                // Up Hour
-                endHourUpDown.querySelectorAll("div")[0].onclick = () => {
-                    endHourValueEl.value++;
-                    endHourValueEl.dispatchEvent(new Event('change'));
-                };
-                // Down Hour
-                endHourUpDown.querySelectorAll("div")[1].onclick = () => {
-                    endHourValueEl.value--;
-                    endHourValueEl.dispatchEvent(new Event('change'));
-                };
-
-                endHour.appendChild(endHourUpDown);
-                endTimeElement.appendChild(endHour);
-
-                let timeColon = document.createElement("div");
-                timeColon.innerHTML = ":";
-                timeColon.classList.add("timeColon");
-                timeColon.style.gridColumn = "3 / span 1";
-                endTimeElement.appendChild(timeColon);
-
-                let endMinute = document.createElement("div");
-                endMinute.classList.add("minute");
-                endMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.endMinute + "' />";
-                endMinute.style.gridColumn = "4 / span 2";
-
-                let endMinuteValueEl = endMinute.querySelector("input");
-                this.timeElements.endMinuteValueEl = endMinuteValueEl;
-                let endMinuteChange = function (event) {
-                    let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
-                    if (newVal > 59) {
-                        newVal = 0;
-                    } else if (newVal < 1) {
-                        newVal = 59;
-                    }
-                    if (newVal < 10) {
-                        newVal = "0" + newVal;
-                    }
-                    this.timeElements.endMinuteValueEl.value = newVal;
-                    this.setTime();
-                }.bind(this);
-                endMinuteValueEl.addEventListener('change', endMinuteChange);
-                let endMinuteUpDown = document.createElement("span");
-                endMinuteUpDown.classList.add("TimeUpDown");
-                endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-                // Up Minute
-                endMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
-                    if (endMinuteValueEl.value % 15 === 0) {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
-                    } else {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
-                    }
-                    endMinuteValueEl.dispatchEvent(new Event('change'));
-                };
-                // Down Minute
-                endMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
-                    if (endMinuteValueEl.value % 15 === 0) {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
-                    } else {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
-                    }
-                    endMinuteValueEl.dispatchEvent(new Event('change'));
-                };
-                endMinute.appendChild(endMinuteUpDown);
-                endTimeElement.appendChild(endMinute);
-                calendar.appendChild(endTimeElement);
-                // am/pm elements if not military time
-                if (!this.militaryTime) {
-                    let endampm = document.createElement("div");
-                    endampm.classList.add("ampm");
-                    endampm.innerHTML = "";
-                    endampm.style.gridColumn = "6 / span 1";
-                    this.timeElements.endampm = endampm;
-
-                    let endam = document.createElement("div");
-                    endam.classList.add("am");
-                    endam.innerHTML = "AM";
-                    endam.onclick = function () {
-                        this.endAmPm = "AM";
-                        endam.setAttribute("SELECTED", "true");
-                        endpm.removeAttribute("SELECTED");
-                        this.setTime();
-                    }.bind(this);
-                    endampm.appendChild(endam);
-
-                    let endpm = document.createElement("div");
-                    endpm.classList.add("pm");
-                    endpm.innerHTML = "PM";
-                    endpm.onclick = function () {
-                        this.endAmPm = "PM";
-                        endpm.setAttribute("SELECTED", "true");
-                        endam.removeAttribute("SELECTED");
-                        this.setTime();
-                    }.bind(this);
-                    this.endAmPm = "PM";
-                    if (this.endAmPm === "PM") {
-                        endpm.setAttribute("SELECTED", "true");
-                        endam.removeAttribute("SELECTED");
-                    } else {
-                        endam.setAttribute("SELECTED", "true");
-                        endpm.removeAttribute("SELECTED");
-                    }
-                    endampm.appendChild(endpm);
-                    endTimeElement.appendChild(endampm);
-                }
-
-            }
-
+            this.drawStartTimePicker();
+            this.drawEndTimePicker();
         }
         // cancel dates button:
         let cancelButton = document.createElement('button');
@@ -609,16 +356,311 @@ class clsDatepicker {
         calendar.appendChild(submitButton);
         // Finally, add calendar element to the containerElement assigned during initialization
         this.containerElement.appendChild(calendar);
-        this.calendarElement = calendar;
         // add the click off method to hide calendar when user clicks off:
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
         }.bind(this));
+
     }
+    // draws start time picker
+    drawStartTimePicker() {
+        let startTimeElement = document.createElement('div');
+        startTimeElement.classList.add("startTimeElement");
+        startTimeElement.style.gridColumnStart = 4;
+        startTimeElement.style.gridColumnEnd = 8;
+        if (!this.militaryTime) {
+            this.startHour = this.toAmPm(parseInt(this.startHour));
+        }
+        let startHour = document.createElement("div");
+        startHour.classList.add("hour");
+        startHour.innerHTML = "<input id='startHour' type='number' min='1' max='23' value='" + this.startHour + "' />";
+        startHour.style.gridColumn = "1 / span 2";
+
+        let startHourValueEl = startHour.querySelector("#startHour");
+        this.timeElements.startHourValueEl = startHourValueEl;
+
+        let startHourChange = function (event) {
+            let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
+            if (newVal > 23) {
+                newVal = 0;
+            } else if (newVal < 1) {
+                newVal = 23;
+            }
+            if (newVal < 10 && this.militaryTime) {
+                newVal = "0" + newVal;
+            }
+            this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
+            this.setTime();
+        }.bind(this);
+        startHourValueEl.addEventListener('change', startHourChange);
+
+        let startHourUpDown = document.createElement("span");
+        startHourUpDown.classList.add("TimeUpDown");
+        startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+        // Up Hour
+        startHourUpDown.querySelectorAll("div")[0].onclick = () => {
+            startHourValueEl.value++;
+            startHourValueEl.dispatchEvent(new Event('change'));
+        };
+        // Down Hour
+        startHourUpDown.querySelectorAll("div")[1].onclick = () => {
+            startHourValueEl.value--;
+            startHourValueEl.dispatchEvent(new Event('change'));
+        };
+        //input change
+        startHour.appendChild(startHourUpDown);
+        startTimeElement.appendChild(startHour);
+
+        let timeColon = document.createElement("div");
+        timeColon.innerHTML = ":";
+        timeColon.classList.add("timeColon");
+        timeColon.style.gridColumn = "3 / span 1";
+        startTimeElement.appendChild(timeColon);
+        if (parseInt(this.startMinute) < 10) {
+            this.startMinute = "0" + parseInt(this.startMinute);
+        }
+        let startMinute = document.createElement("div");
+        startMinute.classList.add("minute");
+        startMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.startMinute + "' />";
+        startMinute.style.gridColumn = "4 / span 2";
+
+        let startMinuteValueEl = startMinute.querySelector("input");
+        this.timeElements.startMinuteValueEl = startMinuteValueEl;
+        let startMinuteChange = function (event) {
+            let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
+            if (newVal > 59) {
+                newVal = 0;
+            } else if (newVal < 1) {
+                newVal = 59;
+            }
+            if (newVal < 10) {
+                newVal = "0" + newVal;
+            }
+            this.timeElements.startMinuteValueEl.value = newVal;
+            this.setTime();
+        }.bind(this);
+        startMinuteValueEl.addEventListener('change', startMinuteChange);
+
+        let startMinuteUpDown = document.createElement("span");
+        startMinuteUpDown.classList.add("TimeUpDown");
+        startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+        // Up Minute
+        startMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+            if (startMinuteValueEl.value % 15 === 0) {
+                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
+            } else {
+                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
+            }
+            startMinuteValueEl.dispatchEvent(new Event('change'));
+        };
+        // Down Minute
+        startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+            if (startMinuteValueEl.value % 15 === 0) {
+                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
+            } else {
+                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
+            }
+            startMinuteValueEl.dispatchEvent(new Event('change'));
+        };
+
+        startMinute.appendChild(startMinuteUpDown);
+
+        startTimeElement.appendChild(startMinute);
+        // start am/pm elements if not military time
+        if (!this.militaryTime) {
+            let startampm = document.createElement("div");
+            startampm.classList.add("ampm");
+            startampm.innerHTML = "";
+            startampm.style.gridColumn = "6 / span 1";
+            this.timeElements.startampm = startampm;
+
+            let startam = document.createElement("div");
+            startam.classList.add("am");
+            startam.innerHTML = "AM";
+
+            startam.onclick = function () {
+                this.startAmPm = "AM";
+                startam.setAttribute("SELECTED", "true");
+                startpm.removeAttribute("SELECTED");
+                this.setTime();
+            }.bind(this);
+            startampm.appendChild(startam);
+
+            let startpm = document.createElement("div");
+            startpm.classList.add("pm");
+            startpm.innerHTML = "PM";
+
+            startpm.onclick = function () {
+                this.startAmPm = "PM";
+                startpm.setAttribute("SELECTED", "true");
+                startam.removeAttribute("SELECTED");
+                this.setTime();
+            }.bind(this);
+            if (this.startAmPm === "PM") {
+                startpm.setAttribute("SELECTED", "true");
+                startam.removeAttribute("SELECTED");
+            } else {
+                startam.setAttribute("SELECTED", "true");
+                startpm.removeAttribute("SELECTED");
+            }
+            startampm.appendChild(startpm);
+            startTimeElement.appendChild(startampm);
+        }
+        this.calendarElement.appendChild(startTimeElement);
+    }
+    // draws end time picker if allowed programmatically.
+    drawEndTimePicker() {
+        if (!this.singleDate) {
+            let endDateElement = document.createElement('div');
+            endDateElement.classList.add('endDateElement');
+            endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+            endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
+            this.calendarElement.appendChild(endDateElement);
+            let endTimeElement = document.createElement('div');
+            endTimeElement.classList.add("endTimeElement");
+            endTimeElement.style.gridColumnStart = 4;
+            endTimeElement.style.gridColumnEnd = 8;
+            if (!this.militaryTime) {
+                this.endHour = this.toAmPm(parseInt(this.endHour));
+            }
+            let endHour = document.createElement("div");
+            endHour.classList.add("hour");
+            endHour.innerHTML = "<input id='endHour' type='number' min='1' max='23' value='" + this.endHour + "' />";
+            endHour.style.gridColumn = "1 / span 2";
+
+            let endHourValueEl = endHour.querySelector("#endHour");
+            this.timeElements.endHourValueEl = endHourValueEl;
+            let endHourChange = function (event) {
+                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
+                if (newVal > 23) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 23;
+                }
+                if (newVal < 10 && this.militaryTime) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
+                this.setTime();
+            }.bind(this);
+            endHourValueEl.addEventListener('change', endHourChange);
+
+            let endHourUpDown = document.createElement("span");
+            endHourUpDown.classList.add("TimeUpDown");
+            endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+            // Up Hour
+            endHourUpDown.querySelectorAll("div")[0].onclick = () => {
+                endHourValueEl.value++;
+                endHourValueEl.dispatchEvent(new Event('change'));
+            };
+            // Down Hour
+            endHourUpDown.querySelectorAll("div")[1].onclick = () => {
+                endHourValueEl.value--;
+                endHourValueEl.dispatchEvent(new Event('change'));
+            };
+
+            endHour.appendChild(endHourUpDown);
+            endTimeElement.appendChild(endHour);
+
+            let timeColon = document.createElement("div");
+            timeColon.innerHTML = ":";
+            timeColon.classList.add("timeColon");
+            timeColon.style.gridColumn = "3 / span 1";
+            endTimeElement.appendChild(timeColon);
+            if (parseInt(this.endMinute) < 10) {
+                this.endMinute = "0" + parseInt(this.endMinute);
+            }
+            let endMinute = document.createElement("div");
+            endMinute.classList.add("minute");
+            endMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.endMinute + "' />";
+            endMinute.style.gridColumn = "4 / span 2";
+
+            let endMinuteValueEl = endMinute.querySelector("input");
+            this.timeElements.endMinuteValueEl = endMinuteValueEl;
+            let endMinuteChange = function (event) {
+                let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
+                if (newVal > 59) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 59;
+                }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.endMinuteValueEl.value = newVal;
+                this.setTime();
+            }.bind(this);
+            endMinuteValueEl.addEventListener('change', endMinuteChange);
+            let endMinuteUpDown = document.createElement("span");
+            endMinuteUpDown.classList.add("TimeUpDown");
+            endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+            // Up Minute
+            endMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+                if (endMinuteValueEl.value % 15 === 0) {
+                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
+                } else {
+                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
+                }
+                endMinuteValueEl.dispatchEvent(new Event('change'));
+            };
+            // Down Minute
+            endMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+                if (endMinuteValueEl.value % 15 === 0) {
+                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
+                } else {
+                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
+                }
+                endMinuteValueEl.dispatchEvent(new Event('change'));
+            };
+            endMinute.appendChild(endMinuteUpDown);
+            endTimeElement.appendChild(endMinute);
+            this.calendarElement.appendChild(endTimeElement);
+            // am/pm elements if not military time
+            if (!this.militaryTime) {
+                let endampm = document.createElement("div");
+                endampm.classList.add("ampm");
+                endampm.innerHTML = "";
+                endampm.style.gridColumn = "6 / span 1";
+                this.timeElements.endampm = endampm;
+
+                let endam = document.createElement("div");
+                endam.classList.add("am");
+                endam.innerHTML = "AM";
+                endam.onclick = function () {
+                    this.endAmPm = "AM";
+                    endam.setAttribute("SELECTED", "true");
+                    endpm.removeAttribute("SELECTED");
+                    this.setTime();
+                }.bind(this);
+                endampm.appendChild(endam);
+
+                let endpm = document.createElement("div");
+                endpm.classList.add("pm");
+                endpm.innerHTML = "PM";
+                endpm.onclick = function () {
+                    this.endAmPm = "PM";
+                    endpm.setAttribute("SELECTED", "true");
+                    endam.removeAttribute("SELECTED");
+                    this.setTime();
+                }.bind(this);
+                if (this.endAmPm === "PM") {
+                    endpm.setAttribute("SELECTED", "true");
+                    endam.removeAttribute("SELECTED");
+                } else {
+                    endam.setAttribute("SELECTED", "true");
+                    endpm.removeAttribute("SELECTED");
+                }
+                endampm.appendChild(endpm);
+                endTimeElement.appendChild(endampm);
+            }
+        }
+    }
+    // draws preset menu and options if allowed programmatically.
     drawPresetMenu() {
         this.presetMenuContainer = document.createElement('div');
         this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
         let menuOptionsContainer = document.createElement('ul');
+        // default preset menu options
         let menuOptions = [
             { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
             { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
@@ -630,6 +672,13 @@ class clsDatepicker {
             { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
             { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
         ];
+        // adds any menu options passed into the class constructor options programmatically
+        if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
+            for (let i = 0; i < this.menuOptions.length; i++) {
+                menuOptions.push(this.menuOptions[i]);
+            }
+        }
+        // adds all options to the UI
         for (let menuOption of menuOptions) {
             let menuListElement = document.createElement('li');
             menuListElement.setAttribute('class', menuOption.title + "-menu-option");
@@ -649,7 +698,7 @@ class clsDatepicker {
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
         }
-        // close calendar icon
+        // close preset menu icon
         let closePresetIconContainer = document.createElement('div');
         closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
         closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
@@ -667,11 +716,12 @@ class clsDatepicker {
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
     // setTime function - a helper method to set start/end time. This function is a void.
-    setTime(setProgrammatically = false, AmPmTarget = "none") {
+    setTime(setProgrammatically = false) {
         this.startHour = parseInt(this.timeElements.startHourValueEl.value);
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
@@ -680,16 +730,13 @@ class clsDatepicker {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
-                this.timeElements.startHourValueEl.value = 1;
-                this.timeElements.startHourValueEl.dispatchEvent(new Event('change'));
-                this.startHour = 1;
+                this.startHour = 0;
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
-                this.timeElements.endHourValueEl.value = 1;
-                this.timeElements.endHourValueEl.dispatchEvent(new Event('change'));
-                this.endHour = 1;
+                this.endHour = 0;
             }
         }
+        // sets the UI and the state if .value() was used to set dates/times
         if (setProgrammatically) {
             this.timeElements.startHourValueEl.value = this.dates[0] ? moment(this.dates[0]).hour() : this.timeElements.startHourValueEl.value;
             this.timeElements.startMinuteValueEl.value = this.dates[0] ? moment(this.dates[0]).minutes() : this.timeElements.startMinuteValueEl.value;
@@ -703,6 +750,7 @@ class clsDatepicker {
         let endDate = this.dates[1];
         let startDate = this.dates[0];
         this.dates = [];
+        // update the UI based on the state 
         if (startDate) {
             this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
             if (!this.singleDate) {
@@ -717,28 +765,37 @@ class clsDatepicker {
         }
     }
     // helper method to set dates if provided, return dates if not.
-    value(dates, format) {
+    value(dates, format = this.format) {
         if (typeof dates === "object") {
-            // user supplied at least one date, set that date in the UI and Datepicker state.
-            this.dates[0] = moment(dates[0])._i;
-            this.dates[1] = dates[1] ? moment(dates[1])._i : "";
-            if (format) {
+            if (dates[0]) {
                 this.dates[0] = moment(dates[0], format)._i;
-                if (dates[1]) {
-                    this.dates[1] = moment(dates[1], format)._i;
-                }
             }
-            // invoke highlighting fn to ensure calendar UI is updated
-            this.highlightDates();
-            this.setTime(true);
-            this.drawInputElement();
-        } else if (!dates || typeof dates === undefined) {
-            // no date supplied, return the dates from the Datepicker state
-            if (format) {
-                dates[0] = moment(dates[0]).format(format)._i;
-                if (dates[1]) {
-                    dates[1] = moment(dates[1]).format(format)._i;
+            if (dates[1]) {
+                this.dates[1] = moment(dates[1], format)._i;
+            }
+            if (!dates[0] && !dates[1] && typeof dates === "object") {
+                if (!this.singleDate) {
+                    console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
+                this.dates[1] = moment(dates, format)._i;
+                this.dates[0] = moment(this.dates[0], format)._i;
+            }
+            // ensure calendar UI is updated
+            if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+                let dates = [];
+                console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+                dates[0] = this.dates[1];
+                dates[1] = this.dates[0];
+                this.dates = dates;
+            }
+            this.snapTo(this.dates[0]);
+        } else if (!dates || typeof dates === undefined || !this.dates.length) {
+            // no date supplied, return the dates from the Datepicker state
+            if (this.dates[0]) {
+                this.dates[0] = moment(this.dates[0]).format(format);
+            }
+            if (this.dates[1]) {
+                this.dates[1] = moment(this.dates[1]).format(format);
             }
             if (this.singleDate) {
                 return new Date(this.dates[0])
@@ -749,23 +806,43 @@ class clsDatepicker {
                 return dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
-            this.dates[0] = moment(dates)._i;
-            if (format) {
-                this.dates[0] = moment(dates, format)._i;
+            if (!this.singleDate) {
+                console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
             }
-            // invoke highlighting fn to ensure calendar UI is updated
-            this.highlightDates();
-            this.setTime(true);
-            this.drawInputElement();
+            this.dates[0] = moment(dates, format)._i;
+            // ensure calendar UI is updated
+            if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+                let dates = [];
+                console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+                dates[0] = this.dates[1];
+                dates[1] = this.dates[0];
+                this.dates = dates;
+            }
+            this.snapTo(this.dates[0]);
         }
+    }
+    // returns start date only
+    startDate(value) {
+        if (value) {
+            this.value([value, ""]);
+        }
+        return new Date(this.dates[0]);
+    }
+    endDate(value) {
+        if (value) {
+            this.value(["", value]);
+        }
+        return new Date(this.dates[1]);
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
         return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
     }
+    // to test clicks outside calendar element to close it
     isOutsideCalendar(event) {
         return (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target) && !event.target.classList.contains('leftArrow') && !event.target.classList.contains("rightArrow"));
     }
+    // closes calendar if clicks are outside boundaries
     outsideCalendarClick(event) {
         if (this.isOutsideCalendar(event)) {
             this.closeCalendar();
@@ -774,10 +851,10 @@ class clsDatepicker {
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
-        this.startHour = this.timeElements.startHourValueEl.value;
-        this.startMinute = this.timeElements.startMinuteValueEl.value;
-        this.endHour = this.timeElements.endHourValueEl.value;
-        this.endMinute = this.timeElements.endMinuteValueEl.value;
+        this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+        this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+        this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+        this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
@@ -863,8 +940,8 @@ class clsDatepicker {
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
         this.drawPresetMenu();
-        this.setTime();
         this.highlightDates();
+        this.setTime();
         this.openCalendar();
         this.closePresetMenu();
     }
@@ -874,8 +951,8 @@ class clsDatepicker {
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
         this.drawPresetMenu();
-        this.setTime();
         this.highlightDates();
+        this.setTime();
         this.openCalendar();
         this.closePresetMenu();
     }
@@ -938,25 +1015,38 @@ class clsDatepicker {
             }.bind(this));
         }
     }
+    // resets Calendar and Input element to their default state with no Date/Times selected
     resetCalendar() {
         this.dates = [];
         this.containerElement.innerHTML = '';
         this.drawCalendar();
         this.drawInputElement();
         this.drawPresetMenu();
+        this.closePresetMenu();
     }
     // helper that snaps the calendar UI to a given date
     snapTo(date = this.moment) {
         this.moment = moment(date);
-        this.containerElement.innerHTML = '';
-        this.drawCalendar();
-        this.drawInputElement();
-        this.drawPresetMenu();
-        this.closePresetMenu();
-        this.setTime(true);
-        this.highlightDates(true);
+        if (this.isVisible(this.calendarElement)) {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            this.setTime(true);
+            this.highlightDates(true);
+        } else {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            this.setTime(true);
+            this.highlightDates(true);
+            this.closeCalendar();
+        }
     }
-    // helper to make time military
+    // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
         hour = parseInt(hour);
         if (hour === 12) {
