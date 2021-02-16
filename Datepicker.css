@@ -1,11 +1,11 @@
 :root { 
 
 /* Sundown Color Theme Swatches in Hex */
-/* --Primary: #556b97;
+--Primary: #556b97;
 --Secondary: #364a62;
---Shadow: #272727;
+--Shadow: #000000;
 --Selection: #a3c5f1;
---Accent: #62f0c8; */
+--Accent: #62f0c8;
 
 /* Army Color Theme Swatches in Hex */
 
@@ -23,11 +23,11 @@
 --Accent: #d72027; */
 
 /* PEC TEAM Color Theme Swatches in Hex */
---Primary: #ffffff;
+/* --Primary: #ffffff;
 --Secondary: #e0e0e0;
 --Shadow: #333333;
 --Selection: #002e5f;
---Accent: #c0143c;
+--Accent: #c0143c; */
 }
 
 .DatepickerContainer {
@@ -471,7 +471,7 @@ button, input[type="submit"], input[type="reset"] {
 .launch {
   float: left;
   border-style: solid;
-  border-color: var(--Selection);
+  border-color: var(--Shadow);
   border-width: 2px;
   border-radius: 5px;
   box-sizing: border-box;
@@ -480,11 +480,13 @@ button, input[type="submit"], input[type="reset"] {
 
 .headingBlock {
   float: left;
-  background-color: var(--Selection);
+  background-color: var(--Secondary);
+  color: var(--Accent);
   text-align: right;
   min-width: 100px;
   line-height: 40px;
   padding: 0px 10px 0px 0px;
+  border-radius: 5px 0px 0px 5px;
 }
 
 .timeBlock {
@@ -494,6 +496,7 @@ button, input[type="submit"], input[type="reset"] {
   padding: 0px 20px;
   background-color: var(--Primary);
   color: var(--Selection);
+  border-radius: 0px 5px 5px 0px;
 }
 
 .launchButton {
@@ -501,7 +504,7 @@ button, input[type="submit"], input[type="reset"] {
   float: left;
   position: absolute;
   text-align: center;
-  color: var(--Selection);
+  color: var(--Shadow);
   width:250px;
   line-height: 80px;
   border-radius: 5px;
