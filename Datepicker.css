@@ -470,11 +470,6 @@ button, input[type="submit"], input[type="reset"] {
 
 .launch {
   float: left;
-  border-style: solid;
-  border-color: var(--Shadow);
-  border-width: 2px;
-  border-radius: 5px;
-  box-sizing: border-box;
   color:var(--Primary);
 }
 

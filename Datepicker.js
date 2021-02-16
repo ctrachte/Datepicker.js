@@ -503,6 +503,8 @@ class clsDatepicker {
                 startam.setAttribute("SELECTED", "true");
                 startpm.removeAttribute("SELECTED");
             }
+            this.timeElements.startam = startam;
+            this.timeElements.startpm = startpm;
             startampm.appendChild(startpm);
             startTimeElement.appendChild(startampm);
         }
@@ -652,6 +654,8 @@ class clsDatepicker {
                 }
                 endampm.appendChild(endpm);
                 endTimeElement.appendChild(endampm);
+                this.timeElements.endam = endam;
+                this.timeElements.endpm = endpm;
             }
         }
     }
@@ -660,17 +664,18 @@ class clsDatepicker {
         this.presetMenuContainer = document.createElement('div');
         this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
         let menuOptionsContainer = document.createElement('ul');
+        let today = new Date();
         // default preset menu options
         let menuOptions = [
-            { title: 'This Week', values: [moment().startOf('week'), moment().endOf('week')] },
-            { title: 'Next Week', values: [moment().add(+1, 'week').startOf('week'), moment().add(+1, 'week').endOf('week')] },
-            { title: 'Last Week', values: [moment().add(-1, 'week').startOf('week'), moment().add(-1, 'week').endOf('week')] },
-            { title: 'This Month', values: [moment().startOf('month'), moment().endOf('month')] },
-            { title: 'Next Month', values: [moment().add(+1, 'month').startOf('month'), moment().add(+1, 'month').endOf('month')] },
-            { title: 'Last Month', values: [moment().add(-1, 'month').startOf('month'), moment().add(-1, 'month').endOf('month')] },
-            { title: 'This Year', values: [moment().startOf('year'), moment().endOf('year')] },
-            { title: 'Next Year', values: [moment().add(+1, 'year').startOf('year'), moment().add(+1, 'year').endOf('year')] },
-            { title: 'Last Year', values: [moment().add(-1, 'year').startOf('year'), moment().add(-1, 'year').endOf('year')] },
+            { title: 'This Week', values: [moment(today).startOf('week'), moment(today).endOf('week')] },
+            { title: 'Next Week', values: [moment(today).add(+1, 'week').startOf('week'), moment(today).add(+1, 'week').endOf('week')] },
+            { title: 'Last Week', values: [moment(today).add(-1, 'week').startOf('week'), moment(today).add(-1, 'week').endOf('week')] },
+            { title: 'This Month', values: [moment(today).startOf('month'), moment(today).endOf('month')] },
+            { title: 'Next Month', values: [moment(today).add(+1, 'month').startOf('month'), moment(today).add(+1, 'month').endOf('month')] },
+            { title: 'Last Month', values: [moment(today).add(-1, 'month').startOf('month'), moment(today).add(-1, 'month').endOf('month')] },
+            { title: 'This Year', values: [moment(today).startOf('year'), moment(today).endOf('year')] },
+            { title: 'Next Year', values: [moment(today).add(+1, 'year').startOf('year'), moment(today).add(+1, 'year').endOf('year')] },
+            { title: 'Last Year', values: [moment(today).add(-1, 'year').startOf('year'), moment(today).add(-1, 'year').endOf('year')] },
         ];
         // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
@@ -721,6 +726,39 @@ class clsDatepicker {
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        // Sanitizes the UI and the state if .value() was used to set dates/times
+        if (setProgrammatically) {
+            let startHour = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
+            if (!startHour) {
+                startHour = 12;
+            }
+            let endHour =  this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            if (!endHour) {
+                endHour = 12;
+            }
+            this.timeElements.startHourValueEl.value = startHour;
+            this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
+            this.timeElements.endHourValueEl.value = endHour;
+            this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
+            this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            if (!this.militaryTime) {
+                this.endAmPm = this.toMilitary(this.endHour) > 12 ? "PM" : "AM";
+                this.startAmPm = this.toMilitary(this.startHour) > 12 ? "PM" : "AM";
+                if (this.startAmPm === "PM") {
+                    this.timeElements.startpm.click();
+                } else {
+                    this.timeElements.startam.click();
+                }
+                if (this.endAmPm === "PM") {
+                    this.timeElements.endpm.click();
+                } else {
+                    this.timeElements.endam.click();
+                }
+            }
+        }
         // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
@@ -736,23 +774,13 @@ class clsDatepicker {
                 this.endHour = 0;
             }
         }
-        // sets the UI and the state if .value() was used to set dates/times
-        if (setProgrammatically) {
-            this.timeElements.startHourValueEl.value = this.dates[0] ? moment(this.dates[0]).hour() : this.timeElements.startHourValueEl.value;
-            this.timeElements.startMinuteValueEl.value = this.dates[0] ? moment(this.dates[0]).minutes() : this.timeElements.startMinuteValueEl.value;
-            this.timeElements.endHourValueEl.value = this.dates[1] ? moment(this.dates[1]).hour() : this.timeElements.endHourValueEl.value;
-            this.timeElements.endMinuteValueEl.value = this.dates[1] ? moment(this.dates[1]).minutes() : this.timeElements.endMinuteValueEl.value;
-            this.startHour = this.dates[0] ? moment(this.dates[0]).hour() : this.timeElements.startHourValueEl.value;
-            this.startMinute = this.dates[0] ? moment(this.dates[0]).minutes() : this.timeElements.startMinuteValueEl.value;
-            this.endHour = this.dates[1] ? moment(this.dates[1]).hour() : this.timeElements.endHourValueEl.value;
-            this.endMinute = this.dates[1] ? moment(this.dates[1]).minutes() : this.timeElements.endMinuteValueEl.value;
-        }
+        // Set sanitized and formatted dates:
         let endDate = this.dates[1];
         let startDate = this.dates[0];
         this.dates = [];
-        // update the UI based on the state 
         if (startDate) {
             this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
+            // update the UI based on the state
             if (!this.singleDate) {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
             } else {
@@ -761,6 +789,7 @@ class clsDatepicker {
         }
         if (endDate && !this.singleDate) {
             this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
+            // update the UI based on the state
             this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
         }
     }
@@ -819,6 +848,12 @@ class clsDatepicker {
                 this.dates = dates;
             }
             this.snapTo(this.dates[0]);
+        }
+        if (!dates[0] || !(new Date(dates[0]))) {
+            console.error("Datepicker.js - ERROR: Tried to set start date with invalid format or null value!");
+        }
+        if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
+            console.error("Datepicker.js - ERROR: Tried to set end date with invalid format or null value!");
         }
     }
     // returns start date only
