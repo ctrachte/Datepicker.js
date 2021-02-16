@@ -729,21 +729,17 @@ class clsDatepicker {
         // Sanitizes the UI and the state if .value() was used to set dates/times
         if (setProgrammatically) {
             if (!this.militaryTime) {
-                this.endAmPm = this.endAmPm > 12 ? "AM" : "PM";
-                this.startAmPm = this.startAmPm > 12 ? "AM" : "PM";
-                if (this.endAmPm === "PM") {
-                    this.timeElements.endpm.setAttribute("SELECTED", "true");
-                    this.timeElements.endam.removeAttribute("SELECTED");
-                } else {
-                    this.timeElements.endam.setAttribute("SELECTED", "true");
-                    this.timeElements.endpm.removeAttribute("SELECTED");
-                }
+                this.endAmPm = this.endAmPm > 12 ? "PM" : "AM";
+                this.startAmPm = this.startAmPm > 12 ? "PM" : "AM";
                 if (this.startAmPm === "PM") {
-                    this.timeElements.startpm.setAttribute("SELECTED", "true");
-                    this.timeElements.startam.removeAttribute("SELECTED");
+                    this.timeElements.startpm.click();
                 } else {
-                    this.timeElements.startam.setAttribute("SELECTED", "true");
-                    this.timeElements.startpm.removeAttribute("SELECTED");
+                    this.timeElements.startam.click();
+                }
+                if (this.endAmPm === "PM") {
+                    this.timeElements.endpm.click();
+                } else {
+                    this.timeElements.endam.click();
                 }
             }
             this.timeElements.startHourValueEl.value = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
