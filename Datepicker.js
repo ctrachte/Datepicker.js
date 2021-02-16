@@ -841,6 +841,12 @@ class clsDatepicker {
             }
             this.snapTo(this.dates[0]);
         }
+        if (!dates[0] || !(new Date(dates[0]))) {
+            console.error("Datepicker.js - ERROR: Tried to set start date with invalid format or null value!");
+        }
+        if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
+            console.error("Datepicker.js - ERROR: Tried to set end date with invalid format or null value!");
+        }
     }
     // returns start date only
     startDate(value) {
