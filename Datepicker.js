@@ -721,6 +721,13 @@ class clsDatepicker {
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        // Sanitizes the UI and the state if .value() was used to set dates/times
+        if (setProgrammatically) {
+            this.timeElements.startHourValueEl.value = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
+            this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
+            this.timeElements.endHourValueEl.value = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
+        }
         // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
@@ -734,27 +741,6 @@ class clsDatepicker {
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
                 this.endHour = 0;
-            }
-        }
-        // Sanitizes the UI and the state if .value() was used to set dates/times
-        if (setProgrammatically) {
-            this.timeElements.startHourValueEl.value = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hour() : this.toAmPm(moment(this.dates[0]).hour())) : this.timeElements.startHourValueEl.value;
-            this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" :  moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
-            this.timeElements.endHourValueEl.value = this.dates[1] ?(this.militaryTime ? moment(this.dates[1]).hour() : this.toAmPm(moment(this.dates[1]).hour())): this.timeElements.endHourValueEl.value;
-            this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" :  moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
-            if (!this.militaryTime) {
-                if (this.startAmPm === "PM") {
-                    this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
-                }
-                if (this.endAmPm === "PM") {
-                    this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
-                }
-                if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
-                    this.startHour = 0;
-                }
-                if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
-                    this.endHour = 0;
-                }
             }
         }
         let endDate = this.dates[1];
