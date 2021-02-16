@@ -766,12 +766,13 @@ class clsDatepicker {
                 this.endHour = 0;
             }
         }
+        // Set sanitized and formatted dates:
         let endDate = this.dates[1];
         let startDate = this.dates[0];
         this.dates = [];
-        // update the UI based on the state 
         if (startDate) {
             this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
+            // update the UI based on the state
             if (!this.singleDate) {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
             } else {
@@ -780,6 +781,7 @@ class clsDatepicker {
         }
         if (endDate && !this.singleDate) {
             this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
+            // update the UI based on the state
             this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
         }
     }
