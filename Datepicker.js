@@ -381,19 +381,17 @@ class clsDatepicker {
         this.timeElements.startHourValueEl = startHourValueEl;
 
         let startHourChange = function (event) {
-            if (this.timeValid()) {
-                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-                if (newVal > 23) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                if (newVal < 10 && this.militaryTime) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-                this.setTime();
+            let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
+            if (newVal > 23) {
+                newVal = 0;
+            } else if (newVal < 1) {
+                newVal = 23;
             }
+            if (newVal < 10 && this.militaryTime) {
+                newVal = "0" + newVal;
+            }
+            this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
+            this.setTime();
         }.bind(this);
         startHourValueEl.addEventListener('change', startHourChange);
 
@@ -403,12 +401,20 @@ class clsDatepicker {
         // Up Hour
         startHourUpDown.querySelectorAll("div")[0].onclick = () => {
             startHourValueEl.value++;
-            startHourValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startHourValueEl.dispatchEvent(new Event('change'));
+            } else {
+                startHourValueEl.value--;
+            }
         };
         // Down Hour
         startHourUpDown.querySelectorAll("div")[1].onclick = () => {
             startHourValueEl.value--;
-            startHourValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startHourValueEl.dispatchEvent(new Event('change'));
+            } else {
+                startHourValueEl.value++;
+            }
         };
         //input change
         startHour.appendChild(startHourUpDown);
@@ -430,20 +436,17 @@ class clsDatepicker {
         let startMinuteValueEl = startMinute.querySelector("input");
         this.timeElements.startMinuteValueEl = startMinuteValueEl;
         let startMinuteChange = function (event) {
-            if (this.timeValid()) {
-
-                let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 59;
-                }
-                if (newVal < 10) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.startMinuteValueEl.value = newVal;
-                this.setTime();
+            let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
+            if (newVal > 59) {
+                newVal = 0;
+            } else if (newVal < 1) {
+                newVal = 59;
             }
+            if (newVal < 10) {
+                newVal = "0" + newVal;
+            }
+            this.timeElements.startMinuteValueEl.value = newVal;
+            this.setTime();
         }.bind(this);
         startMinuteValueEl.addEventListener('change', startMinuteChange);
 
@@ -457,16 +460,33 @@ class clsDatepicker {
             } else {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
             }
-            startMinuteValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            } else {
+                if (startMinuteValueEl.value % 15 === 0) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
+                } else {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
+                }
+            }
         };
         // Down Minute
         startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+
             if (startMinuteValueEl.value % 15 === 0) {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
             } else {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
             }
-            startMinuteValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            } else {
+                if (startMinuteValueEl.value % 15 === 0) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
+                } else {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
+                }
+            }
         };
 
         startMinute.appendChild(startMinuteUpDown);
@@ -539,20 +559,17 @@ class clsDatepicker {
             let endHourValueEl = endHour.querySelector("#endHour");
             this.timeElements.endHourValueEl = endHourValueEl;
             let endHourChange = function (event) {
-                if (this.timeValid()) {
-
-                    let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                    if (newVal > 23) {
-                        newVal = 0;
-                    } else if (newVal < 1) {
-                        newVal = 23;
-                    }
-                    if (newVal < 10 && this.militaryTime) {
-                        newVal = "0" + newVal;
-                    }
-                    this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-                    this.setTime();
+                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
+                if (newVal > 23) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 23;
                 }
+                if (newVal < 10 && this.militaryTime) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
+                this.setTime();
             }.bind(this);
             endHourValueEl.addEventListener('change', endHourChange);
 
@@ -562,12 +579,20 @@ class clsDatepicker {
             // Up Hour
             endHourUpDown.querySelectorAll("div")[0].onclick = () => {
                 endHourValueEl.value++;
-                endHourValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    endHourValueEl.value--;
+                }
             };
             // Down Hour
             endHourUpDown.querySelectorAll("div")[1].onclick = () => {
                 endHourValueEl.value--;
-                endHourValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    endHourValueEl.value++;
+                }
             };
 
             endHour.appendChild(endHourUpDown);
@@ -589,20 +614,17 @@ class clsDatepicker {
             let endMinuteValueEl = endMinute.querySelector("input");
             this.timeElements.endMinuteValueEl = endMinuteValueEl;
             let endMinuteChange = function (event) {
-                if (this.timeValid()) {
-
-                    let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
-                    if (newVal > 59) {
-                        newVal = 0;
-                    } else if (newVal < 1) {
-                        newVal = 59;
-                    }
-                    if (newVal < 10) {
-                        newVal = "0" + newVal;
-                    }
-                    this.timeElements.endMinuteValueEl.value = newVal;
-                    this.setTime();
+                let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
+                if (newVal > 59) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 59;
                 }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.endMinuteValueEl.value = newVal;
+                this.setTime();
             }.bind(this);
             endMinuteValueEl.addEventListener('change', endMinuteChange);
             let endMinuteUpDown = document.createElement("span");
@@ -615,7 +637,15 @@ class clsDatepicker {
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
                 }
-                endMinuteValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endMinuteValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    if (endMinuteValueEl.value % 15 === 0) {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
+                    } else {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
+                    }
+                }
             };
             // Down Minute
             endMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
@@ -624,7 +654,15 @@ class clsDatepicker {
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
                 }
-                endMinuteValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endMinuteValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    if (endMinuteValueEl.value % 15 === 0) {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
+                    } else {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
+                    }
+                }
             };
             endMinute.appendChild(endMinuteUpDown);
             endTimeElement.appendChild(endMinute);
@@ -752,13 +790,23 @@ class clsDatepicker {
                     this.endHour = 0;
                 }
             }
-            let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
-            let endDate = moment(this.dates[0]).hour(this.endHour).minute(this.endMinute).unix();
-            if (startDate > endDate) {
-                return false;
+            let abbStartDate = new Date(moment(this.dates[0]).format('MM-DD-YYYY'));
+            let abbEndDate = new Date(moment(this.dates[1]).format('MM-DD-YYYY'));
+            console.log(abbEndDate.getTime() === abbStartDate.getTime())
+            if (abbEndDate.getTime() === abbStartDate.getTime()) {
+                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
+                let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute).unix();
+                console.log(startDate, endDate)
+                if (startDate > endDate) {
+                    return false;
+                } else {
+                    return true;
+                }
             } else {
                 return true;
             }
+        } else {
+            return true;
         }
     }
     // setTime function - a helper method to set start/end time. This function is a void.
