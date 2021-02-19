@@ -506,9 +506,14 @@ class clsDatepicker {
 
             startam.onclick = function () {
                 this.startAmPm = "AM";
-                startam.setAttribute("SELECTED", "true");
-                startpm.removeAttribute("SELECTED");
-                this.setTime();
+                if (this.timeValid()) {
+                    startam.setAttribute("SELECTED", "true");
+                    startpm.removeAttribute("SELECTED");
+                    this.setTime();
+                } else {
+                    this.startAmPm = "PM";
+                    this.setTime();
+                }
             }.bind(this);
             startampm.appendChild(startam);
 
@@ -518,9 +523,14 @@ class clsDatepicker {
 
             startpm.onclick = function () {
                 this.startAmPm = "PM";
-                startpm.setAttribute("SELECTED", "true");
-                startam.removeAttribute("SELECTED");
-                this.setTime();
+                if (this.timeValid()) {
+                    startpm.setAttribute("SELECTED", "true");
+                    startam.removeAttribute("SELECTED");
+                    this.setTime();
+                } else {
+                    this.startAmPm = "AM";
+                    this.setTime();
+                }
             }.bind(this);
             if (this.startAmPm === "PM") {
                 startpm.setAttribute("SELECTED", "true");
@@ -680,9 +690,14 @@ class clsDatepicker {
                 endam.innerHTML = "AM";
                 endam.onclick = function () {
                     this.endAmPm = "AM";
-                    endam.setAttribute("SELECTED", "true");
-                    endpm.removeAttribute("SELECTED");
-                    this.setTime();
+                    if (this.timeValid()) {
+                        endam.setAttribute("SELECTED", "true");
+                        endpm.removeAttribute("SELECTED");
+                        this.setTime();
+                    } else {
+                        this.endAmPm = "PM";
+                        this.setTime();
+                    }
                 }.bind(this);
                 endampm.appendChild(endam);
 
@@ -691,9 +706,14 @@ class clsDatepicker {
                 endpm.innerHTML = "PM";
                 endpm.onclick = function () {
                     this.endAmPm = "PM";
-                    endpm.setAttribute("SELECTED", "true");
-                    endam.removeAttribute("SELECTED");
-                    this.setTime();
+                    if (this.timeValid()) {
+                        endpm.setAttribute("SELECTED", "true");
+                        endam.removeAttribute("SELECTED");
+                        this.setTime();
+                    } else {
+                        this.endAmPm = "AM";
+                        this.setTime();
+                    }
                 }.bind(this);
                 if (this.endAmPm === "PM") {
                     endpm.setAttribute("SELECTED", "true");
