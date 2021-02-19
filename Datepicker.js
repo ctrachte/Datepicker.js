@@ -381,17 +381,19 @@ class clsDatepicker {
         this.timeElements.startHourValueEl = startHourValueEl;
 
         let startHourChange = function (event) {
-            let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-            if (newVal > 23) {
-                newVal = 0;
-            } else if (newVal < 1) {
-                newVal = 23;
+            if (this.timeValid()) {
+                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
+                if (newVal > 23) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 23;
+                }
+                if (newVal < 10 && this.militaryTime) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
+                this.setTime();
             }
-            if (newVal < 10 && this.militaryTime) {
-                newVal = "0" + newVal;
-            }
-            this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-            this.setTime();
         }.bind(this);
         startHourValueEl.addEventListener('change', startHourChange);
 
@@ -428,17 +430,20 @@ class clsDatepicker {
         let startMinuteValueEl = startMinute.querySelector("input");
         this.timeElements.startMinuteValueEl = startMinuteValueEl;
         let startMinuteChange = function (event) {
-            let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
-            if (newVal > 59) {
-                newVal = 0;
-            } else if (newVal < 1) {
-                newVal = 59;
+            if (this.timeValid()) {
+
+                let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
+                if (newVal > 59) {
+                    newVal = 0;
+                } else if (newVal < 1) {
+                    newVal = 59;
+                }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.startMinuteValueEl.value = newVal;
+                this.setTime();
             }
-            if (newVal < 10) {
-                newVal = "0" + newVal;
-            }
-            this.timeElements.startMinuteValueEl.value = newVal;
-            this.setTime();
         }.bind(this);
         startMinuteValueEl.addEventListener('change', startMinuteChange);
 
@@ -534,17 +539,20 @@ class clsDatepicker {
             let endHourValueEl = endHour.querySelector("#endHour");
             this.timeElements.endHourValueEl = endHourValueEl;
             let endHourChange = function (event) {
-                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                if (newVal > 23) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 23;
+                if (this.timeValid()) {
+
+                    let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
+                    if (newVal > 23) {
+                        newVal = 0;
+                    } else if (newVal < 1) {
+                        newVal = 23;
+                    }
+                    if (newVal < 10 && this.militaryTime) {
+                        newVal = "0" + newVal;
+                    }
+                    this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
+                    this.setTime();
                 }
-                if (newVal < 10 && this.militaryTime) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-                this.setTime();
             }.bind(this);
             endHourValueEl.addEventListener('change', endHourChange);
 
@@ -581,17 +589,20 @@ class clsDatepicker {
             let endMinuteValueEl = endMinute.querySelector("input");
             this.timeElements.endMinuteValueEl = endMinuteValueEl;
             let endMinuteChange = function (event) {
-                let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 59;
+                if (this.timeValid()) {
+
+                    let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
+                    if (newVal > 59) {
+                        newVal = 0;
+                    } else if (newVal < 1) {
+                        newVal = 59;
+                    }
+                    if (newVal < 10) {
+                        newVal = "0" + newVal;
+                    }
+                    this.timeElements.endMinuteValueEl.value = newVal;
+                    this.setTime();
                 }
-                if (newVal < 10) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.endMinuteValueEl.value = newVal;
-                this.setTime();
             }.bind(this);
             endMinuteValueEl.addEventListener('change', endMinuteChange);
             let endMinuteUpDown = document.createElement("span");
@@ -722,16 +733,32 @@ class clsDatepicker {
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
     timeValid() {
-        this.startHour = parseInt(this.timeElements.startHourValueEl.value);
-        this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
-        this.endHour = parseInt(this.timeElements.endHourValueEl.value);
-        this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
-        let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
-        let endDate = moment(endDate).hour(this.endHour).minute(this.endMinute).unix();
-        if (startDate > endDate) {
-            return false;
-        } else {
-            return true;
+        if (this.dates.length === 2) {
+            this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            if (!this.militaryTime) {
+                if (this.startAmPm === "PM") {
+                    this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
+                }
+                if (this.endAmPm === "PM") {
+                    this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
+                }
+                if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
+                    this.startHour = 0;
+                }
+                if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+                    this.endHour = 0;
+                }
+            }
+            let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
+            let endDate = moment(this.dates[0]).hour(this.endHour).minute(this.endMinute).unix();
+            if (startDate > endDate) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
     // setTime function - a helper method to set start/end time. This function is a void.
