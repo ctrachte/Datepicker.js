@@ -57,6 +57,7 @@ class clsDatepicker {
         this.drawEndTimePicker = this.drawEndTimePicker.bind(this);
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
+        this.timeValid = this.timeValid.bind(this);
         // state values, not typically set programmatically.
         this.dates = [];
         this.timeElements = {};
@@ -400,12 +401,20 @@ class clsDatepicker {
         // Up Hour
         startHourUpDown.querySelectorAll("div")[0].onclick = () => {
             startHourValueEl.value++;
-            startHourValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startHourValueEl.dispatchEvent(new Event('change'));
+            } else {
+                startHourValueEl.value--;
+            }
         };
         // Down Hour
         startHourUpDown.querySelectorAll("div")[1].onclick = () => {
             startHourValueEl.value--;
-            startHourValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startHourValueEl.dispatchEvent(new Event('change'));
+            } else {
+                startHourValueEl.value++;
+            }
         };
         //input change
         startHour.appendChild(startHourUpDown);
@@ -451,16 +460,33 @@ class clsDatepicker {
             } else {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
             }
-            startMinuteValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            } else {
+                if (startMinuteValueEl.value % 15 === 0) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
+                } else {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
+                }
+            }
         };
         // Down Minute
         startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+
             if (startMinuteValueEl.value % 15 === 0) {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
             } else {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
             }
-            startMinuteValueEl.dispatchEvent(new Event('change'));
+            if (this.timeValid()) {
+                startMinuteValueEl.dispatchEvent(new Event('change'));
+            } else {
+                if (startMinuteValueEl.value % 15 === 0) {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
+                } else {
+                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
+                }
+            }
         };
 
         startMinute.appendChild(startMinuteUpDown);
@@ -480,9 +506,14 @@ class clsDatepicker {
 
             startam.onclick = function () {
                 this.startAmPm = "AM";
-                startam.setAttribute("SELECTED", "true");
-                startpm.removeAttribute("SELECTED");
-                this.setTime();
+                if (this.timeValid()) {
+                    startam.setAttribute("SELECTED", "true");
+                    startpm.removeAttribute("SELECTED");
+                    this.setTime();
+                } else {
+                    this.startAmPm = "PM";
+                    this.setTime();
+                }
             }.bind(this);
             startampm.appendChild(startam);
 
@@ -492,9 +523,14 @@ class clsDatepicker {
 
             startpm.onclick = function () {
                 this.startAmPm = "PM";
-                startpm.setAttribute("SELECTED", "true");
-                startam.removeAttribute("SELECTED");
-                this.setTime();
+                if (this.timeValid()) {
+                    startpm.setAttribute("SELECTED", "true");
+                    startam.removeAttribute("SELECTED");
+                    this.setTime();
+                } else {
+                    this.startAmPm = "AM";
+                    this.setTime();
+                }
             }.bind(this);
             if (this.startAmPm === "PM") {
                 startpm.setAttribute("SELECTED", "true");
@@ -553,12 +589,20 @@ class clsDatepicker {
             // Up Hour
             endHourUpDown.querySelectorAll("div")[0].onclick = () => {
                 endHourValueEl.value++;
-                endHourValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    endHourValueEl.value--;
+                }
             };
             // Down Hour
             endHourUpDown.querySelectorAll("div")[1].onclick = () => {
                 endHourValueEl.value--;
-                endHourValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endHourValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    endHourValueEl.value++;
+                }
             };
 
             endHour.appendChild(endHourUpDown);
@@ -603,7 +647,15 @@ class clsDatepicker {
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
                 }
-                endMinuteValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endMinuteValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    if (endMinuteValueEl.value % 15 === 0) {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
+                    } else {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
+                    }
+                }
             };
             // Down Minute
             endMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
@@ -612,7 +664,15 @@ class clsDatepicker {
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
                 }
-                endMinuteValueEl.dispatchEvent(new Event('change'));
+                if (this.timeValid()) {
+                    endMinuteValueEl.dispatchEvent(new Event('change'));
+                } else {
+                    if (endMinuteValueEl.value % 15 === 0) {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
+                    } else {
+                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
+                    }
+                }
             };
             endMinute.appendChild(endMinuteUpDown);
             endTimeElement.appendChild(endMinute);
@@ -630,9 +690,14 @@ class clsDatepicker {
                 endam.innerHTML = "AM";
                 endam.onclick = function () {
                     this.endAmPm = "AM";
-                    endam.setAttribute("SELECTED", "true");
-                    endpm.removeAttribute("SELECTED");
-                    this.setTime();
+                    if (this.timeValid()) {
+                        endam.setAttribute("SELECTED", "true");
+                        endpm.removeAttribute("SELECTED");
+                        this.setTime();
+                    } else {
+                        this.endAmPm = "PM";
+                        this.setTime();
+                    }
                 }.bind(this);
                 endampm.appendChild(endam);
 
@@ -641,9 +706,14 @@ class clsDatepicker {
                 endpm.innerHTML = "PM";
                 endpm.onclick = function () {
                     this.endAmPm = "PM";
-                    endpm.setAttribute("SELECTED", "true");
-                    endam.removeAttribute("SELECTED");
-                    this.setTime();
+                    if (this.timeValid()) {
+                        endpm.setAttribute("SELECTED", "true");
+                        endam.removeAttribute("SELECTED");
+                        this.setTime();
+                    } else {
+                        this.endAmPm = "AM";
+                        this.setTime();
+                    }
                 }.bind(this);
                 if (this.endAmPm === "PM") {
                     endpm.setAttribute("SELECTED", "true");
@@ -720,6 +790,53 @@ class clsDatepicker {
         this.presetMenuContainer.appendChild(menuOptionsContainer);
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
+    timeValid() {
+        if (this.dates.length === 2) {
+            this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            if (!this.militaryTime) {
+                if (this.startAmPm === "PM") {
+                    this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
+                }
+                if (this.endAmPm === "PM") {
+                    this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
+                }
+                if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
+                    this.startHour = 0;
+                }
+                if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+                    this.endHour = 0;
+                }
+            }
+            let sameDay = moment(this.dates[0]).day() === moment(this.dates[1]).day();
+            let sameMonth = moment(this.dates[0]).month() === moment(this.dates[1]).month();
+            let sameYear = moment(this.dates[0]).year() === moment(this.dates[1]).year();
+            if (sameDay && sameMonth && sameYear) {
+                let startDate = moment(this.dates[0]).hour(this.startHour).minute(this.startMinute);
+                let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute);
+                console.log(startDate, endDate)
+                if (startDate > endDate) {
+                    this.timeElements.startMinuteValueEl.classList.add('datepicker-error');
+                    this.timeElements.startHourValueEl.classList.add('datepicker-error');
+                    this.timeElements.startampm.classList.add('datepicker-error');
+                    setTimeout(function () {
+                        this.timeElements.startMinuteValueEl.classList.remove('datepicker-error');
+                        this.timeElements.startHourValueEl.classList.remove('datepicker-error');
+                        this.timeElements.startampm.classList.remove('datepicker-error')
+                    }.bind(this), 1000);
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
     // setTime function - a helper method to set start/end time. This function is a void.
     setTime(setProgrammatically = false) {
         this.startHour = parseInt(this.timeElements.startHourValueEl.value);
@@ -732,7 +849,7 @@ class clsDatepicker {
             if (!startHour) {
                 startHour = 12;
             }
-            let endHour =  this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            let endHour = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
             if (!endHour) {
                 endHour = 12;
             }
@@ -894,6 +1011,7 @@ class clsDatepicker {
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
@@ -902,14 +1020,10 @@ class clsDatepicker {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
-                this.timeElements.startHourValueEl.value = 1;
-                this.timeElements.startHourValueEl.dispatchEvent(new Event('change'));
-                this.startHour = 1;
+                this.startHour = 0;
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
-                this.timeElements.endHourValueEl.value = 1;
-                this.timeElements.endHourValueEl.dispatchEvent(new Event('change'));
-                this.endHour = 1;
+                this.endHour = 0;
             }
         }
         // set the start/end date in both the UI and the class's state
@@ -920,7 +1034,9 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
                 this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
             } else {
-                if (moment(this.dates[0]) > moment(dayCell.value)) {
+                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
+                let clickedDate = moment(dayCell.value).hour(this.endHour).minute(this.endMinute).unix();
+                if (startDate > clickedDate) {
                     let largerDate = this.dates[0];
                     this.dates = [];
                     this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
@@ -936,6 +1052,15 @@ class clsDatepicker {
             this.dates = [];
             this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
             this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
+        }
+        if (!this.timeValid()) {
+            this.startHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            let startMinute = this.endMinute;
+            let startHour = this.endHour;
+            this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
+            this.timeElements.startHourValueEl.value = startHour;
+            this.setTime();
         }
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
