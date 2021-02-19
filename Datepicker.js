@@ -917,10 +917,9 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
                 this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
             } else {
-                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).format(this.format).valueOf();
-                let clickedDate = moment(dayCell.value).hour(this.endHour).minute(this.endMinute).format(this.format).valueOf();
-                console.log(startDate, clickedDate)
-                if (startDate  >= clickedDate) {
+                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
+                let clickedDate = moment(dayCell.value).hour(this.endHour).minute(this.endMinute).unix();
+                if (startDate > clickedDate) {
                     let largerDate = this.dates[0];
                     this.dates = [];
                     this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
