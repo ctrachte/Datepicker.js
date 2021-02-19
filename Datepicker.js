@@ -812,12 +812,18 @@ class clsDatepicker {
             }
             let abbStartDate = new Date(moment(this.dates[0]).format('MM-DD-YYYY'));
             let abbEndDate = new Date(moment(this.dates[1]).format('MM-DD-YYYY'));
-            // console.log(abbEndDate.getTime() === abbStartDate.getTime())
             if (abbEndDate.getTime() === abbStartDate.getTime()) {
                 let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
                 let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute).unix();
-                console.log(startDate, endDate)
                 if (startDate > endDate) {
+                    this.timeElements.startMinuteValueEl.classList.add('datepicker-error');
+                    this.timeElements.startHourValueEl.classList.add('datepicker-error');
+                    this.timeElements.startampm.classList.add('datepicker-error');
+                    setTimeout(function () {
+                        this.timeElements.startMinuteValueEl.classList.remove('datepicker-error');
+                        this.timeElements.startHourValueEl.classList.remove('datepicker-error');
+                        this.timeElements.startampm.classList.remove('datepicker-error')
+                    }.bind(this), 1000);
                     return false;
                 } else {
                     return true;

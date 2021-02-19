@@ -524,4 +524,7 @@ button, input[type="submit"], input[type="reset"] {
   box-shadow:0px 0px 5px 1px var(--Shadow);
 }
 
-
+.datepicker-error {
+  border: solid var(--Accent) 2px !important;
+  color: var(--Accent) !important;
+}
