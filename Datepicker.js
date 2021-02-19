@@ -889,6 +889,15 @@ class clsDatepicker {
                 this.endHour = 0;
             }
         }
+        if (!this.timeValid()) {
+            this.startHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            let startMinute = this.endMinute;
+            let startHour = this.endHour;
+            this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
+            this.timeElements.startHourValueEl.value = startHour;
+            this.setTime();
+        }
         // Set sanitized and formatted dates:
         let endDate = this.dates[1];
         let startDate = this.dates[0];
