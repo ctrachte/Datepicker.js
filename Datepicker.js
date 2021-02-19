@@ -894,6 +894,7 @@ class clsDatepicker {
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
         this.endHour = parseInt(this.timeElements.endHourValueEl.value);
         this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
@@ -902,14 +903,10 @@ class clsDatepicker {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
-                this.timeElements.startHourValueEl.value = 1;
-                this.timeElements.startHourValueEl.dispatchEvent(new Event('change'));
-                this.startHour = 1;
+                this.startHour = 0;
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
-                this.timeElements.endHourValueEl.value = 1;
-                this.timeElements.endHourValueEl.dispatchEvent(new Event('change'));
-                this.endHour = 1;
+                this.endHour = 0;
             }
         }
         // set the start/end date in both the UI and the class's state
@@ -920,7 +917,10 @@ class clsDatepicker {
                 this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
                 this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
             } else {
-                if (moment(this.dates[0]) > moment(dayCell.value)) {
+                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).format(this.format).valueOf();
+                let clickedDate = moment(dayCell.value).hour(this.endHour).minute(this.endMinute).format(this.format).valueOf();
+                console.log(startDate, clickedDate)
+                if (startDate.diff(clickedDate) >= 0) {
                     let largerDate = this.dates[0];
                     this.dates = [];
                     this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
