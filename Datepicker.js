@@ -812,7 +812,7 @@ class clsDatepicker {
             }
             let abbStartDate = new Date(moment(this.dates[0]).format('MM-DD-YYYY'));
             let abbEndDate = new Date(moment(this.dates[1]).format('MM-DD-YYYY'));
-            console.log(abbEndDate.getTime() === abbStartDate.getTime())
+            // console.log(abbEndDate.getTime() === abbStartDate.getTime())
             if (abbEndDate.getTime() === abbStartDate.getTime()) {
                 let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
                 let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute).unix();
@@ -1044,6 +1044,15 @@ class clsDatepicker {
             this.dates = [];
             this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
             this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
+        }
+        if (!this.timeValid()) {
+            this.startHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            let startMinute = this.endMinute;
+            let startHour = this.endHour;
+            this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
+            this.timeElements.startHourValueEl.value = startHour;
+            this.setTime();
         }
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
