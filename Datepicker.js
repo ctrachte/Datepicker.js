@@ -732,7 +732,7 @@ class clsDatepicker {
             if (!startHour) {
                 startHour = 12;
             }
-            let endHour =  this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            let endHour = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
             if (!endHour) {
                 endHour = 12;
             }
@@ -772,6 +772,37 @@ class clsDatepicker {
             }
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
                 this.endHour = 0;
+            }
+
+            if (!this.singleDate && this.dates.length === 2 ) {
+                // set the start/end date in both the UI and the class's state
+                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
+                let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute).unix();
+                if (startDate >=  endDate) {
+                    startDate = moment(this.dates[0]).format("MM/DD/YYYY").unix();
+                    endDate = moment(this.dates[1]).format("MM/DD/YYYY").unix();
+                    if (startDate === endDate) {
+                        let largerDate = this.dates[0];
+                        let smallerDate = this.dates[1];
+                        this.dates = [];
+                        this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
+                        this.dates[0] = moment(smallerDate).set({ h: this.startHour, m: this.startMinute }).format(this.format);
+                        this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
+                        this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
+                        let startHour = parseInt(this.timeElements.startHourValueEl.value);
+                        let startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+                        let endHour = parseInt(this.timeElements.endHourValueEl.value);
+                        let endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+                        this.timeElements.endHourValueEl.value = startHour;
+                        this.timeElements.endMinuteValueEl.value = startMinute;
+                        this.timeElements.startHourValueEl.value = endHour;
+                        this.timeElements.startMinuteValueEl.value = endMinute;
+                        this.startHour = endHour;
+                        this.startMinute = endminute;
+                        this.endHour = startHour;
+                        this.endMinute = startminute;
+                    }
+                }
             }
         }
         // Set sanitized and formatted dates:
