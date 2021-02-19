@@ -810,11 +810,13 @@ class clsDatepicker {
                     this.endHour = 0;
                 }
             }
-            let abbStartDate = new Date(moment(this.dates[0]).format('MM-DD-YYYY'));
-            let abbEndDate = new Date(moment(this.dates[1]).format('MM-DD-YYYY'));
-            if (abbEndDate.getTime() === abbStartDate.getTime()) {
-                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
-                let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute).unix();
+            let sameDay = moment(this.dates[0]).day() === moment(this.dates[1]).day();
+            let sameMonth = moment(this.dates[0]).month() === moment(this.dates[1]).month();
+            let sameYear = moment(this.dates[0]).year() === moment(this.dates[1]).year();
+            if (sameDay && sameMonth && sameYear) {
+                let startDate = moment(this.dates[0]).hour(this.startHour).minute(this.startMinute);
+                let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute);
+                console.log(startDate, endDate)
                 if (startDate > endDate) {
                     this.timeElements.startMinuteValueEl.classList.add('datepicker-error');
                     this.timeElements.startHourValueEl.classList.add('datepicker-error');
@@ -888,15 +890,6 @@ class clsDatepicker {
             if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
                 this.endHour = 0;
             }
-        }
-        if (!this.timeValid()) {
-            this.startHour = parseInt(this.timeElements.endHourValueEl.value);
-            this.startMinute = parseInt(this.timeElements.endMinuteValueEl.value);
-            let startMinute = this.endMinute;
-            let startHour = this.endHour;
-            this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
-            this.timeElements.startHourValueEl.value = startHour;
-            this.setTime();
         }
         // Set sanitized and formatted dates:
         let endDate = this.dates[1];
