@@ -816,7 +816,7 @@ class clsDatepicker {
             if (sameDay && sameMonth && sameYear) {
                 let startDate = moment(this.dates[0]).hour(this.startHour).minute(this.startMinute);
                 let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute);
-                console.log(startDate, endDate)
+                // console.log(startDate, endDate)
                 if (startDate > endDate) {
                     this.timeElements.startMinuteValueEl.classList.add('datepicker-error');
                     this.timeElements.startHourValueEl.classList.add('datepicker-error');
