@@ -1117,7 +1117,6 @@ class clsDatepicker {
         this.inputElement.hideEl();
     }
     closeCalendar() {
-        console.log('hit')
         this.calendarElement.hideCalendar();
         this.drawInputElement();
         this.inputElement.showEl();
