@@ -171,6 +171,22 @@ class clsDatepicker {
             this.moment.year(yearInput.value);
             this.snapTo();
         }.bind(this));
+        let yearUp = document.createElement('span');
+        yearUp.innerHTML = "&and;";
+        yearUp.setAttribute('class', 'increase-year-button');
+        yearUp.setAttribute('aria-label', 'Increase Year Button');
+        yearUp.setAttribute('role', 'button');
+        yearUp.addEventListener('change', function (e) {
+            yearInput.value++;
+        }.bind(this));
+        let yearDown = document.createElement('span');
+        yearDown.innerHTML = "&or;";
+        yearDown.setAttribute('class', 'decrease-year-button');
+        yearDown.setAttribute('aria-label', 'Decrease Year Button');
+        yearDown.setAttribute('role', 'button');
+        yearDown.addEventListener('change', function (e) {
+            yearInput.value--;
+        }.bind(this));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
@@ -208,7 +224,9 @@ class clsDatepicker {
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthSelect);
+        monthHeader.appendChild(yearUp);
         monthHeader.appendChild(yearInput);
+        monthHeader.appendChild(yearDown);
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
         // close calendar icon
