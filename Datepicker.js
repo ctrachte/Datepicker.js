@@ -178,12 +178,7 @@ class clsDatepicker {
         yearUp.setAttribute('role', 'button');
         yearUp.addEventListener('click', function (e) {
             yearInput.stepUp();
-            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
-                yearInput.value = this.moment.year();
-                return;
-            }
-            this.moment.year(yearInput.value);
-            this.snapTo();
+            yearInput.dispatchEvent(new Event('change'));
         }.bind(this));
         let yearDown = document.createElement('span');
         yearDown.innerHTML = "&#x2212;";
@@ -192,12 +187,7 @@ class clsDatepicker {
         yearDown.setAttribute('role', 'button');
         yearDown.addEventListener('click', function (e) {
             yearInput.stepDown();
-            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
-                yearInput.value = this.moment.year();
-                return;
-            }
-            this.moment.year(yearInput.value);
-            this.snapTo();
+            yearInput.dispatchEvent(new Event('change'));
         }.bind(this));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
