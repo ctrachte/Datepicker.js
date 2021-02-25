@@ -211,7 +211,7 @@ class clsDatepicker {
         // left/right arrows for adjusting month
         let leftArrow = document.createElement('div');
         leftArrow.classList.add("leftArrow");
-        leftArrow.setAttribute('style', 'background-color:transparent');
+        leftArrow.setAttribute('style', 'grid-column-start: 2; grid-column-end: 3; background-color: transparent !important;');
         leftArrow.setAttribute('aria-label', 'Previous Month Button');
         leftArrow.setAttribute('role', 'navigation');
         leftArrow.innerHTML = "&#11164;";
@@ -219,16 +219,16 @@ class clsDatepicker {
 
         let rightArrow = document.createElement('div');
         rightArrow.classList.add("rightArrow");
-        rightArrow.setAttribute('style', 'background-color:transparent');
+        rightArrow.setAttribute('style', 'grid-column-start: 6; grid-column-end: 7; background-color: transparent !important;');
         rightArrow.setAttribute('aria-label', 'Next Month Button');
         rightArrow.setAttribute('role', 'navigation');
         rightArrow.innerHTML = "&#11166;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthSelect);
-        monthHeader.appendChild(yearInput);
 
         monthHeader.appendChild(yearDown);
+        monthHeader.appendChild(yearInput);
         monthHeader.appendChild(yearUp);
 
         monthHeader.classList.add('monthHeader')

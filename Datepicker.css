@@ -54,7 +54,7 @@
   border-style: none !important;
   background-color: var(--Primary) !important;
   color: var(--Accent) !important;
-  padding-left: 0 !important;
+  padding: 0 !important;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   font-size: 1.5rem !important;
   font-weight: bold !important;
@@ -62,6 +62,10 @@
   justify-content:center !important;
   display: flex !important;
   vertical-align: middle !important;
+}
+
+.datepicker-month-select {
+  margin-left: 12px !important;
 }
 
 .monthHeader> select {
@@ -80,14 +84,18 @@
   background-image:none !important;
   border: none !important;
   background-color: var(--Primary) !important;
-  width: 90px;
+  width: 80px !important;
   padding:0;
   clear: both;
   text-align: center;
 }
 
-.datepicker-month-select:hover {
+.datepicker-month-select:hover, .increase-year-button:hover, .decrease-year-button:hover {
   cursor: pointer;
+}
+
+.decrease-year-button {
+  margin-left: 10px;
 }
 
 .datepicker-month-select> option {
