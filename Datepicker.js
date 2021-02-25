@@ -1188,6 +1188,14 @@ class clsDatepicker {
         this.drawPresetMenu();
         this.closePresetMenu();
     }
+    // helper method to return focus to elements clicked after resetting/refreshing UI
+    returnFocus(e) {
+        // e = Mouse click event.
+        var rect = e.target.getBoundingClientRect();
+        var x = e.clientX - rect.left; //x position within the element.
+        var y = e.clientY - rect.top;  //y position within the element.
+        console.log("Left? : " + x + " ; Top? : " + y + ".");
+    }
     // helper that snaps the calendar UI to a given date
     snapTo(date = this.moment) {
         this.moment = moment(date);
