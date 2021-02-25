@@ -369,7 +369,7 @@ b {
     outline: none !important;
   }
 
-  .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
+ .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
     width: calc(2em - 4px);
     border: 2.5px solid var(--Selection) !important;
     border-radius: 5px;
@@ -387,12 +387,12 @@ b {
     margin-top: 10%;
   }
   /* Chrome, Safari, Edge, Opera */
-  .hour input::-webkit-outer-spin-button, .hour input::-webkit-inner-spin-button, .minute input::-webkit-outer-spin-button, .minute input::-webkit-inner-spin-button {
+  input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
   /* Firefox */
-  .hour input[type=number], .minute input[type=number], .monthHeader input[type=number] {
+  input[type=number] {
     -moz-appearance: textfield;
     -webkit-appearance: textfield;
   }
