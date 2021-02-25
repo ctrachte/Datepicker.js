@@ -172,20 +172,32 @@ class clsDatepicker {
             this.snapTo();
         }.bind(this));
         let yearUp = document.createElement('span');
-        yearUp.innerHTML = "&and;";
+        yearUp.innerHTML = "&#43;";
         yearUp.setAttribute('class', 'increase-year-button');
         yearUp.setAttribute('aria-label', 'Increase Year Button');
         yearUp.setAttribute('role', 'button');
-        yearUp.addEventListener('change', function (e) {
-            yearInput.value++;
+        yearUp.addEventListener('click', function (e) {
+            yearInput.stepUp();
+            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
+                yearInput.value = this.moment.year();
+                return;
+            }
+            this.moment.year(yearInput.value);
+            this.snapTo();
         }.bind(this));
         let yearDown = document.createElement('span');
-        yearDown.innerHTML = "&or;";
+        yearDown.innerHTML = "&#x2212;";
         yearDown.setAttribute('class', 'decrease-year-button');
         yearDown.setAttribute('aria-label', 'Decrease Year Button');
         yearDown.setAttribute('role', 'button');
-        yearDown.addEventListener('change', function (e) {
-            yearInput.value--;
+        yearDown.addEventListener('click', function (e) {
+            yearInput.stepDown();
+            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
+                yearInput.value = this.moment.year();
+                return;
+            }
+            this.moment.year(yearInput.value);
+            this.snapTo();
         }.bind(this));
         // hamburger menu icon
         this.menuIconContainer = document.createElement('div');
@@ -224,9 +236,11 @@ class clsDatepicker {
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(monthSelect);
-        monthHeader.appendChild(yearUp);
         monthHeader.appendChild(yearInput);
+
         monthHeader.appendChild(yearDown);
+        monthHeader.appendChild(yearUp);
+
         monthHeader.classList.add('monthHeader')
         calendar.classList.add('grid-container');
         // close calendar icon
@@ -1014,7 +1028,15 @@ class clsDatepicker {
     }
     // to test clicks outside calendar element to close it
     isOutsideCalendar(event) {
-        return (!this.calendarElement.contains(event.target) && this.isVisible(this.calendarElement) && !this.inputElement.contains(event.target) && !event.target.classList.contains('leftArrow') && !event.target.classList.contains("rightArrow"));
+        return (
+            !this.calendarElement.contains(event.target)
+            && this.isVisible(this.calendarElement) 
+            && !this.inputElement.contains(event.target)
+            && !event.target.classList.contains('leftArrow')
+            && !event.target.classList.contains("rightArrow")
+            && !event.target.classList.contains("decrease-year-button")
+            && !event.target.classList.contains("increase-year-button")
+            );
     }
     // closes calendar if clicks are outside boundaries
     outsideCalendarClick(event) {
@@ -1105,6 +1127,7 @@ class clsDatepicker {
         this.inputElement.hideEl();
     }
     closeCalendar() {
+        console.log('hit')
         this.calendarElement.hideCalendar();
         this.drawInputElement();
         this.inputElement.showEl();
@@ -1207,9 +1230,9 @@ class clsDatepicker {
         this.closePresetMenu();
     }
     // helper that snaps the calendar UI to a given date
-    snapTo(date = this.moment) {
+    snapTo(date = this.moment, isVisible) {
         this.moment = moment(date);
-        if (this.isVisible(this.calendarElement)) {
+        if (this.isVisible(this.calendarElement) || isVisible) {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
             this.drawInputElement();
@@ -1217,6 +1240,7 @@ class clsDatepicker {
             this.closePresetMenu();
             this.setTime(true);
             this.highlightDates(true);
+            this.calendarElement.showCalendar();
         } else {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
