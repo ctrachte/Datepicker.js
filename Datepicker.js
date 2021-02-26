@@ -1054,7 +1054,7 @@ class clsDatepicker {
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
                 this.startHour = 0;
             }
-            if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM" && !this.singleDate) {
+            if (this.endAmPm === "AM" && !this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12) {
                 this.endHour = 0;
             }
         }
