@@ -382,10 +382,10 @@ class clsDatepicker {
         let endDateElement = document.createElement('div');
         endDateElement.classList.add('endDateElement');
         if (this.timePicker) {
-            endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
+            endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
             endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
         } else {
-            endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
+            endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
             endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
         }
         this.calendarElement = calendar;
