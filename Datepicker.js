@@ -397,6 +397,17 @@ class clsDatepicker {
             if (!this.singleDate) {
                 this.drawEndTimePicker();
             }
+        } else {
+            let endDateElement = document.createElement('div');
+            endDateElement.classList.add('endDateElement');
+            if (this.timePicker) {
+                endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+                endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
+            } else {
+                endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
+                endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
+            }
+            this.calendarElement.appendChild(endDateElement);
         }
 
         // cancel dates button:
