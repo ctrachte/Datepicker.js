@@ -98,8 +98,9 @@ class clsDatepicker {
         let timeBlock = document.createElement('div');
         let startDate = document.createElement('div');
         timeBlock.appendChild(startDate);
+        let endDate = document.createElement('div');
+
         if (!this.singleDate) {
-            let endDate = document.createElement('div');
             endDate.setAttribute("class", "date");
             timeBlock.appendChild(endDate);
         }
@@ -899,11 +900,9 @@ class clsDatepicker {
             if (!startHour) {
                 startHour = 12;
             }
-            if (!this.singleDate) {
-                let endHour = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
-                if (!endHour) {
-                    endHour = 12;
-                }
+            let endHour = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            if (!endHour) {
+                endHour = 12;
             }
             this.timeElements.startHourValueEl.value = startHour;
             this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
