@@ -81,24 +81,32 @@ class clsDatepicker {
         let headingBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
-        startHead.innerHTML = "Start Date:";
-        endHead.innerHTML = "End Date:";
+        startHead.innerHTML = "Date:";
+        if (!this.singleDate) {
+            startHead.innerHTML = "Start Date:";
+            endHead.innerHTML = "End Date:";
+        }
         headingBlock.setAttribute("class", "headingBlock");
         startHead.setAttribute("class", "heading");
         endHead.setAttribute("class", "heading");
         headingBlock.appendChild(startHead);
-        headingBlock.appendChild(endHead);
+        if (!this.singleDate) {
+            headingBlock.appendChild(endHead);
+        }
         this.inputElement.appendChild(headingBlock);
         //This creates a container for the time to reside
         let timeBlock = document.createElement('div');
         let startDate = document.createElement('div');
-        let endDate = document.createElement('div');
         timeBlock.appendChild(startDate);
-        timeBlock.appendChild(endDate);
+        let endDate = document.createElement('div');
+
+        if (!this.singleDate) {
+            endDate.setAttribute("class", "date");
+            timeBlock.appendChild(endDate);
+        }
         startDate.innerHTML = this.dates[0];
         timeBlock.setAttribute("class", "timeBlock");
         startDate.setAttribute("class", "date");
-        endDate.setAttribute("class", "date");
         this.inputElement.appendChild(timeBlock);
 
         let launchButton = document.createElement('div');
@@ -106,6 +114,9 @@ class clsDatepicker {
         launchText.innerHTML = 'CLICK TO SELECT &#128197;';
         launchButton.setAttribute('class', 'launchButton');
         launchText.setAttribute('class', 'launchText');
+        if (this.singleDate) {
+            launchText.setAttribute('style', 'line-height: 40px;')
+        }
         launchButton.appendChild(launchText);
         this.inputElement.appendChild(launchButton);
 
@@ -114,10 +125,12 @@ class clsDatepicker {
         } else {
             startDate.innerHTML = " --/--/----  --:-- ";
         }
-        if (this.dates[1] && !this.singleDate && typeof this.dates[1] !== undefined) {
-            endDate.innerHTML = this.dates[1];
-        } else {
-            endDate.innerHTML = " --/--/----  --:-- ";
+        if (!this.singleDate) {
+            if (this.dates[1] && typeof this.dates[1] !== undefined) {
+                endDate.innerHTML = this.dates[1];
+            } else {
+                endDate.innerHTML = " --/--/----  --:-- ";
+            }
         }
         this.inputElement.addEventListener('click', function (event) {
             this.openCalendar();
@@ -345,7 +358,7 @@ class clsDatepicker {
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
             startDateElement.innerHTML = `<b>Date:  --/--/----  --:--  </b>`;
-            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
+            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
@@ -353,7 +366,9 @@ class clsDatepicker {
         // timepicker init based on options
         if (this.timePicker) {
             this.drawStartTimePicker();
-            this.drawEndTimePicker();
+            if (!this.singleDate) {
+                this.drawEndTimePicker();
+            }
         }
         // cancel dates button:
         let cancelButton = document.createElement('button');
@@ -758,17 +773,27 @@ class clsDatepicker {
         let menuOptionsContainer = document.createElement('ul');
         let today = new Date();
         // default preset menu options
-        let menuOptions = [
-            { title: 'This Week', values: [moment(today).startOf('week'), moment(today).endOf('week')] },
-            { title: 'Next Week', values: [moment(today).add(+1, 'week').startOf('week'), moment(today).add(+1, 'week').endOf('week')] },
-            { title: 'Last Week', values: [moment(today).add(-1, 'week').startOf('week'), moment(today).add(-1, 'week').endOf('week')] },
-            { title: 'This Month', values: [moment(today).startOf('month'), moment(today).endOf('month')] },
-            { title: 'Next Month', values: [moment(today).add(+1, 'month').startOf('month'), moment(today).add(+1, 'month').endOf('month')] },
-            { title: 'Last Month', values: [moment(today).add(-1, 'month').startOf('month'), moment(today).add(-1, 'month').endOf('month')] },
-            { title: 'This Year', values: [moment(today).startOf('year'), moment(today).endOf('year')] },
-            { title: 'Next Year', values: [moment(today).add(+1, 'year').startOf('year'), moment(today).add(+1, 'year').endOf('year')] },
-            { title: 'Last Year', values: [moment(today).add(-1, 'year').startOf('year'), moment(today).add(-1, 'year').endOf('year')] },
-        ];
+        let menuOptions = [];
+        if (!this.singleDate) {
+            menuOptions = [
+                { title: 'This Week', values: [moment(today).startOf('week'), moment(today).endOf('week')] },
+                { title: 'Next Week', values: [moment(today).add(+1, 'week').startOf('week'), moment(today).add(+1, 'week').endOf('week')] },
+                { title: 'Last Week', values: [moment(today).add(-1, 'week').startOf('week'), moment(today).add(-1, 'week').endOf('week')] },
+                { title: 'This Month', values: [moment(today).startOf('month'), moment(today).endOf('month')] },
+                { title: 'Next Month', values: [moment(today).add(+1, 'month').startOf('month'), moment(today).add(+1, 'month').endOf('month')] },
+                { title: 'Last Month', values: [moment(today).add(-1, 'month').startOf('month'), moment(today).add(-1, 'month').endOf('month')] },
+                { title: 'This Year', values: [moment(today).startOf('year'), moment(today).endOf('year')] },
+                { title: 'Next Year', values: [moment(today).add(+1, 'year').startOf('year'), moment(today).add(+1, 'year').endOf('year')] },
+                { title: 'Last Year', values: [moment(today).add(-1, 'year').startOf('year'), moment(today).add(-1, 'year').endOf('year')] },
+            ];
+        } else {
+            menuOptions = [
+                { title: 'Yesterday', values: [moment(today).add(-1, 'day').hour(0).minute(0)] },
+                { title: 'Today', values: [moment(today).hour(0).minute(0)] },
+                { title: 'Tomorrow', values: [moment(today).add(1, 'day').hour(0).minute(0)] }
+            ];
+        }
+
         // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
             for (let i = 0; i < this.menuOptions.length; i++) {
@@ -784,7 +809,9 @@ class clsDatepicker {
                 this.dates.length = 0;
                 this.highlightDates(true);
                 this.dates[0] = (menuOption.values[0]);
-                this.dates[1] = (menuOption.values[1]);
+                if (!this.singleDate) {
+                    this.dates[1] = (menuOption.values[1]);
+                }
                 // invoke highlighting fn to ensure calendar UI is updated
                 this.highlightDates(true);
                 this.setTime(true);
@@ -813,7 +840,7 @@ class clsDatepicker {
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
     timeValid() {
-        if (this.dates.length === 2) {
+        if (this.dates.length === 2 && !this.singleDate) {
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
             this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
             this.endHour = parseInt(this.timeElements.endHourValueEl.value);
@@ -863,38 +890,44 @@ class clsDatepicker {
     setTime(setProgrammatically = false) {
         this.startHour = parseInt(this.timeElements.startHourValueEl.value);
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
-        this.endHour = parseInt(this.timeElements.endHourValueEl.value);
-        this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        if (!this.singleDate) {
+            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        }
         // Sanitizes the UI and the state if .value() was used to set dates/times
         if (setProgrammatically) {
             let startHour = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
             if (!startHour) {
                 startHour = 12;
             }
-            let endHour = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            let endHour = !this.singleDate ? (this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value) : "";
             if (!endHour) {
                 endHour = 12;
             }
             this.timeElements.startHourValueEl.value = startHour;
             this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
-            this.timeElements.endHourValueEl.value = endHour;
-            this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
+            if (!this.singleDate) {
+                this.timeElements.endHourValueEl.value = endHour;
+                this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
+                this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+                this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+            }
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
             this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
-            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
-            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
             if (!this.militaryTime) {
-                this.endAmPm = this.toMilitary(this.endHour) > 12 ? "PM" : "AM";
+                if (!this.singleDate) {
+                    this.endAmPm = this.toMilitary(this.endHour) > 12 ? "PM" : "AM";
+                    if (this.endAmPm === "PM") {
+                        this.timeElements.endpm.click();
+                    } else {
+                        this.timeElements.endam.click();
+                    }
+                }
                 this.startAmPm = this.toMilitary(this.startHour) > 12 ? "PM" : "AM";
                 if (this.startAmPm === "PM") {
                     this.timeElements.startpm.click();
                 } else {
                     this.timeElements.startam.click();
-                }
-                if (this.endAmPm === "PM") {
-                    this.timeElements.endpm.click();
-                } else {
-                    this.timeElements.endam.click();
                 }
             }
         }
@@ -903,18 +936,21 @@ class clsDatepicker {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
             }
-            if (this.endAmPm === "PM") {
+            if (!this.singleDate && this.endAmPm === "PM") {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
                 this.startHour = 0;
             }
-            if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+            if (!this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
                 this.endHour = 0;
             }
         }
         // Set sanitized and formatted dates:
-        let endDate = this.dates[1];
+        let endDate = "";
+        if (!this.singleDate) {
+            endDate = this.dates[1];
+        }
         let startDate = this.dates[0];
         this.dates = [];
         if (startDate) {
@@ -1020,13 +1056,13 @@ class clsDatepicker {
     isOutsideCalendar(event) {
         return (
             !this.calendarElement.contains(event.target)
-            && this.isVisible(this.calendarElement) 
+            && this.isVisible(this.calendarElement)
             && !this.inputElement.contains(event.target)
             && !event.target.classList.contains('leftArrow')
             && !event.target.classList.contains("rightArrow")
             && !event.target.classList.contains("decrease-year-button")
             && !event.target.classList.contains("increase-year-button")
-            );
+        );
     }
     // closes calendar if clicks are outside boundaries
     outsideCalendarClick(event) {
@@ -1039,20 +1075,22 @@ class clsDatepicker {
     dayClick(dayCell) {
         this.startHour = parseInt(this.timeElements.startHourValueEl.value);
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
-        this.endHour = parseInt(this.timeElements.endHourValueEl.value);
-        this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        if (!this.singleDate) {
+            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        }
         // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
             }
-            if (this.endAmPm === "PM") {
+            if (this.endAmPm === "PM" && !this.singleDate) {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
                 this.startHour = 0;
             }
-            if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+            if (this.endAmPm === "AM" && !this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12) {
                 this.endHour = 0;
             }
         }
@@ -1105,7 +1143,7 @@ class clsDatepicker {
         // conditional highlighting prompt
         this.highlightDates();
         this.drawInputElement();
-        if (this.dates.length === 2 && this.options.autoClose) {
+        if ((this.dates.length === 2 || this.singleDate) && this.options.autoClose) {
             setTimeout(function () {
                 this.closeCalendar();
             }.bind(this), 700);

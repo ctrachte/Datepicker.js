@@ -527,7 +527,6 @@ button, input[type="submit"], input[type="reset"] {
   cursor:pointer;
   opacity: 0.2;
 }
-
 .day:hover {
   cursor:pointer;
   opacity: 0.85;
