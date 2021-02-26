@@ -81,24 +81,31 @@ class clsDatepicker {
         let headingBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
-        startHead.innerHTML = "Start Date:";
-        endHead.innerHTML = "End Date:";
+        startHead.innerHTML = "Date:";
+        if (!this.singleDate) {
+            startHead.innerHTML = "Start Date:";
+            endHead.innerHTML = "End Date:";
+        }
         headingBlock.setAttribute("class", "headingBlock");
         startHead.setAttribute("class", "heading");
         endHead.setAttribute("class", "heading");
         headingBlock.appendChild(startHead);
-        headingBlock.appendChild(endHead);
+        if (!this.singleDate) {
+            headingBlock.appendChild(endHead);
+        }
         this.inputElement.appendChild(headingBlock);
         //This creates a container for the time to reside
         let timeBlock = document.createElement('div');
         let startDate = document.createElement('div');
-        let endDate = document.createElement('div');
         timeBlock.appendChild(startDate);
-        timeBlock.appendChild(endDate);
+        if (!this.singleDate) {
+            let endDate = document.createElement('div');
+            endDate.setAttribute("class", "date");
+            timeBlock.appendChild(endDate);
+        }
         startDate.innerHTML = this.dates[0];
         timeBlock.setAttribute("class", "timeBlock");
         startDate.setAttribute("class", "date");
-        endDate.setAttribute("class", "date");
         this.inputElement.appendChild(timeBlock);
 
         let launchButton = document.createElement('div');
@@ -114,10 +121,12 @@ class clsDatepicker {
         } else {
             startDate.innerHTML = " --/--/----  --:-- ";
         }
-        if (this.dates[1] && !this.singleDate && typeof this.dates[1] !== undefined) {
-            endDate.innerHTML = this.dates[1];
-        } else {
-            endDate.innerHTML = " --/--/----  --:-- ";
+        if (!this.singleDate) {
+            if (this.dates[1] && typeof this.dates[1] !== undefined) {
+                endDate.innerHTML = this.dates[1];
+            } else {
+                endDate.innerHTML = " --/--/----  --:-- ";
+            }
         }
         this.inputElement.addEventListener('click', function (event) {
             this.openCalendar();
