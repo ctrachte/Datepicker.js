@@ -123,13 +123,21 @@ class clsDatepicker {
         if (this.dates[0]) {
             startDate.innerHTML = this.dates[0];
         } else {
-            startDate.innerHTML = " --/--/----  --:-- ";
+            if (this.timePicker) {
+                startDate.innerHTML = " --/--/----  --:-- ";
+            } else {
+                startDate.innerHTML = " --/--/---- ";
+            }
         }
         if (!this.singleDate) {
             if (this.dates[1] && typeof this.dates[1] !== undefined) {
                 endDate.innerHTML = this.dates[1];
             } else {
-                endDate.innerHTML = " --/--/----  --:-- ";
+                if (this.timePicker) {
+                    endDate.innerHTML = " --/--/----  --:-- ";
+                } else {
+                    endDate.innerHTML = " --/--/---- ";
+                }
             }
         }
         this.inputElement.addEventListener('click', function (event) {
@@ -1192,7 +1200,7 @@ class clsDatepicker {
         this.highlightDates();
         if (this.timePicker) {
             this.setTime();
-        } 
+        }
         this.openCalendar();
         this.closePresetMenu();
     }
