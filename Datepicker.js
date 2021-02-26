@@ -355,35 +355,33 @@ class clsDatepicker {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                 startDateElement.innerHTML = `<b>Start Date: --/--/----  --:--  </b>`;
             } else {
-                startDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
+                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                 startDateElement.innerHTML = `<b>Start Date: --/--/---- </b>`;
             }
             calendar.appendChild(startDateElement);
             // set calendar start/end dates in the UI
-            startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
             if (this.timePicker) {
-                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
                 startDateElement.innerHTML = `<b>Date: --/--/----  --:--  </b>`;
             } else {
-                startDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
+                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
                 startDateElement.innerHTML = `<b>Date: --/--/---- </b>`;
             }
-            startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
+        startDateElement.classList.add('startDateElement');
         let endDateElement = document.createElement('div');
         endDateElement.classList.add('endDateElement');
         if (this.timePicker) {
-            endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+            endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
             endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
         } else {
             endDateElement.setAttribute('style', 'grid-column-start: 4; grid-column-end: 8;');
             endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
         }
-
-        this.calendarElement.appendChild(endDateElement);
         this.calendarElement = calendar;
+        this.calendarElement.appendChild(endDateElement);
         // timepicker init based on options
         if (this.timePicker) {
             this.drawStartTimePicker();
