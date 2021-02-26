@@ -345,7 +345,7 @@ class clsDatepicker {
             startDateElement.innerHTML = `<b>Start Date:  --/--/----  --:--  </b>`;
         } else {
             startDateElement.innerHTML = `<b>Date:  --/--/----  --:--  </b>`;
-            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
+            startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
             startDateElement.classList.add('startDateElement');
             calendar.appendChild(startDateElement);
         }
@@ -353,7 +353,9 @@ class clsDatepicker {
         // timepicker init based on options
         if (this.timePicker) {
             this.drawStartTimePicker();
-            this.drawEndTimePicker();
+            if (!this.singleDate) {
+                this.drawEndTimePicker();
+            }
         }
         // cancel dates button:
         let cancelButton = document.createElement('button');
