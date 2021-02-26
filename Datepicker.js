@@ -840,7 +840,7 @@ class clsDatepicker {
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
     timeValid() {
-        if (this.dates.length === 2 && !this.singleDate) {
+        if (this.dates.length === 2 && !this.singleDate && this.timePicker) {
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
             this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
             this.endHour = parseInt(this.timeElements.endHourValueEl.value);
