@@ -31,7 +31,7 @@ class clsDatepicker {
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
         this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
-        this.format = this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A";
+        this.format = this.timePicker ? (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A") : "MM/DD/YYYY";
         this.moment = moment(moment(), this.format, true);
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
