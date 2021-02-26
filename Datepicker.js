@@ -1039,20 +1039,22 @@ class clsDatepicker {
     dayClick(dayCell) {
         this.startHour = parseInt(this.timeElements.startHourValueEl.value);
         this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
-        this.endHour = parseInt(this.timeElements.endHourValueEl.value);
-        this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        if (!this.singleDate) {
+            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+        }
         // adjustments for 12h time since Moment only acccepts 24h
         if (!this.militaryTime) {
             if (this.startAmPm === "PM") {
                 this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
             }
-            if (this.endAmPm === "PM") {
+            if (this.endAmPm === "PM" && !this.singleDate) {
                 this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
             }
             if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
                 this.startHour = 0;
             }
-            if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+            if (parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM" && !this.singleDate) {
                 this.endHour = 0;
             }
         }
@@ -1105,7 +1107,7 @@ class clsDatepicker {
         // conditional highlighting prompt
         this.highlightDates();
         this.drawInputElement();
-        if (this.dates.length === 2 && this.options.autoClose) {
+        if ((this.dates.length === 2 || this.singleDate) && this.options.autoClose) {
             setTimeout(function () {
                 this.closeCalendar();
             }.bind(this), 700);
