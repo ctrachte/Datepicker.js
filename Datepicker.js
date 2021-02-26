@@ -1175,7 +1175,9 @@ class clsDatepicker {
         this.drawCalendar();
         this.drawPresetMenu();
         this.highlightDates();
-        this.setTime();
+        if (this.timePicker) {
+            this.setTime();
+        } 
         this.openCalendar();
         this.closePresetMenu();
     }
@@ -1186,7 +1188,9 @@ class clsDatepicker {
         this.drawCalendar();
         this.drawPresetMenu();
         this.highlightDates();
-        this.setTime();
+        if (this.timePicker) {
+            this.setTime();
+        }
         this.openCalendar();
         this.closePresetMenu();
     }
@@ -1267,7 +1271,9 @@ class clsDatepicker {
             this.drawInputElement();
             this.drawPresetMenu();
             this.closePresetMenu();
-            this.setTime(true);
+            if (this.timePicker) {
+                this.setTime(true);
+            }
             this.highlightDates(true);
             this.calendarElement.showCalendar();
         } else {
@@ -1276,7 +1282,9 @@ class clsDatepicker {
             this.drawInputElement();
             this.drawPresetMenu();
             this.closePresetMenu();
-            this.setTime(true);
+            if (this.timePicker) {
+                this.setTime(true);
+            }
             this.highlightDates(true);
             this.closeCalendar();
         }
