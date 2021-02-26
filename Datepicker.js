@@ -900,7 +900,7 @@ class clsDatepicker {
             if (!startHour) {
                 startHour = 12;
             }
-            let endHour = this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value;
+            let endHour = !this.singleDate ? (this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value) : "";
             if (!endHour) {
                 endHour = 12;
             }
