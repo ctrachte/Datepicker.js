@@ -1073,25 +1073,27 @@ class clsDatepicker {
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
-        this.startHour = parseInt(this.timeElements.startHourValueEl.value);
-        this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
-        if (!this.singleDate) {
-            this.endHour = parseInt(this.timeElements.endHourValueEl.value);
-            this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
-        }
-        // adjustments for 12h time since Moment only acccepts 24h
-        if (!this.militaryTime) {
-            if (this.startAmPm === "PM") {
-                this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
+        if (this.timePicker) {
+            this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+            this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+            if (!this.singleDate) {
+                this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+                this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
             }
-            if (this.endAmPm === "PM" && !this.singleDate) {
-                this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
-            }
-            if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
-                this.startHour = 0;
-            }
-            if (this.endAmPm === "AM" && !this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12) {
-                this.endHour = 0;
+            // adjustments for 12h time since Moment only acccepts 24h
+            if (!this.militaryTime) {
+                if (this.startAmPm === "PM") {
+                    this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
+                }
+                if (this.endAmPm === "PM" && !this.singleDate) {
+                    this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
+                }
+                if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
+                    this.startHour = 0;
+                }
+                if (this.endAmPm === "AM" && !this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12) {
+                    this.endHour = 0;
+                }
             }
         }
         // set the start/end date in both the UI and the class's state
