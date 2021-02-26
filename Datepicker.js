@@ -113,6 +113,9 @@ class clsDatepicker {
         launchText.innerHTML = 'CLICK TO SELECT &#128197;';
         launchButton.setAttribute('class', 'launchButton');
         launchText.setAttribute('class', 'launchText');
+        if (this.singleDate) {
+            launchText.setAttribute('style', 'line-height: 40px;')
+        }
         launchButton.appendChild(launchText);
         this.inputElement.appendChild(launchButton);
 
