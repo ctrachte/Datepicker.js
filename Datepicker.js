@@ -379,24 +379,26 @@ class clsDatepicker {
             calendar.appendChild(startDateElement);
         }
         startDateElement.classList.add('startDateElement');
-        let endDateElement = document.createElement('div');
-        endDateElement.classList.add('endDateElement');
-        if (this.timePicker) {
-            endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
-            endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
-        } else {
-            endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
-            endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
-        }
+
         this.calendarElement = calendar;
-        this.calendarElement.appendChild(endDateElement);
         // timepicker init based on options
         if (this.timePicker) {
             this.drawStartTimePicker();
+            let endDateElement = document.createElement('div');
+            endDateElement.classList.add('endDateElement');
+            if (this.timePicker) {
+                endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+                endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
+            } else {
+                endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
+                endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
+            }
+            this.calendarElement.appendChild(endDateElement);
             if (!this.singleDate) {
                 this.drawEndTimePicker();
             }
         }
+
         // cancel dates button:
         let cancelButton = document.createElement('button');
         cancelButton.classList.add("cancelButton");
