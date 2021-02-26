@@ -104,7 +104,7 @@ class clsDatepicker {
             endDate.setAttribute("class", "date");
             timeBlock.appendChild(endDate);
         }
-        startDate.innerHTML = this.dates[0];
+        startDate.innerHTML = moment(this.dates[0]).format(this.format);
         timeBlock.setAttribute("class", "timeBlock");
         startDate.setAttribute("class", "date");
         this.inputElement.appendChild(timeBlock);
@@ -121,7 +121,7 @@ class clsDatepicker {
         this.inputElement.appendChild(launchButton);
 
         if (this.dates[0]) {
-            startDate.innerHTML = this.dates[0];
+            startDate.innerHTML = moment(this.dates[0]).format(this.format);
         } else {
             if (this.timePicker) {
                 startDate.innerHTML = " --/--/----  --:-- ";
@@ -131,7 +131,7 @@ class clsDatepicker {
         }
         if (!this.singleDate) {
             if (this.dates[1] && typeof this.dates[1] !== undefined) {
-                endDate.innerHTML = this.dates[1];
+                endDate.innerHTML = moment(this.dates[1]).format(this.format);
             } else {
                 if (this.timePicker) {
                     endDate.innerHTML = " --/--/----  --:-- ";
