@@ -541,7 +541,7 @@ class clsDatepicker {
         startMinuteUpDown.classList.add("TimeUpDown");
         startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
         // Up Minute
-        startMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+        startMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
             if (startMinuteValueEl.value % 15 === 0) {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
             } else {
@@ -556,9 +556,9 @@ class clsDatepicker {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
                 }
             }
-        };
+        }.bind(this);
         // Down Minute
-        startMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+        startMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
 
             if (startMinuteValueEl.value % 15 === 0) {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
@@ -574,7 +574,7 @@ class clsDatepicker {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
                 }
             }
-        };
+        }.bind(this);
 
         startMinute.appendChild(startMinuteUpDown);
 
@@ -724,7 +724,7 @@ class clsDatepicker {
             endMinuteUpDown.classList.add("TimeUpDown");
             endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
             // Up Minute
-            endMinuteUpDown.querySelectorAll("div")[0].onclick = () => {
+            endMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
                 if (endMinuteValueEl.value % 15 === 0) {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
                 } else {
@@ -739,9 +739,9 @@ class clsDatepicker {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
                     }
                 }
-            };
+            }.bind(this);
             // Down Minute
-            endMinuteUpDown.querySelectorAll("div")[1].onclick = () => {
+            endMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
                 if (endMinuteValueEl.value % 15 === 0) {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
                 } else {
@@ -756,7 +756,7 @@ class clsDatepicker {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
                     }
                 }
-            };
+            }.bind(this);
             endMinute.appendChild(endMinuteUpDown);
             endTimeElement.appendChild(endMinute);
             this.calendarElement.appendChild(endTimeElement);
