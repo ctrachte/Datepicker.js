@@ -185,7 +185,7 @@ class clsDatepicker {
         yearInput.setAttribute("aria-label", "datepicker-year-input");
         yearInput.value = this.moment.year();
         yearInput.addEventListener('change', function (e) {
-            if (parseInt(yearInput.value) > parseInt(this.moment.year() + 20) || parseInt(yearInput.value) < parseInt(this.moment.year() - 20)) {
+            if (parseInt(yearInput.value) > 1900 || parseInt(yearInput.value) < 2200) { // hard-coded limits for now to prevent moment from breaking
                 yearInput.value = this.moment.year();
                 return;
             }
@@ -849,13 +849,13 @@ class clsDatepicker {
             menuListElement.innerHTML = menuOption.title;
             menuListElement.addEventListener('click', function (event) {
                 this.dates.length = 0;
-                this.highlightDates(true);
+                this.highlightDates();
                 this.dates[0] = (menuOption.values[0]);
                 if (!this.singleDate) {
                     this.dates[1] = (menuOption.values[1]);
                 }
                 // invoke highlighting fn to ensure calendar UI is updated
-                this.highlightDates(true);
+                this.highlightDates();
                 this.setTime(true);
                 this.drawInputElement();
                 this.snapTo(this.dates[0]);
@@ -1198,12 +1198,12 @@ class clsDatepicker {
     // helper methods to open/close calendar UI
     openCalendar() {
         this.calendarElement.showCalendar();
-        this.inputElement.hideEl();
+        this.inputElement.hideDatepickerEl();
     }
     closeCalendar() {
         this.calendarElement.hideCalendar();
         this.drawInputElement();
-        this.inputElement.showEl();
+        this.inputElement.showDatepickerEl();
     }
     // helper methods to open/close preset menu UI
     openPresetMenu() {
@@ -1255,11 +1255,12 @@ class clsDatepicker {
         return new Object({ leading: leading, trailing: trailing });
     }
     // sets highlighted dates on calendar UI
-    highlightDates(setProgrammatically = false) {
+    highlightDates() {
         let days = this.containerElement.querySelectorAll('.day');
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
+
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
                 let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
@@ -1282,7 +1283,7 @@ class clsDatepicker {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                if (firstDate === indexDate && !setProgrammatically) {
+                if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 } else {
@@ -1318,7 +1319,7 @@ class clsDatepicker {
             if (this.timePicker) {
                 this.setTime(true);
             }
-            this.highlightDates(true);
+            this.highlightDates();
             this.calendarElement.showCalendar();
         } else {
             this.containerElement.innerHTML = '';
@@ -1329,7 +1330,7 @@ class clsDatepicker {
             if (this.timePicker) {
                 this.setTime(true);
             }
-            this.highlightDates(true);
+            this.highlightDates();
             this.closeCalendar();
         }
     }
@@ -1351,10 +1352,10 @@ class clsDatepicker {
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
-Element.prototype.hideEl = function () {
+Element.prototype.hideDatepickerEl = function () {
     this.style.visibility = 'hidden';
 }
-Element.prototype.showEl = function () {
+Element.prototype.showDatepickerEl = function () {
     this.style.visibility = '';
 }
 // these hide/show methods specifically tailored to the elements they hide/show
