@@ -158,7 +158,7 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 3; grid-column-end: 6;');
+        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7;');
         // month selector to pick month from dropdown
         let monthSelect = document.createElement('select');
         monthSelect.setAttribute("name", "months");
@@ -246,7 +246,9 @@ class clsDatepicker {
         rightArrow.innerHTML = "&#11166;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
+        monthHeader.appendChild(leftArrow);
         monthHeader.appendChild(monthSelect);
+        monthHeader.appendChild(rightArrow);
 
         monthHeader.appendChild(yearDown);
         monthHeader.appendChild(yearInput);
@@ -268,9 +270,9 @@ class clsDatepicker {
         closeCalendarIconContainer.appendChild(closeCalendarIcon);
         // add all the UI elements to the calendar
         calendar.appendChild(this.menuIconContainer);
-        calendar.appendChild(leftArrow);
+        //calendar.appendChild(leftArrow);
         calendar.appendChild(monthHeader);
-        calendar.appendChild(rightArrow);
+        //calendar.appendChild(rightArrow);
         calendar.appendChild(closeCalendarIconContainer);
         //add day header elements: "mon, tues, wed etc."
         this.moment._locale._weekdaysShort.forEach(function (day) {
