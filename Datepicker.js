@@ -1198,12 +1198,12 @@ class clsDatepicker {
     // helper methods to open/close calendar UI
     openCalendar() {
         this.calendarElement.showCalendar();
-        this.inputElement.hideEl();
+        this.inputElement.hideDatepickerEl();
     }
     closeCalendar() {
         this.calendarElement.hideCalendar();
         this.drawInputElement();
-        this.inputElement.showEl();
+        this.inputElement.showDatepickerEl();
     }
     // helper methods to open/close preset menu UI
     openPresetMenu() {
@@ -1352,10 +1352,10 @@ class clsDatepicker {
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
-Element.prototype.hideEl = function () {
+Element.prototype.hideDatepickerEl = function () {
     this.style.visibility = 'hidden';
 }
-Element.prototype.showEl = function () {
+Element.prototype.showDatepickerEl = function () {
     this.style.visibility = '';
 }
 // these hide/show methods specifically tailored to the elements they hide/show
