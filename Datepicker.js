@@ -158,7 +158,9 @@ class clsDatepicker {
         let calendar = document.createElement('div');
         // add day headers (mon, tues, wed, etc.)
         let monthHeader = document.createElement('div');
-        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 7;');
+        monthHeader.setAttribute('style', 'grid-column-start: 2; grid-column-end: 5;');
+        let yearHeader = document.createElement('div');
+        yearHeader.setAttribute('style', 'grid-column-start: 5; grid-column-end: 7;');
         // month selector to pick month from dropdown
         let monthSelect = document.createElement('select');
         monthSelect.setAttribute("name", "months");
@@ -249,11 +251,13 @@ class clsDatepicker {
         monthHeader.appendChild(leftArrow);
         monthHeader.appendChild(monthSelect);
         monthHeader.appendChild(rightArrow);
-        monthHeader.appendChild(yearDown);
-        monthHeader.appendChild(yearInput);
-        monthHeader.appendChild(yearUp);
+
+        yearHeader.appendChild(yearDown);
+        yearHeader.appendChild(yearInput);
+        yearHeader.appendChild(yearUp);
 
         monthHeader.classList.add('monthHeader');
+        yearHeader.classList.add('yearHeader');
         calendar.classList.add('grid-container');
         // close calendar icon
         let closeCalendarIconContainer = document.createElement('div');
@@ -269,9 +273,8 @@ class clsDatepicker {
         closeCalendarIconContainer.appendChild(closeCalendarIcon);
         // add all the UI elements to the calendar
         calendar.appendChild(this.menuIconContainer);
-        //calendar.appendChild(leftArrow);
         calendar.appendChild(monthHeader);
-        //calendar.appendChild(rightArrow);
+        calendar.appendChild(yearHeader);
         calendar.appendChild(closeCalendarIconContainer);
         //add day header elements: "mon, tues, wed etc."
         this.moment._locale._weekdaysShort.forEach(function (day) {

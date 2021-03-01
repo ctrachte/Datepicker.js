@@ -41,7 +41,7 @@
   background-color: var(--Secondary);
 }
 
-.DatepickerContainer>.monthHeader {
+.DatepickerContainer>.monthHeader, .DatepickerContainer>.yearHeader {
   background-color: var(--Primary);
   color:var(--Accent);
   text-align: center;
@@ -75,13 +75,12 @@
   background-image:none !important;
   border: none !important;
   background-color: var(--Primary) !important;
-  width: 148px;
   padding:0;
   clear: both;
   text-align: center;
 }
 
-.monthHeader> input[type=number] {
+.yearHeader > input[type=number]  {
   background: var(--Secondary) !important;	  
   background-image:none !important;
   border: none !important;
@@ -96,8 +95,9 @@
   cursor: pointer;
 }
 
-.decrease-year-button {
-  margin-left: 10px;
+.decrease-year-button, .increase-year-button {
+  margin: 0;
+  color: var(--Accent) !important;
 }
 
 .datepicker-month-select> option {
@@ -310,7 +310,6 @@ b {
   }
 
   .grid-container > .monthHeader {
-    padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
     color:var(--Accent);
