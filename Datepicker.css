@@ -198,13 +198,8 @@ b {
 }
 
 .leftArrow, .rightArrow {
-  font-size: 1.5rem;
   cursor: pointer;
   color: var(--Accent) !important;
-}
-.leftArrow:hover, .rightArrow:hover {
-  font-size: 2rem;
-  cursor: pointer;
 }
 
 .close-preset-menu {
