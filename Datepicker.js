@@ -849,13 +849,13 @@ class clsDatepicker {
             menuListElement.innerHTML = menuOption.title;
             menuListElement.addEventListener('click', function (event) {
                 this.dates.length = 0;
-                this.highlightDates(true);
+                this.highlightDates();
                 this.dates[0] = (menuOption.values[0]);
                 if (!this.singleDate) {
                     this.dates[1] = (menuOption.values[1]);
                 }
                 // invoke highlighting fn to ensure calendar UI is updated
-                this.highlightDates(true);
+                this.highlightDates();
                 this.setTime(true);
                 this.drawInputElement();
                 this.snapTo(this.dates[0]);
@@ -1255,7 +1255,7 @@ class clsDatepicker {
         return new Object({ leading: leading, trailing: trailing });
     }
     // sets highlighted dates on calendar UI
-    highlightDates(setProgrammatically = false) {
+    highlightDates() {
         let days = this.containerElement.querySelectorAll('.day');
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
@@ -1319,7 +1319,7 @@ class clsDatepicker {
             if (this.timePicker) {
                 this.setTime(true);
             }
-            this.highlightDates(true);
+            this.highlightDates();
             this.calendarElement.showCalendar();
         } else {
             this.containerElement.innerHTML = '';
@@ -1330,7 +1330,7 @@ class clsDatepicker {
             if (this.timePicker) {
                 this.setTime(true);
             }
-            this.highlightDates(true);
+            this.highlightDates();
             this.closeCalendar();
         }
     }
