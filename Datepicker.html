@@ -17,10 +17,10 @@
     const Datepicker = new clsDatepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
         presetMenu: true,
-        singleDate: true,
+        singleDate: false,
         autoClose: false,
-        timePicker: false,
-        leadingTrailingDates: true,
+        timePicker: true,
+        leadingTrailingDates: false,
         militaryTime: false,
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }]
     });
