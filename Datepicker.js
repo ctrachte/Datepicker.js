@@ -486,23 +486,23 @@ class clsDatepicker {
         startHourUpDown.classList.add("TimeUpDown");
         startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
         // Up Hour
-        startHourUpDown.querySelectorAll("div")[0].onclick = () => {
+        startHourUpDown.querySelectorAll("div")[0].onclick = function (){
             startHourValueEl.value++;
             if (this.timeValid()) {
                 startHourValueEl.dispatchEvent(new Event('change'));
             } else {
                 startHourValueEl.value--;
             }
-        };
+        }.bind(this);
         // Down Hour
-        startHourUpDown.querySelectorAll("div")[1].onclick = () => {
+        startHourUpDown.querySelectorAll("div")[1].onclick = function () {
             startHourValueEl.value--;
             if (this.timeValid()) {
                 startHourValueEl.dispatchEvent(new Event('change'));
             } else {
                 startHourValueEl.value++;
             }
-        };
+        }.bind(this);
         //input change
         startHour.appendChild(startHourUpDown);
         startTimeElement.appendChild(startHour);
@@ -670,23 +670,23 @@ class clsDatepicker {
             endHourUpDown.classList.add("TimeUpDown");
             endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
             // Up Hour
-            endHourUpDown.querySelectorAll("div")[0].onclick = () => {
+            endHourUpDown.querySelectorAll("div")[0].onclick = function () {
                 endHourValueEl.value++;
                 if (this.timeValid()) {
                     endHourValueEl.dispatchEvent(new Event('change'));
                 } else {
                     endHourValueEl.value--;
                 }
-            };
+            }.bind(this);
             // Down Hour
-            endHourUpDown.querySelectorAll("div")[1].onclick = () => {
+            endHourUpDown.querySelectorAll("div")[1].onclick =  function () {
                 endHourValueEl.value--;
                 if (this.timeValid()) {
                     endHourValueEl.dispatchEvent(new Event('change'));
                 } else {
                     endHourValueEl.value++;
                 }
-            };
+            }.bind(this);
 
             endHour.appendChild(endHourUpDown);
             endTimeElement.appendChild(endHour);
