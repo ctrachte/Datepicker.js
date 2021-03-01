@@ -1260,6 +1260,7 @@ class clsDatepicker {
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
+
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
                 let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
@@ -1282,7 +1283,7 @@ class clsDatepicker {
             days.forEach(function (day) {
                 let indexDate = moment(day.value).format("MM/DD/YYYY");
                 let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                if (firstDate === indexDate && !setProgrammatically) {
+                if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
                 } else {
