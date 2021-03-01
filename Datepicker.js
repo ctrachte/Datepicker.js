@@ -185,7 +185,7 @@ class clsDatepicker {
         yearInput.setAttribute("aria-label", "datepicker-year-input");
         yearInput.value = this.moment.year();
         yearInput.addEventListener('change', function (e) {
-            if (parseInt(yearInput.value) > 1900 || parseInt(yearInput.value) < 2200) { // hard-coded limits for now to prevent moment from breaking
+            if (parseInt(yearInput.value) < 1900 || parseInt(yearInput.value) > 2200) { // hard-coded limits for now to prevent moment from breaking
                 yearInput.value = this.moment.year();
                 return;
             }
