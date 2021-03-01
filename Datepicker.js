@@ -445,6 +445,79 @@ class clsDatepicker {
         }.bind(this));
 
     }
+    // draws preset menu and options if allowed programmatically.
+    drawPresetMenu() {
+        this.presetMenuContainer = document.createElement('div');
+        this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
+        let menuOptionsContainer = document.createElement('ul');
+        let today = new Date();
+        // default preset menu options
+        let menuOptions = [];
+        if (!this.singleDate) {
+            menuOptions = [
+                { title: 'This Week', values: [moment(today).startOf('week'), moment(today).endOf('week')] },
+                { title: 'Next Week', values: [moment(today).add(+1, 'week').startOf('week'), moment(today).add(+1, 'week').endOf('week')] },
+                { title: 'Last Week', values: [moment(today).add(-1, 'week').startOf('week'), moment(today).add(-1, 'week').endOf('week')] },
+                { title: 'This Month', values: [moment(today).startOf('month'), moment(today).endOf('month')] },
+                { title: 'Next Month', values: [moment(today).add(+1, 'month').startOf('month'), moment(today).add(+1, 'month').endOf('month')] },
+                { title: 'Last Month', values: [moment(today).add(-1, 'month').startOf('month'), moment(today).add(-1, 'month').endOf('month')] },
+                { title: 'This Year', values: [moment(today).startOf('year'), moment(today).endOf('year')] },
+                { title: 'Next Year', values: [moment(today).add(+1, 'year').startOf('year'), moment(today).add(+1, 'year').endOf('year')] },
+                { title: 'Last Year', values: [moment(today).add(-1, 'year').startOf('year'), moment(today).add(-1, 'year').endOf('year')] },
+            ];
+        } else {
+            menuOptions = [
+                { title: 'Yesterday', values: [moment(today).add(-1, 'day').hour(0).minute(0)] },
+                { title: 'Today', values: [moment(today).hour(0).minute(0)] },
+                { title: 'Tomorrow', values: [moment(today).add(1, 'day').hour(0).minute(0)] }
+            ];
+        }
+
+        // adds any menu options passed into the class constructor options programmatically
+        if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
+            for (let i = 0; i < this.menuOptions.length; i++) {
+                menuOptions.push(this.menuOptions[i]);
+            }
+        }
+        // adds all options to the UI
+        for (let menuOption of menuOptions) {
+            let menuListElement = document.createElement('li');
+            menuListElement.setAttribute('class', menuOption.title + "-menu-option");
+            menuListElement.innerHTML = menuOption.title;
+            menuListElement.addEventListener('click', function (event) {
+                this.dates.length = 0;
+                this.highlightDates();
+                this.dates[0] = (menuOption.values[0]);
+                if (!this.singleDate) {
+                    this.dates[1] = (menuOption.values[1]);
+                }
+                // invoke highlighting fn to ensure calendar UI is updated
+                this.highlightDates();
+                this.setTime(true);
+                this.drawInputElement();
+                this.snapTo(this.dates[0]);
+                this.closePresetMenu();
+                this.menuIconContainer.classList.remove('open');
+            }.bind(this));
+            menuOptionsContainer.appendChild(menuListElement);
+        }
+        // close preset menu icon
+        let closePresetIconContainer = document.createElement('div');
+        closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
+        closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
+        closePresetIconContainer.setAttribute('role', 'button');
+        let closePresetIcon = document.createElement('span');
+        closePresetIcon.innerHTML = "&#10006;";
+        closePresetIcon.classList.add('close-preset-menu');
+        closePresetIconContainer.addEventListener('click', function (event) {
+            this.closePresetMenu();
+            this.menuIconContainer.classList.remove('open');
+        }.bind(this));
+        closePresetIconContainer.appendChild(closePresetIcon);
+        this.presetMenuContainer.appendChild(closePresetIconContainer);
+        this.presetMenuContainer.appendChild(menuOptionsContainer);
+        this.calendarElement.appendChild(this.presetMenuContainer);
+    }
     // draws start time picker
     drawStartTimePicker() {
         let startTimeElement = document.createElement('div');
@@ -486,7 +559,7 @@ class clsDatepicker {
         startHourUpDown.classList.add("TimeUpDown");
         startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
         // Up Hour
-        startHourUpDown.querySelectorAll("div")[0].onclick = function (){
+        startHourUpDown.querySelectorAll("div")[0].onclick = function () {
             startHourValueEl.value++;
             if (this.timeValid()) {
                 startHourValueEl.dispatchEvent(new Event('change'));
@@ -679,7 +752,7 @@ class clsDatepicker {
                 }
             }.bind(this);
             // Down Hour
-            endHourUpDown.querySelectorAll("div")[1].onclick =  function () {
+            endHourUpDown.querySelectorAll("div")[1].onclick = function () {
                 endHourValueEl.value--;
                 if (this.timeValid()) {
                     endHourValueEl.dispatchEvent(new Event('change'));
@@ -812,79 +885,67 @@ class clsDatepicker {
             }
         }
     }
-    // draws preset menu and options if allowed programmatically.
-    drawPresetMenu() {
-        this.presetMenuContainer = document.createElement('div');
-        this.presetMenuContainer.setAttribute('class', 'presetMenuContainer');
-        let menuOptionsContainer = document.createElement('ul');
-        let today = new Date();
-        // default preset menu options
-        let menuOptions = [];
-        if (!this.singleDate) {
-            menuOptions = [
-                { title: 'This Week', values: [moment(today).startOf('week'), moment(today).endOf('week')] },
-                { title: 'Next Week', values: [moment(today).add(+1, 'week').startOf('week'), moment(today).add(+1, 'week').endOf('week')] },
-                { title: 'Last Week', values: [moment(today).add(-1, 'week').startOf('week'), moment(today).add(-1, 'week').endOf('week')] },
-                { title: 'This Month', values: [moment(today).startOf('month'), moment(today).endOf('month')] },
-                { title: 'Next Month', values: [moment(today).add(+1, 'month').startOf('month'), moment(today).add(+1, 'month').endOf('month')] },
-                { title: 'Last Month', values: [moment(today).add(-1, 'month').startOf('month'), moment(today).add(-1, 'month').endOf('month')] },
-                { title: 'This Year', values: [moment(today).startOf('year'), moment(today).endOf('year')] },
-                { title: 'Next Year', values: [moment(today).add(+1, 'year').startOf('year'), moment(today).add(+1, 'year').endOf('year')] },
-                { title: 'Last Year', values: [moment(today).add(-1, 'year').startOf('year'), moment(today).add(-1, 'year').endOf('year')] },
-            ];
-        } else {
-            menuOptions = [
-                { title: 'Yesterday', values: [moment(today).add(-1, 'day').hour(0).minute(0)] },
-                { title: 'Today', values: [moment(today).hour(0).minute(0)] },
-                { title: 'Tomorrow', values: [moment(today).add(1, 'day').hour(0).minute(0)] }
-            ];
+    // gets leading/trailing dates for calendar UI
+    leadingTrailing() {
+        let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
+        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? parseInt(this.moment.year()) - 1 : parseInt(this.moment.year());
+        // console.log(this.moment.month(), this.moment.year(), month, year)
+        let prevMonth = year + "-" + month;
+        let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
+        let leading = [];
+        let trailing = [];
+        for (let i = 1; i < 8; i++) {
+            trailing.push(daysInPrevMonth);
+            daysInPrevMonth--;
+            leading.push(i);
         }
-
-        // adds any menu options passed into the class constructor options programmatically
-        if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
-            for (let i = 0; i < this.menuOptions.length; i++) {
-                menuOptions.push(this.menuOptions[i]);
-            }
-        }
-        // adds all options to the UI
-        for (let menuOption of menuOptions) {
-            let menuListElement = document.createElement('li');
-            menuListElement.setAttribute('class', menuOption.title + "-menu-option");
-            menuListElement.innerHTML = menuOption.title;
-            menuListElement.addEventListener('click', function (event) {
-                this.dates.length = 0;
-                this.highlightDates();
-                this.dates[0] = (menuOption.values[0]);
-                if (!this.singleDate) {
-                    this.dates[1] = (menuOption.values[1]);
-                }
-                // invoke highlighting fn to ensure calendar UI is updated
-                this.highlightDates();
-                this.setTime(true);
-                this.drawInputElement();
-                this.snapTo(this.dates[0]);
-                this.closePresetMenu();
-                this.menuIconContainer.classList.remove('open');
-            }.bind(this));
-            menuOptionsContainer.appendChild(menuListElement);
-        }
-        // close preset menu icon
-        let closePresetIconContainer = document.createElement('div');
-        closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
-        closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
-        closePresetIconContainer.setAttribute('role', 'button');
-        let closePresetIcon = document.createElement('span');
-        closePresetIcon.innerHTML = "&#10006;";
-        closePresetIcon.classList.add('close-preset-menu');
-        closePresetIconContainer.addEventListener('click', function (event) {
-            this.closePresetMenu();
-            this.menuIconContainer.classList.remove('open');
-        }.bind(this));
-        closePresetIconContainer.appendChild(closePresetIcon);
-        this.presetMenuContainer.appendChild(closePresetIconContainer);
-        this.presetMenuContainer.appendChild(menuOptionsContainer);
-        this.calendarElement.appendChild(this.presetMenuContainer);
+        return new Object({ leading: leading, trailing: trailing });
     }
+    // sets highlighted dates on calendar UI
+    highlightDates() {
+        let days = this.containerElement.querySelectorAll('.day');
+        // adds calendar day highlighted styling
+        if (this.dates.length > 0 && this.dates.length === 2) {
+            days.forEach(function (day) {
+
+                let indexDate = moment(day.value).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
+                let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
+                let indexDateX = moment(day.value).format("X");
+                let firstDateX = moment(this.dates[0]).format("X");
+                let secondDateX = moment(this.dates[1]).format("X");
+                if (firstDate === indexDate) {
+                    day.classList.add('active');
+                    day.setAttribute('aria-pressed', 'true');
+                }
+                if (secondDate === indexDate) {
+                    day.classList.add('active');
+                    day.setAttribute('aria-pressed', 'true');
+                }
+                if (indexDateX > firstDateX && indexDateX < secondDateX) {
+                    day.classList.add("highlighted");
+                }
+            }.bind(this));
+        } else {
+            days.forEach(function (day) {
+                let indexDate = moment(day.value).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
+                if (firstDate === indexDate) {
+                    day.classList.add('active');
+                    day.setAttribute('aria-pressed', 'true');
+                } else {
+                    if (day.classList.contains('active')) {
+                        day.classList.remove('active');
+                        day.setAttribute('aria-pressed', 'false');
+                    }
+                    if (day.classList.contains('highlighted')) {
+                        day.classList.remove("highlighted");
+                    }
+                }
+            }.bind(this));
+        }
+    }
+    // helper method for validation
     timeValid() {
         if (this.dates.length === 2 && !this.singleDate && this.timePicker) {
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
@@ -932,8 +993,11 @@ class clsDatepicker {
             return true;
         }
     }
-    // setTime function - a helper method to set start/end time. This function is a void.
-    setTime(setProgrammatically = false) {
+    // helper method to set start/end time.
+    setTime(setProgrammatically) {
+        if (!setProgrammatically) {
+            setProgrammatically = false;
+        }
         if (this.timePicker) {
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
             this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
@@ -1017,7 +1081,10 @@ class clsDatepicker {
         }
     }
     // helper method to set dates if provided, return dates if not.
-    value(dates, format = this.format) {
+    value(dates, format) {
+        if (!format || typeof format !== 'string') {
+            format = this.format;
+        }
         if (typeof dates === "object") {
             if (dates[0]) {
                 this.dates[0] = moment(dates[0], format)._i;
@@ -1096,28 +1163,83 @@ class clsDatepicker {
         }
         return new Date(this.dates[1]);
     }
-    // helpers to hide calendar when clicked off.
-    isVisible(elem) {
-        return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
-    }
-    // to test clicks outside calendar element to close it
-    isOutsideCalendar(event) {
-        return (
-            !this.calendarElement.contains(event.target)
-            && this.isVisible(this.calendarElement)
-            && !this.inputElement.contains(event.target)
-            && !event.target.classList.contains('leftArrow')
-            && !event.target.classList.contains("rightArrow")
-            && !event.target.classList.contains("decrease-year-button")
-            && !event.target.classList.contains("increase-year-button")
-        );
-    }
-    // closes calendar if clicks are outside boundaries
-    outsideCalendarClick(event) {
-        if (this.isOutsideCalendar(event)) {
-            this.closeCalendar();
-            this.drawInputElement();
+    // advances the calendar by one month
+    nextMonth(event, positiveValue) {
+        if (typeof positiveValue !== "number") {
+            positiveValue = 1;
         }
+        this.containerElement.innerHTML = "";
+        this.moment.add(positiveValue, 'months');
+        this.drawCalendar();
+        this.drawPresetMenu();
+        this.highlightDates();
+        if (this.timePicker) {
+            this.setTime();
+        }
+        this.openCalendar();
+        this.closePresetMenu();
+    }
+    // moves the calendar back one month
+    lastMonth(event, negativeValue) {
+        if (typeof negativeValue !== "number") {
+            negativeValue = -1;
+        }
+        this.containerElement.innerHTML = "";
+        this.moment.add(negativeValue, 'months');
+        this.drawCalendar();
+        this.drawPresetMenu();
+        this.highlightDates();
+        if (this.timePicker) {
+            this.setTime();
+        }
+        this.openCalendar();
+        this.closePresetMenu();
+    }
+    // helper that snaps the calendar UI to a given date
+    snapTo(isVisible) {
+        if (!date) {
+            date = this.moment
+        }
+        this.moment = moment(date);
+        if (this.isVisible(this.calendarElement) || isVisible) {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            if (this.timePicker) {
+                this.setTime(true);
+            }
+            this.highlightDates();
+            this.calendarElement.showCalendar();
+        } else {
+            this.containerElement.innerHTML = '';
+            this.drawCalendar();
+            this.drawInputElement();
+            this.drawPresetMenu();
+            this.closePresetMenu();
+            if (this.timePicker) {
+                this.setTime(true);
+            }
+            this.highlightDates();
+            this.closeCalendar();
+        }
+    }
+    // helpers to convert times 12h to 24h and reverse
+    toAmPm(hour) {
+        hour = parseInt(hour);
+        if (hour === 12) {
+            return hour;
+        } else if (hour === 0) {
+            return 0;
+        } else {
+            return hour > 11 ? hour - 12 : hour;
+        }
+    }
+    toMilitary(hour) {
+        hour = parseInt(hour);
+        hour = hour === 12 ? hour = 0 : hour;
+        return hour < 12 ? hour + 12 : hour;
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
@@ -1199,6 +1321,29 @@ class clsDatepicker {
             }.bind(this), 700);
         }
     }
+    // to test clicks outside calendar element to close it
+    isOutsideCalendar(event) {
+        return (
+            !this.calendarElement.contains(event.target)
+            && this.isVisible(this.calendarElement)
+            && !this.inputElement.contains(event.target)
+            && !event.target.classList.contains('leftArrow')
+            && !event.target.classList.contains("rightArrow")
+            && !event.target.classList.contains("decrease-year-button")
+            && !event.target.classList.contains("increase-year-button")
+        );
+    }
+    // closes calendar if clicks are outside boundaries
+    outsideCalendarClick(event) {
+        if (this.isOutsideCalendar(event)) {
+            this.closeCalendar();
+            this.drawInputElement();
+        }
+    }
+    // helpers to hide calendar when clicked off.
+    isVisible(elem) {
+        return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
+    }
     // helper methods to open/close calendar UI
     openCalendar() {
         this.calendarElement.showCalendar();
@@ -1216,92 +1361,6 @@ class clsDatepicker {
     closePresetMenu() {
         this.presetMenuContainer.hidePresetMenu();
     }
-    // advances the calendar by one month
-    nextMonth(event, positiveValue = 1) {
-        this.containerElement.innerHTML = "";
-        this.moment.add(positiveValue, 'months');
-        this.drawCalendar();
-        this.drawPresetMenu();
-        this.highlightDates();
-        if (this.timePicker) {
-            this.setTime();
-        }
-        this.openCalendar();
-        this.closePresetMenu();
-    }
-    // moves the calendar back one month
-    lastMonth(event, negativeValue = -1) {
-        this.containerElement.innerHTML = "";
-        this.moment.add(negativeValue, 'months');
-        this.drawCalendar();
-        this.drawPresetMenu();
-        this.highlightDates();
-        if (this.timePicker) {
-            this.setTime();
-        }
-        this.openCalendar();
-        this.closePresetMenu();
-    }
-    // gets leading/trailing dates for calendar UI
-    leadingTrailing() {
-        let month = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? 12 : parseInt(this.moment.month());
-        let year = parseInt(this.moment.month()) === 1 || parseInt(this.moment.month()) === 0 ? parseInt(this.moment.year()) - 1 : parseInt(this.moment.year());
-        // console.log(this.moment.month(), this.moment.year(), month, year)
-        let prevMonth = year + "-" + month;
-        let daysInPrevMonth = parseInt(moment(prevMonth, "YYYY-MM").daysInMonth());
-        let leading = [];
-        let trailing = [];
-        for (let i = 1; i < 8; i++) {
-            trailing.push(daysInPrevMonth);
-            daysInPrevMonth--;
-            leading.push(i);
-        }
-        return new Object({ leading: leading, trailing: trailing });
-    }
-    // sets highlighted dates on calendar UI
-    highlightDates() {
-        let days = this.containerElement.querySelectorAll('.day');
-        // adds calendar day highlighted styling
-        if (this.dates.length > 0 && this.dates.length === 2) {
-            days.forEach(function (day) {
-
-                let indexDate = moment(day.value).format("MM/DD/YYYY");
-                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
-                let indexDateX = moment(day.value).format("X");
-                let firstDateX = moment(this.dates[0]).format("X");
-                let secondDateX = moment(this.dates[1]).format("X");
-                if (firstDate === indexDate) {
-                    day.classList.add('active');
-                    day.setAttribute('aria-pressed', 'true');
-                }
-                if (secondDate === indexDate) {
-                    day.classList.add('active');
-                    day.setAttribute('aria-pressed', 'true');
-                }
-                if (indexDateX > firstDateX && indexDateX < secondDateX) {
-                    day.classList.add("highlighted");
-                }
-            }.bind(this));
-        } else {
-            days.forEach(function (day) {
-                let indexDate = moment(day.value).format("MM/DD/YYYY");
-                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                if (firstDate === indexDate) {
-                    day.classList.add('active');
-                    day.setAttribute('aria-pressed', 'true');
-                } else {
-                    if (day.classList.contains('active')) {
-                        day.classList.remove('active');
-                        day.setAttribute('aria-pressed', 'false');
-                    }
-                    if (day.classList.contains('highlighted')) {
-                        day.classList.remove("highlighted");
-                    }
-                }
-            }.bind(this));
-        }
-    }
     // resets Calendar and Input element to their default state with no Date/Times selected
     resetCalendar() {
         this.dates = [];
@@ -1310,49 +1369,6 @@ class clsDatepicker {
         this.drawInputElement();
         this.drawPresetMenu();
         this.closePresetMenu();
-    }
-    // helper that snaps the calendar UI to a given date
-    snapTo(date = this.moment, isVisible) {
-        this.moment = moment(date);
-        if (this.isVisible(this.calendarElement) || isVisible) {
-            this.containerElement.innerHTML = '';
-            this.drawCalendar();
-            this.drawInputElement();
-            this.drawPresetMenu();
-            this.closePresetMenu();
-            if (this.timePicker) {
-                this.setTime(true);
-            }
-            this.highlightDates();
-            this.calendarElement.showCalendar();
-        } else {
-            this.containerElement.innerHTML = '';
-            this.drawCalendar();
-            this.drawInputElement();
-            this.drawPresetMenu();
-            this.closePresetMenu();
-            if (this.timePicker) {
-                this.setTime(true);
-            }
-            this.highlightDates();
-            this.closeCalendar();
-        }
-    }
-    // helpers to convert times 12h to 24h and reverse
-    toAmPm(hour) {
-        hour = parseInt(hour);
-        if (hour === 12) {
-            return hour;
-        } else if (hour === 0) {
-            return 0;
-        } else {
-            return hour > 11 ? hour - 12 : hour;
-        }
-    }
-    toMilitary(hour) {
-        hour = parseInt(hour);
-        hour = hour === 12 ? hour = 0 : hour;
-        return hour < 12 ? hour + 12 : hour;
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
