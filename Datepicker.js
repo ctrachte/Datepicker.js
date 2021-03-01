@@ -1196,9 +1196,9 @@ class clsDatepicker {
         this.closePresetMenu();
     }
     // helper that snaps the calendar UI to a given date
-    snapTo(isVisible) {
+    snapTo(date, isVisible) {
         if (!date) {
-            date = this.moment
+            date = this.moment;
         }
         this.moment = moment(date);
         if (this.isVisible(this.calendarElement) || isVisible) {
