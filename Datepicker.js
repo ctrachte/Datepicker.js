@@ -1070,15 +1070,15 @@ class clsDatepicker {
                 this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
                 // update the UI based on the state
                 if (!this.singleDate) {
-                    this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b> " + this.startDateLabel + " </b>" + this.dates[0];
                 } else {
-                    this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b> " + this.startDateLabel + " </b>" + this.dates[0];
                 }
             }
             if (endDate && !this.singleDate) {
                 this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
                 // update the UI based on the state
-                this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
+                this.containerElement.querySelector('.endDateElement').innerHTML ="<b> " + this.endDateLabel + " </b>" + this.dates[1];
             }
         }
     }
