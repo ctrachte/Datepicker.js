@@ -1084,9 +1084,6 @@ class clsDatepicker {
     }
     // helper method to set dates if provided, return dates if not.
     value(dates, format) {
-        if (!format || typeof format !== 'string') {
-            format = this.format;
-        }
         if (typeof dates === "object") {
             if (dates[0]) {
                 this.dates[0] = moment(dates[0], format)._i;
@@ -1124,7 +1121,7 @@ class clsDatepicker {
                 let dates = [];
                 dates[0] = new Date(this.dates[0]);
                 dates[1] = new Date(this.dates[1]);
-                return dates;
+                return format ? [moment(dates[0]).format(format), moment(dates[1]).format(format)] : dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
             if (!this.singleDate) {
@@ -1141,11 +1138,13 @@ class clsDatepicker {
             }
             this.snapTo(this.dates[0]);
         }
-        if (!dates[0] || !(new Date(dates[0]))) {
-            console.error("Datepicker.js - ERROR: Tried to set start date with invalid format or null value!");
-        }
-        if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
-            console.error("Datepicker.js - ERROR: Tried to set end date with invalid format or null value!");
+
+        if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0]))))  {
+            console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null value!");
+        } else if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
+            console.warn("Datepicker.js - WARNING: No end date value provided, or tried to set [start, end] date with invalid or null end date value!");
+        } else if ((!dates[0] || !(new Date(dates[0]))) && !this.singleDate) {
+            console.warn("Datepicker.js - WARNING: No start date value provided, or tried to set [start, end] date with invalid or null start date value!");
         }
     }
     // returns start date only
