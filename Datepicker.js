@@ -1140,7 +1140,7 @@ class clsDatepicker {
         }
 
         if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0]))))  {
-            console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null value!");
+            console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null values!");
         } else if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
             console.warn("Datepicker.js - WARNING: No end date value provided, or tried to set [start, end] date with invalid or null end date value!");
         } else if ((!dates[0] || !(new Date(dates[0]))) && !this.singleDate) {
