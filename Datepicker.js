@@ -32,7 +32,7 @@ class clsDatepicker {
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
         this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
         this.format = this.options.format || (this.timePicker ? (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A") : "MM/DD/YYYY");
-        this.startDateLabel = this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ";
+        this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
         this.moment = moment(moment(), this.format, true);
         // methods bound to state context
@@ -83,7 +83,7 @@ class clsDatepicker {
         let headingBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
-        startHead.innerHTML = "Date:";
+        startHead.innerHTML = this.startDateLabel;
         if (!this.singleDate) {
             startHead.innerHTML = this.startDateLabel;
             endHead.innerHTML = this.endDateLabel;
@@ -1070,15 +1070,15 @@ class clsDatepicker {
                 this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
                 // update the UI based on the state
                 if (!this.singleDate) {
-                    this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b> " + this.startDateLabel + " </b>" + this.dates[0];
                 } else {
-                    this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b> " + this.startDateLabel + " </b>" + this.dates[0];
                 }
             }
             if (endDate && !this.singleDate) {
                 this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
                 // update the UI based on the state
-                this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
+                this.containerElement.querySelector('.endDateElement').innerHTML ="<b> " + this.endDateLabel + " </b>" + this.dates[1];
             }
         }
     }
