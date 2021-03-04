@@ -475,6 +475,8 @@ button, input[type="submit"], input[type="reset"] {
 .launch {
   float: left;
   color:var(--Primary);
+  border: solid 3px var(--Selection);
+  border-radius: 5px;
 }
 
 .headingBlock {
