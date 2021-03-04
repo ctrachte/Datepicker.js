@@ -380,7 +380,7 @@ class clsDatepicker {
                 startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/----  --:--  </b>";
             } else {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
-                startDateElement.innerHTML =  "<b>" + this.startDateLabel + "--/--/----  </b>";
+                startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/----  </b>";
             }
             calendar.appendChild(startDateElement);
         }
@@ -1273,8 +1273,13 @@ class clsDatepicker {
             if (this.dates.length > 1 || this.dates.length < 1) {
                 this.dates = [];
                 this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
-                this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
-                this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
+                if (!this.timePicker) {
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b>" + this.startDateLabel + "<b/> " + this.dates[0];
+                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + "--/--/----  </b>" + this.dates[1];
+                } else {
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b>" + this.startDateLabel + "<b/> " + this.dates[0];
+                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + "--/--/----  --:-- </b>";
+                }
             } else {
                 let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
                 let clickedDate = moment(dayCell.value).hour(this.endHour).minute(this.endMinute).unix();
@@ -1283,8 +1288,8 @@ class clsDatepicker {
                     this.dates = [];
                     this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
                     this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
-                    this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Start Date: </b> ${this.dates[0]}`;
-                    this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
+                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b>" + this.startDateLabel + "<b/> " + this.dates[0];
+                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + "</b> " + this.dates[1];
                 } else {
                     this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format(this.format);
                     this.containerElement.querySelector('.endDateElement').innerHTML = `<b>End Date: </b> ${this.dates[1]}`;
@@ -1293,7 +1298,7 @@ class clsDatepicker {
         } else {
             this.dates = [];
             this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
-            this.containerElement.querySelector('.startDateElement').innerHTML = `<b>Date: </b> ${this.dates[0]}`;
+            this.containerElement.querySelector('.startDateElement').innerHTML =  "<b>" + this.startDateLabel + "<b/> " + this.dates[0];
         }
         if (!this.timeValid()) {
             this.startHour = parseInt(this.timeElements.endHourValueEl.value);
