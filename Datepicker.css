@@ -1,11 +1,11 @@
 :root { 
 
 /* Sundown Color Theme Swatches in Hex */
---Primary: #556b97;
+/* --Primary: #556b97;
 --Secondary: #364a62;
 --Shadow: #000000;
 --Selection: #a3c5f1;
---Accent: #62f0c8;
+--Accent: #62f0c8; */
 
 /* Army Color Theme Swatches in Hex */
 
@@ -23,11 +23,11 @@
 --Accent: #d72027; */
 
 /* PEC TEAM Color Theme Swatches in Hex */
-/* --Primary: #ffffff;
+--Primary: #ffffff;
 --Secondary: #e0e0e0;
 --Shadow: #333333;
 --Selection: #002e5f;
---Accent: #c0143c; */
+--Accent: #c0143c;
 }
 
 .DatepickerContainer {
