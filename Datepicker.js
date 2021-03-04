@@ -83,7 +83,7 @@ class clsDatepicker {
         let headingBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
-        startHead.innerHTML = "Date:";
+        startHead.innerHTML = this.startDateLabel;
         if (!this.singleDate) {
             startHead.innerHTML = this.startDateLabel;
             endHead.innerHTML = this.endDateLabel;
