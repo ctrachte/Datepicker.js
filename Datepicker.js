@@ -367,20 +367,20 @@ class clsDatepicker {
         if (!this.singleDate) {
             if (this.timePicker) {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                startDateElement.innerHTML = `<b>Start Date: --/--/----  --:--  </b>`;
+                startDateElement.innerHTML = "<b>" + this.startDateLabel + " --/--/----  --:--  </b>";
             } else {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                startDateElement.innerHTML = `<b>Start Date: --/--/---- </b>`;
+                startDateElement.innerHTML = "<b>" + this.endDateLabel + "--/--/---- </b>";
             }
             calendar.appendChild(startDateElement);
             // set calendar start/end dates in the UI
         } else {
             if (this.timePicker) {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
-                startDateElement.innerHTML = `<b>Date: --/--/----  --:--  </b>`;
+                startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/----  --:--  </b>";
             } else {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
-                startDateElement.innerHTML = `<b>Date: --/--/---- </b>`;
+                startDateElement.innerHTML =  "<b>" + this.startDateLabel + "--/--/----  </b>";
             }
             calendar.appendChild(startDateElement);
         }
@@ -395,10 +395,10 @@ class clsDatepicker {
                 endDateElement.classList.add('endDateElement');
                 if (this.timePicker) {
                     endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                    endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
+                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/----  --:--  </b>";
                 } else {
                     endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
-                    endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
+                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/---- </b>";
                 }
                 this.calendarElement.appendChild(endDateElement);
                 this.drawEndTimePicker();
@@ -409,10 +409,10 @@ class clsDatepicker {
                 endDateElement.classList.add('endDateElement');
                 if (this.timePicker) {
                     endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                    endDateElement.innerHTML = `<b>End Date: --/--/----  --:--  </b>`;
+                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/----  --:--  </b>";
                 } else {
                     endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
-                    endDateElement.innerHTML = `<b>End Date: --/--/---- </b>`;
+                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/---- </b>";
                 }
                 this.calendarElement.appendChild(endDateElement);
             }
