@@ -1150,14 +1150,14 @@ class clsDatepicker {
     // returns start date only
     startDate(value) {
         if (value !== undefined && value !== null && value) {
-            this.value([value, (this.dates[1] || new Date())], format);
+            this.value([value, (this.dates[1] || null)]);
         } else {
             return new Date(this.dates[0]);
         }
     }
     endDate(value) {
         if (value !== undefined && value !== null && value) {
-            this.value([(this.dates[0] || new Date()), value], format);
+            this.value([(this.dates[0] || null), value]);
         } else {
             return new Date(this.dates[1]);
         }
