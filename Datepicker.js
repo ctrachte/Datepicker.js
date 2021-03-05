@@ -370,7 +370,7 @@ class clsDatepicker {
                 startDateElement.innerHTML = "<b>" + this.startDateLabel + " --/--/----  --:--  </b>";
             } else {
                 startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                startDateElement.innerHTML = "<b>" + this.endDateLabel + "--/--/---- </b>";
+                startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/---- </b>";
             }
             calendar.appendChild(startDateElement);
             // set calendar start/end dates in the UI
