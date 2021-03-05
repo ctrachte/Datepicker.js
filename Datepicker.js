@@ -1,5 +1,5 @@
 
-class clsDatepicker {
+class Datepicker {
     constructor(options) {
         // Validation
         if (!options || typeof options === undefined) {
