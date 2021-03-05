@@ -1272,7 +1272,7 @@ class clsDatepicker {
                 this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                 if (!this.timePicker) {
                     this.containerElement.querySelector('.startDateElement').innerHTML = "<b>" + this.startDateLabel + " </b> " + this.dates[0];
-                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + " --/--/----  </b>" + this.dates[1];
+                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + " --/--/----  </b>";
                 } else {
                     this.containerElement.querySelector('.startDateElement').innerHTML = "<b>" + this.startDateLabel + " </b> " + this.dates[0];
                     this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + " --/--/----  --:-- </b>";
