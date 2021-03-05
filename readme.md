@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-https://user-images.githubusercontent.com/33035056/110174900-7da69d80-7dc6-11eb-85b7-0e7278ecd7c9.mp4
+<video src="https://user-images.githubusercontent.com/33035056/110174900-7da69d80-7dc6-11eb-85b7-0e7278ecd7c9.mp4" controls preload></video>
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
 
