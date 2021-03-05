@@ -786,7 +786,7 @@ class clsDatepicker {
                 if (newVal > 59) {
                     newVal = 0;
                 } else if (newVal < 1) {
-                    newVal = 59;
+                    newVal = 45;
                 }
                 if (newVal < 10) {
                     newVal = "0" + newVal;
@@ -800,7 +800,7 @@ class clsDatepicker {
             endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
             // Up Minute
             endMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-                if (endMinuteValueEl.value % 15 === 0) {
+                if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
@@ -808,7 +808,7 @@ class clsDatepicker {
                 if (this.timeValid()) {
                     endMinuteValueEl.dispatchEvent(new Event('change'));
                 } else {
-                    if (endMinuteValueEl.value % 15 === 0) {
+                    if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
                     } else {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
@@ -817,7 +817,7 @@ class clsDatepicker {
             }.bind(this);
             // Down Minute
             endMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-                if (endMinuteValueEl.value % 15 === 0) {
+                if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
@@ -825,7 +825,7 @@ class clsDatepicker {
                 if (this.timeValid()) {
                     endMinuteValueEl.dispatchEvent(new Event('change'));
                 } else {
-                    if (endMinuteValueEl.value % 15 === 0) {
+                    if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
                     } else {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
