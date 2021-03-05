@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-(![DatepickerV1 0 0](https://user-images.githubusercontent.com/33035056/110176220-94e68a80-7dc8-11eb-9bef-264845c457f6.gif))
+![DatepickerV1 0 0](https://user-images.githubusercontent.com/33035056/110176220-94e68a80-7dc8-11eb-9bef-264845c457f6.gif)
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
 
