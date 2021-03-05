@@ -335,7 +335,7 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.month() + "-" + (parseInt(day) + 1) + "-" + this.moment.year()).format(this.format);
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format(this.format);
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', dateString);
             dayCell.value = dateString;
@@ -1084,19 +1084,22 @@ class clsDatepicker {
     }
     // helper method to set dates if provided, return dates if not.
     value(dates, format) {
+        if (!format || typeof format !== "string") {
+            format = this.format;
+        }
         if (typeof dates === "object") {
             if (dates[0]) {
-                this.dates[0] = moment(dates[0], format)._i;
+                this.dates[0] = moment(dates[0], format);
             }
             if (dates[1]) {
-                this.dates[1] = moment(dates[1], format)._i;
+                this.dates[1] = moment(dates[1], format);
             }
             if (!dates[0] && !dates[1] && typeof dates === "object") {
                 if (!this.singleDate) {
                     console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
-                this.dates[1] = moment(dates, format)._i;
-                this.dates[0] = moment(this.dates[0], format)._i;
+                this.dates[1] = moment(dates, format);
+                this.dates[0] = moment(this.dates[0], format);
             }
             // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
@@ -1107,6 +1110,7 @@ class clsDatepicker {
                 this.dates = dates;
             }
             this.snapTo(this.dates[0]);
+            this.highlightDates();
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
             if (this.dates[0]) {
@@ -1137,6 +1141,7 @@ class clsDatepicker {
                 this.dates = dates;
             }
             this.snapTo(this.dates[0]);
+            this.highlightDates();
         }
 
         if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0]))))  {
@@ -1352,6 +1357,7 @@ class clsDatepicker {
     openCalendar() {
         this.calendarElement.showCalendar();
         this.inputElement.hideDatepickerEl();
+        this.highlightDates();
     }
     closeCalendar() {
         this.calendarElement.hideCalendar();
