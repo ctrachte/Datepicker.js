@@ -335,9 +335,9 @@ class clsDatepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format(this.format);
+            let dateString = moment(this.moment.month() + "-" + (parseInt(day) + 1) + "-" + this.moment.year()).format(this.format);
             dayCell.setAttribute('role', 'button');
-            dayCell.setAttribute('aria-label', 'day-' + parseInt(day) + 1 + '-previous-month');
+            dayCell.setAttribute('aria-label', dateString);
             dayCell.value = dateString;
             dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
             calendar.appendChild(dayCell);
