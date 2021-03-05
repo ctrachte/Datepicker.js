@@ -1150,19 +1150,17 @@ class clsDatepicker {
     // returns start date only
     startDate(value) {
         if (value !== undefined && value !== null && value) {
-            this.value([value, (this.dates[1] || new Date())]);
+            this.value([value, (this.dates[1] || null)]);
         } else {
-            console.error("Datepicker.js - ERROR: Tried to set start date with invalid format or null value!");
+            return new Date(this.dates[0]);
         }
-        return new Date(this.dates[0]);
     }
     endDate(value) {
         if (value !== undefined && value !== null && value) {
-            this.value([(this.dates[0] || new Date()), value]);
+            this.value([(this.dates[0] || null), value]);
         } else {
-            console.error("Datepicker.js - ERROR: Tried to set end date with invalid format or null value!");
+            return new Date(this.dates[1]);
         }
-        return new Date(this.dates[1]);
     }
     // advances the calendar by one month
     nextMonth(event, positiveValue) {
