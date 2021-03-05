@@ -1148,24 +1148,18 @@ class clsDatepicker {
         }
     }
     // returns start date only
-    startDate(value, format) {
-        if (!format || typeof format !== "string") {
-            format = false;
-        }
+    startDate(value) {
         if (value !== undefined && value !== null && value) {
             this.value([value, (this.dates[1] || new Date())], format);
         } else {
-            return format ? moment(this.dates[0]).format(format) : new Date(this.dates[0]);
+            return new Date(this.dates[0]);
         }
     }
-    endDate(value, format) {
-        if (!format || typeof format !== "string") {
-            format = false;
-        }
+    endDate(value) {
         if (value !== undefined && value !== null && value) {
             this.value([(this.dates[0] || new Date()), value], format);
         } else {
-            return format ? moment(this.dates[1]).format(format) : new Date(this.dates[1]);
+            return new Date(this.dates[1]);
         }
     }
     // advances the calendar by one month
