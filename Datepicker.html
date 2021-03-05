@@ -14,13 +14,13 @@
 
 <script>
     // there should only be this one line of code here to instantiate the class into the container element 
-    const Datepicker = new clsDatepicker({
+    const Datepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
         presetMenu: true,
         singleDate: false,
         autoClose: false,
-        timePicker: false,
-        leadingTrailingDates: false,
+        timePicker: true,
+        leadingTrailingDates: true,
         militaryTime: false,
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
         startDateLabel: "Event Start: ",
