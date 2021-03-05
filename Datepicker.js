@@ -1155,9 +1155,8 @@ class clsDatepicker {
         if (value !== undefined && value !== null && value) {
             this.value([value, (this.dates[1] || new Date())], format);
         } else {
-            console.error("Datepicker.js - ERROR: Tried to set start date with invalid format or null value!");
+            return format ? moment(this.dates[0]).format(format) : new Date(this.dates[0]);
         }
-        return format ? moment(this.dates[0]).format(format) : new Date(this.dates[0]);
     }
     endDate(value, format) {
         if (!format || typeof format !== "string") {
@@ -1166,9 +1165,8 @@ class clsDatepicker {
         if (value !== undefined && value !== null && value) {
             this.value([(this.dates[0] || new Date()), value], format);
         } else {
-            console.error("Datepicker.js - ERROR: Tried to set end date with invalid format or null value!");
+            return format ? moment(this.dates[1]).format(format) : new Date(this.dates[1]);
         }
-        return format ? moment(this.dates[1]).format(format) : new Date(this.dates[1]);
     }
     // advances the calendar by one month
     nextMonth(event, positiveValue) {
