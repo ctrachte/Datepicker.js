@@ -41,7 +41,7 @@
   background-color: var(--Secondary);
 }
 
-.DatepickerContainer>.monthHeader, .DatepickerContainer>.yearHeader {
+.DatepickerContainer .monthHeader, .DatepickerContainer .yearHeader {
   background-color: var(--Primary);
   color:var(--Accent);
   text-align: center;
@@ -89,6 +89,8 @@
   padding:0;
   clear: both;
   text-align: center;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 .datepicker-month-select:hover, .increase-year-button:hover, .decrease-year-button:hover {
@@ -149,7 +151,7 @@
   list-style-type: none;
   list-style: none;
 }
-.presetMenuContainer>ul li {
+ .presetMenuContainer>ul li {
   width:70%;
   padding:10px;
   height:auto;
@@ -165,7 +167,7 @@
   opacity: 0.85;
 }
 
-.calendarHamburger {
+.DatepickerContainer .calendarHamburger {
   position: relative;
   display: inline-block;
   width: 1.25em;
@@ -176,13 +178,13 @@
   align-self: left;
 }
 
-.calendarHamburger:hover {
+.DatepickerContainer .calendarHamburger:hover {
   cursor: pointer;
   font-size: 2rem;
   opacity: 0.7;
 }
 
-.calendarHamburger::before {
+.DatepickerContainer .calendarHamburger::before {
   content: "";
   position: absolute;
   top: 0.3em;
@@ -191,33 +193,33 @@
   border-top: 0.2em solid var(--Selection);
 }
 
-.close-calendar-button:hover {
+.DatepickerContainer .close-calendar-button:hover {
   cursor: pointer;
   opacity: 0.85;
   font-size: 2rem;
 }
 
-.leftArrow, .rightArrow {
+.DatepickerContainer .leftArrow, .DatepickerContainer .rightArrow {
   cursor: pointer;
   color: var(--Accent) !important;
 }
 
-.close-preset-menu {
+.DatepickerContainer .close-preset-menu {
   position:absolute;
   right:5px;
   top:0;
   color: var(--Shadow);
   margin:5px;
 }
-.close-preset-menu:hover {
+.DatepickerContainer .close-preset-menu:hover {
   font-size: 2rem;
   cursor: pointer;
 }
 
-.close-calendar-button {
+.DatepickerContainer .close-calendar-button {
   color: var(--Selection) !important;
 }
-.grid-container {
+.DatepickerContainer .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto;
     grid-gap: 10px;
@@ -256,7 +258,7 @@
     from {right:365px; opacity:0; z-index: -1;}
     to {right:780px; opacity:1; z-index: 1;}
   }
-  .DatepickerContainer > .grid-container > div {
+  .DatepickerContainer .grid-container > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,13 +270,13 @@
     transition: all, 0.1s;   
   }
 
-  .DatepickerContainer > .grid-container > div.active {
+  .DatepickerContainer .grid-container > div.active {
     background-color: var(--Selection);
     color:var(--Primary);   
     /* box-shadow:0px 20px 70px 1px var(--Shadow); */
   }
 
-  .DatepickerContainer > .grid-container > .day {
+  .DatepickerContainer .grid-container > .day {
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -284,7 +286,7 @@
     width: 48px;
     transition: all, 0.1s;   
   }
-  .DatepickerContainer > .grid-container > .leading-trailing-day {
+  .DatepickerContainer .grid-container > .leading-trailing-day {
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -297,25 +299,25 @@
     /* opacity: 0.6; */
     transition: all, 0.1s;   
   }
-  .DatepickerContainer > .grid-container > .day.highlighted {
+  .DatepickerContainer .grid-container > .day.highlighted {
     background-color: var(--Selection);
     color:var(--Primary);
     /* box-shadow:0px 20px 70px 1px var(--Shadow);    */
   }
 
-  .DatepickerContainer > .grid-container > .dayHeader {
+  .DatepickerContainer .grid-container > .dayHeader {
     padding: 20px;
     color: var(--Primary);
     background-color: var(--Shadow);
   }
 
-  .DatepickerContainer > .grid-container > .monthHeader {
+  .DatepickerContainer .grid-container > .monthHeader {
     padding-top: 12px;
     padding-bottom: 12px;
     color:var(--Accent);
   }
 
-  .DatepickerContainer > .grid-container > .monthHeader > .leftArrow {
+  .DatepickerContainer .grid-container > .monthHeader > .leftArrow {
     vertical-align: middle;
     grid-column-start: 0;
     grid-column-end: 1;
@@ -326,7 +328,7 @@
     align-items: center;
     color:var(--Accent);
   }
-  .DatepickerContainer > .grid-container > .monthHeader > .rightArrow {
+  .DatepickerContainer .grid-container > .monthHeader > .rightArrow {
     vertical-align: middle;
     grid-column-start: 7;
     grid-column-end: 8;
@@ -432,7 +434,7 @@
   }
 
 /* submit button styling */
-.cancelButton {
+.DatepickerContainer .cancelButton {
   font-size: 2rem;
   background-color: var(--Shadow);
   text-align: center;
@@ -442,7 +444,7 @@
   color: var(--Accent);
 }
 
-.submitButton {
+.DatepickerContainer .submitButton {
   font-size: 3rem;
   background-color: var(--Selection);
   color:var(--Primary);
@@ -452,12 +454,12 @@
   border-style: none;
 }
 
-.submitButton:hover, .cancelButton:hover {
+.DatepickerContainer .submitButton:hover, .DatepickerContainer .cancelButton:hover {
   box-shadow:1px 1px 5px 1px var(--Shadow);
   cursor: pointer;
   opacity: 0.85;
 }
-button, input[type="submit"], input[type="reset"] {
+.DatepickerContainer button, .DatepickerContainer input[type="submit"], .DatepickerContainer input[type="reset"] {
 	background: none;
 	color: inherit;
 	border: none;
@@ -467,19 +469,19 @@ button, input[type="submit"], input[type="reset"] {
 	outline: inherit;
 }
 
-.disabled {
+.DatepickerContainer .disabled {
   /* opacity: 0.6; */
   cursor: not-allowed;
 }
 
-.launch {
+.DatepickerContainer .launch {
   float: left;
   color:var(--Primary);
   border: solid 3px var(--Selection);
   border-radius: 5px;
 }
 
-.headingBlock {
+.DatepickerContainer .headingBlock {
   float: left;
   background-color: var(--Secondary);
   color: var(--Accent);
@@ -490,7 +492,7 @@ button, input[type="submit"], input[type="reset"] {
   border-radius: 5px 0px 0px 5px;
 }
 
-.timeBlock {
+.DatepickerContainer .timeBlock {
   float: left;
   min-width: 100px;
   line-height: 40px;
@@ -500,7 +502,7 @@ button, input[type="submit"], input[type="reset"] {
   border-radius: 0px 5px 5px 0px;
 }
 
-.launchButton {
+.DatepickerContainer .launchButton {
   display:none;
   float: left;
   position: absolute;
@@ -511,25 +513,25 @@ button, input[type="submit"], input[type="reset"] {
   border-radius: 5px;
 }
 
-.launch:hover > .launchButton {
+.DatepickerContainer .launch:hover > .launchButton {
   display:block;
   cursor:pointer;
 }
-.launch:hover > .timeBlock {
+.DatepickerContainer .launch:hover > .timeBlock {
   cursor:pointer;
   opacity: 0.2;
 }
-.launch:hover > .headingBlock {
+.DatepickerContainer .launch:hover > .headingBlock {
   cursor:pointer;
   opacity: 0.2;
 }
-.day:hover {
+.DatepickerContainer .day:hover {
   cursor:pointer;
   opacity: 0.85;
   box-shadow:0px 0px 5px 1px var(--Shadow);
 }
 
-.datepicker-error {
+.DatepickerContainer .datepicker-error {
   border: solid var(--Accent) 2px !important;
   color: var(--Accent) !important;
 }
