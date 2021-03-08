@@ -19,6 +19,8 @@ class Datepicker {
          * @property {Boolean} this.options.leadingTrailingDates Optional - whether the datepicker shows leading/trailing dates on the calendar - Defaults to true
          * @property {Boolean} this.options.militaryTime Optional - 24h format for military time - Defaults to false (12h, am/pm)
          * @property {string} this.options.format Optional - Must be a Valid Moment.js format. defaults to "MM/DD/YYYY hh:mm A"
+         * @property {string} this.options.startDateLabel Optional - Custom label for date/time, must be a string, defaults to "Start Date: "
+         * @property {string} this.options.endDateLabel Optional - Custom label for date/time, must be a string, defaults to "End Date: "
          * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
          * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
          */
