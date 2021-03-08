@@ -393,12 +393,12 @@
     margin-top: 10%;
   }
   /* Chrome, Safari, Edge, Opera */
-  .DatepickerContainer > input::-webkit-inner-spin-button {
+  .DatepickerContainer input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
   /* Firefox */
-  .DatepickerContainer > input[type=number] {
+  .DatepickerContainer input[type=number] {
     -moz-appearance: textfield;
     -webkit-appearance: textfield;
   }
