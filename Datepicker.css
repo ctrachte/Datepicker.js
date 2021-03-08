@@ -70,7 +70,7 @@
   -webkit-appearance: none;
 }
 
-.monthHeader> select {
+.monthHeader > select {
   background: var(--Secondary) !important;	  
   background-image:none !important;
   border: none !important;
@@ -100,7 +100,7 @@
   color: var(--Accent) !important;
 }
 
-.datepicker-month-select> option {
+.datepicker-month-select > option {
   border-style: none !important;
   -webkit-appearance: none !important;
   outline: none !important;
@@ -120,7 +120,7 @@
   color: var(--Primary) !important;
 }
 
-b {
+.DatepickerContainer > b {
   margin: 5px;
 }
 
@@ -256,7 +256,7 @@ b {
     from {right:365px; opacity:0; z-index: -1;}
     to {right:780px; opacity:1; z-index: 1;}
   }
-  .grid-container > div {
+  .DatepickerContainer > .grid-container > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,13 +268,13 @@ b {
     transition: all, 0.1s;   
   }
 
-  .grid-container > div.active {
+  .DatepickerContainer > .grid-container > div.active {
     background-color: var(--Selection);
     color:var(--Primary);   
     /* box-shadow:0px 20px 70px 1px var(--Shadow); */
   }
 
-  .grid-container > .day {
+  .DatepickerContainer > .grid-container > .day {
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -284,7 +284,7 @@ b {
     width: 48px;
     transition: all, 0.1s;   
   }
-  .grid-container > .leading-trailing-day {
+  .DatepickerContainer > .grid-container > .leading-trailing-day {
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
@@ -297,25 +297,25 @@ b {
     /* opacity: 0.6; */
     transition: all, 0.1s;   
   }
-  .grid-container > .day.highlighted {
+  .DatepickerContainer > .grid-container > .day.highlighted {
     background-color: var(--Selection);
     color:var(--Primary);
     /* box-shadow:0px 20px 70px 1px var(--Shadow);    */
   }
 
-  .grid-container > .dayHeader {
+  .DatepickerContainer > .grid-container > .dayHeader {
     padding: 20px;
     color: var(--Primary);
     background-color: var(--Shadow);
   }
 
-  .grid-container > .monthHeader {
+  .DatepickerContainer > .grid-container > .monthHeader {
     padding-top: 12px;
     padding-bottom: 12px;
     color:var(--Accent);
   }
 
-  .grid-container > .monthHeader > .leftArrow {
+  .DatepickerContainer > .grid-container > .monthHeader > .leftArrow {
     vertical-align: middle;
     grid-column-start: 0;
     grid-column-end: 1;
@@ -326,7 +326,7 @@ b {
     align-items: center;
     color:var(--Accent);
   }
-  .grid-container > .monthHeader > .rightArrow {
+  .DatepickerContainer > .grid-container > .monthHeader > .rightArrow {
     vertical-align: middle;
     grid-column-start: 7;
     grid-column-end: 8;
@@ -391,12 +391,12 @@ b {
     margin-top: 10%;
   }
   /* Chrome, Safari, Edge, Opera */
-  input::-webkit-inner-spin-button {
+  .DatepickerContainer > input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
   /* Firefox */
-  input[type=number] {
+  .DatepickerContainer > input[type=number] {
     -moz-appearance: textfield;
     -webkit-appearance: textfield;
   }
