@@ -24,6 +24,7 @@ class Datepicker {
          */
         this.options = options;
         this.containerElement = options.containerElement;
+        this.containerElement.classList.add('DatepickerContainer'); // ensures Datepicker styling is applied.
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
         this.presetMenu = this.options.presetMenu !== undefined ? this.options.presetMenu : true;
         this.menuOptions = this.options.menuOptions !== undefined ? this.options.menuOptions : [];
