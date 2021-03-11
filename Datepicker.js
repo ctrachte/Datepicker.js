@@ -39,7 +39,7 @@ class Datepicker {
         this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
         this.moment = moment(moment(), this.format, true);
-        this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () { return };
+        this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () { console.log("onChange", this.dates) };
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -1339,6 +1339,7 @@ class Datepicker {
                 this.closeCalendar();
             }.bind(this), 700);
         }
+        this.onChange();
     }
     // to test clicks outside calendar element to close it
     isOutsideCalendar(event) {
