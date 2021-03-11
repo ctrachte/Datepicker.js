@@ -23,6 +23,7 @@ class Datepicker {
          * @property {string} this.options.endDateLabel Optional - Custom label for date/time, must be a string, defaults to "End Date: "
          * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
          * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
+         * @property {Function} this.options.onChange Optional - Function that fires when dates are changed. function () { method logic }
          */
         this.options = options;
         this.containerElement = options.containerElement;
@@ -38,6 +39,10 @@ class Datepicker {
         this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
         this.moment = moment(moment(), this.format, true);
+        this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () {
+            //  console.log('onChange', this.dates);
+             return;
+        };
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -497,11 +502,15 @@ class Datepicker {
                     this.dates[1] = (menuOption.values[1]);
                 }
                 // invoke highlighting fn to ensure calendar UI is updated
+                let onChange = this.onChange;
+                this.onChange = function () {};
                 this.highlightDates();
                 this.setTime(true);
                 this.drawInputElement();
                 this.snapTo(this.dates[0]);
                 this.closePresetMenu();
+                this.onChange = onChange;
+                this.onChange();
                 this.menuIconContainer.classList.remove('open');
             }.bind(this));
             menuOptionsContainer.appendChild(menuListElement);
@@ -1083,6 +1092,7 @@ class Datepicker {
                 // update the UI based on the state
                 this.containerElement.querySelector('.endDateElement').innerHTML ="<b> " + this.endDateLabel + " </b>" + this.dates[1];
             }
+            this.onChange();
         }
     }
     // helper method to set dates if provided, return dates if not.
@@ -1113,6 +1123,7 @@ class Datepicker {
                 this.dates = dates;
             }
             this.snapTo(this.dates[0]);
+            this.onChange();
             this.highlightDates();
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
@@ -1144,6 +1155,7 @@ class Datepicker {
                 this.dates = dates;
             }
             this.snapTo(this.dates[0]);
+            this.onChange();
             this.highlightDates();
         }
 
@@ -1175,6 +1187,8 @@ class Datepicker {
         if (typeof positiveValue !== "number") {
             positiveValue = 1;
         }
+        let onChange = this.onChange;
+        this.onChange = function () {};
         this.containerElement.innerHTML = "";
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
@@ -1185,12 +1199,15 @@ class Datepicker {
         }
         this.openCalendar();
         this.closePresetMenu();
+        this.onChange = onChange;
     }
     // moves the calendar back one month
     lastMonth(event, negativeValue) {
         if (typeof negativeValue !== "number") {
             negativeValue = -1;
         }
+        let onChange = this.onChange;
+        this.onChange = function () {};
         this.containerElement.innerHTML = "";
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
@@ -1201,12 +1218,15 @@ class Datepicker {
         }
         this.openCalendar();
         this.closePresetMenu();
+        this.onChange = onChange;
     }
     // helper that snaps the calendar UI to a given date
     snapTo(date, isVisible) {
         if (!date) {
             date = this.moment;
         }
+        let onChange = this.onChange;
+        this.onChange = function () {};
         this.moment = moment(date);
         if (this.isVisible(this.calendarElement) || isVisible) {
             this.containerElement.innerHTML = '';
@@ -1231,6 +1251,7 @@ class Datepicker {
             this.highlightDates();
             this.closeCalendar();
         }
+        this.onChange = onChange;
     }
     // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
@@ -1313,6 +1334,8 @@ class Datepicker {
             this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
             this.timeElements.startHourValueEl.value = startHour;
             this.setTime();
+        } else {
+            this.onChange();
         }
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
@@ -1382,6 +1405,7 @@ class Datepicker {
         this.drawInputElement();
         this.drawPresetMenu();
         this.closePresetMenu();
+        this.onChange();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
