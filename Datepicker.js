@@ -39,7 +39,10 @@ class Datepicker {
         this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
         this.moment = moment(moment(), this.format, true);
-        this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () { console.log('onChange', this.dates) };
+        this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () {
+             // console.log('onChange', this.dates);
+             return;
+        };
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -1222,6 +1225,8 @@ class Datepicker {
         if (!date) {
             date = this.moment;
         }
+        let onChange = this.onChange;
+        this.onChange = function () {};
         this.moment = moment(date);
         if (this.isVisible(this.calendarElement) || isVisible) {
             this.containerElement.innerHTML = '';
@@ -1246,6 +1251,7 @@ class Datepicker {
             this.highlightDates();
             this.closeCalendar();
         }
+        this.onChange = onChange;
     }
     // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
