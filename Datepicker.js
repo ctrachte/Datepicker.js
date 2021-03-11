@@ -38,6 +38,7 @@ class Datepicker {
         this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
         this.moment = moment(moment(), this.format, true);
+        this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () { return };
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
