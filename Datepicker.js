@@ -1086,6 +1086,7 @@ class Datepicker {
                 this.containerElement.querySelector('.endDateElement').innerHTML ="<b> " + this.endDateLabel + " </b>" + this.dates[1];
             }
         }
+        this.onChange();
     }
     // helper method to set dates if provided, return dates if not.
     value(dates, format) {
@@ -1116,6 +1117,7 @@ class Datepicker {
             }
             this.snapTo(this.dates[0]);
             this.highlightDates();
+            this.onChange();
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
             if (this.dates[0]) {
@@ -1147,6 +1149,7 @@ class Datepicker {
             }
             this.snapTo(this.dates[0]);
             this.highlightDates();
+            this.onChange();
         }
 
         if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0]))))  {
@@ -1182,6 +1185,7 @@ class Datepicker {
         this.drawCalendar();
         this.drawPresetMenu();
         this.highlightDates();
+        this.drawInputElement();
         if (this.timePicker) {
             this.setTime();
         }
@@ -1198,6 +1202,7 @@ class Datepicker {
         this.drawCalendar();
         this.drawPresetMenu();
         this.highlightDates();
+        this.drawInputElement();
         if (this.timePicker) {
             this.setTime();
         }
@@ -1384,6 +1389,7 @@ class Datepicker {
         this.drawInputElement();
         this.drawPresetMenu();
         this.closePresetMenu();
+        this.onChange();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
