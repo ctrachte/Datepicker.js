@@ -36,12 +36,35 @@ Since the goal of this project is to use only vanilla JavaScript and Moment.js, 
 ```sh
 git clone https://https://github.com/ctrachte/Datepicker.js
 ```
-2. open `Datepicker.html` in your browser of choice
+2. open `Datepicker.html` in your browser of choice to view and test behavior
+3. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*
+
+5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-This class can *(will eventually)* be implemented on any datepicker html object.
+Insert the following code into your code wherever your Javascript lives for the component you want the Datepicker in:
+```
+    const testDatepicker = new Datepicker({
+        containerElement: document.querySelector('.DatepickerContainer'),
+        presetMenu: true,
+        singleDate: false,
+        autoClose: false,
+        timePicker: true,
+        leadingTrailingDates: true,
+        militaryTime: false,
+        menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
+        startDateLabel: "Event Start: ",
+        endDateLabel: "Event End: ",
+        onChange: function () {
+            // console.log("onChange:", this.dates);
+        },
+        onSubmit: function () {
+            console.log("onSubmit:", this.dates);
+        }
+    });
+```
 
 <!-- CONTRIBUTING -->
 ## Contributing
