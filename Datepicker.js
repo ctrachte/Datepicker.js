@@ -1373,6 +1373,12 @@ class Datepicker {
                 this.closeCalendar();
             }.bind(this), 700);
         }
+        if (!this.singleDate && this.dates.length === 2) {
+            this.onSubmit();
+        }
+        if (this.singleDate && this.dates[0]) {
+            this.onSubmit();
+        }
     }
     // to test clicks outside calendar element to close it
     isOutsideCalendar(event) {
