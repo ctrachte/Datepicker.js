@@ -24,7 +24,13 @@
         militaryTime: false,
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
         startDateLabel: "Event Start: ",
-        endDateLabel: "Event End: "
+        endDateLabel: "Event End: ",
+        onChange: function () {
+            // console.log("onChange:", this.dates);
+        },
+        onSubmit: function () {
+            console.log("onSubmit:", this.dates);
+        }
     });
 </script>
 
