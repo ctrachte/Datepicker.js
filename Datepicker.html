@@ -24,7 +24,10 @@
         militaryTime: false,
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
         startDateLabel: "Event Start: ",
-        endDateLabel: "Event End: "
+        endDateLabel: "Event End: ",
+        onChange: function () {
+            console.table(this.dates);
+        }
     });
 </script>
 
