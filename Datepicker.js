@@ -1166,6 +1166,12 @@ class Datepicker {
                 this.dates = dates;
                 this.onSubmit();
             }
+            if (!this.singleDate && this.dates.length === 2) {
+                this.onSubmit();
+            }
+            if (this.singleDate && this.dates[0]) {
+                this.onSubmit();
+            }
             this.snapTo(this.dates[0]);
             this.onChange();
             this.highlightDates();
