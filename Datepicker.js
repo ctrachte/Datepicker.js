@@ -449,6 +449,12 @@ class Datepicker {
         submitButton.style.gridColumnStart = 3;
         submitButton.style.gridColumnEnd = 8;
         submitButton.addEventListener('click', function (event) {
+            if (!this.singleDate && this.dates.length === 2) {
+                this.onSubmit();
+            }
+            if (this.singleDate && this.dates[0]) {
+                this.onSubmit();
+            }
             this.closeCalendar();
         }.bind(this));
         calendar.appendChild(submitButton);
@@ -1372,12 +1378,6 @@ class Datepicker {
             setTimeout(function () {
                 this.closeCalendar();
             }.bind(this), 700);
-        }
-        if (!this.singleDate && this.dates.length === 2) {
-            this.onSubmit();
-        }
-        if (this.singleDate && this.dates[0]) {
-            this.onSubmit();
         }
     }
     // to test clicks outside calendar element to close it
