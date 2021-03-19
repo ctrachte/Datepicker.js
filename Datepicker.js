@@ -43,6 +43,11 @@ class Datepicker {
             //  console.log('onChange', this.dates);
              return;
         };
+        // fires off supplied function ONLY if there's a complete set of dates (or single date for singleDate option).
+        this.onSubmit = this.options.onSubmit !== undefined ? this.options.onSubmit : function () {
+            //  console.log('onChange', this.dates);
+             return;
+        };
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
         this.dayClick = this.dayClick.bind(this);
@@ -1122,6 +1127,12 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
+            if (!this.singleDate && this.dates.length === 2) {
+                this.onSubmit();
+            }
+            if (this.singleDate && this.dates[0]) {
+                this.onSubmit();
+            }
             this.snapTo(this.dates[0]);
             this.onChange();
             this.highlightDates();
@@ -1153,6 +1164,7 @@ class Datepicker {
                 dates[0] = this.dates[1];
                 dates[1] = this.dates[0];
                 this.dates = dates;
+                this.onSubmit();
             }
             this.snapTo(this.dates[0]);
             this.onChange();
