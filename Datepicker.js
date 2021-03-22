@@ -1144,12 +1144,6 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
-            if (!this.singleDate && this.dates.length === 2) {
-                this.onSubmit();
-            }
-            if (this.singleDate && this.dates[0]) {
-                this.onSubmit();
-            }
             this.snapTo(this.dates[0]);
             this.onChange();
             this.highlightDates();
@@ -1181,13 +1175,6 @@ class Datepicker {
                 dates[0] = this.dates[1];
                 dates[1] = this.dates[0];
                 this.dates = dates;
-                this.onSubmit();
-            }
-            if (!this.singleDate && this.dates.length === 2) {
-                this.onSubmit();
-            }
-            if (this.singleDate && this.dates[0]) {
-                this.onSubmit();
             }
             this.snapTo(this.dates[0]);
             this.onChange();
