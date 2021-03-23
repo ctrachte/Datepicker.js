@@ -23,7 +23,9 @@ class Datepicker {
          * @property {string} this.options.endDateLabel Optional - Custom label for date/time, must be a string, defaults to "End Date: "
          * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
          * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
-         * @property {Function} this.options.onChange Optional - Function that fires when dates are changed. function () { method logic }
+         * @property {Function} this.options.onChange Optional - Function that invokes when dates are changed. function () { method logic }
+         * @property {Function} this.options.onSubmit Optional - Function that invokes when submit "check mark" button is clicked. function () { method logic }
+         * @property {Function} this.options.onClose Optional - Function that invokes whenever the calendar UI is closed. function () { method logic }
          */
         this.options = options;
         this.containerElement = options.containerElement;
@@ -41,12 +43,15 @@ class Datepicker {
         this.moment = moment(moment(), this.format, true);
         this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () {
             //  console.log('onChange', this.dates);
-             return;
+            return;
         };
-        // fires off supplied function ONLY if there's a complete set of dates (or single date for singleDate option).
         this.onSubmit = this.options.onSubmit !== undefined ? this.options.onSubmit : function () {
-            //  console.log('onChange', this.dates);
-             return;
+            //  console.log('onSubmit', this.dates);
+            return;
+        };
+        this.onClose = this.options.onClose !== undefined ? this.options.onClose : function () {
+            //  console.log('onClose', this.dates);
+            return;
         };
         // methods bound to state context
         this.drawCalendar = this.drawCalendar.bind(this);
@@ -514,7 +519,7 @@ class Datepicker {
                 }
                 // invoke highlighting fn to ensure calendar UI is updated
                 let onChange = this.onChange;
-                this.onChange = function () {};
+                this.onChange = function () { };
                 this.highlightDates();
                 this.setTime(true);
                 this.drawInputElement();
@@ -645,7 +650,7 @@ class Datepicker {
         startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
         // Up Minute
         startMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-            if (startMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+            if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
             } else {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
@@ -653,7 +658,7 @@ class Datepicker {
             if (this.timeValid()) {
                 startMinuteValueEl.dispatchEvent(new Event('change'));
             } else {
-                if (startMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+                if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
                 } else {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
@@ -663,7 +668,7 @@ class Datepicker {
         // Down Minute
         startMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
 
-            if (startMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+            if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
             } else {
                 startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
@@ -671,7 +676,7 @@ class Datepicker {
             if (this.timeValid()) {
                 startMinuteValueEl.dispatchEvent(new Event('change'));
             } else {
-                if (startMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+                if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
                 } else {
                     startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
@@ -833,7 +838,7 @@ class Datepicker {
             endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
             // Up Minute
             endMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-                if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+                if (endMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
@@ -841,7 +846,7 @@ class Datepicker {
                 if (this.timeValid()) {
                     endMinuteValueEl.dispatchEvent(new Event('change'));
                 } else {
-                    if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+                    if (endMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
                     } else {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
@@ -850,7 +855,7 @@ class Datepicker {
             }.bind(this);
             // Down Minute
             endMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-                if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+                if (endMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
                 } else {
                     endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
@@ -858,7 +863,7 @@ class Datepicker {
                 if (this.timeValid()) {
                     endMinuteValueEl.dispatchEvent(new Event('change'));
                 } else {
-                    if (endMinuteValueEl.value % 15 === 0 ||  parseInt(startMinuteValueEl.value) === 0) {
+                    if (endMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
                     } else {
                         endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
@@ -1112,7 +1117,7 @@ class Datepicker {
             if (endDate && !this.singleDate) {
                 this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
                 // update the UI based on the state
-                this.containerElement.querySelector('.endDateElement').innerHTML ="<b> " + this.endDateLabel + " </b>" + this.dates[1];
+                this.containerElement.querySelector('.endDateElement').innerHTML = "<b> " + this.endDateLabel + " </b>" + this.dates[1];
             }
             this.onChange();
         }
@@ -1181,7 +1186,7 @@ class Datepicker {
             this.highlightDates();
         }
 
-        if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0]))))  {
+        if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0])))) {
             console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null values!");
         } else if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
             console.warn("Datepicker.js - WARNING: No end date value provided, or tried to set [start, end] date with invalid or null end date value!");
@@ -1210,7 +1215,7 @@ class Datepicker {
             positiveValue = 1;
         }
         let onChange = this.onChange;
-        this.onChange = function () {};
+        this.onChange = function () { };
         this.containerElement.innerHTML = "";
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
@@ -1229,7 +1234,7 @@ class Datepicker {
             negativeValue = -1;
         }
         let onChange = this.onChange;
-        this.onChange = function () {};
+        this.onChange = function () { };
         this.containerElement.innerHTML = "";
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
@@ -1248,7 +1253,7 @@ class Datepicker {
             date = this.moment;
         }
         let onChange = this.onChange;
-        this.onChange = function () {};
+        this.onChange = function () { };
         this.moment = moment(date);
         if (this.isVisible(this.calendarElement) || isVisible) {
             this.containerElement.innerHTML = '';
@@ -1346,7 +1351,7 @@ class Datepicker {
         } else {
             this.dates = [];
             this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
-            this.containerElement.querySelector('.startDateElement').innerHTML =  "<b>" + this.startDateLabel + " </b> " + this.dates[0];
+            this.containerElement.querySelector('.startDateElement').innerHTML = "<b>" + this.startDateLabel + " </b> " + this.dates[0];
         }
         if (!this.timeValid()) {
             this.startHour = parseInt(this.timeElements.endHourValueEl.value);
@@ -1408,6 +1413,7 @@ class Datepicker {
         this.highlightDates();
     }
     closeCalendar() {
+        this.onClose();
         this.calendarElement.hideCalendar();
         this.drawInputElement();
         this.inputElement.showDatepickerEl();
