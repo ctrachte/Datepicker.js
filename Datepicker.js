@@ -1413,6 +1413,7 @@ class Datepicker {
         this.highlightDates();
     }
     closeCalendar() {
+        this.onClose();
         this.calendarElement.hideCalendar();
         this.drawInputElement();
         this.inputElement.showDatepickerEl();
