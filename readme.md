@@ -34,7 +34,7 @@ Since the goal of this project is to use only vanilla JavaScript and Moment.js, 
 **If you do not plan to contribute your changes and just want to play around or implement this project:**
 1. Clone the repo
 ```sh
-git clone https://https://github.com/ctrachte/Datepicker.js
+git clone https://github.com/ctrachte/Datepicker.js
 ```
 2. open `Datepicker.html` in your browser of choice to view and test behavior
 3. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*
