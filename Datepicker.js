@@ -454,12 +454,7 @@ class Datepicker {
         submitButton.style.gridColumnStart = 3;
         submitButton.style.gridColumnEnd = 8;
         submitButton.addEventListener('click', function (event) {
-            if (!this.singleDate && this.dates.length === 2) {
-                this.onSubmit();
-            }
-            if (this.singleDate && this.dates[0]) {
-                this.onSubmit();
-            }
+            this.onSubmit();
             this.closeCalendar();
         }.bind(this));
         calendar.appendChild(submitButton);
