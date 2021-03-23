@@ -46,6 +46,7 @@ git clone https://github.com/ctrachte/Datepicker.js
 
 Insert the following code into your code wherever your Javascript lives for the component you want the Datepicker in:
 ```
+    // be sure to change the options provided to meet your implementation's needs.
     const testDatepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
         presetMenu: true,
@@ -58,10 +59,13 @@ Insert the following code into your code wherever your Javascript lives for the 
         startDateLabel: "Event Start: ",
         endDateLabel: "Event End: ",
         onChange: function () {
-            // console.log("onChange:", this.dates);
+            console.log("onChange:", this.dates);
         },
         onSubmit: function () {
             console.log("onSubmit:", this.dates);
+        },
+        onClose: function () {
+            console.log("onClose:", this.dates);
         }
     });
 ```

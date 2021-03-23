@@ -13,7 +13,7 @@
 </body>
 
 <script>
-    // there should only be this one line of code here to instantiate the class into the container element 
+    // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
         presetMenu: true,
@@ -26,10 +26,10 @@
         startDateLabel: "Event Start: ",
         endDateLabel: "Event End: ",
         onChange: function () {
-            // console.log("onChange:", this.dates);
+            console.log("onChange:", this.dates);
         },
         onSubmit: function () {
-            // console.log("onSubmit:", this.dates);
+            console.log("onSubmit:", this.dates);
         },
         onClose: function () {
             console.log("onClose:", this.dates);
