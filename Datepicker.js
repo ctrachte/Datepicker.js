@@ -1214,6 +1214,7 @@ class Datepicker {
         this.containerElement.innerHTML = "";
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
+        this.drawInputElement();
         this.drawPresetMenu();
         this.highlightDates();
         if (this.timePicker) {
@@ -1233,6 +1234,7 @@ class Datepicker {
         this.containerElement.innerHTML = "";
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
+        this.drawInputElement();
         this.drawPresetMenu();
         this.highlightDates();
         if (this.timePicker) {
@@ -1404,14 +1406,12 @@ class Datepicker {
     // helper methods to open/close calendar UI
     openCalendar() {
         this.calendarElement.showCalendar();
-        this.inputElement.hideDatepickerEl();
         this.highlightDates();
     }
     closeCalendar() {
         this.onClose();
         this.calendarElement.hideCalendar();
         this.drawInputElement();
-        this.inputElement.showDatepickerEl();
     }
     // helper methods to open/close preset menu UI
     openPresetMenu() {
