@@ -1,11 +1,11 @@
 :root { 
 
     /* Sundown Color Theme Swatches in Hex */
-    /* --Primary: #556b97;
+    --Primary: #556b97;
     --Secondary: #364a62;
     --Shadow: #000000;
     --Selection: #a3c5f1;
-    --Accent: #62f0c8; */
+    --Accent: #62f0c8;
     
     /* Army Color Theme Swatches in Hex */
     
@@ -23,11 +23,11 @@
     --Accent: #d72027; */
     
     /* PEC TEAM Color Theme Swatches in Hex */
-    --Primary: #ffffff;
+    /* --Primary: #ffffff;
     --Secondary: #e0e0e0;
     --Shadow: #333333;
     --Selection: #002e5f;
-    --Accent: #c0143c;
+    --Accent: #c0143c; */
     }
     
     .DatepickerContainer {
@@ -155,13 +155,13 @@
       margin: 10px !important;
     }
     .presetMenuContainer ul li {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         padding-left: 0px !important;
         margin-left: 0px !important;
         height: auto;
         width: 100% !important;
-        margin: 10px;
+        margin: 5px;
         background-color: var(--Secondary);
         color: var(--Shadow);
         border-radius: 5px;
@@ -176,7 +176,7 @@
       position: relative;
       display: inline-block;
       width: 1.25em;
-      height: 1.1em;
+      height: 0.6em;
       border-top: 0.2em solid var(--Selection);
       border-bottom: 0.2em solid var(--Selection);
     }
@@ -527,7 +527,6 @@
     }
     
     .DatepickerContainer .datepicker-error {
-      border: solid var(--Accent) 2px !important;
       color: var(--Accent) !important;
     }
     
