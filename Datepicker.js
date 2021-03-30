@@ -630,7 +630,7 @@ class Datepicker {
             let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
             if (newVal > 59) {
                 newVal = 0;
-            } else if (newVal < 1) {
+            } else if (newVal < 0) {
                 newVal = 45;
             }
             if (newVal < 10) {
@@ -820,7 +820,7 @@ class Datepicker {
                 let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
                 if (newVal > 59) {
                     newVal = 0;
-                } else if (newVal < 1) {
+                } else if (newVal < 0) {
                     newVal = 45;
                 }
                 if (newVal < 10) {
