@@ -566,20 +566,14 @@ class Datepicker {
         this.timeElements.startHourValueEl = startHourValueEl;
 
         let startHourChange = function (event) {
-
             let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-            if (newVal > 23) {
+            if (newVal >= 24) {
                 newVal = 0;
             } else if (newVal < 1) {
-                newVal = 23;
+                newVal = 24;
             }
             if (newVal < 10 && this.militaryTime) {
                 newVal = "0" + newVal;
-            }
-            if (newVal > 12 && !this.militaryTime) {
-                this.timeElements.startpm.click();
-            } else {
-                this.timeElements.startam.click();
             }
             this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
             this.setTime();
@@ -630,7 +624,7 @@ class Datepicker {
             let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
             if (newVal > 59) {
                 newVal = 0;
-            } else if (newVal < 0) {
+            } else if (newVal < 1) {
                 newVal = 45;
             }
             if (newVal < 10) {
@@ -756,20 +750,14 @@ class Datepicker {
             let endHourValueEl = endHour.querySelector("#endHour");
             this.timeElements.endHourValueEl = endHourValueEl;
             let endHourChange = function (event) {
-
                 let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                if (newVal > 23) {
+                if (newVal >= 24) {
                     newVal = 0;
                 } else if (newVal < 1) {
-                    newVal = 23;
+                    newVal = 24;
                 }
                 if (newVal < 10 && this.militaryTime) {
                     newVal = "0" + newVal;
-                }
-                if (newVal > 12 && !this.militaryTime) {
-                    this.timeElements.endpm.click();
-                } else {
-                    this.timeElements.endam.click();
                 }
                 this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
                 this.setTime();
@@ -820,7 +808,7 @@ class Datepicker {
                 let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
                 if (newVal > 59) {
                     newVal = 0;
-                } else if (newVal < 0) {
+                } else if (newVal < 1) {
                     newVal = 45;
                 }
                 if (newVal < 10) {
@@ -1425,13 +1413,6 @@ class Datepicker {
     // resets Calendar and Input element to their default state with no Date/Times selected
     resetCalendar() {
         this.dates = [];
-        this.timeElements = {};
-        this.startHour = "12";
-        this.startMinute = "00";
-        this.startAmPm = "PM";
-        this.endHour = "12";
-        this.endMinute = "00";
-        this.endAmPm = "PM";
         this.containerElement.innerHTML = '';
         this.drawCalendar();
         this.drawInputElement();
