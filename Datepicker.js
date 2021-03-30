@@ -566,16 +566,31 @@ class Datepicker {
         this.timeElements.startHourValueEl = startHourValueEl;
 
         let startHourChange = function (event) {
-            let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-            if (newVal >= 24) {
-                newVal = 0;
-            } else if (newVal < 1) {
-                newVal = 24;
+            let newVal = parseInt(this.timeElements.startHourValueEl.value);
+            if (this.militaryTime) {
+                if (newVal > 24) {
+                    newVal = 0;
+                } else if (newVal < 0) {
+                    newVal = 24;
+                }
+                if (newVal < 10) {
+                    newVal = "0" + newVal;
+                }
+                this.timeElements.startHourValueEl.value = newVal;
+            } else {
+                if (newVal === 12) {
+                    if (this.endAmPm === "PM") {
+                        this.timeElements.startam.onclick();
+                    } else {
+                        this.timeElements.startpm.onclick();
+                    }
+                } else if (newVal < 1) {
+                    newVal = 11;
+                } else if (newVal > 12) {
+                    newVal = 1;
+                }
+                this.timeElements.startHourValueEl.value = newVal;
             }
-            if (newVal < 10 && this.militaryTime) {
-                newVal = "0" + newVal;
-            }
-            this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
             this.setTime();
         }.bind(this);
         startHourValueEl.addEventListener('change', startHourChange);
@@ -750,16 +765,31 @@ class Datepicker {
             let endHourValueEl = endHour.querySelector("#endHour");
             this.timeElements.endHourValueEl = endHourValueEl;
             let endHourChange = function (event) {
-                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                if (newVal >= 24) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 24;
+                let newVal = parseInt(this.timeElements.endHourValueEl.value);
+                if (this.militaryTime) {
+                    if (newVal > 24) {
+                        newVal = 0;
+                    } else if (newVal < 0) {
+                        newVal = 24;
+                    }
+                    if (newVal < 10) {
+                        newVal = "0" + newVal;
+                    }
+                    this.timeElements.endHourValueEl.value = newVal;
+                } else {
+                    if (newVal === 12) {
+                        if (this.endAmPm === "PM") {
+                            this.timeElements.endam.onclick();
+                        } else {
+                            this.timeElements.endpm.onclick();
+                        }
+                    } else if (newVal < 1) {
+                        newVal = 11;
+                    } else if (newVal > 12) {
+                        newVal = 1;
+                    }
+                    this.timeElements.endHourValueEl.value = newVal;
                 }
-                if (newVal < 10 && this.militaryTime) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
                 this.setTime();
             }.bind(this);
             endHourValueEl.addEventListener('change', endHourChange);
@@ -1281,7 +1311,7 @@ class Datepicker {
     toMilitary(hour) {
         hour = parseInt(hour);
         hour = hour === 12 ? hour = 0 : hour;
-        return hour < 12 ? hour + 12 : hour;
+        return hour < 12 && hour !== 0 ? hour + 12 : hour;
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
