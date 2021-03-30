@@ -1425,6 +1425,13 @@ class Datepicker {
     // resets Calendar and Input element to their default state with no Date/Times selected
     resetCalendar() {
         this.dates = [];
+        this.timeElements = {};
+        this.startHour = "12";
+        this.startMinute = "00";
+        this.startAmPm = "PM";
+        this.endHour = "12";
+        this.endMinute = "00";
+        this.endAmPm = "PM";
         this.containerElement.innerHTML = '';
         this.drawCalendar();
         this.drawInputElement();
