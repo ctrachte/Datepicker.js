@@ -566,11 +566,7 @@ class Datepicker {
         this.timeElements.startHourValueEl = startHourValueEl;
 
         let startHourChange = function (event) {
-            if (this.timeElements.startHourValueEl.value > 12 && !this.militaryTime) {
-                this.timeElements.startpm.click();
-            } else {
-                this.timeElements.startam.click();
-            }
+
             let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
             if (newVal > 23) {
                 newVal = 0;
@@ -579,6 +575,11 @@ class Datepicker {
             }
             if (newVal < 10 && this.militaryTime) {
                 newVal = "0" + newVal;
+            }
+            if (newVal > 12 && !this.militaryTime) {
+                this.timeElements.startpm.click();
+            } else {
+                this.timeElements.startam.click();
             }
             this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
             this.setTime();
