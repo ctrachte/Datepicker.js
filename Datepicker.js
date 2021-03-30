@@ -569,7 +569,7 @@ class Datepicker {
 
             let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
             if (newVal > 23) {
-                newVal = 12;
+                newVal = 0;
             } else if (newVal < 1) {
                 newVal = 23;
             }
@@ -759,7 +759,7 @@ class Datepicker {
 
                 let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
                 if (newVal > 23) {
-                    newVal = 12;
+                    newVal = 0;
                 } else if (newVal < 1) {
                     newVal = 23;
                 }
@@ -769,7 +769,7 @@ class Datepicker {
                 if (newVal > 12 && !this.militaryTime) {
                     this.timeElements.endpm.click();
                 } else {
-                    this.timeElements.startpm.click();
+                    this.timeElements.endam.click();
                 }
                 this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
                 this.setTime();
