@@ -91,7 +91,7 @@ class Datepicker {
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
-        this.closeCalendar();
+        this.calendarElement.hideCalendar();
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
