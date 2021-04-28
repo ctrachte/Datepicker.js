@@ -44,7 +44,16 @@ class Datepicker {
         this.format = this.options.format || (this.timePicker ? (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A") : "MM/DD/YYYY");
         this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
-        this.moment = moment(moment(), this.format, true);
+        if (this.max && moment(this.max).unix() < moment().unix()) {
+            this.moment = moment(moment(this.max), this.format, true);
+        } else {
+            this.moment = moment(moment(), this.format, true);
+        }
+        if (this.min && moment(this.min).unix() > moment().unix()) {
+            this.moment = moment(moment(this.min), this.format, true);
+        } else {
+            this.moment = moment(moment(), this.format, true);
+        }
         this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () {
             //  console.log('onChange', this.dates);
             return;
@@ -368,15 +377,15 @@ class Datepicker {
 
             let currentDate = moment(dayCell.value).unix();
             // if date is greater than max or less than min, disable
-                if (max && currentDate > max) {
-                    dayCell.classList.add("disabled");
-                    dayCell.setAttribute('disabled', true);
-                } else if (min && currentDate < min) {
-                    dayCell.classList.add("disabled");
-                    dayCell.setAttribute('disabled', true);
-                } else {
-                    dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
-                }
+            if (max && currentDate > max) {
+                dayCell.classList.add("disabled");
+                dayCell.setAttribute('disabled', true);
+            } else if (min && currentDate < min) {
+                dayCell.classList.add("disabled");
+                dayCell.setAttribute('disabled', true);
+            } else {
+                dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+            }
             calendar.appendChild(dayCell);
         }.bind(this));
         // add next months leading days to calendar.
