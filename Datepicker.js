@@ -22,12 +22,16 @@ class Datepicker {
          * @property {string} this.options.startDateLabel Optional - Custom label for date/time, must be a string, defaults to "Start Date: "
          * @property {string} this.options.endDateLabel Optional - Custom label for date/time, must be a string, defaults to "End Date: "
          * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
+         * @property {Date} this.options.min Optional - Minimum date allowed for users to click, must be a moment date format
+         * @property {Date} this.options.max Optional - Maximum date allowed for users to click, must be a moment date format
          * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
          * @property {Function} this.options.onChange Optional - Function that invokes when dates are changed. function () { method logic }
          * @property {Function} this.options.onSubmit Optional - Function that invokes when submit "check mark" button is clicked. function () { method logic }
          * @property {Function} this.options.onClose Optional - Function that invokes whenever the calendar UI is closed. function () { method logic }
          */
         this.options = options;
+        this.max = typeof this.options.max === "object" ? this.options.max : false;
+        this.min = typeof this.options.min === "object" ? this.options.min : false;
         this.containerElement = options.containerElement;
         this.containerElement.classList.add('DatepickerContainer'); // ensures Datepicker styling is applied.
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
@@ -40,7 +44,16 @@ class Datepicker {
         this.format = this.options.format || (this.timePicker ? (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A") : "MM/DD/YYYY");
         this.startDateLabel = !this.singleDate ? (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Start Date: ") : (this.options.startDateLabel !== undefined ? this.options.startDateLabel : "Date: ");
         this.endDateLabel = this.options.endDateLabel !== undefined ? this.options.endDateLabel : "End Date: ";
-        this.moment = moment(moment(), this.format, true);
+        if (this.max && moment(this.max).unix() < moment().unix()) {
+            this.moment = moment(moment(this.max), this.format, true);
+        } else {
+            this.moment = moment(moment(), this.format, true);
+        }
+        if (this.min && moment(this.min).unix() > moment().unix()) {
+            this.moment = moment(moment(this.min), this.format, true);
+        } else {
+            this.moment = moment(moment(), this.format, true);
+        }
         this.onChange = this.options.onChange !== undefined ? this.options.onChange : function () {
             //  console.log('onChange', this.dates);
             return;
@@ -348,8 +361,11 @@ class Datepicker {
                 calendar.appendChild(dayCell);
             }
         }
+        let max = this.max ? moment(this.max).unix() : false;
+        let min = this.min ? moment(this.min).unix() : false;
         // add this months days to calendar
         daysInMonth.forEach(function (day) {
+
             let dayCell = document.createElement('div');
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
@@ -358,7 +374,18 @@ class Datepicker {
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', dateString);
             dayCell.value = dateString;
-            dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+
+            let currentDate = moment(dayCell.value).unix();
+            // if date is greater than max or less than min, disable
+            if (max && currentDate > max) {
+                dayCell.classList.add("disabled");
+                dayCell.setAttribute('disabled', true);
+            } else if (min && currentDate < min) {
+                dayCell.classList.add("disabled");
+                dayCell.setAttribute('disabled', true);
+            } else {
+                dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+            }
             calendar.appendChild(dayCell);
         }.bind(this));
         // add next months leading days to calendar.
@@ -497,35 +524,52 @@ class Datepicker {
 
         // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
+            let max = this.max ? moment(this.max).unix() : false;
+            let min = this.min ? moment(this.min).unix() : false;
+
             for (let i = 0; i < this.menuOptions.length; i++) {
-                menuOptions.push(this.menuOptions[i]);
+                let startDate = moment(this.menuOptions[i].values[0]).unix();
+                let endDate = moment(this.menuOptions[i].values[1]).unix();
+                if ((max && max < endDate) || (min && min > startDate)) {
+                    console.warn('Datepicker.js: Preset menu option: "' + this.menuOptions[i].title + '" lies partially or entirely outside max/min allowed and was disabled.');
+                } else {
+                    menuOptions.push(this.menuOptions[i]);
+                }
             }
         }
         // adds all options to the UI
         for (let menuOption of menuOptions) {
-            let menuListElement = document.createElement('li');
-            menuListElement.setAttribute('class', menuOption.title + "-menu-option");
-            menuListElement.innerHTML = menuOption.title;
-            menuListElement.addEventListener('click', function (event) {
-                this.dates.length = 0;
-                this.highlightDates();
-                this.dates[0] = (menuOption.values[0]);
-                if (!this.singleDate) {
-                    this.dates[1] = (menuOption.values[1]);
-                }
-                // invoke highlighting fn to ensure calendar UI is updated
-                let onChange = this.onChange;
-                this.onChange = function () { };
-                this.highlightDates();
-                this.setTime(true);
-                this.drawInputElement();
-                this.snapTo(this.dates[0]);
-                this.closePresetMenu();
-                this.onChange = onChange;
-                this.onChange();
-                this.menuIconContainer.classList.remove('open');
-            }.bind(this));
-            menuOptionsContainer.appendChild(menuListElement);
+            let max = this.max ? moment(this.max).unix() : false;
+            let min = this.min ? moment(this.min).unix() : false;
+            let startDate = moment(menuOption.values[0]).unix();
+            let endDate = moment(menuOption.values[1]).unix();
+            if ((max && max < endDate) || (min && min > startDate)) {
+                console.warn('Datepicker.js: Preset menu option: "' + menuOption.title + '" lies partially or entirely outside max/min allowed and was disabled.');
+            } else {
+                let menuListElement = document.createElement('li');
+                menuListElement.setAttribute('class', menuOption.title + "-menu-option");
+                menuListElement.innerHTML = menuOption.title;
+                menuListElement.addEventListener('click', function (event) {
+                    this.dates.length = 0;
+                    this.highlightDates();
+                    this.dates[0] = (menuOption.values[0]);
+                    if (!this.singleDate) {
+                        this.dates[1] = (menuOption.values[1]);
+                    }
+                    // invoke highlighting fn to ensure calendar UI is updated
+                    let onChange = this.onChange;
+                    this.onChange = function () { };
+                    this.highlightDates();
+                    this.setTime(true);
+                    this.drawInputElement();
+                    this.snapTo(this.dates[0]);
+                    this.closePresetMenu();
+                    this.onChange = onChange;
+                    this.onChange();
+                    this.menuIconContainer.classList.remove('open');
+                }.bind(this));
+                menuOptionsContainer.appendChild(menuListElement);
+            }
         }
         // close preset menu icon
         let closePresetIconContainer = document.createElement('div');
@@ -1240,9 +1284,20 @@ class Datepicker {
         if (!date) {
             date = this.moment;
         }
+        let max = this.max ? moment(this.max).unix() : false;
+        let min = this.min ? moment(this.min).unix() : false;
+        let currentDate = moment(date).unix();
+        if (max && max < currentDate) {
+            date = moment(this.max);
+        }
+        if (min && min > currentDate) {
+            date = moment(this.min);
+        } else {
+            date = moment(date);
+        }
+        this.moment = date;
         let onChange = this.onChange;
         this.onChange = function () { };
-        this.moment = moment(date);
         if (this.isVisible(this.calendarElement) || isVisible) {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
