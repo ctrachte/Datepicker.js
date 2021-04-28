@@ -483,6 +483,7 @@ class Datepicker {
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
         }.bind(this));
+
     }
     // draws preset menu and options if allowed programmatically.
     drawPresetMenu() {

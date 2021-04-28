@@ -468,6 +468,11 @@
       opacity: 0.3;
       cursor:not-allowed;
     }
+    .DatepickerContainer .disabled:hover {
+      opacity: 0.3 !important;
+      cursor:not-allowed !important;
+    }
+
 
     .DatepickerContainer .launch {
         float: left;
