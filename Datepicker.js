@@ -367,26 +367,14 @@ class Datepicker {
             dayCell.value = dateString;
 
             let currentDate = moment(dayCell.value).unix();
-            // if date is greater than max, disable
-            if (max) {
+            // if date is greater than max or less than min, disable
                 if (max && currentDate > max) {
 
-                } else {
+                } else if (min && currentDate < min) {
                     dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
-                }
-            } else {
-                dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
-            }
-            // if date is less than min, disable
-            if (min) {
-                if (min && currentDate < min) {
+                } else {
 
-                } else {
-                    dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
                 }
-            } else {
-                dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
-            }
             calendar.appendChild(dayCell);
         }.bind(this));
         // add next months leading days to calendar.
