@@ -371,9 +371,9 @@ class Datepicker {
                 if (max && currentDate > max) {
 
                 } else if (min && currentDate < min) {
-                    dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+                    
                 } else {
-
+                    dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
                 }
             calendar.appendChild(dayCell);
         }.bind(this));
