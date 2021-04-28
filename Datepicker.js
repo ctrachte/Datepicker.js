@@ -22,14 +22,16 @@ class Datepicker {
          * @property {string} this.options.startDateLabel Optional - Custom label for date/time, must be a string, defaults to "Start Date: "
          * @property {string} this.options.endDateLabel Optional - Custom label for date/time, must be a string, defaults to "End Date: "
          * @property {Date} this.options.moment Optional - Date for the calendar to initialize on, defaults to today, this month, this year
+         * @property {Date} this.options.min Optional - Minimum date allowed for users to click, must be a moment date format
+         * @property {Date} this.options.max Optional - Maximum date allowed for users to click, must be a moment date format
          * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
          * @property {Function} this.options.onChange Optional - Function that invokes when dates are changed. function () { method logic }
          * @property {Function} this.options.onSubmit Optional - Function that invokes when submit "check mark" button is clicked. function () { method logic }
          * @property {Function} this.options.onClose Optional - Function that invokes whenever the calendar UI is closed. function () { method logic }
          */
         this.options = options;
-        this.max =  this.options.max !== undefined ? this.options.max : false;
-        this.min =  this.options.min !== undefined ? this.options.min : false;
+        this.max = typeof this.options.max === "object" ? this.options.max : false;
+        this.min = typeof this.options.min === "object" ? this.options.min : false;
         this.containerElement = options.containerElement;
         this.containerElement.classList.add('DatepickerContainer'); // ensures Datepicker styling is applied.
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
