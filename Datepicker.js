@@ -354,7 +354,6 @@ class Datepicker {
         }
         let max = this.max ? moment(this.max).unix() : false;
         let min = this.min ? moment(this.min).unix() : false;
-
         // add this months days to calendar
         daysInMonth.forEach(function (day) {
 
@@ -484,7 +483,6 @@ class Datepicker {
         document.addEventListener('click', function (event) {
             this.outsideCalendarClick(event);
         }.bind(this));
-
     }
     // draws preset menu and options if allowed programmatically.
     drawPresetMenu() {
@@ -1259,9 +1257,20 @@ class Datepicker {
         if (!date) {
             date = this.moment;
         }
+        let max = this.max ? moment(this.max).unix() : false;
+        let min = this.min ? moment(this.min).unix() : false;
+        let currentDate = moment(date).unix();
+        if (max && max < currentDate) {
+            date = moment(this.max);
+        }
+        if (min && min > currentDate) {
+            date = moment(this.min);
+        } else {
+            date = moment(date);
+        }
+        this.moment = date;
         let onChange = this.onChange;
         this.onChange = function () { };
-        this.moment = moment(date);
         if (this.isVisible(this.calendarElement) || isVisible) {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
