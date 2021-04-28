@@ -352,8 +352,11 @@ class Datepicker {
                 calendar.appendChild(dayCell);
             }
         }
+        let max = moment(this.max).unix();
+        let min = moment(this.min).unix();
         // add this months days to calendar
         daysInMonth.forEach(function (day) {
+
             let dayCell = document.createElement('div');
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
@@ -362,7 +365,28 @@ class Datepicker {
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', dateString);
             dayCell.value = dateString;
-            dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+
+            let currentDate = moment(dayCell.value).unix();
+            // if date is greater than max, disable
+            if (max) {
+                if (max && currentDate > max) {
+
+                } else {
+                    dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+                }
+            } else {
+                dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+            }
+            // if date is less than min, disable
+            if (min) {
+                if (min && currentDate < min) {
+
+                } else {
+                    dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+                }
+            } else {
+                dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
+            }
             calendar.appendChild(dayCell);
         }.bind(this));
         // add next months leading days to calendar.
