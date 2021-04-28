@@ -352,8 +352,9 @@ class Datepicker {
                 calendar.appendChild(dayCell);
             }
         }
-        let max = moment(this.max).unix();
-        let min = moment(this.min).unix();
+        let max = this.max ? moment(this.max).unix() : false;
+        let min = this.min ? moment(this.min).unix() : false;
+
         // add this months days to calendar
         daysInMonth.forEach(function (day) {
 
@@ -369,9 +370,11 @@ class Datepicker {
             let currentDate = moment(dayCell.value).unix();
             // if date is greater than max or less than min, disable
                 if (max && currentDate > max) {
-
+                    dayCell.classList.add("disabled");
+                    dayCell.setAttribute('disabled', true);
                 } else if (min && currentDate < min) {
-                    
+                    dayCell.classList.add("disabled");
+                    dayCell.setAttribute('disabled', true);
                 } else {
                     dayCell.addEventListener('click', callbackSetDate.bind(this, dayCell));
                 }
