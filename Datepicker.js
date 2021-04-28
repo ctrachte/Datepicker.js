@@ -66,6 +66,7 @@ class Datepicker {
         this.openPresetMenu = this.openPresetMenu.bind(this);
         this.closePresetMenu = this.closePresetMenu.bind(this);
         this.resetCalendar = this.resetCalendar.bind(this);
+        this.reset = this.reset.bind(this);
         this.value = this.value.bind(this);
         this.startDate = this.startDate.bind(this);
         this.endDate = this.endDate.bind(this);
@@ -1410,7 +1411,7 @@ class Datepicker {
     closePresetMenu() {
         this.presetMenuContainer.hidePresetMenu();
     }
-    // resets Calendar and Input element to their default state with no Date/Times selected
+    // resets Calendar and Input element to their default state with no Date/Times selected, opens Calendar UI.
     resetCalendar() {
         this.dates = [];
         this.containerElement.innerHTML = '';
@@ -1419,6 +1420,10 @@ class Datepicker {
         this.drawPresetMenu();
         this.closePresetMenu();
         this.onChange();
+    }
+    reset() {
+        this.resetCalendar();
+        this.closeCalendar();
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
