@@ -524,35 +524,52 @@ class Datepicker {
 
         // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
+            let max = this.max ? moment(this.max).unix() : false;
+            let min = this.min ? moment(this.min).unix() : false;
+
             for (let i = 0; i < this.menuOptions.length; i++) {
-                menuOptions.push(this.menuOptions[i]);
+                let startDate = moment(this.menuOptions[i].values[0]).unix();
+                let endDate = moment(this.menuOptions[i].values[1]).unix();
+                if ((max && max < endDate) || (min && min > startDate)) {
+                    console.warn('Datepicker.js: Preset menu option: "' + this.menuOptions[i].title + '" lies partially or entirely outside max/min allowed and was disabled.');
+                } else {
+                    menuOptions.push(this.menuOptions[i]);
+                }
             }
         }
         // adds all options to the UI
         for (let menuOption of menuOptions) {
-            let menuListElement = document.createElement('li');
-            menuListElement.setAttribute('class', menuOption.title + "-menu-option");
-            menuListElement.innerHTML = menuOption.title;
-            menuListElement.addEventListener('click', function (event) {
-                this.dates.length = 0;
-                this.highlightDates();
-                this.dates[0] = (menuOption.values[0]);
-                if (!this.singleDate) {
-                    this.dates[1] = (menuOption.values[1]);
-                }
-                // invoke highlighting fn to ensure calendar UI is updated
-                let onChange = this.onChange;
-                this.onChange = function () { };
-                this.highlightDates();
-                this.setTime(true);
-                this.drawInputElement();
-                this.snapTo(this.dates[0]);
-                this.closePresetMenu();
-                this.onChange = onChange;
-                this.onChange();
-                this.menuIconContainer.classList.remove('open');
-            }.bind(this));
-            menuOptionsContainer.appendChild(menuListElement);
+            let max = this.max ? moment(this.max).unix() : false;
+            let min = this.min ? moment(this.min).unix() : false;
+            let startDate = moment(menuOption.values[0]).unix();
+            let endDate = moment(menuOption.values[1]).unix();
+            if ((max && max < endDate) || (min && min > startDate)) {
+                console.warn('Datepicker.js: Preset menu option: "' + menuOption.title + '" lies partially or entirely outside max/min allowed and was disabled.');
+            } else {
+                let menuListElement = document.createElement('li');
+                menuListElement.setAttribute('class', menuOption.title + "-menu-option");
+                menuListElement.innerHTML = menuOption.title;
+                menuListElement.addEventListener('click', function (event) {
+                    this.dates.length = 0;
+                    this.highlightDates();
+                    this.dates[0] = (menuOption.values[0]);
+                    if (!this.singleDate) {
+                        this.dates[1] = (menuOption.values[1]);
+                    }
+                    // invoke highlighting fn to ensure calendar UI is updated
+                    let onChange = this.onChange;
+                    this.onChange = function () { };
+                    this.highlightDates();
+                    this.setTime(true);
+                    this.drawInputElement();
+                    this.snapTo(this.dates[0]);
+                    this.closePresetMenu();
+                    this.onChange = onChange;
+                    this.onChange();
+                    this.menuIconContainer.classList.remove('open');
+                }.bind(this));
+                menuOptionsContainer.appendChild(menuListElement);
+            }
         }
         // close preset menu icon
         let closePresetIconContainer = document.createElement('div');
