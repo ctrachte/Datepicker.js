@@ -28,6 +28,8 @@ class Datepicker {
          * @property {Function} this.options.onClose Optional - Function that invokes whenever the calendar UI is closed. function () { method logic }
          */
         this.options = options;
+        this.max =  this.options.max !== undefined ? this.options.max : false;
+        this.min =  this.options.min !== undefined ? this.options.min : false;
         this.containerElement = options.containerElement;
         this.containerElement.classList.add('DatepickerContainer'); // ensures Datepicker styling is applied.
         this.timePicker = this.options.timePicker !== undefined ? this.options.timePicker : true;
