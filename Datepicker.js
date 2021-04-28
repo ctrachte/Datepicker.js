@@ -1421,6 +1421,7 @@ class Datepicker {
         this.closePresetMenu();
         this.onChange();
     }
+    // resets entire API to the default state, closes calendar UI.
     reset() {
         this.resetCalendar();
         this.closeCalendar();
