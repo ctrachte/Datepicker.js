@@ -1351,12 +1351,13 @@ class Datepicker {
     convertStringDate(date) {
         date = date.split(" ");
         let dateString = "";
-        let AmPm = "AM";
+        let AmPm = "";
         for (var i = 0; i < date.length; i++) {
             if (date[i].toUpperCase() === "PM") {
                 AmPm = "PM";
                 date.splice(i, 1);
             } else if (date[i].toUpperCase() === "AM") {
+                AmPm = "AM";
                 date.splice(i, 1)
             } else {
                 dateString = dateString + " " + date[i];
