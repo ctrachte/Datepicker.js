@@ -1481,6 +1481,17 @@ class Datepicker {
     }
     // helper methods to open/close calendar UI
     openCalendar() {
+
+        let calendarElement = this.containerElement.querySelector('.grid-container');
+        let datepickerLeft = this.containerElement.querySelector('.launch').getBoundingClientRect().left;
+        let datepickerTop = this.containerElement.querySelector('.launch').getBoundingClientRect().top;
+        // let calendarLeft = calendarElement.getBoundingClientRect().left;
+        let datepickerWidth = this.containerElement.querySelector('.launch').getBoundingClientRect().width;
+        // let datepickerTop = calendarElement.getBoundingClientRect().top;
+
+        calendarElement.style.position = 'absolute';
+        calendarElement.style.left = datepickerLeft + datepickerWidth + 3 + 'px';
+        calendarElement.style.top = datepickerTop + 'px';
         this.calendarElement.showCalendar();
         this.highlightDates();
     }
