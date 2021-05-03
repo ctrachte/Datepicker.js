@@ -1078,54 +1078,56 @@ class Datepicker {
 
             // Sanitizes the UI and the state if .value() was used to set dates/times
             if (setProgrammatically) {
-                let startHour = this.dates[0] ? (this.militaryTime ? moment(this.dates[0]).hours() : this.toAmPm(moment(this.dates[0]).hours())) : this.timeElements.startHourValueEl.value;
+                let startHour = moment(this.dates[0]).hours();
                 if (!startHour) {
                     startHour = 12;
                 }
-                let endHour = !this.singleDate ? (this.dates[1] ? (this.militaryTime ? moment(this.dates[1]).hours() : this.toAmPm(moment(this.dates[1]).hours())) : this.timeElements.endHourValueEl.value) : "";
+                let endHour = !this.singleDate ? moment(this.dates[1]).hours() : "";
                 if (!endHour) {
                     endHour = 12;
                 }
-                this.timeElements.startHourValueEl.value = startHour;
+                this.timeElements.startHourValueEl.value = !this.militaryTime ? this.toAmPm(startHour) : startHour;
                 this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
                 if (!this.singleDate) {
-                    this.timeElements.endHourValueEl.value = endHour;
+                    this.timeElements.endHourValueEl.value = !this.militaryTime ? this.toAmPm(endHour) : endHour;
                     this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
-                    this.endHour = parseInt(this.timeElements.endHourValueEl.value);
+                    this.endHour = endHour;
                     this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
                 }
-                this.startHour = parseInt(this.timeElements.startHourValueEl.value);
+                this.startHour = startHour;
                 this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
                 if (!this.militaryTime) {
                     if (!this.singleDate) {
-                        this.endAmPm = this.toMilitary(this.endHour) > 12 ? "PM" : "AM";
+                        this.endAmPm = this.endHour > 12 ? "PM" : "AM";
                         if (this.endAmPm === "PM") {
-                            this.timeElements.endpm.click();
+                            setTimeout(function () { this.timeElements.endpm.click() }.bind(this), 500)
                         } else {
-                            this.timeElements.endam.click();
+                            
+                            setTimeout(function () { this.timeElements.endam.click() }.bind(this), 500)
                         }
                     }
-                    this.startAmPm = this.toMilitary(this.startHour) > 12 ? "PM" : "AM";
+                    this.startAmPm = this.startHour > 12 ? "PM" : "AM";
                     if (this.startAmPm === "PM") {
-                        this.timeElements.startpm.click();
+                        setTimeout(function () { this.timeElements.startpm.click() }.bind(this), 500)
                     } else {
-                        this.timeElements.startam.click();
+                        setTimeout(function () { this.timeElements.startam.click() }.bind(this), 500)
                     }
                 }
-            }
-            // adjustments for 12h time since Moment only acccepts 24h
-            if (!this.militaryTime) {
-                if (this.startAmPm === "PM") {
-                    this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
-                }
-                if (!this.singleDate && this.endAmPm === "PM") {
-                    this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
-                }
-                if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
-                    this.startHour = 0;
-                }
-                if (!this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
-                    this.endHour = 0;
+            } else {
+                // adjustments for 12h time since Moment only acccepts 24h
+                if (!this.militaryTime) {
+                    if (this.startAmPm === "PM") {
+                        this.startHour = this.toMilitary(this.timeElements.startHourValueEl.value)
+                    }
+                    if (!this.singleDate && this.endAmPm === "PM") {
+                        this.endHour = this.toMilitary(this.timeElements.endHourValueEl.value)
+                    }
+                    if (parseInt(this.timeElements.startHourValueEl.value) === 12 && this.startAmPm === "AM") {
+                        this.startHour = 0;
+                    }
+                    if (!this.singleDate && parseInt(this.timeElements.endHourValueEl.value) === 12 && this.endAmPm === "AM") {
+                        this.endHour = 0;
+                    }
                 }
             }
             // Set sanitized and formatted dates:
@@ -1158,11 +1160,18 @@ class Datepicker {
             format = this.format;
         }
         if (typeof dates === "object") {
+            this.dates = [];
             if (dates[0]) {
-                this.dates[0] = moment(dates[0], format);
+                if (typeof dates[0] === 'string') {
+                    dates[0] = this.convertStringDate(dates[0]);
+                }
+                this.dates[0] = dates[0];
             }
             if (dates[1]) {
-                this.dates[1] = moment(dates[1], format);
+                if (typeof dates[1] === 'string') {
+                    dates[1] = this.convertStringDate(dates[1]);
+                }
+                this.dates[1] = dates[1];
             }
             if (!dates[0] && !dates[1] && typeof dates === "object") {
                 if (!this.singleDate) {
@@ -1338,6 +1347,27 @@ class Datepicker {
         hour = parseInt(hour);
         hour = hour === 12 ? hour = 0 : hour;
         return hour < 12 ? hour + 12 : hour;
+    }
+    convertStringDate(date) {
+        date = date.split(" ");
+        let dateString = "";
+        let AmPm = "AM";
+        for (var i = 0; i < date.length; i++) {
+            if (date[i].toUpperCase() === "PM") {
+                AmPm = "PM";
+                date.splice(i, 1);
+            } else if (date[i].toUpperCase() === "AM") {
+                date.splice(i, 1)
+            } else {
+                dateString = dateString + " " + date[i];
+            }
+        }
+        let convertedDateHours = moment(dateString).hour();
+        let convertedDate = moment(dateString);
+        if (AmPm === "PM" && convertedDateHours < 12) {
+            convertedDate.hour(convertedDateHours + 12);
+        }
+        return convertedDate;
     }
     // helper method to set start/end date on each calendar day click
     dayClick(dayCell) {
