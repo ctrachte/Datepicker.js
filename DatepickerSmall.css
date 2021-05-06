@@ -34,7 +34,6 @@
         margin: 0 auto;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-weight: bold;
-        padding-top: 1vmax;
     }
     
     .DatepickerContainer>.grid-container {
@@ -477,8 +476,12 @@
     .DatepickerContainer .launch {
         float: left;
         color:var(--Primary);
-        border: solid 3px var(--Selection);
-        border-radius: 5px;
+        border: solid 1px var(--Selection);
+        border-radius: 2px;
+        width: 100%;
+        min-width: 215px;
+        display: flex;
+        justify-content: center;
     }
     
     .DatepickerContainer .headingBlock {
@@ -486,21 +489,28 @@
       background-color: var(--Secondary);
       color: var(--Accent);
       text-align: right;
-      min-width: 100px;
-      line-height: 40px;
-      padding: 0px 10px 0px 0px;
-      border-radius: 5px 0px 0px 5px;
+      min-width: 50%;
+      border-radius: 2px 0px 0px 2px;
     }
     
     .DatepickerContainer .timeBlock {
       float: left;
-      min-width: 100px;
-      line-height: 40px;
-      padding: 0px 20px;
+      min-width: 50%;
+      padding: 0px;
       background-color: var(--Primary);
       color: var(--Selection);
-      border-radius: 0px 5px 5px 0px;
+      border-radius: 0px 2px 2px 0px;
     }
+
+    .DatepickerContainer .headingBlock .heading {
+      line-height: 25px;
+      padding-right: 5px;
+      margin: 0 auto;
+  }
+  .DatepickerContainer .timeBlock .date {
+      line-height: 25px;
+      padding-left: 5px;
+  }
     
     .DatepickerContainer .launchButton {
       display:none;
@@ -509,8 +519,8 @@
       text-align: center;
       color: var(--Shadow);
       width:250px;
-      line-height: 80px;
-      border-radius: 5px;
+      line-height: 50px;
+      border-radius: 2px;
     }
     
     .DatepickerContainer .launch:hover > .launchButton {
