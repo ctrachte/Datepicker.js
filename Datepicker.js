@@ -1476,6 +1476,21 @@ class Datepicker {
             this.drawInputElement();
         }
     }
+    // helper to determine calendar UI placement upon opening.
+    calendarPlacement () {
+        let windowWidth = screen.width;
+        let windowHeight = screen.height;
+
+        // let windowHeight = Window.getBoundingClientRect().height;
+        let calendarElement = this.containerElement.querySelector('.grid-container');
+        let datepickerLeft = this.containerElement.querySelector('.launch').getBoundingClientRect().left;
+        let datepickerTop = this.containerElement.querySelector('.launch').getBoundingClientRect().top;
+        let datepickerWidth = this.containerElement.querySelector('.launch').getBoundingClientRect().width;
+        console.log(windowHeight, windowWidth, datepickerLeft, datepickerWidth, datepickerTop);
+        calendarElement.style.position = 'absolute';
+        calendarElement.style.left = datepickerLeft + datepickerWidth + 3 + 'px';
+        calendarElement.style.top = datepickerTop + 'px';
+    }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
         return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
@@ -1483,16 +1498,7 @@ class Datepicker {
     // helper methods to open/close calendar UI
     openCalendar() {
 
-        let calendarElement = this.containerElement.querySelector('.grid-container');
-        let datepickerLeft = this.containerElement.querySelector('.launch').getBoundingClientRect().left;
-        let datepickerTop = this.containerElement.querySelector('.launch').getBoundingClientRect().top;
-        // let calendarLeft = calendarElement.getBoundingClientRect().left;
-        let datepickerWidth = this.containerElement.querySelector('.launch').getBoundingClientRect().width;
-        // let datepickerTop = calendarElement.getBoundingClientRect().top;
-
-        calendarElement.style.position = 'absolute';
-        calendarElement.style.left = datepickerLeft + datepickerWidth + 3 + 'px';
-        calendarElement.style.top = datepickerTop + 'px';
+        this.calendarPlacement();
         this.calendarElement.showCalendar();
         this.highlightDates();
     }
