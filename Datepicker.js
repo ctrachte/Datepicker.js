@@ -1479,17 +1479,25 @@ class Datepicker {
     // helper to determine calendar UI placement upon opening.
     calendarPlacement () {
         let windowWidth = screen.width;
-        let windowHeight = screen.height;
-
-        // let windowHeight = Window.getBoundingClientRect().height;
         let calendarElement = this.containerElement.querySelector('.grid-container');
+        let calendarWidth = calendarElement.getBoundingClientRect().width;
+        let datepickerRight = this.containerElement.querySelector('.launch').getBoundingClientRect().right;
         let datepickerLeft = this.containerElement.querySelector('.launch').getBoundingClientRect().left;
         let datepickerTop = this.containerElement.querySelector('.launch').getBoundingClientRect().top;
         let datepickerWidth = this.containerElement.querySelector('.launch').getBoundingClientRect().width;
-        console.log(windowHeight, windowWidth, datepickerLeft, datepickerWidth, datepickerTop);
+        let datepickerHeight = this.containerElement.querySelector('.launch').getBoundingClientRect().height;
+        // calcs
+        let alignment = ((datepickerLeft) < (datepickerRight) || datepickerLeft === datepickerRight) ? "right": "left"; 
+        let middle = ((datepickerWidth/2) - calendarWidth/2) + datepickerLeft;
+        let X = ((datepickerWidth + datepickerLeft + calendarWidth) > Math.floor(windowWidth * .5) && datepickerRight < calendarWidth) ? middle :
+         (datepickerLeft) < (datepickerRight) ? (datepickerLeft + datepickerWidth + 3) : (datepickerRight + datepickerWidth + 3) ; 
         calendarElement.style.position = 'absolute';
-        calendarElement.style.left = datepickerLeft + datepickerWidth + 3 + 'px';
-        calendarElement.style.top = datepickerTop + 'px';
+        if (alignment === "right") {
+            calendarElement.style.left = X + 'px';
+        } else {
+            calendarElement.style.left = X*(-1) + 'px';
+        }
+        calendarElement.style.top = datepickerTop + datepickerHeight + 'px';
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
@@ -1498,8 +1506,8 @@ class Datepicker {
     // helper methods to open/close calendar UI
     openCalendar() {
 
-        this.calendarPlacement();
         this.calendarElement.showCalendar();
+        this.calendarPlacement();
         this.highlightDates();
     }
     closeCalendar() {
