@@ -477,60 +477,69 @@
 .DatepickerContainer .launch {
     float: left;
     color:var(--Primary);
-    border: solid 3px var(--Selection);
-    border-radius: 5px;
+    /* border: solid 1px var(--Shadow);
+    border-radius: 2px; */
+    width: 100%;
+    justify-content: center;
 }
 
-.DatepickerContainer .headingBlock {
+/* .DatepickerContainer .startBlock {
   float: left;
   background-color: var(--Secondary);
   color: var(--Accent);
-  text-align: right;
-  width: 50%;
-  padding: 5px;
-  border-radius: 5px 0px 0px 5px;
-}
+  text-align: left;
+  min-width: 50%;
+  border-radius: 2px 0px 0px 2px;
+} */
 
-.DatepickerContainer .timeBlock {
+.DatepickerContainer .startBlock, .DatepickerContainer .endBlock {
+  display: block;
   float: left;
-  width: 50%;
-  padding: 10px 20px 0px 0px;
+  width: 100%;
+  min-width: 200px;
+  max-width: 49%;
+  text-align: left;
+  padding: 0px ;
   background-color: var(--Primary);
-  color: var(--Selection);
-  border-radius: 0px 5px 5px 0px;
+  color: var(--Shadow);
+  margin: 1px;
 }
 
 .DatepickerContainer .launchButton {
   display:none;
-  float: left;
-  position: absolute;
+  /* float: left; */
+  position: inherit;
   text-align: center;
   color: var(--Shadow);
-  margin-left: 25px;
-  line-height: 80px;
-  border-radius: 5px;
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
 }
 
-.DatepickerContainer .launch:hover > .launchButton {
-  display:block;
-  cursor:pointer;
-}
-.DatepickerContainer .launch:hover > .timeBlock {
-  cursor:pointer;
-  opacity: 0.2;
-}
-.DatepickerContainer .launch:hover > .headingBlock {
-  cursor:pointer;
-  opacity: 0.2;
+/* .DatepickerContainer .launch:hover > .launchButton {
+  display: block;
+  cursor: pointer;
+} */
+
+.DatepickerContainer .launchButton .launchText {
+  width: 100%;
 }
 
-.DatepickerContainer .headingBlock .heading {
-    height: 40px;
-    padding: 5px;
+.DatepickerContainer .launch:hover > .startBlock, .DatepickerContainer .launch:hover > .endBlock {
+  cursor:pointer;
+  opacity: 0.7;
 }
-.DatepickerContainer .timeBlock .date {
-    height: 40px;
-    padding: 5px;
+
+.DatepickerContainer .startBlock .heading, .DatepickerContainer .endBlock .heading {
+    line-height: 25px;
+    padding: 0 5px;
+    margin: 0 auto;
+}
+.DatepickerContainer .startBlock .date, .DatepickerContainer .endBlock .date {
+    line-height: 25px;
+    padding: 0 5px;
+    border: solid 1px var(--Shadow);
+    border-radius: 2px;
 }
 
 .DatepickerContainer .day:hover {

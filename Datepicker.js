@@ -112,37 +112,38 @@ class Datepicker {
         this.inputElement.innerHTML = '';
         this.inputElement.setAttribute('class', 'launch');
         //This creates the heading elements for the start and end date titles
-        let headingBlock = document.createElement('div');
+
+//Date Time Input Element Start
+        let startBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
-        startHead.innerHTML = this.startDateLabel;
-        if (!this.singleDate) {
-            startHead.innerHTML = this.startDateLabel;
-            endHead.innerHTML = this.endDateLabel;
-        }
-        headingBlock.setAttribute("class", "headingBlock");
-        startHead.setAttribute("class", "heading");
-        endHead.setAttribute("class", "heading");
-        headingBlock.appendChild(startHead);
-        if (!this.singleDate) {
-            headingBlock.appendChild(endHead);
-        }
-        this.inputElement.appendChild(headingBlock);
-        //This creates a container for the time to reside
-        let timeBlock = document.createElement('div');
+        let endBlock = document.createElement('div');
         let startDate = document.createElement('div');
-        timeBlock.appendChild(startDate);
         let endDate = document.createElement('div');
 
-        if (!this.singleDate) {
-            endDate.setAttribute("class", "date");
-            timeBlock.appendChild(endDate);
-        }
-        startDate.innerHTML = moment(this.dates[0]).format(this.format);
-        timeBlock.setAttribute("class", "timeBlock");
-        startDate.setAttribute("class", "date");
-        this.inputElement.appendChild(timeBlock);
+        startHead.innerHTML = this.startDateLabel;
 
+        startBlock.setAttribute("class", "startBlock");
+        startHead.setAttribute("class", "heading");
+        startBlock.appendChild(startHead);
+        startBlock.appendChild(startDate);
+        startDate.innerHTML = moment(this.dates[0]).format(this.format);
+        startDate.setAttribute("class", "date");
+        
+        this.inputElement.appendChild(startBlock);
+
+        endHead.setAttribute("class", "heading");
+
+        if (!this.singleDate) {
+            endHead.innerHTML = this.endDateLabel;
+            endBlock.appendChild(endHead);
+            endDate.setAttribute("class", "date");
+            endBlock.appendChild(endDate);
+            endBlock.setAttribute("class", "endBlock");
+            this.inputElement.appendChild(endBlock);
+        }
+
+//Date Time Input Element End
         let launchButton = document.createElement('div');
         let launchText = document.createElement('div');
         launchText.innerHTML = 'CLICK TO SELECT &#128197;';
