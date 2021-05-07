@@ -143,18 +143,6 @@ class Datepicker {
             this.inputElement.appendChild(endBlock);
         }
 
-//Date Time Input Element End
-        let launchButton = document.createElement('div');
-        let launchText = document.createElement('div');
-        launchText.innerHTML = 'CLICK TO SELECT &#128197;';
-        launchButton.setAttribute('class', 'launchButton');
-        launchText.setAttribute('class', 'launchText');
-        if (this.singleDate) {
-            launchText.setAttribute('style', 'line-height: 40px;')
-        }
-        launchButton.appendChild(launchText);
-        this.inputElement.appendChild(launchButton);
-
         if (this.dates[0]) {
             startDate.innerHTML = moment(this.dates[0]).format(this.format);
         } else {
@@ -1485,21 +1473,22 @@ class Datepicker {
         let calculated = {
             windowWidth: screen.width,
             calendarWidth: calendarElement.getBoundingClientRect().width,
-            datepickerTop: context.containerElement.querySelector('.launch').getBoundingClientRect().top,
-            datepickerLeft: context.containerElement.querySelector('.launch').getBoundingClientRect().left,
-            datepickerWidth: context.containerElement.querySelector('.launch').getBoundingClientRect().width,
-            datepickerHeight: context.containerElement.querySelector('.launch').getBoundingClientRect().height
+            datepickerTop: context.containerElement.querySelector('.endBlock').getBoundingClientRect().top,
+            datepickerRight: context.containerElement.querySelector('.endBlock').getBoundingClientRect().right,
+            datepickerWidth: context.containerElement.querySelector('.endBlock').getBoundingClientRect().width,
+            datepickerHeight: context.containerElement.querySelector('.endBlock').getBoundingClientRect().height
         }
-        // calcs
-        calculated.middle = ((calculated.datepickerWidth / 2) - calculated.calendarWidth / 2) + calculated.datepickerLeft;
-        calculated.X = ((calculated.datepickerWidth + calculated.datepickerLeft + calculated.calendarWidth) > Math.floor(calculated.windowWidth) * .65) ?
-            calculated.middle : (calculated.datepickerLeft + calculated.datepickerWidth + 3);
+
+        if (calculated.datepickerRight + calculated.datepickerWidth > (calculated.windowWidth * .75)) {
+            calculated.datepickerRight = calculated.datepickerRight - (calculated.datepickerWidth);
+        }
         // logs
-        console.table(calculated);
+        //console.table(calculated);
         // set position
         calendarElement.style.position = 'absolute';
-        calendarElement.style.left = calculated.X + 'px';
-        calendarElement.style.top = calculated.datepickerTop + calculated.datepickerHeight + 3 + 'px';
+        calendarElement.style.left = Math.floor(calculated.datepickerRight);
+        calendarElement.style.top = Math.floor(calculated.datepickerTop + calculated.datepickerHeight);
+
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
