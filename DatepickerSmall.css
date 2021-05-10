@@ -498,7 +498,7 @@
     max-width: 49%;
     text-align: left;
     padding: 0px ;
-    background-color: var(--Primary);
+    background-color: white;
     color: var(--Shadow);
     margin: 1px;
   }
