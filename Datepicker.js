@@ -852,6 +852,9 @@ class Datepicker {
                 this.setTime();
             }.bind(this);
             endMinuteValueEl.addEventListener('change', endMinuteChange);
+            endMinuteValueEl.addEventListener('click', function () {
+                setTimeout(function () { endMinuteValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+            });
             let endMinuteUpDown = document.createElement("span");
             endMinuteUpDown.classList.add("TimeUpDown");
             endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
