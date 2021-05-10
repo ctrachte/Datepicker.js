@@ -472,76 +472,70 @@
       cursor:not-allowed !important;
     }
 
-
     .DatepickerContainer .launch {
-        float: left;
-        color:var(--Primary);
-        border: solid 1px var(--Selection);
-        border-radius: 2px;
-        width: 100%;
-        min-width: 215px;
-        display: flex;
-        justify-content: center;
-    }
-    
-    .DatepickerContainer .headingBlock {
       float: left;
-      background-color: var(--Secondary);
-      color: var(--Accent);
-      text-align: right;
-      min-width: 50%;
-      border-radius: 2px 0px 0px 2px;
-    }
-    
-    .DatepickerContainer .timeBlock {
-      float: left;
-      min-width: 50%;
-      padding: 0px;
-      background-color: var(--Primary);
-      color: var(--Selection);
-      border-radius: 0px 2px 2px 0px;
-    }
-
-    .DatepickerContainer .headingBlock .heading {
+      color:var(--Primary);
+      /* border: solid 1px var(--Shadow);
+      border-radius: 2px; */
+      width: 100%;
+      justify-content: center;
+  }
+  
+  /* .DatepickerContainer .startBlock {
+    float: left;
+    background-color: var(--Secondary);
+    color: var(--Accent);
+    text-align: left;
+    min-width: 50%;
+    border-radius: 2px 0px 0px 2px;
+  } */
+  
+  .DatepickerContainer .startBlock, .DatepickerContainer .endBlock {
+    display: block;
+    float: left;
+    width: 100%;
+    min-width: 200px;
+    max-width: 49%;
+    text-align: left;
+    padding: 0px ;
+    background-color: white;
+    color: var(--Shadow);
+    margin: 1px;
+  }
+  
+  .DatepickerContainer .launchButton {
+    display:none;
+    /* float: left; */
+    position: inherit;
+    text-align: center;
+    color: var(--Shadow);
+    top: 50%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+  }
+  
+  /* .DatepickerContainer .launch:hover > .launchButton {
+    display: block;
+    cursor: pointer;
+  } */
+  
+  .DatepickerContainer .launchButton .launchText {
+    width: 100%;
+  }
+  
+  .DatepickerContainer .launch:hover > .startBlock, .DatepickerContainer .launch:hover > .endBlock {
+    cursor:pointer;
+    opacity: 0.7;
+  }
+  
+  .DatepickerContainer .startBlock .heading, .DatepickerContainer .endBlock .heading {
       line-height: 25px;
-      padding-right: 5px;
+      padding: 0 5px;
       margin: 0 auto;
   }
-  .DatepickerContainer .timeBlock .date {
+  .DatepickerContainer .startBlock .date, .DatepickerContainer .endBlock .date {
       line-height: 25px;
-      padding-left: 5px;
-  }
-    
-    .DatepickerContainer .launchButton {
-      display:none;
-      float: left;
-      position: absolute;
-      text-align: center;
-      color: var(--Shadow);
-      width:250px;
-      line-height: 50px;
+      padding: 0 5px;
+      border: solid 1px var(--Shadow);
       border-radius: 2px;
-    }
-    
-    .DatepickerContainer .launch:hover > .launchButton {
-      display:block;
-      cursor:pointer;
-    }
-    .DatepickerContainer .launch:hover > .timeBlock {
-      cursor:pointer;
-      opacity: 0.2;
-    }
-    .DatepickerContainer .launch:hover > .headingBlock {
-      cursor:pointer;
-      opacity: 0.2;
-    }
-    .DatepickerContainer .day:hover {
-      cursor:pointer;
-      opacity: 0.85;
-      box-shadow:0px 0px 5px 1px var(--Shadow);
-    }
-    
-    .DatepickerContainer .datepicker-error {
-      color: var(--Accent) !important;
-    }
-    
+  }

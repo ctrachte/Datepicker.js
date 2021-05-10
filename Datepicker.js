@@ -613,7 +613,9 @@ class Datepicker {
             this.setTime();
         }.bind(this);
         startHourValueEl.addEventListener('change', startHourChange);
-
+        startHourValueEl.addEventListener('click', function () {
+            setTimeout(function () { startHourValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+        });
         let startHourUpDown = document.createElement("span");
         startHourUpDown.classList.add("TimeUpDown");
         startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
@@ -668,7 +670,9 @@ class Datepicker {
             this.setTime();
         }.bind(this);
         startMinuteValueEl.addEventListener('change', startMinuteChange);
-
+        startMinuteValueEl.addEventListener('click', function () {
+            setTimeout(function () { startMinuteValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+        });
         let startMinuteUpDown = document.createElement("span");
         startMinuteUpDown.classList.add("TimeUpDown");
         startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
@@ -797,7 +801,9 @@ class Datepicker {
                 this.setTime();
             }.bind(this);
             endHourValueEl.addEventListener('change', endHourChange);
-
+            endHourValueEl.addEventListener('click', function () {
+                setTimeout(function () { endHourValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+            });
             let endHourUpDown = document.createElement("span");
             endHourUpDown.classList.add("TimeUpDown");
             endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
@@ -852,6 +858,9 @@ class Datepicker {
                 this.setTime();
             }.bind(this);
             endMinuteValueEl.addEventListener('change', endMinuteChange);
+            endMinuteValueEl.addEventListener('click', function () {
+                setTimeout(function () { endMinuteValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+            });
             let endMinuteUpDown = document.createElement("span");
             endMinuteUpDown.classList.add("TimeUpDown");
             endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
