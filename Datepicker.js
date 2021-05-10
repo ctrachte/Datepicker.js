@@ -113,7 +113,7 @@ class Datepicker {
         this.inputElement.setAttribute('class', 'launch');
         //This creates the heading elements for the start and end date titles
 
-        //Date Time Input Element Start
+//Date Time Input Element Start
         let startBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
@@ -129,7 +129,7 @@ class Datepicker {
         startBlock.appendChild(startDate);
         startDate.innerHTML = moment(this.dates[0]).format(this.format);
         startDate.setAttribute("class", "date");
-
+        
         this.inputElement.appendChild(startBlock);
 
         endHead.setAttribute("class", "heading");
@@ -658,6 +658,8 @@ class Datepicker {
             let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
             if (newVal > 59) {
                 newVal = 0;
+            } else if (newVal < 0) {
+                newVal = 45;
             }
             if (newVal < 10) {
                 newVal = "0" + newVal;
@@ -840,6 +842,8 @@ class Datepicker {
                 let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
                 if (newVal > 59) {
                     newVal = 0;
+                } else if (newVal < 0) {
+                    newVal = 45;
                 }
                 if (newVal < 10) {
                     newVal = "0" + newVal;
