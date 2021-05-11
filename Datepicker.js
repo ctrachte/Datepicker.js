@@ -93,8 +93,8 @@ class Datepicker {
         this.toAmPm = this.toAmPm.bind(this);
         this.timeValid = this.timeValid.bind(this);
         this.defaults =  this.options.defaults !== undefined ? this.options.defaults : [];
-        this.defaults[0] = this.options.defaults.length === 1 ? this.options.defaults[0] : moment(moment(), this.format, true);
-        this.defaults[1] = this.options.defaults.length === 2 ? this.options.defaults[1] : moment(moment(), this.format, true);
+        this.defaults[0] = this.options.defaults !== undefined && this.options.defaults.length === 1 ? this.options.defaults[0] : moment(moment(), this.format, true);
+        this.defaults[1] = this.options.defaults !== undefined && this.options.defaults.length === 2 ? this.options.defaults[1] : moment(moment(), this.format, true);
         // state values, not typically set programmatically.
         this.dates = [];
         this.timeElements = {};
