@@ -1167,19 +1167,23 @@ class Datepicker {
                     dates[0] = this.convertStringDate(dates[0]);
                 }
                 this.dates[0] = dates[0];
+            } else if (this.defaults && this.defaults.length === 1) {
+                this.dates[0] = moment(this.defaults[0]).format(format);
             }
             if (dates[1]) {
                 if (typeof dates[1] === 'string') {
                     dates[1] = this.convertStringDate(dates[1]);
                 }
                 this.dates[1] = dates[1];
+            }  else if (this.defaults && this.defaults.length === 2) {
+                this.dates[1] = moment(this.defaults[1]).format(format);
             }
             if (!dates[0] && !dates[1] && typeof dates === "object") {
                 if (!this.singleDate) {
                     console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
                 this.dates[1] = moment(dates, format);
-                this.dates[0] = moment(this.dates[0], format);
+                this.dates[0] = moment(this.dates[0], format) ;
             }
             // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
@@ -1196,16 +1200,20 @@ class Datepicker {
             // no date supplied, return the dates from the Datepicker state
             if (this.dates[0]) {
                 this.dates[0] = moment(this.dates[0]).format(format);
+            } else if (this.defaults && this.defaults.length === 1) {
+                this.dates[0] = moment(this.defaults[0]).format(format);
             }
             if (this.dates[1]) {
                 this.dates[1] = moment(this.dates[1]).format(format);
+            } else if (this.defaults && this.defaults.length === 1) {
+                this.dates[1] = moment(this.defaults[1]).format(format);
             }
             if (this.singleDate) {
-                return new Date(this.dates[0])
+                return (new Date(this.dates[0]) || new Date(this.defaults[0]));
             } else {
                 let dates = [];
-                dates[0] = new Date(this.dates[0]);
-                dates[1] = new Date(this.dates[1]);
+                dates[0] = new Date(this.dates[0])  || new Date(this.defaults[0]);
+                dates[1] = new Date(this.dates[1])  || new Date(this.defaults[1]);
                 return format ? [moment(dates[0]).format(format), moment(dates[1]).format(format)] : dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
@@ -1227,24 +1235,24 @@ class Datepicker {
         }
 
         if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0])))) {
-            console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null values!");
+            console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null values, start/end dates will be set to defaults if provided.");
         } else if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
-            console.warn("Datepicker.js - WARNING: No end date value provided, or tried to set [start, end] date with invalid or null end date value!");
+            console.warn("Datepicker.js - WARNING: No end date value provided, or tried to set [start, end] date with invalid or null end date value, end date will be set to default if provided.");
         } else if ((!dates[0] || !(new Date(dates[0]))) && !this.singleDate) {
-            console.warn("Datepicker.js - WARNING: No start date value provided, or tried to set [start, end] date with invalid or null start date value!");
+            console.warn("Datepicker.js - WARNING: No start date value provided, or tried to set [start, end] date with invalid or null start date value, start date will be set to default if provided.");
         }
     }
     // returns start date only
     startDate(value) {
         if (value !== undefined && value !== null && value) {
-            this.value([value, (this.dates[1] || null)]);
+            this.value([value, (this.dates[1] || this.defaults[1] || null)]);
         } else {
             return new Date(this.dates[0]);
         }
     }
     endDate(value) {
         if (value !== undefined && value !== null && value) {
-            this.value([(this.dates[0] || null), value]);
+            this.value([(this.dates[0] || this.defaults[0] || null), value]);
         } else {
             return new Date(this.dates[1]);
         }
