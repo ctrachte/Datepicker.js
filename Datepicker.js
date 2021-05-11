@@ -92,9 +92,12 @@ class Datepicker {
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
         this.timeValid = this.timeValid.bind(this);
+        console.log(this.options.defaults)
+
         this.defaults =  this.options.defaults !== undefined ? this.options.defaults : [];
-        this.defaults[0] = this.options.defaults !== undefined && this.options.defaults.length === 1 ? this.options.defaults[0] : moment(moment(), this.format, true);
-        this.defaults[1] = this.options.defaults !== undefined && this.options.defaults.length === 2 ? this.options.defaults[1] : moment(moment(), this.format, true);
+        this.defaults[0] = this.options.defaults !== undefined && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(), this.format, true);
+        this.defaults[1] = this.options.defaults !== undefined && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format): moment(moment(), this.format, true);
+        console.log(this.defaults)
         // state values, not typically set programmatically.
         this.dates = [];
         this.timeElements = {};
@@ -1168,7 +1171,7 @@ class Datepicker {
                 }
                 this.dates[0] = dates[0];
                 this.defaults[0] = dates[0];
-            } else if (this.defaults && this.defaults.length === 1) {
+            } else if (this.defaults && this.defaults.length) {
                 this.dates[0] = moment(this.defaults[0]).format(format);
             }
             if (dates[1]) {
@@ -1200,9 +1203,10 @@ class Datepicker {
             this.highlightDates();
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
+            // console.log(this.dates, dates,  this.defaults)
             if (this.dates[0]) {
                 this.dates[0] = moment(this.dates[0]).format(format);
-            } else if (this.defaults && this.defaults.length === 1) {
+            } else if (this.defaults && this.defaults.length) {
                 this.dates[0] = moment(this.defaults[0]).format(format);
             }
             if (this.dates[1]) {
@@ -1214,8 +1218,8 @@ class Datepicker {
                 return (new Date(this.dates[0]) || new Date(this.defaults[0]));
             } else {
                 let dates = [];
-                dates[0] = new Date(this.dates[0]);
-                dates[1] = new Date(this.dates[1]);
+                dates[0] = new Date(this.dates[0]) || new Date(this.defaults[0]);
+                dates[1] = new Date(this.dates[1]) || new Date(this.defaults[1]);
                 return format ? [moment(dates[0]).format(format), moment(dates[1]).format(format)] : dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
