@@ -96,8 +96,8 @@ class Datepicker {
 
         this.defaults =  this.options.defaults !== undefined ? this.options.defaults : false;
         if (this.defaults) {
-            this.defaults[0] = this.options.defaults !== undefined && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(), this.format, true);
-            this.defaults[1] = this.options.defaults !== undefined && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format): moment(moment(), this.format, true);
+            this.defaults[0] = this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(), this.format, true);
+            this.defaults[1] = this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : moment(moment(), this.format, true);
         }
         // state values, not typically set programmatically.
         this.dates = [];
@@ -1532,7 +1532,7 @@ class Datepicker {
         if (!this.dates.length && this.defaults && this.defaults.length) {
             this.dates[0] = moment(this.defaults[0]).format(this.format);
         }
-        if (!this.dates.length !== 2 && this.defaults && this.defaults.length === 2) {
+        if (this.dates.length !== 2 && this.defaults && this.defaults.length === 2) {
             if (this.dates[0]) {
                 this.dates[1] = moment(this.dates[0]).format(this.format);
             } else {
