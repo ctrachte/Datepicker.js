@@ -92,8 +92,7 @@ class Datepicker {
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
         this.timeValid = this.timeValid.bind(this);
-        console.log(this.options.defaults)
-
+        // default dates to be determined programmatically.        
         this.defaults =  this.options.defaults !== undefined ? this.options.defaults : false;
         if (this.defaults) {
             this.defaults[0] = this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(), this.format, true);
