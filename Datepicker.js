@@ -1167,6 +1167,7 @@ class Datepicker {
                     dates[0] = this.convertStringDate(dates[0]);
                 }
                 this.dates[0] = dates[0];
+                this.defaults[0] = dates[0];
             } else if (this.defaults && this.defaults.length === 1) {
                 this.dates[0] = moment(this.defaults[0]).format(format);
             }
@@ -1175,6 +1176,7 @@ class Datepicker {
                     dates[1] = this.convertStringDate(dates[1]);
                 }
                 this.dates[1] = dates[1];
+                this.defaults[1] = dates[1];
             }  else if (this.defaults && this.defaults.length === 2) {
                 this.dates[1] = moment(this.defaults[1]).format(format);
             }
@@ -1212,8 +1214,8 @@ class Datepicker {
                 return (new Date(this.dates[0]) || new Date(this.defaults[0]));
             } else {
                 let dates = [];
-                dates[0] = new Date(this.dates[0])  || new Date(this.defaults[0]);
-                dates[1] = new Date(this.dates[1])  || new Date(this.defaults[1]);
+                dates[0] = new Date(this.dates[0]);
+                dates[1] = new Date(this.dates[1]);
                 return format ? [moment(dates[0]).format(format), moment(dates[1]).format(format)] : dates;
             }
         } else if (typeof dates === "string" || typeof dates === "number") {
