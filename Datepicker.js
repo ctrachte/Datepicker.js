@@ -1205,7 +1205,7 @@ class Datepicker {
             }
             if (this.dates[1]) {
                 this.dates[1] = moment(this.dates[1]).format(format);
-            } else if (this.defaults && this.defaults.length === 1) {
+            } else if (this.defaults && this.defaults.length === 2) {
                 this.dates[1] = moment(this.defaults[1]).format(format);
             }
             if (this.singleDate) {
