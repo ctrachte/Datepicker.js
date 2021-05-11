@@ -1499,20 +1499,16 @@ class Datepicker {
         let calculated = {
             windowWidth: screen.width,
             calendarWidth: calendarElement.getBoundingClientRect().width,
-            datepickerTop: context.containerElement.getBoundingClientRect().top,
-            datepickerRight: context.containerElement.getBoundingClientRect().right,
-            datepickerWidth: context.containerElement.getBoundingClientRect().width,
-            datepickerHeight: context.containerElement.getBoundingClientRect().height
-        }
-
-        if (calculated.datepickerRight + calculated.calendarWidth > (calculated.windowWidth * .75)) {
-            calculated.datepickerRight = calculated.datepickerRight - (calculated.calendarWidth);
+            datepickerTop: context.containerElement.querySelector(".launch").getBoundingClientRect().top,
+            datepickerRight: context.containerElement.querySelector(".launch").getBoundingClientRect().right,
+            datepickerWidth: context.containerElement.querySelector(".launch").getBoundingClientRect().width,
+            datepickerHeight: context.containerElement.querySelector(".launch").getBoundingClientRect().height
         }
         // logs
         //console.table(calculated);
         // set position
 
-        let left = Math.floor(calculated.datepickerRight) + "px";
+        let left = Math.floor(calculated.datepickerRight) + 4 + "px";
         let top = Math.floor(calculated.datepickerTop + calculated.datepickerHeight) + "px";
         calendarElement.setAttribute('style', "position: absolute; left:" + left + "; top: " + top + ";")
     }
