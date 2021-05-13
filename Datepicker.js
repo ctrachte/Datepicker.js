@@ -1507,7 +1507,6 @@ class Datepicker {
         // logs
         //console.table(calculated);
         // set position
-
         let left = Math.floor(calculated.datepickerRight) + 4 + "px";
         let top = Math.floor(calculated.datepickerTop + calculated.datepickerHeight) + "px";
         calendarElement.setAttribute('style', "position: absolute; left:" + left + "; top: " + top + ";")
