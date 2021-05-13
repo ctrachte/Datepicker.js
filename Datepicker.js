@@ -93,7 +93,7 @@ class Datepicker {
         this.toAmPm = this.toAmPm.bind(this);
         this.timeValid = this.timeValid.bind(this);
         // default dates to be determined programmatically.        
-        this.defaults =  this.options.defaults !== undefined ? this.options.defaults : false;
+        this.defaults = this.options.defaults !== undefined ? this.options.defaults : false;
         if (this.defaults) {
             this.defaults[0] = this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(), this.format, true);
             this.defaults[1] = this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : moment(moment(), this.format, true);
@@ -119,7 +119,7 @@ class Datepicker {
         this.inputElement.setAttribute('class', 'launch');
         //This creates the heading elements for the start and end date titles
 
-//Date Time Input Element Start
+        //Date Time Input Element Start
         let startBlock = document.createElement('div');
         let startHead = document.createElement('div');
         let endHead = document.createElement('div');
@@ -135,7 +135,7 @@ class Datepicker {
         startBlock.appendChild(startDate);
         startDate.innerHTML = moment(this.dates[0]).format(this.format);
         startDate.setAttribute("class", "date");
-        
+
         this.inputElement.appendChild(startBlock);
 
         endHead.setAttribute("class", "heading");
@@ -1180,7 +1180,7 @@ class Datepicker {
                 }
                 this.dates[1] = dates[1];
                 this.defaults[1] = dates[1];
-            }  else if (this.defaults && this.defaults.length === 2) {
+            } else if (this.defaults && this.defaults.length === 2) {
                 this.dates[1] = moment(this.defaults[1]).format(format);
             }
             if (!dates[0] && !dates[1] && typeof dates === "object") {
@@ -1188,7 +1188,7 @@ class Datepicker {
                     console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
                 this.dates[1] = moment(dates, format);
-                this.dates[0] = moment(this.dates[0], format) ;
+                this.dates[0] = moment(this.dates[0], format);
             }
             // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
