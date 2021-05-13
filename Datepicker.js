@@ -1332,7 +1332,7 @@ class Datepicker {
                 this.setTime(true);
             }
             this.highlightDates();
-            this.calendarElement.showCalendar();
+            this.openCalendar();
         } else {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
