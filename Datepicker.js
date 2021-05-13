@@ -1509,12 +1509,12 @@ class Datepicker {
         // logs
         console.table(calculated);
         // set position
-        if ((datepickerRight - windowWidth) < (calendarWidth + 10)) {
-            datepickerRight = datepickerLeft + Math.floor(.5 * datepickerWidth);
+        if ((calculated.windowWidth - calculated.datepickerRight ) < (calculated.calendarWidth + 10)) {
+            calculated.datepickerRight = (calculated.datepickerLeft + Math.floor(.5 * calculated.datepickerWidth)) - (calculated.datepickerWidth * .5);
         }
         let left = Math.floor(calculated.datepickerRight) + 4 + "px";
         let top = Math.floor(calculated.datepickerTop + calculated.datepickerHeight) + "px";
-        calendarElement.setAttribute('style', "position: absolute; left:" + left + "; top: " + top + ";")
+        calendarElement.setAttribute('style', "position: absolute; left:" + left + "; top: " + top + ";");
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
