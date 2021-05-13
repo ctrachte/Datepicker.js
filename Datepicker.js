@@ -1498,7 +1498,8 @@ class Datepicker {
         let calendarElement = context.containerElement.querySelector('.grid-container');
         // variables
         let calculated = {
-            windowWidth: screen.width,
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight,
             calendarWidth: calendarElement.getBoundingClientRect().width,
             datepickerTop: context.containerElement.querySelector(".launch").getBoundingClientRect().top,
             datepickerRight: context.containerElement.querySelector(".launch").getBoundingClientRect().right,
@@ -1506,7 +1507,7 @@ class Datepicker {
             datepickerHeight: context.containerElement.querySelector(".launch").getBoundingClientRect().height
         }
         // logs
-        //console.table(calculated);
+        console.table(calculated);
         // set position
         let left = Math.floor(calculated.datepickerRight) + 4 + "px";
         let top = Math.floor(calculated.datepickerTop + calculated.datepickerHeight) + "px";
