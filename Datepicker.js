@@ -93,19 +93,22 @@ class Datepicker {
         this.snapTo = this.snapTo.bind(this);
         this.toAmPm = this.toAmPm.bind(this);
         this.timeValid = this.timeValid.bind(this);
+        //  values, not typically set programmatically.
+        this.dates = [];
         // default dates to be determined programmatically.        
         this.defaults = this.options.defaults !== undefined ? this.options.defaults : true;
         if (this.defaults) {
             let today = new Date();
             this.defaults = [];
             this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(new Date()), this.format, true);
+            this.dates[0] = this.defaults[0];
             if (!this.singleDate) {
                 this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(today).startOf('week').format(this.format);
                 this.defaults[1] = typeof this.options.defaults === 'object' && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : moment(today).endOf('week').format(this.format);
+                this.dates[0] = this.defaults[0];
+                this.dates[1] = this.defaults[1];
             }
         }
-        // state values, not typically set programmatically.
-        this.dates = [];
         this.timeElements = {};
         this.startHour = "12";
         this.startMinute = "00";
@@ -1516,7 +1519,7 @@ class Datepicker {
             datepickerHeight: context.containerElement.querySelector(".launch").getBoundingClientRect().height
         }
         // logs
-        console.table(calculated);
+        // console.table(calculated);
         // set position
         if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
             calculated.datepickerRight = (calculated.datepickerLeft + Math.floor(.5 * calculated.datepickerWidth)) - (calculated.datepickerWidth * .5);
@@ -1539,10 +1542,18 @@ class Datepicker {
         this.onClose();
         if (!this.dates.length && this.defaults && this.defaults.length) {
             this.dates[0] = moment(this.defaults[0]).format(this.format);
+            this.dates[1] = moment(this.defaults[1]).format(this.format);
         }
         if (this.dates.length !== 2 && this.defaults && this.defaults.length === 2) {
-
             this.dates[1] = moment(this.defaults[1]).format(this.format);
+        }
+        // ensure calendar UI is updated
+        if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+            let dates = [];
+            console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
+            dates[0] = this.dates[1];
+            dates[1] = this.dates[0];
+            this.dates = dates;
         }
         this.calendarElement.hideCalendar();
         this.drawInputElement();
