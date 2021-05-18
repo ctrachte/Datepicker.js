@@ -1518,7 +1518,7 @@ class Datepicker {
         // logs
         console.table(calculated);
         // set position
-        if ((calculated.windowWidth - calculated.datepickerRight ) < (calculated.calendarWidth + 10)) {
+        if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
             calculated.datepickerRight = (calculated.datepickerLeft + Math.floor(.5 * calculated.datepickerWidth)) - (calculated.datepickerWidth * .5);
         }
         let left = Math.floor(calculated.datepickerRight) + 4 + "px";
@@ -1541,11 +1541,8 @@ class Datepicker {
             this.dates[0] = moment(this.defaults[0]).format(this.format);
         }
         if (this.dates.length !== 2 && this.defaults && this.defaults.length === 2) {
-            if (this.dates[0]) {
-                this.dates[1] = moment(this.dates[0]).format(this.format);
-            } else {
-                this.dates[1] = moment(this.defaults[1]).format(this.format);
-            }
+
+            this.dates[1] = moment(this.defaults[1]).format(this.format);
         }
         this.calendarElement.hideCalendar();
         this.drawInputElement();
