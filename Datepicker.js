@@ -96,9 +96,12 @@ class Datepicker {
         // default dates to be determined programmatically.        
         this.defaults = this.options.defaults !== undefined ? this.options.defaults : true;
         if (this.defaults) {
-            this.defaults[0] = this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(new Date()), this.format, true);
+            let today = new Date();
+            this.defaults = [];
+            this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(new Date()), this.format, true);
             if (!this.singleDate) {
-                this.defaults[1] = this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : moment(moment(new Date()).endOf('week'), this.format, true);
+                this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(today).startOf('week').format(this.format);
+                this.defaults[1] = typeof this.options.defaults === 'object' && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : moment(today).endOf('week').format(this.format);
             }
         }
         // state values, not typically set programmatically.
