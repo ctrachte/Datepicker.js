@@ -1288,13 +1288,15 @@ class Datepicker {
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
         this.drawInputElement();
-        this.drawPresetMenu();
+        if (this.presetMenu) {
+            this.drawPresetMenu();
+        }
         this.highlightDates();
         if (this.timePicker) {
             this.setTime();
+            this.closePresetMenu();
         }
         this.openCalendar();
-        this.closePresetMenu();
         this.onChange = onChange;
         this.calendarPlacement();
     }
@@ -1309,13 +1311,15 @@ class Datepicker {
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
         this.drawInputElement();
-        this.drawPresetMenu();
+        if (this.presetMenu) {
+            this.drawPresetMenu();
+            this.closePresetMenu();
+        }
         this.highlightDates();
         if (this.timePicker) {
             this.setTime();
         }
         this.openCalendar();
-        this.closePresetMenu();
         this.onChange = onChange;
         this.calendarPlacement();
     }
@@ -1342,8 +1346,10 @@ class Datepicker {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
             this.drawInputElement();
-            this.drawPresetMenu();
-            this.closePresetMenu();
+            if (this.presetMenu) {
+                this.drawPresetMenu();
+                this.closePresetMenu();
+            }
             if (this.timePicker) {
                 this.setTime(true);
             }
@@ -1353,8 +1359,10 @@ class Datepicker {
             this.containerElement.innerHTML = '';
             this.drawCalendar();
             this.drawInputElement();
-            this.drawPresetMenu();
-            this.closePresetMenu();
+            if (this.presetMenu) {
+                this.drawPresetMenu();
+                this.closePresetMenu();
+            }
             if (this.timePicker) {
                 this.setTime(true);
             }
@@ -1527,7 +1535,7 @@ class Datepicker {
             datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height
         }
         // logs
-         //console.table(calculated);
+        //console.table(calculated);
         // set position
         let left;
         if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
@@ -1598,8 +1606,10 @@ class Datepicker {
         this.containerElement.innerHTML = '';
         this.drawCalendar();
         this.drawInputElement();
-        this.drawPresetMenu();
-        this.closePresetMenu();
+        if (this.presetMenu) {
+            this.drawPresetMenu();
+            this.closePresetMenu();
+        }
         this.onChange();
     }
     // resets entire API to the default state, closes calendar UI.
