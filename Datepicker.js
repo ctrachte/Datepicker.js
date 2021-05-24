@@ -1288,7 +1288,9 @@ class Datepicker {
         this.moment.add(positiveValue, 'months');
         this.drawCalendar();
         this.drawInputElement();
-        this.drawPresetMenu();
+        if(this.presetMenu) {
+            this.drawPresetMenu();
+        }
         this.highlightDates();
         if (this.timePicker) {
             this.setTime();
@@ -1309,7 +1311,9 @@ class Datepicker {
         this.moment.add(negativeValue, 'months');
         this.drawCalendar();
         this.drawInputElement();
-        this.drawPresetMenu();
+        if(this.presetMenu) {
+            this.drawPresetMenu();
+        }
         this.highlightDates();
         if (this.timePicker) {
             this.setTime();
