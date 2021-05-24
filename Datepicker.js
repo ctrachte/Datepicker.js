@@ -97,9 +97,10 @@ class Datepicker {
         this.timeValid = this.timeValid.bind(this);
         //  values, not typically set programmatically.
         this.dates = [];
-        // default dates to be determined programmatically.        
-        this.defaults = this.defaultDatesValid();
-        if (this.defaults) {
+        // default dates to be determined programmatically.
+        this.defaults = this.options.defaults;
+        this.defaultsValid = this.defaultDatesValid();
+        if (this.defaultsValid) {
             let today = new Date();
             this.defaults = [];
             this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(new Date()), this.format, true);
@@ -1084,21 +1085,21 @@ class Datepicker {
         if (this.options.defaults === undefined || !this.defaults) { return false; };
         // start date default is not above max, or below min
         if (this.max && moment(this.defaults[0]) > moment(this.max)) {
-            console.warn("Datepicker.js - WARNING: Tried to set a default start date greater than max, defaults disabled to prevent errors.");
-            return false;
+            this.defaults[0] = moment(this.max).format(this.format);
+            console.warn("Datepicker.js - WARNING: Tried to set a default start date greater than max, default start date will be set to the max.");
         }
         if (this.min && moment(this.defaults[0]) < moment(this.min)) {
-            console.warn("Datepicker.js - WARNING: Tried to set a default start date less than min, defaults disabled to prevent errors.");
-            return false;
+            this.defaults[0] = moment(this.min).format(this.format);
+            console.warn("Datepicker.js - WARNING: Tried to set a default start date less than min, default start date will be set to the min.");
         }
         // end date default is not above max, or below min
         if (this.max && moment(this.defaults[1]) > moment(this.max)) {
-            console.warn("Datepicker.js - WARNING: Tried to set a default end date greater than max, defaults disabled to prevent errors.");
-            return false;
+            this.defaults[1] = moment(this.max).format(this.format);
+            console.warn("Datepicker.js - WARNING: Tried to set a default end date greater than max, default end date will be set to the max.");
         }
         if (this.min && moment(this.defaults[1]) < moment(this.min)) {
-            console.warn("Datepicker.js - WARNING: Tried to set a default end date less than min, defaults disabled to prevent errors.");
-            return false;
+            this.defaults[1] = moment(this.min).format(this.format);
+            console.warn("Datepicker.js - WARNING: Tried to set a default end date less than min, default end date will be set to the min.");
         }
     }
     // helper method to set start/end time.
