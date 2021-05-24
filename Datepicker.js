@@ -25,6 +25,7 @@ class Datepicker {
          * @property {Date} this.options.min Optional - Minimum date allowed for users to click, must be a moment date format
          * @property {Date} this.options.max Optional - Maximum date allowed for users to click, must be a moment date format
          * @property {Array of objects} this.options.menuOptions Optional - array of preset menu options [{ title: 'This Week', values: [moment(date), moment(date)] }]
+         * @property {Array of Dates} this.options.defaults Optional - array of start and end dates [new Date(), new Date()] that the datepicker will default to if no dates chosen
          * @property {Function} this.options.onChange Optional - Function that invokes when dates are changed. function () { method logic }
          * @property {Function} this.options.onSubmit Optional - Function that invokes when submit "check mark" button is clicked. function () { method logic }
          * @property {Function} this.options.onClose Optional - Function that invokes whenever the calendar UI is closed. function () { method logic }
