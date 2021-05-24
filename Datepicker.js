@@ -1078,6 +1078,22 @@ class Datepicker {
             return true;
         }
     }
+    defaultDatesValid() {
+        // defaults exist
+        if (this.options.defaults === undefined || !this.defaults) {return false;};
+        // start date default is not above max, or below min
+        if (this.max && moment(this.defaults[0]) > moment(this.max[1])) {
+            return false;
+        } else if (this.min && moment(this.defaults[0]) < moment(this.max[1])) {
+            return false;
+        }
+        // end date default is not above max, or below min
+        if (this.max && moment(this.defaults[0]) > moment(this.max[1])) {
+            return false;
+        } else if (this.min && moment(this.defaults[0]) < moment(this.max[1])) {
+            return false;
+        }
+    }
     // helper method to set start/end time.
     setTime(setProgrammatically) {
         if (!setProgrammatically) {
@@ -1580,8 +1596,12 @@ class Datepicker {
             this.dates[0] = moment(this.defaults[0]).format(this.format);
             this.dates[1] = moment(this.defaults[1]).format(this.format);
         }
-        if (this.dates.length !== 2 && this.defaults && this.defaults.length === 2) {
-            this.dates[1] = moment(this.defaults[1]).format(this.format);
+        if (this.dates.length === 1 && this.defaults && this.defaults.length === 2) {
+            if (moment(this.defaults[1]) < moment(this.dates[0])) {
+                this.dates[1] = this.dates[0];
+            } else {
+                this.dates[1] = moment(this.defaults[1]).format(this.format);
+            }
         }
         // ensure calendar UI is updated
         if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
