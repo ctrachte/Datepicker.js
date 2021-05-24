@@ -121,6 +121,7 @@ class Datepicker {
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
         this.calendarElement.hideCalendar();
+        this.calendarPlacement();
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
@@ -1295,6 +1296,7 @@ class Datepicker {
         this.openCalendar();
         this.closePresetMenu();
         this.onChange = onChange;
+        this.calendarPlacement();
     }
     // moves the calendar back one month
     lastMonth(event, negativeValue) {
@@ -1315,6 +1317,7 @@ class Datepicker {
         this.openCalendar();
         this.closePresetMenu();
         this.onChange = onChange;
+        this.calendarPlacement();
     }
     // helper that snaps the calendar UI to a given date
     snapTo(date, isVisible) {
@@ -1359,6 +1362,7 @@ class Datepicker {
             this.closeCalendar();
         }
         this.onChange = onChange;
+        this.calendarPlacement();
     }
     // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
@@ -1513,20 +1517,42 @@ class Datepicker {
             windowWidth: window.innerWidth,
             windowHeight: window.innerHeight,
             calendarWidth: calendarElement.getBoundingClientRect().width,
-            datepickerTop: context.containerElement.querySelector(".launch").getBoundingClientRect().top,
-            datepickerRight: context.containerElement.querySelector(".launch").getBoundingClientRect().right,
-            datepickerWidth: context.containerElement.querySelector(".launch").getBoundingClientRect().width,
-            datepickerHeight: context.containerElement.querySelector(".launch").getBoundingClientRect().height
+            calendarHeight: calendarElement.getBoundingClientRect().height,
+            containerHeight: context.containerElement.getBoundingClientRect().height,
+            containerWidth: context.containerElement.getBoundingClientRect().width,
+            datepickerTop: context.containerElement.querySelector(".date").getBoundingClientRect().top,
+            datepickerRight: context.containerElement.querySelector(".date").getBoundingClientRect().right,
+            datepickerLeft: context.containerElement.querySelector(".date").getBoundingClientRect().left,
+            datepickerWidth: context.containerElement.querySelector(".date").getBoundingClientRect().width,
+            datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height
         }
         // logs
-        // console.table(calculated);
+         //console.table(calculated);
         // set position
+        let left;
         if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
-            calculated.datepickerRight = (calculated.datepickerLeft + Math.floor(.5 * calculated.datepickerWidth)) - (calculated.datepickerWidth * .5);
+            if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
+                calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
+            } else {
+                calculated.datepickerRight = calculated.datepickerLeft - calculated.calendarWidth;
+            }
+            left = calculated.datepickerRight;
+        } else {
+            left = calculated.datepickerLeft + (0.5 * calculated.datepickerWidth);
         }
-        let left = Math.floor(calculated.datepickerRight) + 4 + "px";
-        let top = Math.floor(calculated.datepickerTop + calculated.datepickerHeight) + "px";
-        calendarElement.setAttribute('style', "position: absolute; left:" + left + "; top: " + top + ";");
+        let top;
+        if (calculated.calendarHeight > calculated.windowHeight - (calculated.datepickerTop + calculated.datepickerHeight)) {
+            if (calculated.datepickerTop < (calculated.calendarHeight + calculated.datepickerHeight)) {
+                calculated.datepickerTop = 20;
+            } else {
+                calculated.datepickerTop = calculated.datepickerTop - calculated.calendarHeight;
+            }
+            calculated.datepickerHeight = calculated.datepickerHeight * 0.5;
+            top = calculated.datepickerTop;
+        } else {
+            top = calculated.datepickerHeight + calculated.datepickerTop + 5;
+        }
+        calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
@@ -1537,6 +1563,7 @@ class Datepicker {
         this.calendarElement.showCalendar();
         this.calendarPlacement();
         this.highlightDates();
+        this.calendarPlacement();
     }
     closeCalendar() {
         this.onClose();
