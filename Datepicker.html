@@ -16,7 +16,7 @@
     // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
-        presetMenu: false,
+        presetMenu: true,
         singleDate: false,
         autoClose: false,
         timePicker: true,
@@ -25,7 +25,6 @@
         // max: moment("08/14/2022"),
         // min: new Date("08/14/2021"),
         // defaults: [new Date('08/14/2023'),new Date('08/14/2023')],
-        // defaults: [false, new Date()],
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
         startDateLabel: "Event Start: ",
         endDateLabel: "Event End: ",
