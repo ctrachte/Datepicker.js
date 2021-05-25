@@ -98,7 +98,7 @@ class Datepicker {
         //  values, not typically set programmatically.
         this.dates = [];
         // default dates to be determined programmatically.
-        this.defaults = this.options.defaults;
+        this.defaults = this.options.defaults !== undefined ? this.options.defaults : true;
         this.defaultsValid = this.defaultDatesValid();
         if (this.defaultsValid && this.defaults) {
             this.defaults = [];
@@ -1081,7 +1081,7 @@ class Datepicker {
     }
     defaultDatesValid() {
         // defaults exist
-        if (this.options.defaults === undefined || !this.defaults) { return false; };
+        if (typeof this.defaults === 'undefined' || !this.defaults) { return false; };
         // start date default is not above max, or below min
         if (this.max && moment(this.defaults[0]) > moment(this.max)) {
             this.defaults[0] = false;
@@ -1599,6 +1599,7 @@ class Datepicker {
     }
     closeCalendar() {
         this.onClose();
+        //if no dates chosen, autofill them both with start/end of week (if no defaults provided)
         if (!this.dates.length && this.defaults && this.defaults.length) {
             if (this.defaults[0]) {
                 this.dates[0] = moment(this.defaults[0]).format(this.format);
@@ -1610,15 +1611,16 @@ class Datepicker {
             } else {
                 this.dates[1] = moment().endOf('week').format(this.format);
             }
+        } else if (this.defaults && !this.dates.length) {
+            this.dates[1] = moment().endOf('week').format(this.format);
+            this.dates[0] = moment().startOf('week').format(this.format);
         }
-        console.log(this.defaults, this.dates)
-
+        // if only one date is chosen, autofill second date with first (if no defaults provided)
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
             this.dates[1] = moment(this.defaults[1]).format(this.format);
         } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
             this.dates[1] = moment(this.dates[0]).format(this.format);
         }
-        console.log(this.defaults, this.dates)
 
         // ensure calendar UI is updated
         if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
