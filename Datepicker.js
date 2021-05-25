@@ -1630,6 +1630,7 @@ class Datepicker {
             dates[1] = this.dates[0];
             this.dates = dates;
         }
+        this.setTime();
         this.calendarElement.hideCalendar();
         this.drawInputElement();
     }
