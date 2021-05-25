@@ -88,6 +88,7 @@ class Datepicker {
         this.outsideCalendarClick = this.outsideCalendarClick.bind(this);
         this.isOutsideCalendar = this.isOutsideCalendar.bind(this);
         this.leadingTrailing = this.leadingTrailing.bind(this);
+        this.defaultDatesValid = this.defaultDatesValid.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
         this.drawStartTimePicker = this.drawStartTimePicker.bind(this);
         this.drawEndTimePicker = this.drawEndTimePicker.bind(this);
@@ -96,18 +97,18 @@ class Datepicker {
         this.timeValid = this.timeValid.bind(this);
         //  values, not typically set programmatically.
         this.dates = [];
-        // default dates to be determined programmatically.        
+        // default dates to be determined programmatically.
         this.defaults = this.options.defaults !== undefined ? this.options.defaults : true;
-        if (this.defaults) {
-            let today = new Date();
+        this.defaultsValid = this.defaultDatesValid();
+        if (this.defaultsValid && this.defaults) {
             this.defaults = [];
-            this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(moment(new Date()), this.format, true);
-            this.dates[0] = this.defaults[0];
+            if (this.defaults[0]) {
+                this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : false;
+            }
+            if (this.defaults[0]) { this.dates[0] = this.defaults[0] };
             if (!this.singleDate) {
-                this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : moment(today).startOf('week').format(this.format);
-                this.defaults[1] = typeof this.options.defaults === 'object' && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : moment(today).endOf('week').format(this.format);
-                this.dates[0] = this.defaults[0];
-                this.dates[1] = this.defaults[1];
+                this.defaults[1] = typeof this.options.defaults === 'object' && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : false;
+                if (this.defaults[1]) { this.dates[1] = this.defaults[1] };
             }
         }
         this.timeElements = {};
@@ -121,8 +122,8 @@ class Datepicker {
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
-        this.calendarElement.hideCalendar();
         this.calendarPlacement();
+        this.calendarElement.hideCalendar();
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
@@ -1078,6 +1079,28 @@ class Datepicker {
             return true;
         }
     }
+    defaultDatesValid() {
+        // defaults exist
+        if (typeof this.defaults === 'undefined' || !this.defaults) { return false; };
+        // start date default is not above max, or below min
+        if (this.max && moment(this.defaults[0]) > moment(this.max)) {
+            this.defaults[0] = false;
+            console.warn("Datepicker.js - WARNING: Tried to set a default start date greater than max, default start date will not be set.");
+        }
+        if (this.min && moment(this.defaults[0]) < moment(this.min)) {
+            this.defaults[0] = false;
+            console.warn("Datepicker.js - WARNING: Tried to set a default start date less than min, default start datewill not be set.");
+        }
+        // end date default is not above max, or below min
+        if (this.max && moment(this.defaults[1]) > moment(this.max)) {
+            this.defaults[1] = false;
+            console.warn("Datepicker.js - WARNING: Tried to set a default end date greater than max, default end date will not be set.");
+        }
+        if (this.min && moment(this.defaults[1]) < moment(this.min)) {
+            this.defaults[1] = false;
+            console.warn("Datepicker.js - WARNING: Tried to set a default end date less than min, default end datewill not be set.");
+        }
+    }
     // helper method to set start/end time.
     setTime(setProgrammatically) {
         if (!setProgrammatically) {
@@ -1576,13 +1599,29 @@ class Datepicker {
     }
     closeCalendar() {
         this.onClose();
+        //if no dates chosen, autofill them both with start/end of week (if no defaults provided)
         if (!this.dates.length && this.defaults && this.defaults.length) {
-            this.dates[0] = moment(this.defaults[0]).format(this.format);
-            this.dates[1] = moment(this.defaults[1]).format(this.format);
+            if (this.defaults[0]) {
+                this.dates[0] = moment(this.defaults[0]).format(this.format);
+            } else {
+                this.dates[0] = moment().startOf('week').format(this.format);
+            }
+            if (this.defaults[1]) {
+                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
+            } else {
+                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
+            }
+        } else if (this.defaults && !this.dates.length) {
+            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
+            this.dates[0] = moment().startOf('week').format(this.format);
         }
-        if (this.dates.length !== 2 && this.defaults && this.defaults.length === 2) {
-            this.dates[1] = moment(this.defaults[1]).format(this.format);
+        // if only one date is chosen, autofill second date with first (if no defaults provided)
+        if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
+            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
+        } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
+            if (!this.singleDate) {  this.dates[1] = moment(this.dates[0]).format(this.format)};
         }
+
         // ensure calendar UI is updated
         if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
             let dates = [];
@@ -1591,6 +1630,7 @@ class Datepicker {
             dates[1] = this.dates[0];
             this.dates = dates;
         }
+        this.setTime();
         this.calendarElement.hideCalendar();
         this.drawInputElement();
     }
