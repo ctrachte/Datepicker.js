@@ -1607,19 +1607,19 @@ class Datepicker {
                 this.dates[0] = moment().startOf('week').format(this.format);
             }
             if (this.defaults[1]) {
-                this.dates[1] = moment(this.defaults[1]).format(this.format);
+                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
             } else {
-                this.dates[1] = moment().endOf('week').format(this.format);
+                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
             }
         } else if (this.defaults && !this.dates.length) {
-            this.dates[1] = moment().endOf('week').format(this.format);
+            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
             this.dates[0] = moment().startOf('week').format(this.format);
         }
         // if only one date is chosen, autofill second date with first (if no defaults provided)
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
-            this.dates[1] = moment(this.defaults[1]).format(this.format);
+            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
         } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
-            this.dates[1] = moment(this.dates[0]).format(this.format);
+            if (!this.singleDate) {  this.dates[1] = moment(this.dates[0]).format(this.format)};
         }
 
         // ensure calendar UI is updated
