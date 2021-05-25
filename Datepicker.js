@@ -105,10 +105,10 @@ class Datepicker {
             if (this.defaults[0]) {
                 this.defaults[0] = typeof this.options.defaults === 'object' && this.options.defaults.length ? moment(this.options.defaults[0]).format(this.format) : false;
             }
-            if (this.defaults[0]) {this.dates[0] = this.defaults[0]};
+            if (this.defaults[0]) { this.dates[0] = this.defaults[0] };
             if (!this.singleDate) {
                 this.defaults[1] = typeof this.options.defaults === 'object' && this.options.defaults.length === 2 ? moment(this.options.defaults[1]).format(this.format) : false;
-                if (this.defaults[1]) {this.dates[1] = this.defaults[1]};
+                if (this.defaults[1]) { this.dates[1] = this.defaults[1] };
             }
         }
         this.timeElements = {};
@@ -1603,19 +1603,23 @@ class Datepicker {
             if (this.defaults[0]) {
                 this.dates[0] = moment(this.defaults[0]).format(this.format);
             } else {
-
+                this.dates[0] = moment().startOf('week').format(this.format);
             }
             if (this.defaults[1]) {
                 this.dates[1] = moment(this.defaults[1]).format(this.format);
             } else {
-
-            }   
+                this.dates[1] = moment().endOf('week').format(this.format);
+            }
         }
+        console.log(this.defaults, this.dates)
+
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
-                this.dates[1] = moment(this.defaults[1]).format(this.format);
-        } else {
+            this.dates[1] = moment(this.defaults[1]).format(this.format);
+        } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
             this.dates[1] = moment(this.dates[0]).format(this.format);
         }
+        console.log(this.defaults, this.dates)
+
         // ensure calendar UI is updated
         if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
             let dates = [];
