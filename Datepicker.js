@@ -1224,7 +1224,6 @@ class Datepicker {
             } else {
                 this.dates[1] = moment(this.dates[0]).format(format);
             }
-            // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
                 console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
@@ -1232,12 +1231,8 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
-            this.snapTo(this.dates[0]);
-            this.onChange();
-            this.highlightDates();
         } else if (!dates || typeof dates === undefined || !this.dates.length) {
             // no date supplied, return the dates from the Datepicker state
-            // console.log(this.dates, dates,  this.defaults)
             if (this.dates[0]) {
                 this.dates[0] = moment(this.dates[0]).format(format);
             } else if (this.defaults && this.defaults.length) {
@@ -1261,7 +1256,6 @@ class Datepicker {
                 console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
             }
             this.dates[0] = moment(dates, format)._i;
-            // ensure calendar UI is updated
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
                 console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
@@ -1269,12 +1263,14 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
-            this.snapTo(this.dates[0]);
-            this.onChange();
-            this.highlightDates();
         }
+        // ensure calendar UI is updated
+        this.snapTo(this.dates[0]);
+        this.onChange();
+        this.highlightDates();
         this.setTime();
         this.calendarElement.hideCalendar();
+        // warnings for improper usage of .value()
         if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0])))) {
             console.warn("Datepicker.js - ERROR: Tried to set dates with invalid format or null values, start/end dates will be set to defaults if provided.");
         } else if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
