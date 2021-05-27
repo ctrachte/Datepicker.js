@@ -1199,36 +1199,31 @@ class Datepicker {
         }
         if (typeof dates === "object") {
             this.dates = [];
-            if (dates[0]) {
+            // set start date
+            if (dates.length && dates[0]) {
                 if (typeof dates[0] === 'string') {
                     dates[0] = this.convertStringDate(dates[0]);
                 }
-                this.dates[0] = dates[0];
-                if (this.defaults) {
-                    this.defaults[0] = dates[0];
-                }
+                this.dates[0] = moment(dates[0]).format(format);
             } else if (this.defaults && this.defaults.length) {
                 this.dates[0] = moment(this.defaults[0]).format(format);
-            }
-            if (dates[1]) {
-                if (typeof dates[1] === 'string') {
-                    dates[1] = this.convertStringDate(dates[1]);
-                }
-                this.dates[1] = dates[1];
-                if (this.defaults) {
-                    this.defaults[1] = dates[1];
-                }
-            } else if (this.defaults && this.defaults.length === 2) {
-                this.dates[1] = moment(this.defaults[1]).format(format);
-            }
-            if (!dates[0] && !dates[1] && typeof dates === "object") {
+            } else {
                 if (!this.singleDate) {
                     console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
                 }
-                this.dates[1] = moment(dates, format);
-                this.dates[0] = moment(this.dates[0], format);
+                this.dates[0] = moment(dates).format(format);
             }
-            // ensure calendar UI is updated
+            // set end date
+            if (dates.length === 2 && dates[1]) {
+                if (typeof dates[1] === 'string') {
+                    dates[1] = this.convertStringDate(dates[1]);
+                }
+                this.dates[1] = moment(dates[1]).format(format);
+            } else if (this.defaults && this.defaults.length === 2) {
+                this.dates[1] = moment(this.defaults[1]).format(format);
+            } else {
+                this.dates[1] = moment(this.dates[0]).format(format);
+            }
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
                 console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
@@ -1236,12 +1231,9 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
-            this.snapTo(this.dates[0]);
-            this.onChange();
-            this.highlightDates();
-        } else if (!dates || typeof dates === undefined || !this.dates.length) {
+
+        } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
-            // console.log(this.dates, dates,  this.defaults)
             if (this.dates[0]) {
                 this.dates[0] = moment(this.dates[0]).format(format);
             } else if (this.defaults && this.defaults.length) {
@@ -1264,8 +1256,7 @@ class Datepicker {
             if (!this.singleDate) {
                 console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
             }
-            this.dates[0] = moment(dates, format)._i;
-            // ensure calendar UI is updated
+            this.dates[0] = moment(this.dates[1]).format(format);
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
                 console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
@@ -1273,13 +1264,16 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
-            this.snapTo(this.dates[0]);
-            this.onChange();
-            this.highlightDates();
         }
-
+        // ensure calendar UI is updated
+        this.snapTo(this.dates[0]);
+        this.onChange();
+        this.highlightDates();
+        this.setTime();
+        this.calendarElement.hideCalendar();
+        // warnings for improper usage of .value()
         if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate && (!dates[0] || !(new Date(dates[0])))) {
-            console.error("Datepicker.js - ERROR: Tried to set dates with invalid format or null values, start/end dates will be set to defaults if provided.");
+            console.warn("Datepicker.js - ERROR: Tried to set dates with invalid format or null values, start/end dates will be set to defaults if provided.");
         } else if ((!dates[1] || !(new Date(dates[1]))) && !this.singleDate) {
             console.warn("Datepicker.js - WARNING: No end date value provided, or tried to set [start, end] date with invalid or null end date value, end date will be set to default if provided.");
         } else if ((!dates[0] || !(new Date(dates[0]))) && !this.singleDate) {
@@ -1607,19 +1601,19 @@ class Datepicker {
                 this.dates[0] = moment().startOf('week').format(this.format);
             }
             if (this.defaults[1]) {
-                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
+                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format) };
             } else {
-                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
+                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format) };
             }
         } else if (this.defaults && !this.dates.length) {
-            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
+            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format) };
             this.dates[0] = moment().startOf('week').format(this.format);
         }
         // if only one date is chosen, autofill second date with first (if no defaults provided)
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
-            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
+            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format) };
         } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
-            if (!this.singleDate) {  this.dates[1] = moment(this.dates[0]).format(this.format)};
+            if (!this.singleDate) { this.dates[1] = moment(this.dates[0]).format(this.format) };
         }
 
         // ensure calendar UI is updated
