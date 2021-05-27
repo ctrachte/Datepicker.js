@@ -1231,7 +1231,8 @@ class Datepicker {
                 dates[1] = this.dates[0];
                 this.dates = dates;
             }
-        } else if (!dates || typeof dates === undefined || !this.dates.length) {
+
+        } else if (!dates || typeof dates === undefined) {
             // no date supplied, return the dates from the Datepicker state
             if (this.dates[0]) {
                 this.dates[0] = moment(this.dates[0]).format(format);
@@ -1255,7 +1256,7 @@ class Datepicker {
             if (!this.singleDate) {
                 console.warn("Datepicker.js - WARNING: Use Datepicker.startDate(value) or Datepicker.endDate(value) to set single values. Your date will be set as the start date by default. ");
             }
-            this.dates[0] = moment(dates, format)._i;
+            this.dates[0] = moment(this.dates[1]).format(format);
             if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
                 let dates = [];
                 console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
@@ -1600,19 +1601,19 @@ class Datepicker {
                 this.dates[0] = moment().startOf('week').format(this.format);
             }
             if (this.defaults[1]) {
-                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
+                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format) };
             } else {
-                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
+                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format) };
             }
         } else if (this.defaults && !this.dates.length) {
-            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format)};
+            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format) };
             this.dates[0] = moment().startOf('week').format(this.format);
         }
         // if only one date is chosen, autofill second date with first (if no defaults provided)
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
-            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format)};
+            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format) };
         } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
-            if (!this.singleDate) {  this.dates[1] = moment(this.dates[0]).format(this.format)};
+            if (!this.singleDate) { this.dates[1] = moment(this.dates[0]).format(this.format) };
         }
 
         // ensure calendar UI is updated
