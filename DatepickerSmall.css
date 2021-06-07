@@ -334,7 +334,9 @@
       }
 
       .startDateElement, .endDateElement {
-        display:block;
+        flex-direction: column;
+        justify-content: center; /* Centers children in flex-direction.*/
+        align-items:center; 
       }
 
       .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {

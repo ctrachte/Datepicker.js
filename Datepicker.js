@@ -429,14 +429,14 @@ class Datepicker {
 
         // start/end date elements based on singleDate options
         if (!this.singleDate) {
-            this.startDateContainer.setAttribute('style', 'display: block; grid-column-start: 1; grid-column-end: 4;');
+            this.startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
             if (this.timePicker) {
                 this.startDateElement.innerHTML = "--/--/----  --:--";
             } else {
                 this.startDateElement.innerHTML = "--/--/----";
             }
         } else {
-            this.startDateContainer.setAttribute('style', 'display: block; grid-column-start: 1; grid-column-end: 8;');
+            this.startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
             if (this.timePicker) {
                 this.startDateElement.innerHTML = "--/--/----  --:--";
             } else {
@@ -453,10 +453,10 @@ class Datepicker {
             this.drawStartTimePicker();
             if (!this.singleDate) {
                 if (this.timePicker) {
-                    this.endDateContainer.setAttribute('style', 'display: block; grid-column-start: 1; grid-column-end: 4;');
+                    this.endDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                     this.endDateElement.innerHTML = "--/--/----  --:--";
                 } else {
-                    this.endDateContainer.setAttribute('style', 'display: block; grid-column-start: 5; grid-column-end: 8;');
+                    this.endDateContainer.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
                     this.endDateElement.innerHTML = "--/--/----";
                 }
                 this.endDateContainer.appendChild(this.endDateHeader);
