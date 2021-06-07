@@ -416,28 +416,27 @@ class Datepicker {
         firstDayElement.setAttribute('style', monthStartPos);
         // Footer elements, contains start/end dates selected
         let startDateElement = document.createElement('div');
+        let startDateHeader = document.createElement('div');
+        let startDateContainer = document.createElement('div');
         // start/end date elements based on singleDate options
         if (!this.singleDate) {
+            startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
             if (this.timePicker) {
-                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                 startDateElement.innerHTML = "<b>" + this.startDateLabel + " --/--/----  --:--  </b>";
             } else {
-                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                 startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/---- </b>";
             }
-            calendar.appendChild(startDateElement);
-            // set calendar start/end dates in the UI
         } else {
+            startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
             if (this.timePicker) {
-                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
-                startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/----  --:--  </b>";
+                startDateElement.innerHTML = "--/--/----  --:--";
             } else {
-                startDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
-                startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/----  </b>";
+                startDateElement.innerHTML = "--/--/----";
             }
-            calendar.appendChild(startDateElement);
         }
-        startDateElement.classList.add('startDateElement');
+        startDateContainer.appendChild(startDateElement);
+        calendar.appendChild(startDateContainer);
+        startDateContainer.classList.add('startDateElement');
 
         this.calendarElement = calendar;
         // timepicker init based on options
