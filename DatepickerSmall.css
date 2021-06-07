@@ -332,6 +332,11 @@
       .DatepickerContainer .grid-container .monthHeader {
         color:var(--Accent);
       }
+
+      .startDateElement, .endDateElement {
+        display:block;
+      }
+
       .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {
         font-size: 1rem !important;
         font-weight: lighter;

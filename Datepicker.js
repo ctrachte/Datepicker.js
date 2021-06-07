@@ -421,19 +421,22 @@ class Datepicker {
         // start/end date elements based on singleDate options
         if (!this.singleDate) {
             startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+            startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
             if (this.timePicker) {
-                startDateElement.innerHTML = "<b>" + this.startDateLabel + " --/--/----  --:--  </b>";
+                startDateElement.innerHTML = "--/--/----  --:--";
             } else {
-                startDateElement.innerHTML = "<b>" + this.startDateLabel + "--/--/---- </b>";
+                startDateElement.innerHTML = "--/--/----";
             }
         } else {
             startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
+            startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
             if (this.timePicker) {
                 startDateElement.innerHTML = "--/--/----  --:--";
             } else {
                 startDateElement.innerHTML = "--/--/----";
             }
         }
+        startDateContainer.appendChild(startDateHeader);
         startDateContainer.appendChild(startDateElement);
         calendar.appendChild(startDateContainer);
         startDateContainer.classList.add('startDateElement');
@@ -1177,11 +1180,18 @@ class Datepicker {
             if (startDate) {
                 this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
                 // update the UI based on the state
+                this.containerElement.querySelector('.startDateElement').innerHTML = "";
+                let startDateElement = document.createElement('div');
+                let startDateHeader = document.createElement('div');
                 if (!this.singleDate) {
-                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b> " + this.startDateLabel + " </b>" + this.dates[0];
+                    startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
+                    startDateElement.innerHTML = this.dates[0]
                 } else {
-                    this.containerElement.querySelector('.startDateElement').innerHTML = "<b> " + this.startDateLabel + " </b>" + this.dates[0];
+                    startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
+                    startDateElement.innerHTML = this.dates[0]
                 }
+                this.containerElement.querySelector('.startDateElement').appendChild(startDateHeader);
+                this.containerElement.querySelector('.startDateElement').appendChild(startDateElement);
             }
             if (endDate && !this.singleDate) {
                 this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
