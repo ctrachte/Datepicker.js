@@ -417,11 +417,19 @@ class Datepicker {
         // Footer elements, contains start/end dates selected
         this.startDateElement = document.createElement('div');
         this.startDateHeader = document.createElement('div');
+        this.startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
         this.startDateContainer = document.createElement('div');
+        this.startDateContainer.classList.add('startDateElement');
+
+        this.endDateElement = document.createElement('div');
+        this.endDateHeader = document.createElement('div');
+        this.endDateHeader.innerHTML = "<b>" + this.endDateLabel  + "</b>"
+        this.endDateContainer = document.createElement('div');
+        this.endDateContainer.classList.add('endDateElement');
+
         // start/end date elements based on singleDate options
         if (!this.singleDate) {
             this.startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-            this.startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
             if (this.timePicker) {
                 this.startDateElement.innerHTML = "--/--/----  --:--";
             } else {
@@ -429,7 +437,6 @@ class Datepicker {
             }
         } else {
             this.startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
-            this.startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
             if (this.timePicker) {
                 this.startDateElement.innerHTML = "--/--/----  --:--";
             } else {
@@ -439,36 +446,36 @@ class Datepicker {
         this.startDateContainer.appendChild(this.startDateHeader);
         this.startDateContainer.appendChild(this.startDateElement);
         calendar.appendChild(this.startDateContainer);
-        this.startDateContainer.classList.add('startDateElement');
+
         this.calendarElement = calendar;
         // timepicker init based on options
         if (this.timePicker) {
             this.drawStartTimePicker();
             if (!this.singleDate) {
-                let endDateElement = document.createElement('div');
-                endDateElement.classList.add('endDateElement');
                 if (this.timePicker) {
-                    endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/----  --:--  </b>";
+                    this.endDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+                    this.endDateElement.innerHTML = "--/--/----  --:--";
                 } else {
-                    endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
-                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/---- </b>";
+                    this.endDateContainer.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
+                    this.endDateElement.innerHTML = "--/--/----";
                 }
-                this.calendarElement.appendChild(endDateElement);
+                this.endDateContainer.appendChild(this.endDateHeader);
+                this.endDateContainer.appendChild(this.endDateElement);
+                this.calendarElement.appendChild(this.endDateContainer);
                 this.drawEndTimePicker();
             }
         } else {
             if (!this.singleDate) {
-                let endDateElement = document.createElement('div');
-                endDateElement.classList.add('endDateElement');
                 if (this.timePicker) {
-                    endDateElement.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
-                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/----  --:--  </b>";
+                    this.endDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
+                    this.endDateElement.innerHTML = "--/--/----  --:--";
                 } else {
-                    endDateElement.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
-                    endDateElement.innerHTML = "<b>" + this.endDateLabel + " --/--/---- </b>";
+                    this.endDateContainer.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
+                    this.endDateElement.innerHTML = "--/--/----";
                 }
-                this.calendarElement.appendChild(endDateElement);
+                this.endDateContainer.appendChild(this.endDateHeader);
+                this.endDateContainer.appendChild(this.endDateElement);
+                this.calendarElement.appendChild(this.endDateContainer);
             }
         }
         // cancel dates button:
