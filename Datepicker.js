@@ -1190,7 +1190,7 @@ class Datepicker {
             if (endDate && !this.singleDate) {
                 this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
                 // update the UI based on the state
-                this.containerElement.querySelector('.endDateElement').innerHTML = "<b> " + this.endDateLabel + " </b>" + this.dates[1];
+                this.endDateElement.innerHTML = this.dates[1];
             }
             this.onChange();
         }
@@ -1463,10 +1463,10 @@ class Datepicker {
                 this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                 if (!this.timePicker) {
                     this.startDateElement.innerHTML = this.dates[0];
-                    this.containerElement.querySelector('.endDateElement').innerHTML = "--/--/---- ";
+                    this.endDateElement.innerHTML = "--/--/---- ";
                 } else {
                     this.startDateElement.innerHTML = this.dates[0];
-                    this.containerElement.querySelector('.endDateElement').innerHTML = "--/--/----  --:--";
+                    this.endDateElement.innerHTML = "--/--/----  --:--";
                 }
             } else {
                 let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
@@ -1477,10 +1477,10 @@ class Datepicker {
                     this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
                     this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                     this.startDateElement.innerHTML = this.dates[0];
-                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + " </b> " + this.dates[1];
+                    this.endDateElement.innerHTML = this.dates[1];
                 } else {
                     this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format(this.format);
-                    this.containerElement.querySelector('.endDateElement').innerHTML = "<b>" + this.endDateLabel + " </b> " + this.dates[1];
+                    this.endDateElement.innerHTML = this.dates[1];
                 }
             }
         } else {
