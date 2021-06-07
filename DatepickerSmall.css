@@ -332,6 +332,13 @@
       .DatepickerContainer .grid-container .monthHeader {
         color:var(--Accent);
       }
+
+      .startDateElement, .endDateElement {
+        flex-direction: column;
+        justify-content: center; /* Centers children in flex-direction.*/
+        align-items:center; 
+      }
+
       .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {
         font-size: 1rem !important;
         font-weight: lighter;
@@ -367,10 +374,8 @@
     
      .hour input[type=number]:focus, .hour input[type=number]:active, .minute input[type=number]:focus, .minute input[type=number]:active {
         width: calc(2em - 4px);
-        border: 2.5px solid var(--Selection) !important;
         border-radius: 5px;
         padding:0;
-        outline: 2.5px solid var(--Primary) !important;
         margin-top: 12px;
       }
     
@@ -380,10 +385,8 @@
     
       .hour .ReadOnly:focus, .hour .ReadOnly:active, .minute .ReadOnly:focus, .minute .ReadOnly:active {
         width: calc(2em - 4px);
-        border: 2.5px solid var(--Selection) !important;
         padding:0;
         border-radius: 5px;
-        outline: 2.5px solid var(--Primary) !important;
         margin-top: 12px;
       }
       /* Chrome, Safari, Edge, Opera */
