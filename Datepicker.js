@@ -40,6 +40,7 @@ class Datepicker {
         this.menuOptions = this.options.menuOptions !== undefined ? this.options.menuOptions : [];
         this.autoClose = this.options.autoClose !== undefined ? this.options.autoClose : false;
         this.singleDate = this.options.singleDate !== undefined ? this.options.singleDate : false;
+        this.clearDates = this.options.clearDates !== undefined ? this.options.clearDates : true;
         this.leadingTrailingDates = this.options.leadingTrailingDates !== undefined ? this.options.leadingTrailingDates : true;
         this.militaryTime = this.options.militaryTime !== undefined ? this.options.militaryTime : false;
         this.format = this.options.format || (this.timePicker ? (this.militaryTime ? "MM/DD/YYYY HH:mm:ss" : "MM/DD/YYYY hh:mm A") : "MM/DD/YYYY");
@@ -481,7 +482,7 @@ class Datepicker {
         // cancel dates button:
         let cancelButton = document.createElement('button');
         cancelButton.classList.add("cancelButton");
-        cancelButton.innerHTML = "&#10006;";
+        cancelButton.innerHTML = "&#x21BA;";
         cancelButton.type = 'cancel';
         cancelButton.style.gridColumnStart = 1;
         cancelButton.style.gridColumnEnd = 3;
@@ -492,6 +493,9 @@ class Datepicker {
                 this.closeCalendar();
             }
         }.bind(this));
+        // TODO: Add conditional styling and text for clearDates=true, and false
+        // clear = red
+        // close = close
         calendar.appendChild(cancelButton);
         // submit dates button:
         let submitButton = document.createElement('button');
@@ -1653,6 +1657,8 @@ class Datepicker {
             this.closePresetMenu();
         }
         this.onChange();
+        this.snapTo(new Date());
+        setTimeout(this.openCalendar, 10);
     }
     // resets entire API to the default state, closes calendar UI.
     reset() {
