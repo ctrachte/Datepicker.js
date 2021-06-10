@@ -486,7 +486,11 @@ class Datepicker {
         cancelButton.style.gridColumnStart = 1;
         cancelButton.style.gridColumnEnd = 3;
         cancelButton.addEventListener("click", function (event) {
-            this.resetCalendar();
+            if(this.clearDates) {
+                this.resetCalendar();
+            } else {
+                this.closeCalendar();
+            }
         }.bind(this));
         calendar.appendChild(cancelButton);
         // submit dates button:
