@@ -502,7 +502,6 @@ class Datepicker {
         } else {
             cancelButton.innerHTML = "&#10006;";
             cancelButton.style.backgroundColor = "grey";
-
         }
         calendar.appendChild(cancelButton);
         // submit dates button:
