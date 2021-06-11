@@ -494,7 +494,11 @@ class Datepicker {
         }.bind(this));
         // TODO: Add conditional styling and text for clearDates=true, and false
         if(this.clearDates) {
-            cancelButton.innerHTML = "&#x21BA;" +  "    Clear";
+            if (this.defaults === true || this.defaults.length) {
+                cancelButton.innerHTML = "&#x21BA;" +  "    Reset";
+            } else {
+                cancelButton.innerHTML = "&#10006;" +  "    Clear";
+            }
         } else {
             cancelButton.innerHTML = "&#10006;";
         }
