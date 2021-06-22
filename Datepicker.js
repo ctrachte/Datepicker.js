@@ -590,7 +590,7 @@ class Datepicker {
                     let onChange = this.onChange;
                     this.onChange = function () { };
                     this.highlightDates();
-                    this.snapTo(this.dates[0], false);
+                    this.snapTo(this.dates[0], true);
                     if (this.timePicker) {
                         this.setTime(true);
                     } else {
