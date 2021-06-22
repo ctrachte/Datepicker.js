@@ -590,7 +590,14 @@ class Datepicker {
                     let onChange = this.onChange;
                     this.onChange = function () { };
                     this.highlightDates();
-                    this.setTime(true);
+                    if (this.timePicker) {
+                        this.setTime(true);
+                    } else {
+                        this.startDateElement.innerHTML = moment(this.dates[0]).format(this.format);
+                        if (!this.singleDate) {
+                                this.endDateElement.innerHTML = moment(this.dates[1]).format(this.format);
+                        }
+                    }
                     this.drawInputElement();
                     this.snapTo(this.dates[0]);
                     this.closePresetMenu();
