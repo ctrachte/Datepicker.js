@@ -600,7 +600,6 @@ class Datepicker {
                         }
                     }
                     this.drawInputElement();
-                    this.closePresetMenu();
                     this.onChange = onChange;
                     this.onChange();
                     this.menuIconContainer.classList.remove('open');
