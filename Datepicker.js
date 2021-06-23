@@ -1675,7 +1675,16 @@ class Datepicker {
     }
     // resets entire API to the default state, closes calendar UI.
     reset() {
-        this.resetCalendar();
+        this.dates = [];
+        this.containerElement.innerHTML = '';
+        this.drawCalendar();
+        this.drawInputElement();
+        if (this.presetMenu) {
+            this.drawPresetMenu();
+            this.closePresetMenu();
+        }
+        this.onChange();
+        this.snapTo(new Date());
         this.closeCalendar();
     }
 }
