@@ -1661,20 +1661,13 @@ class Datepicker {
     }
     // resets Calendar and Input element to their default state with no Date/Times selected, opens Calendar UI.
     resetCalendar() {
-        this.dates = [];
-        this.containerElement.innerHTML = '';
-        this.drawCalendar();
-        this.drawInputElement();
-        if (this.presetMenu) {
-            this.drawPresetMenu();
-            this.closePresetMenu();
-        }
-        this.onChange();
-        this.snapTo(new Date());
-        setTimeout(this.openCalendar, 10);
+        this.reset(true);
     }
     // resets entire API to the default state, closes calendar UI.
-    reset() {
+    reset(open) {
+        if (typeof open === "undefined" || !open) {
+            open = false;
+        }
         this.dates = [];
         this.containerElement.innerHTML = '';
         this.drawCalendar();
@@ -1685,7 +1678,11 @@ class Datepicker {
         }
         this.onChange();
         this.snapTo(new Date());
-        this.closeCalendar();
+        if (open) {
+            setTimeout(this.openCalendar, 10);
+        } else {
+            this.closeCalendar();
+        }
     }
 }
 // html element prototypal inheritance of hide/show methods for UI elements
