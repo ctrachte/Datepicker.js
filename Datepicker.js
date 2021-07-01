@@ -1332,11 +1332,11 @@ class Datepicker {
         this.drawInputElement();
         if (this.presetMenu) {
             this.drawPresetMenu();
+            this.closePresetMenu();
         }
         this.highlightDates();
         if (this.timePicker) {
             this.setTime();
-            this.closePresetMenu();
         }
         this.openCalendar();
         this.onChange = onChange;
