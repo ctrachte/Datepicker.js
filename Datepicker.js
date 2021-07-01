@@ -418,13 +418,13 @@ class Datepicker {
         // Footer elements, contains start/end dates selected
         this.startDateElement = document.createElement('div');
         this.startDateHeader = document.createElement('div');
-        this.startDateHeader.innerHTML = "<b>" + this.startDateLabel  + "</b>"
+        this.startDateHeader.innerHTML = "<b>" + this.startDateLabel + "</b>"
         this.startDateContainer = document.createElement('div');
         this.startDateContainer.classList.add('startDateElement');
 
         this.endDateElement = document.createElement('div');
         this.endDateHeader = document.createElement('div');
-        this.endDateHeader.innerHTML = "<b>" + this.endDateLabel  + "</b>"
+        this.endDateHeader.innerHTML = "<b>" + this.endDateLabel + "</b>"
         this.endDateContainer = document.createElement('div');
         this.endDateContainer.classList.add('endDateElement');
 
@@ -486,18 +486,18 @@ class Datepicker {
         cancelButton.style.gridColumnStart = 1;
         cancelButton.style.gridColumnEnd = 3;
         cancelButton.addEventListener("click", function (event) {
-            if(this.clearDates) {
+            if (this.clearDates) {
                 this.resetCalendar();
             } else {
                 this.closeCalendar();
             }
         }.bind(this));
         // TODO: Add conditional styling and text for clearDates=true, and false
-        if(this.clearDates) {
+        if (this.clearDates) {
             if (this.defaults === true || this.defaults.length) {
-                cancelButton.innerHTML = "&#x21BA;" +  "    Reset";
+                cancelButton.innerHTML = "&#x21BA;" + "    Reset";
             } else {
-                cancelButton.innerHTML = "&#10006;" +  "    Clear";
+                cancelButton.innerHTML = "&#10006;" + "    Clear";
             }
         } else {
             cancelButton.innerHTML = "&#10006;";
@@ -1621,23 +1621,43 @@ class Datepicker {
         if (!this.dates.length && this.defaults && this.defaults.length) {
             if (this.defaults[0]) {
                 this.dates[0] = moment(this.defaults[0]).format(this.format);
+                this.startDateElement.innerHTML = this.dates[0];
             } else {
                 this.dates[0] = moment().startOf('week').format(this.format);
+                this.startDateElement.innerHTML = this.dates[0];
             }
             if (this.defaults[1]) {
-                if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format) };
+                if (!this.singleDate) {
+                    this.dates[1] = moment(this.defaults[1]).format(this.format);
+                    this.endDateElement.innerHTML = this.dates[1];
+                };
             } else {
-                if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format) };
+                if (!this.singleDate) {
+                    this.dates[1] = moment().endOf('week').format(this.format);
+                    this.endDateElement.innerHTML = this.dates[1];
+                };
             }
         } else if (this.defaults && !this.dates.length) {
-            if (!this.singleDate) { this.dates[1] = moment().endOf('week').format(this.format) };
+            if (!this.singleDate) {
+                this.dates[1] = moment().endOf('week').format(this.format);
+                this.endDateElement.innerHTML = this.dates[1];
+            };
             this.dates[0] = moment().startOf('week').format(this.format);
+            this.startDateElement.innerHTML = this.dates[0];
         }
         // if only one date is chosen, autofill second date with first (if no defaults provided)
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
-            if (!this.singleDate) { this.dates[1] = moment(this.defaults[1]).format(this.format) };
+            if (!this.singleDate) { 
+                this.dates[1] = moment(this.defaults[1]).format(this.format);
+                this.endDateElement.innerHTML = this.dates[1];
+                this.startDateElement.innerHTML = this.dates[0];
+             };
         } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
-            if (!this.singleDate) { this.dates[1] = moment(this.dates[0]).format(this.format) };
+            if (!this.singleDate) { 
+                this.dates[1] = moment(this.dates[0]).format(this.format);
+                this.endDateElement.innerHTML = this.dates[1];
+                this.startDateElement.innerHTML = this.dates[0];
+             };
         }
 
         // ensure calendar UI is updated
