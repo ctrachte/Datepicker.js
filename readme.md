@@ -15,7 +15,7 @@
 
 ![DatepickerV1 0 0](https://user-images.githubusercontent.com/33035056/110176220-94e68a80-7dc8-11eb-9bef-264845c457f6.gif)
 
-There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. 
+There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. The hardest thing to find is a datepicker that can do a specific combination of features.
 
 Here's why:
 * I hate dependencies like jQuery
