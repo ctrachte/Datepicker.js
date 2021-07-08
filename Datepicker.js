@@ -261,7 +261,7 @@ class Datepicker {
         this.menuIconContainer.setAttribute('role', 'menu');
         if (this.presetMenu) {
             let menuIcon = document.createElement('span');
-            menuIcon.setAttribute('class', 'calendarHamburger');
+            menuIcon.innerHTML = "&#9776;"
             this.menuIconContainer.addEventListener('click', function (event) {
                 if (this.menuIconContainer.classList.contains('open')) {
                     this.closePresetMenu();
