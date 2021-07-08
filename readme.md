@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![DatepickerV1 0 0](https://user-images.githubusercontent.com/33035056/110176220-94e68a80-7dc8-11eb-9bef-264845c457f6.gif)
+![DatepickerV1 0 0](https://github.com/ctrachte/Datepicker.js/blob/65613f45108fb9f3d29162b277064d9ef489f54c/Datepicker_V1.0.0.gif)
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. The hardest thing to find is a datepicker that can do a specific combination of features.
 
