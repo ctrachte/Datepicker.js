@@ -8,7 +8,7 @@
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
-* [Browser Support](#Browse-Support)
+* [Browser Support](#Browser-Support)
 
 
 
