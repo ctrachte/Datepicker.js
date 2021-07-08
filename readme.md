@@ -44,7 +44,12 @@ git clone https://github.com/ctrachte/Datepicker.js
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
+1.) You will first need a recent version of Moment.js installed. 
+ - You can use the one included in the helpers folder of this project _*RECOMMENDED*_
+ -  or download the latest version from [their website](https://momentjs.com/).
+2.) Download the add the Datepicker.js and Datepicker.css files to their appropriate directories in your project.
+ - you will need to reference them in your project in a way that they are in scope to the code you are initializing the datepicker with.  
+3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
 ```
     // be sure to change the options provided to meet your implementation's needs.
     const testDatepicker = new Datepicker({
@@ -75,6 +80,7 @@ Insert the following example code into wherever your Javascript lives for the co
         }
     });
 ```
+4.) Adjust the options above to meet the needs of your project, or the project's component you are implementing the datepicker in. 
 
 <!-- CONTRIBUTING -->
 ## Contributing
