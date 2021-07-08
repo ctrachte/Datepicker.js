@@ -48,7 +48,7 @@ git clone https://github.com/ctrachte/Datepicker.js
  - You can use the one included in the helpers folder of this project *  _*RECOMMENDED*_ *
  -  or download the latest version from [their website](https://momentjs.com/).
 
-2.) Download the add the Datepicker.js and Datepicker.css files to their appropriate directories in your project.
+2.) Download and add the Datepicker.js and Datepicker.css files to their appropriate directories in your project.
  - you will need to reference them in your project in a way that they are in scope to the code you are initializing the datepicker with.  
 
 3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
