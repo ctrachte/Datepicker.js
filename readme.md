@@ -51,6 +51,7 @@ Insert the following example code into wherever your Javascript lives for the co
         containerElement: document.querySelector('.DatepickerContainer'), // should be the HTML container element you want the datepicker to appear in. *REQUIRED*
         presetMenu: true, // preset date ranges to choose from
         singleDate: false, // single date picker or date range
+        format: "MM/DD/YYYY hh:mm A" // moment formats only!
         autoClose: false, // calendar will close automatically after choosing dates
         timePicker: true, // whether or not the calendar UI will allow the user to choose start/end times
         clearDates:false, // whether or not the "X" button resets the calendar or closes it
