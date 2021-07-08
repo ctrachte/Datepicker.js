@@ -44,28 +44,30 @@ git clone https://github.com/ctrachte/Datepicker.js
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Insert the following code into your code wherever your Javascript lives for the component you want the Datepicker in:
+Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
 ```
     // be sure to change the options provided to meet your implementation's needs.
     const testDatepicker = new Datepicker({
-        containerElement: document.querySelector('.DatepickerContainer'),
-        presetMenu: true,
-        singleDate: false,
-        autoClose: false,
-        timePicker: true,
-        leadingTrailingDates: true,
-        militaryTime: false,
-        menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
-        startDateLabel: "Event Start: ",
-        endDateLabel: "Event End: ",
+        containerElement: document.querySelector('.DatepickerContainer'), // should be the HTML container element you want the datepicker to appear in. *REQUIRED*
+        presetMenu: true, // preset date ranges to choose from
+        singleDate: false, // single date picker or date range
+        autoClose: false, // calendar will close automatically after choosing dates
+        timePicker: true, // whether or not the calendar UI will allow the user to choose start/end times
+        clearDates:false, // whether or not the "X" button resets the calendar or closes it
+        leadingTrailingDates: true, // whether or not the calendar will show leading and trailing dates for each month
+        militaryTime: false, // 24hr or 12hr
+        menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }], // add custom preset menu options
+        startDateLabel: "Event Start: ", // customize start date label
+        endDateLabel: "Event End: ", // customize end date label
+        // event listeners:
         onChange: function () {
-            console.log("onChange:", this.dates);
+            console.log("onChange:", this.dates); // fires every time a date or time is changed
         },
         onSubmit: function () {
-            console.log("onSubmit:", this.dates);
+            console.log("onSubmit:", this.dates); fires every time the user clicks the checkmark button on the calendar
         },
         onClose: function () {
-            console.log("onClose:", this.dates);
+            console.log("onClose:", this.dates); fires every time the calendar UI is closed, with or without selection
         }
     });
 ```
