@@ -133,13 +133,14 @@
       position: absolute;
       top: 10px;
       left: 25%;
+      height:98%;
       width: 50%;
       margin: 0 auto;
       box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
       background-color: var(--Primary) !important;
-      -webkit-animation-name: menuanimatetop;
+      -webkit-animation-name: animateleft;
       -webkit-animation-duration: 0.4s;
-      animation-name: menuanimatetop;
+      animation-name: animateleft;
       animation-duration: 0.4s;
     }
     
