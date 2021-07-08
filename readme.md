@@ -8,6 +8,8 @@
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
+* [Browser Support](#Browser Support)
+
 
 
 <!-- ABOUT THE PROJECT -->
@@ -17,8 +19,8 @@
 
 There are many great datepickers available on GitHub, however, I didn't find one that really suited my needs. The hardest thing to find is a datepicker that can do a specific combination of features.
 
-Here's why:
-* I hate dependencies like jQuery
+Here's a few other reasons:
+* I hate (unnecessary) dependencies like jQuery
 * I want the code to be as lightweight and portable as possible.
 * I want programmable features that HTML5 `<input type="date"/>` doesn't offer 
 
@@ -116,3 +118,8 @@ Distributed under the MIT License.
 Caleb Trachte - *contact info will not be posted here, if you know me, message me*
 
 Project Link: [https://github.com/ctrachte/Datepicker.js/projects/1](https://github.com/ctrachte/Datepicker.js/projects/1)
+
+## Browser Support:
+![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+--- | --- | --- | --- | --- |
+Latest ✔ | Latest ✔ |*X* | Latest ✔ |  Latest ✔ |
