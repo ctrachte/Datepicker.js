@@ -172,26 +172,13 @@
     }
     
     .DatepickerContainer .calendarHamburger {
-      position: relative;
-      display: inline-block;
-      width: 1.25em;
-      height: 0.6em;
-      border-top: 0.2em solid var(--Selection);
-      border-bottom: 0.2em solid var(--Selection);
+      cursor: pointer;
+      color: var(--Selection) !important;
     }
     
     .DatepickerContainer .calendarHamburger:hover {
       cursor: pointer;
       opacity: 0.7;
-    }
-    
-    .DatepickerContainer .calendarHamburger::before {
-      content: "";
-      position: absolute;
-      top: 0.2em;
-      left: 0px;
-      width: 100%;
-      border-top: 0.2em solid var(--Selection);
     }
     
     .DatepickerContainer .close-calendar-button:hover {
