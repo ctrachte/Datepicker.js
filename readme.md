@@ -45,7 +45,7 @@ git clone https://github.com/ctrachte/Datepicker.js
 ## Usage
 
 1.) You will first need a recent version of Moment.js installed. 
- - You can use the one included in the helpers folder of this project _*RECOMMENDED*_
+ - You can use the one included in the helpers folder of this project *  _*RECOMMENDED*_ *
  -  or download the latest version from [their website](https://momentjs.com/).
 
 2.) Download the add the Datepicker.js and Datepicker.css files to their appropriate directories in your project.
