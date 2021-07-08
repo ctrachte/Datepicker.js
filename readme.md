@@ -60,15 +60,18 @@ Insert the following example code into wherever your Javascript lives for the co
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }], // add custom preset menu options
         startDateLabel: "Event Start: ", // customize start date label
         endDateLabel: "Event End: ", // customize end date label
+        // max: moment("08/14/2022"), // Optional - maximum date allowed for users to click, must be a moment date format
+        // min: moment("08/14/2021"), // Optional - Minimum date allowed for users to click, must be a moment date format
+        defaults: false, // Optional - array of start and end dates [new Date(), new Date()] that the datepicker will default to if no dates chosen.
         // event listeners:
         onChange: function () {
             console.log("onChange:", this.dates); // fires every time a date or time is changed
         },
         onSubmit: function () {
-            console.log("onSubmit:", this.dates); fires every time the user clicks the checkmark button on the calendar
+            console.log("onSubmit:", this.dates); // fires every time the user clicks the checkmark button on the calendar
         },
         onClose: function () {
-            console.log("onClose:", this.dates); fires every time the calendar UI is closed, with or without selection
+            console.log("onClose:", this.dates); // fires every time the calendar UI is closed, with or without selection
         }
     });
 ```
