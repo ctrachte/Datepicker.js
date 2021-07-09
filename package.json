@@ -1,0 +1,31 @@
+{
+  "name": "datepickerjs",
+  "description": "<!-- TABLE OF CONTENTS -->\r ## Table of Contents",
+  "version": "1.0.0",
+  "main": "Datepicker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ctrachte/Datepicker.js.git"
+  },
+  "keywords": [
+    "datepicker",
+    "date",
+    "range",
+    "datepicker.js",
+    "date",
+    "picker",
+    "choose",
+    "dates",
+    "moment.js",
+    "moment"
+  ],
+  "author": "ctrachte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ctrachte/Datepicker.js/issues"
+  },
+  "homepage": "https://github.com/ctrachte/Datepicker.js#readme"
+}
