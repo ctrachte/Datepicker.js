@@ -28,6 +28,8 @@ Here's a few other reasons:
 
 Of course, no one datepicker will serve all projects since your needs may be different. So I'll be adding more to this API in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
 
+I am the creator, and currently contribute and maintain this project almost entirely myself. I have reviewed and accepted some pull requests along the way however, and I am happy to review and merge any helpful PRs as soon as I find time. If you want to contribute checkout the [Contributing](#contributing) section!
+
 ### Dependencies
 
 Since the goal of this project is to use only vanilla JavaScript and Moment.js, we have only one dependency:
@@ -128,7 +130,7 @@ Distributed under the MIT License.
 <!-- CONTACT -->
 ## Contact
 
-Caleb Trachte - *contact info will not be posted here, if you know me, message me*
+Caleb Trachte - *contact info available for close friends and associates only.*
 
 Project Link: [https://github.com/ctrachte/Datepicker.js/projects/1](https://github.com/ctrachte/Datepicker.js/projects/1)
 
