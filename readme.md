@@ -4,6 +4,8 @@
 * [About the Project](#about-the-project)
   * [Dependencies](#Dependencies)
 * [Getting Started](#getting-started)
+  * [Git Clone](#Using-Git)
+  * [NPM](#Using-NPM)
 * [Usage](#usage)
 * [Contributing](#contributing)
 * [License](#license)
