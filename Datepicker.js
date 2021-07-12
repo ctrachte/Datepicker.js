@@ -8,6 +8,33 @@ class Datepicker {
         if (options.containerElement === undefined || !options.containerElement) {
             throw "Error: you must specify a container element in the Datepicker.js options object!";
         }
+        // html element prototypal inheritance of hide/show methods for UI elements
+        Element.prototype.hideDatepickerEl = function () {
+            this.style.visibility = 'hidden';
+        }
+        Element.prototype.showDatepickerEl = function () {
+            this.style.visibility = '';
+        }
+        // these hide/show methods specifically tailored to the elements they hide/show
+        Element.prototype.hideContainer = function () {
+            this.style.display = 'none';
+        }
+        Element.prototype.showContainer = function () {
+            this.style.display = 'block';
+        }
+        Element.prototype.hideCalendar = function () {
+            this.style.display = 'none';
+        }
+        Element.prototype.showCalendar = function () {
+            this.style.display = 'grid';
+        }
+        Element.prototype.hidePresetMenu = function () {
+            this.style.display = 'none';
+        }
+        Element.prototype.showPresetMenu = function () {
+            this.style.display = 'flex';
+        }
+
         // options
         /**
          * @type {object} options REQUIRED -  holds references to element objects that contain values that make up time
@@ -1705,30 +1732,4 @@ class Datepicker {
             this.closeCalendar();
         }
     }
-}
-// html element prototypal inheritance of hide/show methods for UI elements
-Element.prototype.hideDatepickerEl = function () {
-    this.style.visibility = 'hidden';
-}
-Element.prototype.showDatepickerEl = function () {
-    this.style.visibility = '';
-}
-// these hide/show methods specifically tailored to the elements they hide/show
-Element.prototype.hideContainer = function () {
-    this.style.display = 'none';
-}
-Element.prototype.showContainer = function () {
-    this.style.display = 'block';
-}
-Element.prototype.hideCalendar = function () {
-    this.style.display = 'none';
-}
-Element.prototype.showCalendar = function () {
-    this.style.display = 'grid';
-}
-Element.prototype.hidePresetMenu = function () {
-    this.style.display = 'none';
-}
-Element.prototype.showPresetMenu = function () {
-    this.style.display = 'flex';
 }
