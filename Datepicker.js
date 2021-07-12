@@ -1734,6 +1734,4 @@ class Datepicker {
     }
 }
 
-exports.new = function(options) {
-    return new Datepicker(options);
-  }
+module.exports.default = Datepicker;
