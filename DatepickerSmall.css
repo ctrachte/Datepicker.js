@@ -325,6 +325,7 @@
         flex-direction: column;
         justify-content: center; /* Centers children in flex-direction.*/
         align-items:center; 
+        padding: 8px;
       }
 
       .startDateElement, .endDateElement, .startTimeElement, .endTimeElement {
