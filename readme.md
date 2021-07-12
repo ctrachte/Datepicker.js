@@ -33,14 +33,24 @@ Since the goal of this project is to use only vanilla JavaScript and Moment.js, 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-**If you do not plan to contribute your changes and just want to play around or implement this project:**
+### Using Git
 1. Clone the repo
-```sh
+```
 git clone https://github.com/ctrachte/Datepicker.js
 ```
 2. open `Datepicker.html` in your browser of choice to view and test behavior
 3. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*
 
+5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
+
+### Using NPM
+1. Install the npm package:
+```
+npm i --save moment-datepicker-js
+```
+2. open `Datepicker.html` in your browser of choice to view and test behavior
+3. delete Datepicker.html after testing, you will not need this file. 
+4. Scope the Datepicker.js, DatepickerSmall.css and moment.js files in the appropriate places in your project 
 5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
 
 <!-- USAGE EXAMPLES -->
@@ -54,6 +64,7 @@ git clone https://github.com/ctrachte/Datepicker.js
  - you will need to reference them in your project in a way that they are in scope to the code you are initializing the datepicker with.  
 
 3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
+
 ```
     // be sure to change the options provided to meet your implementation's needs.
     const testDatepicker = new Datepicker({
