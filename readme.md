@@ -134,5 +134,5 @@ Project Link: [https://github.com/ctrachte/Datepicker.js/projects/1](https://git
 
 ## Browser Support:
 ![Chrome](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/chrome.svg) | ![Firefox](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/firefox.svg) | ![IE](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/ie.svg) | ![Opera](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/opera.svg) | ![Safari](https://github.com/alrra/browser-logos/blob/7bfef89b8bc38373d5d062db3aa36d2939e9ab2b/src/safari/safari_128x128.png) | ![Edge](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/edge.svg) |
---- | --- | --- | --- | --- |
+--- | --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | *Not supported* ❌ | *Not tested* |  Latest ✔ |   Latest ✔ |
