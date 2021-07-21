@@ -68,7 +68,7 @@ npm i --save moment-datepicker-js
  - you will need to reference them in your project in a way that they are in scope to the code you are initializing the datepicker with.  
 
 3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
-<script type="module">
+```
     import Datepicker from "./Datepicker.js"
     // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
@@ -97,8 +97,7 @@ npm i --save moment-datepicker-js
         //     console.log("onClose:", this.dates);
         // }
     });
-</script>
-
+```
 4.) Adjust the options above to meet the needs of your project, or the project's component you are implementing the datepicker in. 
 
 <!-- CONTRIBUTING -->
