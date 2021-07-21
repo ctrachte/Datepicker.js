@@ -52,10 +52,10 @@ git clone https://github.com/ctrachte/Datepicker.js
 ```
 npm i --save moment-datepicker-js
 ```
-2. open `Datepicker.html` in your browser of choice to view and test behavior
-3. delete Datepicker.html after testing, you will not need this file. 
-4. Scope the Datepicker.js, DatepickerSmall.css and moment.js files in the appropriate places in your project 
-5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
+2. open `./node_modules/moment-datepicker-js/Datepicker.html` in your browser of choice to view and test behavior
+3. You may delete Datepicker.html after testing, you will not need this file. 
+4. Import the Datepicker, and move/scope the DatepickerSmall.css and moment.js files in the appropriate places in your project .
+5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node. *See usage section below*
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -69,6 +69,7 @@ npm i --save moment-datepicker-js
 
 3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
 ```
+    // import statement not necessary if you are placing the Datepicker.js files directly in the html script tags
     import Datepicker from "./Datepicker.js"
     // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
