@@ -68,37 +68,36 @@ npm i --save moment-datepicker-js
  - you will need to reference them in your project in a way that they are in scope to the code you are initializing the datepicker with.  
 
 3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
-
-```
-    // be sure to change the options provided to meet your implementation's needs.
+<script type="module">
+    import Datepicker from "./Datepicker.js"
+    // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
-        containerElement: document.querySelector('.DatepickerContainer'), // should be the HTML container element you want the datepicker to appear in. *REQUIRED*
-        presetMenu: true, // preset date ranges to choose from
-        singleDate: false, // single date picker or date range
-        format: "MM/DD/YYYY hh:mm A" // moment formats only!
-        autoClose: false, // calendar will close automatically after choosing dates
-        timePicker: true, // whether or not the calendar UI will allow the user to choose start/end times
-        clearDates:false, // whether or not the "X" button resets the calendar or closes it
-        leadingTrailingDates: true, // whether or not the calendar will show leading and trailing dates for each month
-        militaryTime: false, // 24hr or 12hr
-        menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }], // add custom preset menu options
-        startDateLabel: "Event Start: ", // customize start date label
-        endDateLabel: "Event End: ", // customize end date label
-        // max: moment("08/14/2022"), // Optional - maximum date allowed for users to click, must be a moment date format
-        // min: moment("08/14/2021"), // Optional - Minimum date allowed for users to click, must be a moment date format
-        defaults: false, // Optional - array of start and end dates [new Date(), new Date()] that the datepicker will default to if no dates chosen.
-        // event listeners:
-        onChange: function () {
-            console.log("onChange:", this.dates); // fires every time a date or time is changed
-        },
-        onSubmit: function () {
-            console.log("onSubmit:", this.dates); // fires every time the user clicks the checkmark button on the calendar
-        },
-        onClose: function () {
-            console.log("onClose:", this.dates); // fires every time the calendar UI is closed, with or without selection
-        }
+        containerElement: document.querySelector('.DatepickerContainer'),
+        presetMenu: true,
+        singleDate: false,
+        autoClose: false,
+        timePicker: false,
+        leadingTrailingDates: true,
+        clearDates: true,
+        defaults: false,
+        // militaryTime: false,
+        // max: moment("08/14/2022"),
+        // min: new Date("08/14/2021"),
+        // defaults: [new Date('08/14/2023'),new Date('08/14/2023')],
+        menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
+        startDateLabel: "Reservation Start: ",
+        endDateLabel: "Reservation End: ",
+        // onChange: function () {
+        //     console.log("onChange:", this.dates);
+        // },
+        // onSubmit: function () {
+        //     console.log("onSubmit:", this.dates);
+        // },
+        // onClose: function () {
+        //     console.log("onClose:", this.dates);
+        // }
     });
-```
+</script>
 
 4.) Adjust the options above to meet the needs of your project, or the project's component you are implementing the datepicker in. 
 
