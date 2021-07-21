@@ -1,5 +1,5 @@
 
-class Datepicker {
+export default class Datepicker {
     constructor(options) {
         // Validation
         if (!options || typeof options === undefined) {
@@ -1734,4 +1734,3 @@ class Datepicker {
     }
 }
 
-export { Datepicker };

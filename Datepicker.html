@@ -3,7 +3,6 @@
 
 <head>
     <link rel="stylesheet" href="DatepickerSmall.css" />
-    <script src="Datepicker.js"></script>
     <script src="./helpers/moment.js"></script>
 </head>
 
@@ -12,7 +11,8 @@
     </div>
 </body>
 
-<script>
+<script type="module">
+    import Datepicker from "./Datepicker.js"
     // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
