@@ -42,10 +42,11 @@ Since the goal of this project is to use only vanilla JavaScript and Moment.js, 
 ```
 git clone https://github.com/ctrachte/Datepicker.js
 ```
-2. open `Datepicker.html` in your browser of choice to view and test behavior
-3. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*
-
-5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
+2. Comment out line 16 `import ... ` in `Datepicker.html`, and remove `Export default` from `Datepicker.js`
+3. Uncomment `<script src="./Datepicker.js"></script>` in `Datepicker.html`.
+4. open `Datepicker.html` in your browser of choice to view and test behavior.
+5. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory).
+6. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
 
 ### Using NPM
 1. Install the npm package:
@@ -69,9 +70,11 @@ npm i --save moment-datepicker-js
 
 3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
 ```
-    // import statement not necessary if you are placing the Datepicker.js files directly in the html script tags
+    // import statement not necessary if you are placing
+    // the Datepicker.js files directly in the html script tags
     import Datepicker from "./Datepicker.js"
-    // there should only be this one variable here to instantiate the class into the container element 
+    // there should only be this one variable here
+    // to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
         presetMenu: true,
@@ -85,7 +88,12 @@ npm i --save moment-datepicker-js
         // max: moment("08/14/2022"),
         // min: new Date("08/14/2021"),
         // defaults: [new Date('08/14/2023'),new Date('08/14/2023')],
-        menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
+        menuOptions:
+        [
+          { title: 'Today',
+            values: [new Date(), new Date()]
+          }
+        ],
         startDateLabel: "Reservation Start: ",
         endDateLabel: "Reservation End: ",
         // onChange: function () {
