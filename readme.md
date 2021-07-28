@@ -42,10 +42,10 @@ Since the goal of this project is to use only vanilla JavaScript and Moment.js, 
 ```
 git clone https://github.com/ctrachte/Datepicker.js
 ```
-2. Comment out line 16 `import ... ` in `Datepicker.html`, and remove `Export default` from `Datepicker.js`
+2. Comment out line 16 `import ...` in `Datepicker.html`, and remove `Export default` from `Datepicker.js`
 3. Uncomment `<script src="./Datepicker.js"></script>` in `Datepicker.html`.
 4. open `Datepicker.html` in your browser of choice to view and test behavior.
-5. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory).
+5. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*.
 6. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
 
 ### Using NPM
