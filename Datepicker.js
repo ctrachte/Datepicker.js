@@ -704,7 +704,6 @@ export default class Datepicker {
         this.setTime();
     }
     upDownClick(element,direction,increment){
-        console.log(element);
         let current = element.value;
         if (!(current % increment === 0 || parseInt(current) === 0)) {
             increment = 1;
