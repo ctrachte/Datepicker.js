@@ -339,7 +339,7 @@ export default class Datepicker {
         leftArrow.setAttribute('style', 'background-color: transparent !important;');
         leftArrow.setAttribute('aria-label', 'Previous Month Button');
         leftArrow.setAttribute('role', 'navigation');
-        leftArrow.innerHTML = "&#11164;";
+        leftArrow.innerHTML = "&#5130;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
 
         let rightArrow = document.createElement('div');
@@ -347,7 +347,7 @@ export default class Datepicker {
         rightArrow.setAttribute('style', 'background-color: transparent !important;');
         rightArrow.setAttribute('aria-label', 'Next Month Button');
         rightArrow.setAttribute('role', 'navigation');
-        rightArrow.innerHTML = "&#11166;"
+        rightArrow.innerHTML = "&#5125;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
         // month text eg. "November - 2020"
         monthHeader.appendChild(leftArrow);

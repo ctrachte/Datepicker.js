@@ -1,33 +1,45 @@
 :root { 
 
     /* Sundown Color Theme Swatches in Hex */
-    /* --Primary: #556b97;
+/*     --Primary: #556b97;
     --Secondary: #364a62;
     --Shadow: #000000;
     --Selection: #a3c5f1;
-    --Accent: #62f0c8; */
+    --Accent: #62f0c8; 
+    --Trouble: var(--Accent); */
     
     /* Army Color Theme Swatches in Hex */
     
-    /* --Primary: #918b7e;
+/*     --Primary: #918b7e;
     --Secondary: #666158;
     --Shadow: #000000;
     --Selection: #e6e8eb;
-    --Accent: #fdd42e; */
+    --Accent: #fdd42e; 
+    --Trouble: var(--Accent); */
     
     /* PEC Color Theme Swatches in Hex */
-    /* --Primary: #fafcff;
+    --Primary: #fdfbfd;
     --Secondary: #e6e8eb;
     --Shadow: #333333;
-    --Selection: #196dab;
-    --Accent: #d72027; */
+    --Selection: #163348;
+    --Accent: #3362b6;
+    --Trouble: #d72027;
     
     /* PEC TEAM Color Theme Swatches in Hex */
-    --Primary: #ffffff;
+/*    --Primary: #ffffff;
     --Secondary: #e0e0e0;
     --Shadow: #333333;
     --Selection: #002e5f;
     --Accent: #c0143c;
+    --Trouble: var(--Accent); */
+
+    /* JD's favorite colors */
+/*    --Primary: rgb(253 251 253);
+    --Secondary: #e6e8eb;
+    --Shadow: #333333;
+    --Selection: #186298;
+    --Accent: #186298;
+    --Trouble: #d72027;*/
     }
     
     .DatepickerContainer {
@@ -238,7 +250,7 @@
         z-index: 9999;
         box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
         border-radius: 5px;
-        width: 412px;
+        width: 420px;
     
     }
       /* animations for calendar UI */
@@ -422,7 +434,7 @@
     /* submit button styling */
     .DatepickerContainer .cancelButton {
       font-size: 1.6rem;
-      background-color: var(--Accent);
+      background-color: var(--Trouble);
       text-align: center;
       border-radius: 5px; 
       transition: all, 0.1s;
