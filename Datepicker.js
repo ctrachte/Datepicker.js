@@ -153,6 +153,27 @@ export default class Datepicker {
         this.calendarPlacement();
         this.calendarElement.hideCalendar();
     }
+    toggleAMPM(which) {
+        let param, amElement, pmElement;
+        if (which === 'start') {
+            this.startAmPm = (this.startAmPm === 'AM') ? 'PM' : 'AM';
+            param = this.startAmPm;
+            amElement = this.timeElements.startam;
+            pmElement = this.timeElements.startpm;
+        } else {
+            this.endAmPm = (this.endAmPm === 'AM') ? 'PM' : 'AM';
+            param = this.endAmPm;
+            amElement = this.timeElements.endam;
+            pmElement = this.timeElements.endpm;
+        }
+        if (param === 'PM') {
+            pmElement.setAttribute("SELECTED", "true");
+            amElement.removeAttribute("SELECTED");
+        } else {
+            amElement.setAttribute("SELECTED", "true");
+            pmElement.removeAttribute("SELECTED");
+        }
+    }
     // draw input element displaying chosen dates/times
     drawInputElement() {
         this.inputElement.innerHTML = '';
@@ -698,6 +719,9 @@ export default class Datepicker {
         startHourUpDown.querySelectorAll("div")[0].onclick = function () {
             startHourValueEl.value++;
             if (this.timeValid()) {
+                if (!this.militaryTime && parseInt(startHourValueEl.value) === 12) {
+                    this.toggleAMPM('start');
+                }
                 startHourValueEl.dispatchEvent(new Event('change'));
             } else {
                 startHourValueEl.value--;
@@ -707,6 +731,9 @@ export default class Datepicker {
         startHourUpDown.querySelectorAll("div")[1].onclick = function () {
             startHourValueEl.value--;
             if (this.timeValid()) {
+                if (!this.militaryTime && parseInt(startHourValueEl.value) === 11) {
+                    this.toggleAMPM('start');
+                }
                 startHourValueEl.dispatchEvent(new Event('change'));
             } else {
                 startHourValueEl.value++;
@@ -886,6 +913,9 @@ export default class Datepicker {
             endHourUpDown.querySelectorAll("div")[0].onclick = function () {
                 endHourValueEl.value++;
                 if (this.timeValid()) {
+                    if (!this.militaryTime && parseInt(endHourValueEl.value) === 12) {
+                        this.toggleAMPM('end');
+                    }
                     endHourValueEl.dispatchEvent(new Event('change'));
                 } else {
                     endHourValueEl.value--;
@@ -895,6 +925,9 @@ export default class Datepicker {
             endHourUpDown.querySelectorAll("div")[1].onclick = function () {
                 endHourValueEl.value--;
                 if (this.timeValid()) {
+                    if (!this.militaryTime && parseInt(endHourValueEl.value) === 11) {
+                        this.toggleAMPM('end');
+                    }
                     endHourValueEl.dispatchEvent(new Event('change'));
                 } else {
                     endHourValueEl.value++;
