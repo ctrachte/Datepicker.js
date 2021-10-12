@@ -102,6 +102,8 @@ export default class Datepicker {
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
+        this.toggleAMPM = this.toggleAMPM.bind(this);
+        this.clickAMPM = this.clickAMPM.bind(this);
         this.inputElement = document.createElement('div');
         this.drawInputElement = this.drawInputElement.bind(this);
         this.openCalendar = this.openCalendar.bind(this);
@@ -118,6 +120,10 @@ export default class Datepicker {
         this.leadingTrailing = this.leadingTrailing.bind(this);
         this.defaultDatesValid = this.defaultDatesValid.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
+        this.hourChange = this.hourChange.bind(this);
+        this.updDownClick = this.upDownClick.bind(this);
+        this.createHourUpDown = this.createHourUpDown.bind(this);
+        this.minuteBuild = this.minuteBuild.bind(this);
         this.drawStartTimePicker = this.drawStartTimePicker.bind(this);
         this.drawEndTimePicker = this.drawEndTimePicker.bind(this);
         this.snapTo = this.snapTo.bind(this);
@@ -154,25 +160,30 @@ export default class Datepicker {
         this.calendarElement.hideCalendar();
     }
     toggleAMPM(which) {
-        let param, amElement, pmElement;
-        if (which === 'start') {
-            this.startAmPm = (this.startAmPm === 'AM') ? 'PM' : 'AM';
-            param = this.startAmPm;
-            amElement = this.timeElements.startam;
-            pmElement = this.timeElements.startpm;
-        } else {
-            this.endAmPm = (this.endAmPm === 'AM') ? 'PM' : 'AM';
-            param = this.endAmPm;
-            amElement = this.timeElements.endam;
-            pmElement = this.timeElements.endpm;
-        }
+        let param = (which === 'startHour') ? this.startAmPm : this.endAmPm;
+        let amElement = (which === 'startHour') ? this.timeElements.startam : this.timeElements.endam;
+        let pmElement = (which === 'startHour') ? this.timeElements.startpm : this.timeElements.endpm;
         if (param === 'PM') {
-            pmElement.setAttribute("SELECTED", "true");
-            amElement.removeAttribute("SELECTED");
+            amElement.dispatchEvent(new Event('click'));
         } else {
-            amElement.setAttribute("SELECTED", "true");
-            pmElement.removeAttribute("SELECTED");
+            pmElement.dispatchEvent(new Event('click'));
         }
+    }
+    clickAMPM(event) {
+        let clickedDiv = event.target;
+        Array.from(clickedDiv.parentElement.children).forEach(function(div){
+            if (div == clickedDiv) {
+                div.setAttribute("SELECTED","true");
+            } else {
+                div.removeAttribute("SELECTED");
+            }
+        });
+        if (clickedDiv.parentElement.parentElement.classList.contains('startTimeElement')) {
+            this.startAmPm = (clickedDiv.classList.contains('am')) ? 'AM' : 'PM';
+        } else {
+            this.endAmPm = (clickedDiv.classList.contains('am')) ? 'AM' : 'PM';
+        }
+        this.setTime();
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
@@ -673,6 +684,146 @@ export default class Datepicker {
         this.presetMenuContainer.appendChild(menuOptionsContainer);
         this.calendarElement.appendChild(this.presetMenuContainer);
     }
+    hourChange(event) {
+        let newVal = (event.target == document.querySelector('input#endHour')) ? this.timeElements.endHourValueEl.value : this.timeElements.startHourValueEl.value
+        newVal = !this.militaryTime ? this.toMilitary(parseInt(newVal)) : parseInt(newVal);
+        if (newVal > 23) {
+            newVal = 0;
+        } else if (newVal < 1) {
+            newVal = 23;
+        }
+        if (newVal < 10 && this.militaryTime) {
+            newVal = "0" + newVal;
+        }
+        newVal = this.militaryTime ? newVal : this.toAmPm(newVal);
+        if (event.target == document.querySelector('input#endHour')) {
+            this.timeElements.endHourValueEl.value = newVal;
+        } else {
+            this.timeElements.startHourValueEl.value = newVal;
+        }
+        this.setTime();
+    }
+    upDownClick(element,direction,increment){
+        let current = element.value;
+        if (!(current % increment === 0 || parseInt(current) === 0)) {
+            increment = 1;
+        }
+        element.value = (direction == 'up') ? parseInt(current) + increment : parseInt(current) - increment;
+        if (this.timeValid()) {
+            element.dispatchEvent(new Event('change'));
+        } else { //undo
+            element.value = current;
+        }
+    }
+    createHourUpDown(hourValueEl){
+        let upDown = document.createElement("span");
+        upDown.classList.add("TimeUpDown");
+        upDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+        upDown.querySelectorAll("div")[0].onclick = function() {
+            this.upDownClick(hourValueEl,'up',1);
+            if (!this.militaryTime && parseInt(hourValueEl.value) === 12) {
+                this.toggleAMPM(hourValueEl.id);
+            }
+        }.bind(this);
+        upDown.querySelectorAll("div")[1].onclick = function() {
+            this.upDownClick(hourValueEl,'down',1);
+            if (!this.militaryTime && parseInt(hourValueEl.value) === 11) {
+                this.toggleAMPM(hourValueEl.id);
+            }
+        }.bind(this);
+        return upDown;
+    }
+    minuteBuild(timeElement,minuteVal) {
+        let timeColon = document.createElement("div");
+        timeColon.innerHTML = ":";
+        timeColon.classList.add("timeColon");
+        timeColon.style.gridColumn = "3 / span 1";
+        timeElement.appendChild(timeColon);
+        if (parseInt(minuteVal) < 10) {
+            minuteVal = "0" + parseInt(minuteVal);
+        }
+        let minute = document.createElement("div");
+        minute.classList.add("minute");
+        minute.innerHTML = "<input type='number' min='1' max='59' value='" + minuteVal + "' />";
+        minute.style.gridColumn = "4 / span 2";
+
+        let minuteValueEl = minute.querySelector("input");
+        if (timeElement.classList.contains('startTimeElement')) {
+            this.timeElements.startMinuteValueEl = minuteValueEl;
+        } else {
+            this.timeElements.endMinuteValueEl = minuteValueEl;
+        }
+        let minuteChange = function (event) {
+            let newVal = parseInt(minuteValueEl.value);
+            if (newVal > 59) {
+                newVal = 0;
+            } else if (newVal < 0) {
+                newVal = 45;
+            }
+            if (newVal < 10) {
+                newVal = "0" + newVal;
+            }
+            minuteValueEl.value = newVal;
+            this.setTime();
+        }.bind(this);
+        minuteValueEl.addEventListener('change', minuteChange);
+        minuteValueEl.addEventListener('click', function () {
+            setTimeout(function () { minuteValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+        });
+        let minuteUpDown = document.createElement("span");
+        minuteUpDown.classList.add("TimeUpDown");
+        minuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
+        minuteUpDown.querySelectorAll("div")[0].onclick = function() { this.upDownClick(minuteValueEl,'up',15); }.bind(this);
+        minuteUpDown.querySelectorAll("div")[1].onclick = function() { this.upDownClick(minuteValueEl,'down',15); }.bind(this);
+        minute.appendChild(minuteUpDown);
+        return minute;
+    }
+    ampmBuild(timeElement) {
+        if (!this.militaryTime) {
+            let ampm = document.createElement("div");
+            ampm.classList.add("ampm");
+            ampm.innerHTML = "";
+            ampm.style.gridColumn = "6 / span 1";
+            let currentampm;
+            if (timeElement.classList.contains('startTimeElement')) {
+                this.timeElements.startampm = ampm;
+                currentampm = this.startAmPm;
+            } else {
+                this.timeElements.endampm = ampm;
+                currentampm = this.endAmPm
+            }
+
+            let am = document.createElement("div");
+            am.classList.add("am");
+            am.innerHTML = "AM";
+
+            am.addEventListener('click', this.clickAMPM);
+            ampm.appendChild(am);
+
+            let pm = document.createElement("div");
+            pm.classList.add("pm");
+            pm.innerHTML = "PM";
+
+            pm.addEventListener('click', this.clickAMPM);
+            ampm.appendChild(pm);
+
+            if (currentampm === "PM") {
+                pm.setAttribute("SELECTED", "true");
+                am.removeAttribute("SELECTED");
+            } else {
+                am.setAttribute("SELECTED", "true");
+                pm.removeAttribute("SELECTED");
+            }
+            if (timeElement.classList.contains('startTimeElement')) {
+                this.timeElements.startam = am;
+                this.timeElements.startpm = pm;
+            } else {
+                this.timeElements.endam = am;
+                this.timeElements.endpm = pm;
+            }
+            timeElement.appendChild(ampm);
+        }
+    }
     // draws start time picker
     drawStartTimePicker() {
         let startTimeElement = document.createElement('div');
@@ -695,180 +846,20 @@ export default class Datepicker {
         let startHourValueEl = startHour.querySelector("#startHour");
         this.timeElements.startHourValueEl = startHourValueEl;
 
-        let startHourChange = function (event) {
-            let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.startHourValueEl.value)) : parseInt(this.timeElements.startHourValueEl.value);
-            if (newVal > 23) {
-                newVal = 0;
-            } else if (newVal < 1) {
-                newVal = 23;
-            }
-            if (newVal < 10 && this.militaryTime) {
-                newVal = "0" + newVal;
-            }
-            this.timeElements.startHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-            this.setTime();
-        }.bind(this);
-        startHourValueEl.addEventListener('change', startHourChange);
+        startHourValueEl.addEventListener('change', this.hourChange);
         startHourValueEl.addEventListener('click', function () {
             setTimeout(function () { startHourValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
         });
-        let startHourUpDown = document.createElement("span");
-        startHourUpDown.classList.add("TimeUpDown");
-        startHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-        // Up Hour
-        startHourUpDown.querySelectorAll("div")[0].onclick = function () {
-            startHourValueEl.value++;
-            if (this.timeValid()) {
-                if (!this.militaryTime && parseInt(startHourValueEl.value) === 12) {
-                    this.toggleAMPM('start');
-                }
-                startHourValueEl.dispatchEvent(new Event('change'));
-            } else {
-                startHourValueEl.value--;
-            }
-        }.bind(this);
-        // Down Hour
-        startHourUpDown.querySelectorAll("div")[1].onclick = function () {
-            startHourValueEl.value--;
-            if (this.timeValid()) {
-                if (!this.militaryTime && parseInt(startHourValueEl.value) === 11) {
-                    this.toggleAMPM('start');
-                }
-                startHourValueEl.dispatchEvent(new Event('change'));
-            } else {
-                startHourValueEl.value++;
-            }
-        }.bind(this);
-        //input change
+        let startHourUpDown = this.createHourUpDown(startHourValueEl);
+        
         startHour.appendChild(startHourUpDown);
         startTimeElement.appendChild(startHour);
 
-        let timeColon = document.createElement("div");
-        timeColon.innerHTML = ":";
-        timeColon.classList.add("timeColon");
-        timeColon.style.gridColumn = "3 / span 1";
-        startTimeElement.appendChild(timeColon);
-        if (parseInt(this.startMinute) < 10) {
-            this.startMinute = "0" + parseInt(this.startMinute);
-        }
-        let startMinute = document.createElement("div");
-        startMinute.classList.add("minute");
-        startMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.startMinute + "' />";
-        startMinute.style.gridColumn = "4 / span 2";
-
-        let startMinuteValueEl = startMinute.querySelector("input");
-        this.timeElements.startMinuteValueEl = startMinuteValueEl;
-        let startMinuteChange = function (event) {
-            let newVal = parseInt(this.timeElements.startMinuteValueEl.value);
-            if (newVal > 59) {
-                newVal = 0;
-            } else if (newVal < 0) {
-                newVal = 45;
-            }
-            if (newVal < 10) {
-                newVal = "0" + newVal;
-            }
-            this.timeElements.startMinuteValueEl.value = newVal;
-            this.setTime();
-        }.bind(this);
-        startMinuteValueEl.addEventListener('change', startMinuteChange);
-        startMinuteValueEl.addEventListener('click', function () {
-            setTimeout(function () { startMinuteValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
-        });
-        let startMinuteUpDown = document.createElement("span");
-        startMinuteUpDown.classList.add("TimeUpDown");
-        startMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-        // Up Minute
-        startMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-            if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
-                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
-            } else {
-                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
-            }
-            if (this.timeValid()) {
-                startMinuteValueEl.dispatchEvent(new Event('change'));
-            } else {
-                if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
-                } else {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
-                }
-            }
-        }.bind(this);
-        // Down Minute
-        startMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-
-            if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
-                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 15;
-            } else {
-                startMinuteValueEl.value = parseInt(startMinuteValueEl.value) - 1;
-            }
-            if (this.timeValid()) {
-                startMinuteValueEl.dispatchEvent(new Event('change'));
-            } else {
-                if (startMinuteValueEl.value % 15 === 0 || parseInt(startMinuteValueEl.value) === 0) {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 15;
-                } else {
-                    startMinuteValueEl.value = parseInt(startMinuteValueEl.value) + 1;
-                }
-            }
-        }.bind(this);
-
-        startMinute.appendChild(startMinuteUpDown);
+        let startMinute = this.minuteBuild(startTimeElement,this.startMinute);
 
         startTimeElement.appendChild(startMinute);
         // start am/pm elements if not military time
-        if (!this.militaryTime) {
-            let startampm = document.createElement("div");
-            startampm.classList.add("ampm");
-            startampm.innerHTML = "";
-            startampm.style.gridColumn = "6 / span 1";
-            this.timeElements.startampm = startampm;
-
-            let startam = document.createElement("div");
-            startam.classList.add("am");
-            startam.innerHTML = "AM";
-
-            startam.onclick = function () {
-                this.startAmPm = "AM";
-                if (this.timeValid()) {
-                    startam.setAttribute("SELECTED", "true");
-                    startpm.removeAttribute("SELECTED");
-                    this.setTime();
-                } else {
-                    this.startAmPm = "PM";
-                    this.setTime();
-                }
-            }.bind(this);
-            startampm.appendChild(startam);
-
-            let startpm = document.createElement("div");
-            startpm.classList.add("pm");
-            startpm.innerHTML = "PM";
-
-            startpm.onclick = function () {
-                this.startAmPm = "PM";
-                if (this.timeValid()) {
-                    startpm.setAttribute("SELECTED", "true");
-                    startam.removeAttribute("SELECTED");
-                    this.setTime();
-                } else {
-                    this.startAmPm = "AM";
-                    this.setTime();
-                }
-            }.bind(this);
-            if (this.startAmPm === "PM") {
-                startpm.setAttribute("SELECTED", "true");
-                startam.removeAttribute("SELECTED");
-            } else {
-                startam.setAttribute("SELECTED", "true");
-                startpm.removeAttribute("SELECTED");
-            }
-            this.timeElements.startam = startam;
-            this.timeElements.startpm = startpm;
-            startampm.appendChild(startpm);
-            startTimeElement.appendChild(startampm);
-        }
+        this.ampmBuild(startTimeElement);
         this.calendarElement.appendChild(startTimeElement);
     }
     // draws end time picker if allowed programmatically.
@@ -889,176 +880,20 @@ export default class Datepicker {
 
             let endHourValueEl = endHour.querySelector("#endHour");
             this.timeElements.endHourValueEl = endHourValueEl;
-            let endHourChange = function (event) {
-                let newVal = !this.militaryTime ? this.toMilitary(parseInt(this.timeElements.endHourValueEl.value)) : parseInt(this.timeElements.endHourValueEl.value);
-                if (newVal > 23) {
-                    newVal = 0;
-                } else if (newVal < 1) {
-                    newVal = 23;
-                }
-                if (newVal < 10 && this.militaryTime) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.endHourValueEl.value = this.militaryTime ? newVal : this.toAmPm(newVal);
-                this.setTime();
-            }.bind(this);
-            endHourValueEl.addEventListener('change', endHourChange);
+            endHourValueEl.addEventListener('change', this.hourChange);
             endHourValueEl.addEventListener('click', function () {
                 setTimeout(function () { endHourValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
             });
-            let endHourUpDown = document.createElement("span");
-            endHourUpDown.classList.add("TimeUpDown");
-            endHourUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-            // Up Hour
-            endHourUpDown.querySelectorAll("div")[0].onclick = function () {
-                endHourValueEl.value++;
-                if (this.timeValid()) {
-                    if (!this.militaryTime && parseInt(endHourValueEl.value) === 12) {
-                        this.toggleAMPM('end');
-                    }
-                    endHourValueEl.dispatchEvent(new Event('change'));
-                } else {
-                    endHourValueEl.value--;
-                }
-            }.bind(this);
-            // Down Hour
-            endHourUpDown.querySelectorAll("div")[1].onclick = function () {
-                endHourValueEl.value--;
-                if (this.timeValid()) {
-                    if (!this.militaryTime && parseInt(endHourValueEl.value) === 11) {
-                        this.toggleAMPM('end');
-                    }
-                    endHourValueEl.dispatchEvent(new Event('change'));
-                } else {
-                    endHourValueEl.value++;
-                }
-            }.bind(this);
+            let endHourUpDown = this.createHourUpDown(endHourValueEl);
 
             endHour.appendChild(endHourUpDown);
             endTimeElement.appendChild(endHour);
 
-            let timeColon = document.createElement("div");
-            timeColon.innerHTML = ":";
-            timeColon.classList.add("timeColon");
-            timeColon.style.gridColumn = "3 / span 1";
-            endTimeElement.appendChild(timeColon);
-            if (parseInt(this.endMinute) < 10) {
-                this.endMinute = "0" + parseInt(this.endMinute);
-            }
-            let endMinute = document.createElement("div");
-            endMinute.classList.add("minute");
-            endMinute.innerHTML = "<input type='number' min='1' max='59' value='" + this.endMinute + "' />";
-            endMinute.style.gridColumn = "4 / span 2";
-
-            let endMinuteValueEl = endMinute.querySelector("input");
-            this.timeElements.endMinuteValueEl = endMinuteValueEl;
-            let endMinuteChange = function (event) {
-                let newVal = parseInt(this.timeElements.endMinuteValueEl.value);
-                if (newVal > 59) {
-                    newVal = 0;
-                } else if (newVal < 0) {
-                    newVal = 45;
-                }
-                if (newVal < 10) {
-                    newVal = "0" + newVal;
-                }
-                this.timeElements.endMinuteValueEl.value = newVal;
-                this.setTime();
-            }.bind(this);
-            endMinuteValueEl.addEventListener('change', endMinuteChange);
-            endMinuteValueEl.addEventListener('click', function () {
-                setTimeout(function () { endMinuteValueEl.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
-            });
-            let endMinuteUpDown = document.createElement("span");
-            endMinuteUpDown.classList.add("TimeUpDown");
-            endMinuteUpDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
-            // Up Minute
-            endMinuteUpDown.querySelectorAll("div")[0].onclick = function () {
-                if (endMinuteValueEl.value % 15 === 0 || parseInt(endMinuteValueEl.value) === 0) {
-                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
-                } else {
-                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
-                }
-                if (this.timeValid()) {
-                    endMinuteValueEl.dispatchEvent(new Event('change'));
-                } else {
-                    if (endMinuteValueEl.value % 15 === 0 || parseInt(endMinuteValueEl.value) === 0) {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
-                    } else {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
-                    }
-                }
-            }.bind(this);
-            // Down Minute
-            endMinuteUpDown.querySelectorAll("div")[1].onclick = function () {
-                if (endMinuteValueEl.value % 15 === 0 || parseInt(endMinuteValueEl.value) === 0) {
-                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 15;
-                } else {
-                    endMinuteValueEl.value = parseInt(endMinuteValueEl.value) - 1;
-                }
-                if (this.timeValid()) {
-                    endMinuteValueEl.dispatchEvent(new Event('change'));
-                } else {
-                    if (endMinuteValueEl.value % 15 === 0 || parseInt(endMinuteValueEl.value) === 0) {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 15;
-                    } else {
-                        endMinuteValueEl.value = parseInt(endMinuteValueEl.value) + 1;
-                    }
-                }
-            }.bind(this);
-            endMinute.appendChild(endMinuteUpDown);
+            let endMinute = this.minuteBuild(endTimeElement,this.endMinute);
             endTimeElement.appendChild(endMinute);
-            this.calendarElement.appendChild(endTimeElement);
             // am/pm elements if not military time
-            if (!this.militaryTime) {
-                let endampm = document.createElement("div");
-                endampm.classList.add("ampm");
-                endampm.innerHTML = "";
-                endampm.style.gridColumn = "6 / span 1";
-                this.timeElements.endampm = endampm;
-
-                let endam = document.createElement("div");
-                endam.classList.add("am");
-                endam.innerHTML = "AM";
-                endam.onclick = function () {
-                    this.endAmPm = "AM";
-                    if (this.timeValid()) {
-                        endam.setAttribute("SELECTED", "true");
-                        endpm.removeAttribute("SELECTED");
-                        this.setTime();
-                    } else {
-                        this.endAmPm = "PM";
-                        this.setTime();
-                    }
-                }.bind(this);
-                endampm.appendChild(endam);
-
-                let endpm = document.createElement("div");
-                endpm.classList.add("pm");
-                endpm.innerHTML = "PM";
-                endpm.onclick = function () {
-                    this.endAmPm = "PM";
-                    if (this.timeValid()) {
-                        endpm.setAttribute("SELECTED", "true");
-                        endam.removeAttribute("SELECTED");
-                        this.setTime();
-                    } else {
-                        this.endAmPm = "AM";
-                        this.setTime();
-                    }
-                }.bind(this);
-                if (this.endAmPm === "PM") {
-                    endpm.setAttribute("SELECTED", "true");
-                    endam.removeAttribute("SELECTED");
-                } else {
-                    endam.setAttribute("SELECTED", "true");
-                    endpm.removeAttribute("SELECTED");
-                }
-                endampm.appendChild(endpm);
-                endTimeElement.appendChild(endampm);
-                this.timeElements.endam = endam;
-                this.timeElements.endpm = endpm;
-            }
+            this.ampmBuild(endTimeElement);
+            this.calendarElement.appendChild(endTimeElement);
         }
     }
     // gets leading/trailing dates for calendar UI
@@ -1478,13 +1313,7 @@ export default class Datepicker {
     // helpers to convert times 12h to 24h and reverse
     toAmPm(hour) {
         hour = parseInt(hour);
-        if (hour === 12) {
-            return hour;
-        } else if (hour === 0) {
-            return 0;
-        } else {
-            return hour > 11 ? hour - 12 : hour;
-        }
+        return (hour === 12) ? 12 : hour % 12;
     }
     toMilitary(hour) {
         hour = parseInt(hour);
