@@ -756,7 +756,6 @@ export default class Datepicker {
         let minuteChange = function (event) {
             let newVal = parseInt(minuteValueEl.value);
             if (newVal > 59) {
-                console.log(timeElement.querySelectorAll('.hour > TimeUpDown > div'));
                 timeElement.querySelectorAll('.hour > .TimeUpDown > div')[0].dispatchEvent(new Event('click'));
                 newVal = 0;
             } else if (newVal < 0) {
