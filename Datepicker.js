@@ -765,7 +765,6 @@ export default class Datepicker {
                 newVal = "0" + newVal;
             }
             minuteValueEl.value = newVal;
-            this.setTime();
             switch (hourChange) {
                 case 'up':
                     timeElement.querySelectorAll('.hour > .TimeUpDown > div')[0].dispatchEvent(new Event('click'));
