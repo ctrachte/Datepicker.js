@@ -755,16 +755,26 @@ export default class Datepicker {
         }
         let minuteChange = function (event) {
             let newVal = parseInt(minuteValueEl.value);
+            let hourChange = null;
             if (newVal > 59) {
-                newVal = 0;
+                newVal = 0; hourChange = 'up';
             } else if (newVal < 0) {
-                newVal = 45;
+                newVal = 45; hourChange = 'down';
             }
             if (newVal < 10) {
                 newVal = "0" + newVal;
             }
             minuteValueEl.value = newVal;
-            this.setTime();
+            switch (hourChange) {
+                case 'up':
+                    timeElement.querySelectorAll('.hour > .TimeUpDown > div')[0].dispatchEvent(new Event('click'));
+                    break;
+                case 'down':
+                    timeElement.querySelectorAll('.hour > .TimeUpDown > div')[1].dispatchEvent(new Event('click'));
+                    break;
+                default:
+                    this.setTime();
+            }
         }.bind(this);
         minuteValueEl.addEventListener('change', minuteChange);
         minuteValueEl.addEventListener('click', function () {
