@@ -543,3 +543,23 @@
       border: solid 1px var(--Shadow);
       border-radius: 2px;
   }
+
+  /* FLASH WARNING */
+  .startTimeElement.flashWarning, .endTimeElement.flashWarning {
+    --blinkColor: var(--Trouble);
+    animation: blinker 0.5s linear infinite;
+    -webkit-animation: blinker 0.5s linear infinite;
+  }
+  .startTimeElement.flashWarning input[type=number], .endTimeElement.flashWarning input[type=number] {
+    background-color: rgba(0,0,0,0) !important;
+  }
+  @keyframes blinker {
+    50% {
+      background-color: var(--blinkColor);
+    }
+  }
+  @-webkit-keyframes blinker {
+    50% {
+      background-color: var(--blinkColor);
+    }
+  }
