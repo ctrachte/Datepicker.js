@@ -1,5 +1,5 @@
 
-export default class Datepicker {
+class Datepicker {
     constructor(options) {
         // Validation
         if (!options || typeof options === undefined) {
@@ -1458,10 +1458,13 @@ export default class Datepicker {
             this.drawInputElement();
         }
     }
+
     // helper to determine calendar UI placement upon opening.
-    calendarPlacement() {
+    calendarPlacement() { 
+
         let context = this;
         let calendarElement = context.containerElement.querySelector('.grid-container');
+
         // variables
         let calculated = {
             windowWidth: window.innerWidth,
@@ -1502,12 +1505,26 @@ export default class Datepicker {
         } else {
             top = calculated.datepickerHeight + calculated.datepickerTop + 5;
         }
-        calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
+        if(window.outerWidth <= 375){
+            calendarElement.setAttribute('style', `position: fixed;left: 0px;top: ${top}px;width: 95%;`);
+        }
+        else if(window.outerWidth <= 420){
+            calendarElement.setAttribute('style', `position: fixed; left:-8px; top:${top}px; width: 94%; margin: 0 2.5%;`);
+            calendarElement.classList.add("grid-container--mobile");
+        }
+        else if(window.outerWidth <= 768){
+            calendarElement.setAttribute('style', `position: fixed; left:0; top:${top}px; width: 93%; margin: 0 2.5%;`);
+            calendarElement.classList.add("grid-container--mobile");
+        }
+        else{
+            calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
+        }
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
         return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length) && (elem.style.display === 'grid' || elem.style.display === 'block' || elem.style.visibility === "");
     }
+
     // helper methods to open/close calendar UI
     openCalendar() {
         this.calendarElement.showCalendar();

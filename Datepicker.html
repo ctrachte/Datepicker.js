@@ -2,9 +2,10 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="./minified/datepicker.min.css" />
     <script src="./helpers/moment.js"></script>
-    <!-- <script src="./Datepicker.js"></script> -->
+    <script src="./Datepicker.js"></script>
 </head>
 
 <body>
@@ -13,7 +14,7 @@
 </body>
 
 <script type="module">
-    import Datepicker from "./minified/datepicker.min.js"
+    // import Datepicker from "./minified/datepicker.min.js"
     // there should only be this one variable here to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
         containerElement: document.querySelector('.DatepickerContainer'),
