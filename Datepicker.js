@@ -1,17 +1,17 @@
 
 // Comment out these lines below for basic vanilla JS implementation
 module.exports = function (options) {
-    if (options) {
-      return new Datepicker(options);
-    } else if (!options || typeof options === undefined) {
-      throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-    }
-    if (options.containerElement === undefined || !options.containerElement) {
-      throw "Error: you must specify a container element in the Datepicker.js options object!";
-    }
+  if (options) {
+    return new Datepicker(options);
+  } else if (!options || typeof options === undefined) {
+    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+  }
+  if (options.containerElement === undefined || !options.containerElement) {
+    throw "Error: you must specify a container element in the Datepicker.js options object!";
+  }
 };
-  
-  
+
+
 class Datepicker {
     constructor(options) {
         // Validation
@@ -115,6 +115,7 @@ class Datepicker {
         this.nextMonth = this.nextMonth.bind(this);
         this.lastMonth = this.lastMonth.bind(this);
         this.highlightDates = this.highlightDates.bind(this);
+        this.flashWarning = this.flashWarning.bind(this);
         this.toggleAMPM = this.toggleAMPM.bind(this);
         this.clickAMPM = this.clickAMPM.bind(this);
         this.inputElement = document.createElement('div');
@@ -134,7 +135,7 @@ class Datepicker {
         this.defaultDatesValid = this.defaultDatesValid.bind(this);
         this.drawPresetMenu = this.drawPresetMenu.bind(this);
         this.hourChange = this.hourChange.bind(this);
-        this.updDownClick = this.upDownClick.bind(this);
+        this.upDownClick = this.upDownClick.bind(this);
         this.createHourUpDown = this.createHourUpDown.bind(this);
         this.minuteBuild = this.minuteBuild.bind(this);
         this.drawStartTimePicker = this.drawStartTimePicker.bind(this);
@@ -172,6 +173,16 @@ class Datepicker {
         this.calendarPlacement();
         this.calendarElement.hideCalendar();
     }
+    flashWarning(element,seconds,callback) {
+        let timeElement = element.closest("[class$='TimeElement']");
+        if (timeElement) {
+            timeElement.classList.add('flashWarning');
+            setTimeout(function(){
+                timeElement.classList.remove('flashWarning');
+                callback();
+            },seconds*1000);
+        }
+    }
     toggleAMPM(which) {
         let param = (which === 'startHour') ? this.startAmPm : this.endAmPm;
         let amElement = (which === 'startHour') ? this.timeElements.startam : this.timeElements.endam;
@@ -196,7 +207,7 @@ class Datepicker {
         } else {
             this.endAmPm = (clickedDiv.classList.contains('am')) ? 'AM' : 'PM';
         }
-        this.setTime();
+        this.setTime(false,clickedDiv);
     }
     // draw input element displaying chosen dates/times
     drawInputElement() {
@@ -714,7 +725,15 @@ class Datepicker {
         } else {
             this.timeElements.startHourValueEl.value = newVal;
         }
-        this.setTime();
+        if (!this.militaryTime && event.fromClick) {
+            if ( (event.fromClick == 'up' && newVal == 12) || (event.fromClick == 'down' && newVal == 11) ) {
+                this.toggleAMPM(event.target.id);
+            } else {
+                this.setTime(false,event.target);
+            }
+        } else {
+            this.setTime(false,event.target);
+        }
     }
     upDownClick(element,direction,increment){
         let current = element.value;
@@ -722,11 +741,9 @@ class Datepicker {
             increment = 1;
         }
         element.value = (direction == 'up') ? parseInt(current) + increment : parseInt(current) - increment;
-        if (this.timeValid()) {
-            element.dispatchEvent(new Event('change'));
-        } else { //undo
-            element.value = current;
-        }
+        let changeEvent = new Event('change');
+        changeEvent.fromClick = direction;
+        element.dispatchEvent(changeEvent);
     }
     createHourUpDown(hourValueEl){
         let upDown = document.createElement("span");
@@ -734,15 +751,9 @@ class Datepicker {
         upDown.innerHTML = "<div>&#9650;</div><div>&#9660;</div>";
         upDown.querySelectorAll("div")[0].onclick = function() {
             this.upDownClick(hourValueEl,'up',1);
-            if (!this.militaryTime && parseInt(hourValueEl.value) === 12) {
-                this.toggleAMPM(hourValueEl.id);
-            }
         }.bind(this);
         upDown.querySelectorAll("div")[1].onclick = function() {
             this.upDownClick(hourValueEl,'down',1);
-            if (!this.militaryTime && parseInt(hourValueEl.value) === 11) {
-                this.toggleAMPM(hourValueEl.id);
-            }
         }.bind(this);
         return upDown;
     }
@@ -786,7 +797,7 @@ class Datepicker {
                     timeElement.querySelectorAll('.hour > .TimeUpDown > div')[1].dispatchEvent(new Event('click'));
                     break;
                 default:
-                    this.setTime();
+                    this.setTime(false,minuteValueEl);
             }
         }.bind(this);
         minuteValueEl.addEventListener('change', minuteChange);
@@ -1006,20 +1017,8 @@ class Datepicker {
             if (sameDay && sameMonth && sameYear) {
                 let startDate = moment(this.dates[0]).hour(this.startHour).minute(this.startMinute);
                 let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute);
-                // console.log(startDate, endDate)
-                if (startDate > endDate) {
-                    this.timeElements.startMinuteValueEl.classList.add('datepicker-error');
-                    this.timeElements.startHourValueEl.classList.add('datepicker-error');
-                    this.timeElements.startampm.classList.add('datepicker-error');
-                    setTimeout(function () {
-                        this.timeElements.startMinuteValueEl.classList.remove('datepicker-error');
-                        this.timeElements.startHourValueEl.classList.remove('datepicker-error');
-                        this.timeElements.startampm.classList.remove('datepicker-error')
-                    }.bind(this), 1000);
-                    return false;
-                } else {
-                    return true;
-                }
+                // console.log(startDate, endDate);
+                return (startDate <= endDate);
             } else {
                 return true;
             }
@@ -1050,10 +1049,7 @@ class Datepicker {
         }
     }
     // helper method to set start/end time.
-    setTime(setProgrammatically) {
-        if (!setProgrammatically) {
-            setProgrammatically = false;
-        }
+    setTime(setProgrammatically=false,warningElement=null) {
         if (this.timePicker) {
             this.startHour = parseInt(this.timeElements.startHourValueEl.value);
             this.startMinute = parseInt(this.timeElements.startMinuteValueEl.value);
@@ -1133,6 +1129,55 @@ class Datepicker {
                 this.endDateElement.innerHTML = this.dates[1];
             }
             this.onChange();
+            if (!this.timeValid()) {
+                if (warningElement == null) {
+                    warningElement = document.querySelector('.startTimeElement')
+                }
+                this.flashWarning(warningElement,2,function(){
+                    if (warningElement.closest("[class$='TimeElement']").classList.contains('startTimeElement')) {
+                        //set start to end
+                        this.startHour = parseInt(this.timeElements.endHourValueEl.value);
+                        this.startMinute = parseInt(this.timeElements.endMinuteValueEl.value);
+                        if (!this.militaryTime) {
+                            this.startAmPm = this.endAmPm;
+                        }
+                        let startMinute = this.endMinute;
+                        let startHour = this.militaryTime ? this.endHour : this.toAmPm(this.endHour);
+                        this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
+                        this.timeElements.startHourValueEl.value = startHour;
+                        if (!this.militaryTime) {
+                            if (this.startAmPm === "PM") {
+                                this.timeElements.startpm.setAttribute("SELECTED", "true");
+                                this.timeElements.startam.removeAttribute("SELECTED");
+                            } else {
+                                this.timeElements.startam.setAttribute("SELECTED", "true");
+                                this.timeElements.startpm.removeAttribute("SELECTED");
+                            }
+                        }
+                    } else {
+                        //set end to start
+                        this.endHour = parseInt(this.timeElements.startHourValueEl.value);
+                        this.endMinute = parseInt(this.timeElements.startMinuteValueEl.value);
+                        if (!this.militaryTime) {
+                            this.endAmPm = this.startAmPm;
+                        }
+                        let endMinute = this.startMinute;
+                        let endHour = this.militaryTime ? this.startHour : this.toAmPm(this.startHour);
+                        this.timeElements.endMinuteValueEl.value = endMinute < 10 ? endMinute + "0" : endMinute;
+                        this.timeElements.endHourValueEl.value = endHour;
+                        if (!this.militaryTime) {
+                            if (this.endAmPm === "PM") {
+                                this.timeElements.endpm.setAttribute("SELECTED", "true");
+                                this.timeElements.endam.removeAttribute("SELECTED");
+                            } else {
+                                this.timeElements.endam.setAttribute("SELECTED", "true");
+                                this.timeElements.endpm.removeAttribute("SELECTED");
+                            }
+                        }
+                    }
+                    this.setTime();
+                }.bind(this));
+            }
         }
     }
     // helper method to set dates if provided, return dates if not.
@@ -1422,17 +1467,7 @@ class Datepicker {
             this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
             this.startDateElement.innerHTML = this.dates[0];
         }
-        if (!this.timeValid()) {
-            this.startHour = parseInt(this.timeElements.endHourValueEl.value);
-            this.startMinute = parseInt(this.timeElements.endMinuteValueEl.value);
-            let startMinute = this.endMinute;
-            let startHour = this.endHour;
-            this.timeElements.startMinuteValueEl.value = startMinute < 10 ? startMinute + "0" : startMinute;
-            this.timeElements.startHourValueEl.value = startHour;
-            this.setTime();
-        } else {
-            this.onChange();
-        }
+        this.onChange();
         // autoClose the calendar when a single date or date range is selected 
         if (!this.singleDate && this.dates.length === 2 && this.options.autoClose) {
             setTimeout(function () {

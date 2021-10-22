@@ -1,7 +1,7 @@
 {
   "name": "moment-datepicker-js",
   "description": "Customizable Date Range picker using moment.js",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "main": "Datepicker.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,7 +20,9 @@
     "choose",
     "dates",
     "moment.js",
-    "moment"
+    "moment",
+    "react",
+    "next.js"
   ],
   "author": "ctrachte",
   "license": "MIT",

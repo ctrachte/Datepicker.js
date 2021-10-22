@@ -37,25 +37,54 @@ Since the goal of this project is to use only vanilla JavaScript and Moment.js, 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-### Using Git
+### Using Git, and Vanilla JS
 1. Clone the repo
 ```
 git clone https://github.com/ctrachte/Datepicker.js
 ```
-2. Comment out line 16 `import ...` in `Datepicker.html`, and remove `Export default` from `Datepicker.js`
-3. Uncomment `<script src="./Datepicker.js"></script>` in `Datepicker.html`.
-4. open `Datepicker.html` in your browser of choice to view and test behavior.
-5. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*.
-6. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
+2. Comment out lines 1 through 12 of `Datepicker.js` to implement with pure Vanilla JS, HTML and CSS.
+2. Open `Datepicker.html` in your browser of choice to view and test behavior.
+3. Place the Datepicker.js and moment.js files in the appropriate directory in your project *(for many, that will be your bundled JS helpers or packages directory)*.
+4. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node.
 
-### Using NPM
+### Using NPM (React, Next.js)
 1. Install the npm package:
 ```
 npm i --save moment-datepicker-js
 ```
-2. open `./node_modules/moment-datepicker-js/Datepicker.html` in your browser of choice to view and test behavior
-3. You may delete Datepicker.html after testing, you will not need this file. 
-4. Import the Datepicker, and move/scope the DatepickerSmall.css and moment.js files in the appropriate places in your project .
+3. In your Node Modules directory, You may delete Datepicker.html, DatepickerSmall.css, and Datepicker_V1.0.0.gif, you will not need these files. 
+4. Import the Datepicker, and move/scope the DatepickerSmall.css and moment.js files in the appropriate places in your project.
+ Below is a basic example component that should work in Next.js or React for simple implementations:
+  ```
+    import momentDatepicker from 'moment-datepicker-js'
+    //With newer versions of React you can use and manipulate the DOM via hooks like this:
+    import React, { useEffect, useRef } from 'react'
+
+    const Datepicker = () => {
+      const myContainer = useRef(null)
+      let datepicker
+      useEffect(() => {
+        datepicker = new momentDatepicker({ containerElement: myContainer.current })
+        //    console.log(myContainer.current, datepicker)
+      })
+
+      return (
+        <>
+          // note we are using the Content Delivery Network reference for Moment.js, you can also install moment seperately, or use a basic version from the /helpers directory
+          <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+            integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+          ></script>
+          <h1>Datepicker</h1>
+          <div ref={myContainer}></div>
+        </>
+      )
+    }
+
+    export default Datepicker
+  ```
 5. Adjust the options as necessary for your needs, be sure to supply the Datepicker options with the appropriate container HTML element node. *See usage section below*
 
 <!-- USAGE EXAMPLES -->
@@ -68,11 +97,8 @@ npm i --save moment-datepicker-js
 2.) Download and add the Datepicker.js and Datepicker.css files to their appropriate directories in your project.
  - you will need to reference them in your project in a way that they are in scope to the code you are initializing the datepicker with.  
 
-3.) Insert the following example code into wherever your Javascript lives for the component you want the Datepicker in:
+3.) Below are all the options you can enable using Vanilla JS syntax. For implementation in React, see above [NPM](#Using-NPM) section
 ```
-    // import statement not necessary if you are placing
-    // the Datepicker.js files directly in the html script tags
-    import Datepicker from "./Datepicker.js"
     // there should only be this one variable here
     // to instantiate the class into the container element 
     const testDatepicker = new Datepicker({
