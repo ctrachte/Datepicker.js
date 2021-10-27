@@ -1,5 +1,5 @@
 
-// Comment out these lines below for basic vanilla JS implementation
+// Comment out these lines below for basic vanilla JS implementation (also comment out this logic in the '.min' file if you are using it.)
 module.exports = function (options) {
   if (options) {
     return new Datepicker(options);
