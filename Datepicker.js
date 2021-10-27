@@ -1532,7 +1532,7 @@ class Datepicker {
         let top;
         let left;
         // set position
-        if (calculated.windowWidth > 768) {
+        if (calculated.windowWidth > 750) {
             if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
                 if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
                     calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
