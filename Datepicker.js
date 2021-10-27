@@ -1,15 +1,15 @@
 
 // Comment out these lines below for basic vanilla JS implementation (also comment out this logic in the '.min' file if you are using it.)
-module.exports = function (options) {
-  if (options) {
-    return new Datepicker(options);
-  } else if (!options || typeof options === undefined) {
-    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-  }
-  if (options.containerElement === undefined || !options.containerElement) {
-    throw "Error: you must specify a container element in the Datepicker.js options object!";
-  }
-};
+// module.exports = function (options) {
+//   if (options) {
+//     return new Datepicker(options);
+//   } else if (!options || typeof options === undefined) {
+//     throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+//   }
+//   if (options.containerElement === undefined || !options.containerElement) {
+//     throw "Error: you must specify a container element in the Datepicker.js options object!";
+//   }
+// };
 
 
 class Datepicker {
@@ -1555,11 +1555,11 @@ class Datepicker {
                 top = calculated.datepickerHeight + calculated.datepickerTop + 5;
             }  
         } else if (window.outerWidth > 450) {
-            top = calculated.datepickerBottom + 2;
+            top = 2;
             left = (calculated.screenCenterX - calculated.calendarWidth/2) > 0 ? (calculated.screenCenterX - calculated.calendarWidth/2) : calculated.datepickerLeft;
             // console.log(top, left)
         } else {
-            top = calculated.datepickerBottom + 2;
+            top = 2;
             left = -2;
         }
         calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
