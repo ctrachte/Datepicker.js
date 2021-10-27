@@ -1,15 +1,15 @@
 
 // Comment out these lines below for basic vanilla JS implementation
-module.exports = function (options) {
-  if (options) {
-    return new Datepicker(options);
-  } else if (!options || typeof options === undefined) {
-    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-  }
-  if (options.containerElement === undefined || !options.containerElement) {
-    throw "Error: you must specify a container element in the Datepicker.js options object!";
-  }
-};
+// module.exports = function (options) {
+//   if (options) {
+//     return new Datepicker(options);
+//   } else if (!options || typeof options === undefined) {
+//     throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+//   }
+//   if (options.containerElement === undefined || !options.containerElement) {
+//     throw "Error: you must specify a container element in the Datepicker.js options object!";
+//   }
+// };
 
 
 class Datepicker {
@@ -1512,8 +1512,8 @@ class Datepicker {
         let calendarElement = context.containerElement.querySelector('.grid-container');
         // variables
         let calculated = {
-            windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight,
+            windowWidth: window.outerWidth,
+            windowHeight: window.outerHeight,
             calendarWidth: calendarElement.getBoundingClientRect().width,
             calendarHeight: calendarElement.getBoundingClientRect().height,
             containerHeight: context.containerElement.getBoundingClientRect().height,
@@ -1522,35 +1522,44 @@ class Datepicker {
             datepickerRight: context.containerElement.querySelector(".date").getBoundingClientRect().right,
             datepickerLeft: context.containerElement.querySelector(".date").getBoundingClientRect().left,
             datepickerWidth: context.containerElement.querySelector(".date").getBoundingClientRect().width,
-            datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height
+            datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height,
+            screenCenterX: window.outerWidth/2,
+            screenCenterY: window.outerHeight/2,
         }
         // logs
-        //console.table(calculated);
-        // set position
-        let left;
-        if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
-            if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
-                calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
-            } else {
-                calculated.datepickerRight = calculated.datepickerLeft - calculated.calendarWidth;
-            }
-            left = calculated.datepickerRight;
-        } else {
-            left = calculated.datepickerLeft + (0.5 * calculated.datepickerWidth);
-        }
+        console.table(calculated);
         let top;
-        if (calculated.calendarHeight > calculated.windowHeight - (calculated.datepickerTop + calculated.datepickerHeight)) {
-            if (calculated.datepickerTop < (calculated.calendarHeight + calculated.datepickerHeight)) {
-                calculated.datepickerTop = 20;
+        let left;
+        // set position
+        if (calculated.windowWidth > 768) {
+            if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
+                if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
+                    calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
+                } else {
+                    calculated.datepickerRight = calculated.datepickerLeft - calculated.calendarWidth;
+                }
+                left = calculated.datepickerRight;
             } else {
-                calculated.datepickerTop = calculated.datepickerTop - calculated.calendarHeight;
+                left = calculated.datepickerLeft + (0.5 * calculated.datepickerWidth);
             }
-            calculated.datepickerHeight = calculated.datepickerHeight * 0.5;
-            top = calculated.datepickerTop;
-        } else {
-            top = calculated.datepickerHeight + calculated.datepickerTop + 5;
+            if (calculated.calendarHeight > calculated.windowHeight - (calculated.datepickerTop + calculated.datepickerHeight)) {
+                if (calculated.datepickerTop < (calculated.calendarHeight + calculated.datepickerHeight)) {
+                    calculated.datepickerTop = 20;
+                } else {
+                    calculated.datepickerTop = calculated.datepickerTop - calculated.calendarHeight;
+                }
+                calculated.datepickerHeight = calculated.datepickerHeight * 0.5;
+                top = calculated.datepickerTop;
+            } else {
+                top = calculated.datepickerHeight + calculated.datepickerTop + 5;
+            }  
+            calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
         }
-        calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
+        //  else {
+        //     top = 10;
+        //     left = 10;
+        //     calendarElement.setAttribute('style', "width: " + calculated.windowWidth + " !important; position: absolute; left:" + left + "px; top: " + top + "px;");
+        // }
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
