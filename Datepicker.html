@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./minified/datepicker.min.css" />
     <script src="./helpers/moment.js"></script>
     <script src="./Datepicker.js"></script>
@@ -23,22 +24,22 @@
         leadingTrailingDates: true,
         clearDates: true,
         defaults: false,
-        militaryTime: true,
+        militaryTime: false,
         // max: moment("08/14/2022"),
         // min: new Date("08/14/2021"),
         // defaults: [new Date('08/14/2023'),new Date('08/14/2023')],
         menuOptions: [{ title: 'Today', values: [new Date(), new Date()] }],
         startDateLabel: "Reservation Start: ",
         endDateLabel: "Reservation End: ",
-        // onChange: function () {
-        //     console.log("onChange:", this.dates);
-        // },
-        // onSubmit: function () {
-        //     console.log("onSubmit:", this.dates);
-        // },
-        // onClose: function () {
-        //     console.log("onClose:", this.dates);
-        // }
+        onChange: function () {
+            console.log("onChange:", this.dates);
+        },
+        onSubmit: function () {
+            console.log("onSubmit:", this.dates);
+        },
+        onClose: function () {
+            console.log("onClose:", this.dates);
+        }
     });
 </script>
 

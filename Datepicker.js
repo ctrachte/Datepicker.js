@@ -1,5 +1,5 @@
 
-// Comment out these lines below for basic vanilla JS implementation
+// Comment out these lines below for basic vanilla JS implementation (also comment out this logic in the '.min' file if you are using it.)
 module.exports = function (options) {
   if (options) {
     return new Datepicker(options);
@@ -1519,36 +1519,48 @@ class Datepicker {
             containerHeight: context.containerElement.getBoundingClientRect().height,
             containerWidth: context.containerElement.getBoundingClientRect().width,
             datepickerTop: context.containerElement.querySelector(".date").getBoundingClientRect().top,
+            datepickerBottom: context.containerElement.querySelector(".date").getBoundingClientRect().bottom,
             datepickerRight: context.containerElement.querySelector(".date").getBoundingClientRect().right,
             datepickerLeft: context.containerElement.querySelector(".date").getBoundingClientRect().left,
             datepickerWidth: context.containerElement.querySelector(".date").getBoundingClientRect().width,
-            datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height
+            datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height,
+            screenCenterX: window.outerWidth/2,
+            screenCenterY: window.outerHeight/2,
         }
         // logs
-        //console.table(calculated);
-        // set position
-        let left;
-        if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
-            if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
-                calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
-            } else {
-                calculated.datepickerRight = calculated.datepickerLeft - calculated.calendarWidth;
-            }
-            left = calculated.datepickerRight;
-        } else {
-            left = calculated.datepickerLeft + (0.5 * calculated.datepickerWidth);
-        }
+        // console.table(calculated);
         let top;
-        if (calculated.calendarHeight > calculated.windowHeight - (calculated.datepickerTop + calculated.datepickerHeight)) {
-            if (calculated.datepickerTop < (calculated.calendarHeight + calculated.datepickerHeight)) {
-                calculated.datepickerTop = 20;
+        let left;
+        // set position
+        if (calculated.windowWidth > 750) {
+            if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
+                if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
+                    calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
+                } else {
+                    calculated.datepickerRight = calculated.datepickerLeft - calculated.calendarWidth;
+                }
+                left = calculated.datepickerRight;
             } else {
-                calculated.datepickerTop = calculated.datepickerTop - calculated.calendarHeight;
+                left = calculated.datepickerLeft + (0.5 * calculated.datepickerWidth);
             }
-            calculated.datepickerHeight = calculated.datepickerHeight * 0.5;
-            top = calculated.datepickerTop;
+            if (calculated.calendarHeight > calculated.windowHeight - (calculated.datepickerTop + calculated.datepickerHeight)) {
+                if (calculated.datepickerTop < (calculated.calendarHeight + calculated.datepickerHeight)) {
+                    calculated.datepickerTop = 20;
+                } else {
+                    calculated.datepickerTop = calculated.datepickerTop - calculated.calendarHeight;
+                }
+                calculated.datepickerHeight = calculated.datepickerHeight * 0.5;
+                top = calculated.datepickerTop;
+            } else {
+                top = calculated.datepickerHeight + calculated.datepickerTop + 5;
+            }  
+        } else if (window.outerWidth > 450) {
+            top = calculated.datepickerBottom + 2;
+            left = (calculated.screenCenterX - calculated.calendarWidth/2) > 0 ? (calculated.screenCenterX - calculated.calendarWidth/2) : calculated.datepickerLeft;
+            // console.log(top, left)
         } else {
-            top = calculated.datepickerHeight + calculated.datepickerTop + 5;
+            top = calculated.datepickerBottom + 2;
+            left = -2;
         }
         calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
     }

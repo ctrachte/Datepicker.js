@@ -250,8 +250,42 @@
         z-index: 9999;
         box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
         border-radius: 5px;
-        width: 420px;
-    
+    }
+
+    /* media queries for responsive placement of calendar */
+    @media only screen and (max-width: 750px) {
+      .DatepickerContainer .launch {
+        width:360px !important;
+      }
+      .DatepickerContainer .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto auto;
+        grid-gap: 2px;
+        padding: 3px;
+        margin: auto;
+        position: absolute;
+        overflow-y: auto;
+        z-index: 9999;
+        box-shadow: none;
+        border-radius: 5px;
+        width: 363px;
+      }
+      .DatepickerContainer .grid-container .day {
+        margin: 1px !important;
+      }
+      .startTimeElement, .endTimeElement {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        justify-items: center;
+        align-items: center;
+        padding: 0px !important;
+      }
+      .startDateElement, .endDateElement {
+        flex-direction: column;
+        justify-content: center; /* Centers children in flex-direction.*/
+        align-items:center;
+        padding: 0px !important;
+      }
     }
       /* animations for calendar UI */
       @-webkit-keyframes animatetop {
@@ -346,7 +380,7 @@
       }
     
       .startTimeElement, .endTimeElement, .startTimeElement input, .endTimeElement input {
-        font-size: 1.25em !important;
+        font-size: 1.15em !important;
         color: var(--Shadow);
       }
       .startTimeElement, .endTimeElement {
