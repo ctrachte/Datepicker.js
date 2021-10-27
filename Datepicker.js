@@ -1554,10 +1554,13 @@ class Datepicker {
             } else {
                 top = calculated.datepickerHeight + calculated.datepickerTop + 5;
             }  
-        } else {
+        } else if (window.outerWidth > 450) {
             top = calculated.datepickerBottom + 2;
             left = (calculated.screenCenterX - calculated.calendarWidth/2) > 0 ? (calculated.screenCenterX - calculated.calendarWidth/2) : calculated.datepickerLeft;
             console.log(top, left)
+        } else {
+            top = calculated.datepickerBottom + 2;
+            left = -2;
         }
         calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
     }
