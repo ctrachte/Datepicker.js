@@ -259,8 +259,8 @@
       .DatepickerContainer .grid-container {
         display: grid;
         grid-template-columns: auto auto auto auto auto auto auto;
-        grid-gap: 2px;
-        padding: 2px;
+        grid-gap: 1px;
+        padding: 1px;
         margin: auto;
         position: absolute;
         left: 0;
@@ -270,6 +270,15 @@
         box-shadow: none;
         border-radius: 5px;
         width: 100%;
+      }
+      .DatepickerContainer .grid-container .day {
+        margin: 1px !important;
+      }
+      .startTimeElement, .endTimeElement {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        justify-items: center;
+        align-items: center;
       }
     }
       /* animations for calendar UI */
