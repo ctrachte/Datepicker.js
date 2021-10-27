@@ -253,6 +253,25 @@
         width: 420px;
     
     }
+
+    /* media queries for responsive placement of calendar */
+    @media only screen and (max-width: 768px) {
+      .DatepickerContainer .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto auto;
+        grid-gap: 2px;
+        padding: 2px;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow-y: auto;
+        z-index: 9999;
+        box-shadow: none;
+        border-radius: 5px;
+        width: 100%;
+      }
+    }
       /* animations for calendar UI */
       @-webkit-keyframes animatetop {
         from {top:-300px; opacity:0} 
