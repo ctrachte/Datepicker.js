@@ -172,10 +172,10 @@ Project Link: [https://github.com/ctrachte/Datepicker.js/projects/1](https://git
 
 Want to fund the development of this project? Donate crypto!
 
-Bitcoin: 3593eFRSHSVEAiwvEvpQnrodFpXPpwwrzx
-Ethereum: 0x8c1EB41f646b4d7DCE0D3075F2A639E40bC894c3
-Tezos: tz1fji2C1o21Xa6qQxC2hjsHNv7h89RnEkhq
-Dai: 0xaAa1650a9f842F8A0EEa2FD8966BB2bc9144Ea35
+- Bitcoin: 3593eFRSHSVEAiwvEvpQnrodFpXPpwwrzx
+- Ethereum: 0x8c1EB41f646b4d7DCE0D3075F2A639E40bC894c3
+- Tezos: tz1fji2C1o21Xa6qQxC2hjsHNv7h89RnEkhq
+- Dai: 0xaAa1650a9f842F8A0EEa2FD8966BB2bc9144Ea35
 
 
 ## Browser Support:
