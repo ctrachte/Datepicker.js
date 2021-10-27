@@ -287,7 +287,6 @@
         align-items:center;
         padding: 0px !important;
       }
-
     }
       /* animations for calendar UI */
       @-webkit-keyframes animatetop {
@@ -382,7 +381,7 @@
       }
     
       .startTimeElement, .endTimeElement, .startTimeElement input, .endTimeElement input {
-        font-size: 1.25em !important;
+        font-size: 1.15em !important;
         color: var(--Shadow);
       }
       .startTimeElement, .endTimeElement {
