@@ -257,8 +257,8 @@
       .DatepickerContainer .grid-container {
         display: grid;
         grid-template-columns: auto auto auto auto auto auto auto;
-        grid-gap: 1px;
-        padding: 1px;
+        grid-gap: 2px;
+        padding: 5px;
         margin: auto;
         position: absolute;
         left: 2px;
