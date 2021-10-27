@@ -1512,13 +1512,14 @@ class Datepicker {
         let calendarElement = context.containerElement.querySelector('.grid-container');
         // variables
         let calculated = {
-            windowWidth: window.outerWidth,
-            windowHeight: window.outerHeight,
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight,
             calendarWidth: calendarElement.getBoundingClientRect().width,
             calendarHeight: calendarElement.getBoundingClientRect().height,
             containerHeight: context.containerElement.getBoundingClientRect().height,
             containerWidth: context.containerElement.getBoundingClientRect().width,
             datepickerTop: context.containerElement.querySelector(".date").getBoundingClientRect().top,
+            datepickerBottom: context.containerElement.querySelector(".date").getBoundingClientRect().bottom,
             datepickerRight: context.containerElement.querySelector(".date").getBoundingClientRect().right,
             datepickerLeft: context.containerElement.querySelector(".date").getBoundingClientRect().left,
             datepickerWidth: context.containerElement.querySelector(".date").getBoundingClientRect().width,
@@ -1553,13 +1554,12 @@ class Datepicker {
             } else {
                 top = calculated.datepickerHeight + calculated.datepickerTop + 5;
             }  
-            calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
+        } else {
+            top = calculated.datepickerBottom + 2;
+            left = (calculated.screenCenterX - calculated.calendarWidth/2) > 0 ? (calculated.screenCenterX - calculated.calendarWidth/2) : calculated.datepickerLeft;
+            console.log(top, left)
         }
-        //  else {
-        //     top = 10;
-        //     left = 10;
-        //     calendarElement.setAttribute('style', "width: " + calculated.windowWidth + " !important; position: absolute; left:" + left + "px; top: " + top + "px;");
-        // }
+        calendarElement.setAttribute('style', "position: fixed; left:" + left + "px; top: " + top + "px;");
     }
     // helpers to hide calendar when clicked off.
     isVisible(elem) {
