@@ -250,8 +250,6 @@
         z-index: 9999;
         box-shadow: 0 4px 8px 0 var(--Shadow),0 6px 20px 0 var(--Shadow);
         border-radius: 5px;
-        width: 420px;
-    
     }
 
     /* media queries for responsive placement of calendar */
