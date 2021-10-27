@@ -1,15 +1,15 @@
 
 // Comment out these lines below for basic vanilla JS implementation
-// module.exports = function (options) {
-//   if (options) {
-//     return new Datepicker(options);
-//   } else if (!options || typeof options === undefined) {
-//     throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-//   }
-//   if (options.containerElement === undefined || !options.containerElement) {
-//     throw "Error: you must specify a container element in the Datepicker.js options object!";
-//   }
-// };
+module.exports = function (options) {
+  if (options) {
+    return new Datepicker(options);
+  } else if (!options || typeof options === undefined) {
+    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+  }
+  if (options.containerElement === undefined || !options.containerElement) {
+    throw "Error: you must specify a container element in the Datepicker.js options object!";
+  }
+};
 
 
 class Datepicker {
@@ -1528,7 +1528,7 @@ class Datepicker {
             screenCenterY: window.outerHeight/2,
         }
         // logs
-        console.table(calculated);
+        // console.table(calculated);
         let top;
         let left;
         // set position
@@ -1557,7 +1557,7 @@ class Datepicker {
         } else if (window.outerWidth > 450) {
             top = calculated.datepickerBottom + 2;
             left = (calculated.screenCenterX - calculated.calendarWidth/2) > 0 ? (calculated.screenCenterX - calculated.calendarWidth/2) : calculated.datepickerLeft;
-            console.log(top, left)
+            // console.log(top, left)
         } else {
             top = calculated.datepickerBottom + 2;
             left = -2;
