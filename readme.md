@@ -3,6 +3,7 @@
 
 - [Table of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
+- [Full Documentation and Sandbox](#full-documentation-and-sandbox)
   - [Dependencies](#dependencies)
 - [Getting Started](#getting-started)
   - [Using Git, and Vanilla JS](#using-git-and-vanilla-js)
@@ -13,7 +14,8 @@
 - [Contact](#contact)
 - [Donate!](#donate)
 - [Browser Support:](#browser-support)
-- [Full Documentation and Sandbox](#full-documentation-and-sandbox)
+
+
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -30,6 +32,11 @@ Here's a few other reasons:
 Of course, no one datepicker will serve all projects since your needs may be different. So I'll be adding more to this API in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
 
 I am the creator, and currently contribute and maintain this project almost entirely myself. I have reviewed and accepted some pull requests along the way however, and I am happy to review and merge any helpful PRs as soon as I find time. If you want to contribute checkout the [Contributing](#contributing) section!
+
+<!--  Full Documentation and Sandbox -->
+## Full Documentation and Sandbox
+Want to test the Datepicker live? Checkout the full documentation, and a sandbox to test different options:
+- [Our full documentation now lives in its own webpage!](https://calebtrachte.com/Datepicker)
 
 ### Dependencies
 
@@ -183,6 +190,3 @@ Want to fund the development of this project? Donate crypto!
 --- | --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | *Not supported* ❌ | *Not tested* |  Latest ✔ |   Latest ✔ |
 
-## Full Documentation and Sandbox
-
-[Our full documentation now lives in its own webpage!](https://calebtrachte.com/Datepicker)
