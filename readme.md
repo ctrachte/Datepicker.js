@@ -185,4 +185,4 @@ Latest ✔ | Latest ✔ | *Not supported* ❌ | *Not tested* |  Latest ✔ |   L
 
 ## Full Documentation and Sandbox
 
-[project board](https://calebtrachte.com/Datepicker)
+[Our full documentation now lives in its own webpage!](https://calebtrachte.com/Datepicker)
