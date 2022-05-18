@@ -1,19 +1,19 @@
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Dependencies](#Dependencies)
-* [Getting Started](#getting-started)
-  * [Git Clone](#Using-Git)
-  * [NPM](#Using-NPM)
-* [Usage](#usage)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Donate](#donate)
-* [Browser Support](#Browser-Support)
-
-
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+  - [Dependencies](#dependencies)
+- [Getting Started](#getting-started)
+  - [Using Git, and Vanilla JS](#using-git-and-vanilla-js)
+  - [Using NPM (React, Next.js)](#using-npm-react-nextjs)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Donate!](#donate)
+- [Browser Support:](#browser-support)
+- [Full Documentation and Sandbox](#full-documentation-and-sandbox)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -182,3 +182,7 @@ Want to fund the development of this project? Donate crypto!
 ![Chrome](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/chrome.svg) | ![Firefox](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/firefox.svg) | ![IE](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/ie.svg) | ![Opera](https://github.com/jepso-ci/browser-logos/blob/17f4f7fa25ec38901383fcd49312ca44843e55c5/images/opera.svg) | ![Safari](https://github.com/alrra/browser-logos/blob/7bfef89b8bc38373d5d062db3aa36d2939e9ab2b/src/safari/safari_128x128.png) | ![Edge](https://github.com/alrra/browser-logos/blob/7bfef89b8bc38373d5d062db3aa36d2939e9ab2b/src/edge/edge_128x128.png) |
 --- | --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | *Not supported* ❌ | *Not tested* |  Latest ✔ |   Latest ✔ |
+
+## Full Documentation and Sandbox
+
+- [calebtrachte.com/Datepicker](Our full documentation now lives in its own webpage!)
