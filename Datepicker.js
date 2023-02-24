@@ -1,15 +1,15 @@
 
 // Comment out these lines below for basic vanilla JS implementation (also comment out this logic in the '.min' file if you are using it.)
-module.exports = function (options) {
-  if (options) {
-    return new Datepicker(options);
-  } else if (!options || typeof options === undefined) {
-    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-  }
-  if (options.containerElement === undefined || !options.containerElement) {
-    throw "Error: you must specify a container element in the Datepicker.js options object!";
-  }
-};
+// module.exports = function (options) {
+//   if (options) {
+//     return new Datepicker(options);
+//   } else if (!options || typeof options === undefined) {
+//     throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+//   }
+//   if (options.containerElement === undefined || !options.containerElement) {
+//     throw "Error: you must specify a container element in the Datepicker.js options object!";
+//   }
+// };
 
 class Datepicker {
     constructor(options) {
@@ -166,11 +166,17 @@ class Datepicker {
         this.endMinute = "00";
         this.endAmPm = "PM";
         // initialization logic (constructor)
+        this.init();
+    }
+    init(){
         this.drawCalendar();
         this.drawInputElement();
         if (this.presetMenu) { this.drawPresetMenu(); this.closePresetMenu(); };
         this.calendarPlacement();
         this.calendarElement.hideCalendar();
+        document.addEventListener('keyup', (e)=>{
+            this.keyPressCheck(e);
+        });
     }
     flashWarning(element,seconds,callback) {
         let timeElement = element.closest("[class$='TimeElement']");
@@ -213,7 +219,7 @@ class Datepicker {
         this.inputElement.innerHTML = '';
         this.inputElement.setAttribute('class', 'launch');
         //This creates the heading elements for the start and end date titles
-
+        this.inputElement.setAttribute('tabindex', 0);
         //Date Time Input Element Start
         let startBlock = document.createElement('div');
         let startHead = document.createElement('div');
@@ -1517,12 +1523,12 @@ class Datepicker {
             calendarHeight: calendarElement.getBoundingClientRect().height,
             containerHeight: context.containerElement.getBoundingClientRect().height,
             containerWidth: context.containerElement.getBoundingClientRect().width,
-            datepickerTop: context.containerElement.querySelector(".date").getBoundingClientRect().top,
-            datepickerBottom: context.containerElement.querySelector(".date").getBoundingClientRect().bottom,
-            datepickerRight: context.containerElement.querySelector(".date").getBoundingClientRect().right,
-            datepickerLeft: context.containerElement.querySelector(".date").getBoundingClientRect().left,
-            datepickerWidth: context.containerElement.querySelector(".date").getBoundingClientRect().width,
-            datepickerHeight: context.containerElement.querySelector(".date").getBoundingClientRect().height,
+            datepickerTop: context.containerElement.querySelector(".launch").getBoundingClientRect().top,
+            datepickerBottom: context.containerElement.querySelector(".launch").getBoundingClientRect().bottom,
+            datepickerRight: context.containerElement.querySelector(".launch").getBoundingClientRect().right,
+            datepickerLeft: context.containerElement.querySelector(".launch").getBoundingClientRect().left,
+            datepickerWidth: context.containerElement.querySelector(".launch").getBoundingClientRect().width,
+            datepickerHeight: context.containerElement.querySelector(".launch").getBoundingClientRect().height,
             screenCenterX: window.outerWidth/2,
             screenCenterY: window.outerHeight/2,
         }
@@ -1532,36 +1538,25 @@ class Datepicker {
         let left;
         // set position
         if (calculated.windowWidth > 750) {
-            if ((calculated.windowWidth - calculated.datepickerRight) < (calculated.calendarWidth + 10)) {
-                if (calculated.datepickerLeft < (calculated.calendarWidth + 10)) {
-                    calculated.datepickerRight = ((calculated.datepickerRight) - (calculated.datepickerWidth) - (calculated.calendarWidth * .5));
-                } else {
-                    calculated.datepickerRight = calculated.datepickerLeft - calculated.calendarWidth;
-                }
-                left = calculated.datepickerRight;
+            if (calculated.datepickerLeft <= calculated.calendarWidth) {
+                left = 2 + calculated.datepickerWidth *.5;
             } else {
-                left = calculated.datepickerLeft + (0.5 * calculated.datepickerWidth);
+                left = ( calculated.calendarWidth * (-.5)) - 2;
             }
-            if (calculated.calendarHeight > calculated.windowHeight - (calculated.datepickerTop + calculated.datepickerHeight)) {
-                if (calculated.datepickerTop < (calculated.calendarHeight + calculated.datepickerHeight)) {
-                    calculated.datepickerTop = 20;
-                } else {
-                    calculated.datepickerTop = calculated.datepickerTop - calculated.calendarHeight;
-                }
-                calculated.datepickerHeight = calculated.datepickerHeight * 0.5;
-                top = calculated.datepickerTop;
+            // top:
+            if (calculated.datepickerTop <= calculated.calendarHeight) {
+                top = calculated.datepickerHeight + 2;
             } else {
-                top = calculated.datepickerHeight + calculated.datepickerTop + 5;
-            }  
+                top = -1 * calculated.calendarHeight - 2;
+            }
         } else if (window.outerWidth > 450) {
             top = 2;
             left = (calculated.screenCenterX - calculated.calendarWidth/2) > 0 ? (calculated.screenCenterX - calculated.calendarWidth/2) : calculated.datepickerLeft;
-            // console.log(top, left)
         } else {
             top = 2;
             left = -2;
         }
-        calendarElement.style.position = "fixed";
+        calendarElement.style.position = "absolute";
         calendarElement.style.left = left + "px";
         calendarElement.style.top = top + "px";
         calendarElement.style.zIndex = 9999999 + "";
@@ -1665,6 +1660,16 @@ class Datepicker {
         } else {
             this.closeCalendar();
         }
+    }
+    keyPressCheck(event) {
+        // checks keypress for:
+
+        // enter - open or close calendar with values selected
+
+        // esc - close calendar or reset conditionally
+
+        // tab - toggles through tab indices
+        console.log(event.target)
     }
 }
 

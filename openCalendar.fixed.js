@@ -25,15 +25,15 @@ function calendarPlacement() {
     // set position
     if (calculated.windowWidth > 750) {
         if (calculated.datepickerLeft <= calculated.calendarWidth) {
-            left = 2 + calculated.datepickerWidth;
+            left = 2 + calculated.datepickerWidth *.5;
         } else {
-            left = ( calculated.calendarWidth * (-1)) - 2;
+            left = ( calculated.calendarWidth * (-.5)) - 2;
         }
         // top:
         if (calculated.datepickerTop <= calculated.calendarHeight) {
             top = calculated.datepickerHeight + 2;
         } else {
-            top = -1 * calculated.calendarHeight - 2;
+            top = (-1 * calculated.calendarHeight) - 2;
         }
     } else if (window.outerWidth > 450) {
         top = 2;
