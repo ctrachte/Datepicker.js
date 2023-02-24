@@ -219,7 +219,6 @@ class Datepicker {
         this.inputElement.innerHTML = '';
         this.inputElement.setAttribute('class', 'launch');
         //This creates the heading elements for the start and end date titles
-        this.inputElement.setAttribute('tabindex', 0);
         //Date Time Input Element Start
         let startBlock = document.createElement('div');
         let startHead = document.createElement('div');
@@ -232,11 +231,12 @@ class Datepicker {
 
         startBlock.setAttribute("class", "startBlock");
         startHead.setAttribute("class", "heading");
+        startBlock.setAttribute('tabindex', 0);
         startBlock.appendChild(startHead);
         startBlock.appendChild(startDate);
         startDate.innerHTML = moment(this.dates[0]).format(this.format);
         startDate.setAttribute("class", "date");
-
+        this.startBlock = startBlock;
         this.inputElement.appendChild(startBlock);
 
         endHead.setAttribute("class", "heading");
@@ -244,9 +244,11 @@ class Datepicker {
         if (!this.singleDate) {
             endHead.innerHTML = this.endDateLabel;
             endBlock.appendChild(endHead);
+            endBlock.setAttribute('tabindex', 0);
             endDate.setAttribute("class", "date");
             endBlock.appendChild(endDate);
             endBlock.setAttribute("class", "endBlock");
+            this.endBlock = endBlock;
             this.inputElement.appendChild(endBlock);
         }
 
@@ -1506,6 +1508,7 @@ class Datepicker {
     }
     // closes calendar if clicks are outside boundaries
     outsideCalendarClick(event) {
+        if (event.keyCode === 13) return;
         if (this.isOutsideCalendar(event)) {
             this.closeCalendar();
             this.drawInputElement();
@@ -1663,13 +1666,19 @@ class Datepicker {
     }
     keyPressCheck(event) {
         // checks keypress for:
-
-        // enter - open or close calendar with values selected
-
-        // esc - close calendar or reset conditionally
-
-        // tab - toggles through tab indices
-        console.log(event.target)
+        switch(event.key) {
+            case "Enter": 
+                if (event.target === this.endBlock || event.target === this.startBlock) {
+                    this.inputElement.click();
+                }
+                break;
+            case "Escape":
+                this.closeCalendar();
+                break;
+            default:
+                console.log(event.key)
+                break;
+        }
     }
 }
 
