@@ -349,10 +349,13 @@ class Datepicker {
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
         this.menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
         this.menuIconContainer.setAttribute('role', 'menu');
+        this.menuIconContainer.setAttribute('tabindex', 1);
+
         if (this.presetMenu) {
             let menuIcon = document.createElement('span');
             menuIcon.innerHTML = "&#9776;"
             menuIcon.classList.add('calendarHamburger');
+            this.menuIcon = menuIcon;
             this.menuIconContainer.addEventListener('click', function (event) {
                 if (this.menuIconContainer.classList.contains('open')) {
                     this.closePresetMenu();
@@ -1573,6 +1576,7 @@ class Datepicker {
         this.calendarPlacement();
         this.highlightDates();
         this.calendarPlacement();
+        this.menuIconContainer.focus();
     }
     closeCalendar() {
         this.onClose();
@@ -1673,7 +1677,6 @@ class Datepicker {
                 this.closeCalendar();
                 break;
             default:
-                console.log(event.key)
                 break;
         }
     }
@@ -1682,6 +1685,11 @@ class Datepicker {
             this.inputElement.click();
         } else if (this.isDate(e.target.getAttribute('value'))) {
             e.target.click();
+        } else if (this.menuIconContainer.contains(e.target)) {
+            this.menuIcon.click();
+        }
+        else {
+            this.submitButton.click();
         }
     }
     isDate(date) {
