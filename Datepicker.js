@@ -464,7 +464,6 @@ class Datepicker {
         let min = this.min ? moment(this.min).unix() : false;
         // add this months days to calendar
         daysInMonth.forEach(function (day) {
-
             let dayCell = document.createElement('div');
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
@@ -473,7 +472,7 @@ class Datepicker {
             dayCell.setAttribute('role', 'button');
             dayCell.setAttribute('aria-label', dateString);
             dayCell.value = dateString;
-
+            dayCell.setAttribute('tabindex', 0);
             let currentDate = moment(dayCell.value).unix();
             // if date is greater than max or less than min, disable
             if (max && currentDate > max) {
@@ -1668,9 +1667,7 @@ class Datepicker {
         // checks keypress for:
         switch(event.key) {
             case "Enter": 
-                if (event.target === this.endBlock || event.target === this.startBlock) {
-                    this.inputElement.click();
-                }
+                this.enterKeyPress(event);
                 break;
             case "Escape":
                 this.closeCalendar();
@@ -1679,6 +1676,16 @@ class Datepicker {
                 console.log(event.key)
                 break;
         }
+    }
+    enterKeyPress(e) {
+        if (e.target === this.endBlock || e.target === this.startBlock) {
+            this.inputElement.click();
+        } else if (this.isDate(e.target.getAttribute('value'))) {
+            e.target.click();
+        }
+    }
+    isDate(date) {
+        return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
     }
 }
 
