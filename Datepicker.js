@@ -1,15 +1,15 @@
 
 // Comment out these lines below for basic vanilla JS implementation (also comment out this logic in the '.min' file if you are using it.)
-// module.exports = function (options) {
-//   if (options) {
-//     return new Datepicker(options);
-//   } else if (!options || typeof options === undefined) {
-//     throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-//   }
-//   if (options.containerElement === undefined || !options.containerElement) {
-//     throw "Error: you must specify a container element in the Datepicker.js options object!";
-//   }
-// };
+module.exports = function (options) {
+  if (options) {
+    return new Datepicker(options);
+  } else if (!options || typeof options === undefined) {
+    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+  }
+  if (options.containerElement === undefined || !options.containerElement) {
+    throw "Error: you must specify a container element in the Datepicker.js options object!";
+  }
+};
 
 class Datepicker {
     constructor(options) {
