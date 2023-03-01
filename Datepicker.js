@@ -475,7 +475,7 @@ class Datepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("dddd, MMMM Do YYYY");
+            let dateString = moment((this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")), "dddd, MMMM Do YYYY");
             dayCell.setAttribute('role', 'button');
             dayCell.value = dateString;
             dayCell.setAttribute('aria-label', dateString);
