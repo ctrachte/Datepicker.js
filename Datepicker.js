@@ -235,7 +235,7 @@ class Datepicker {
         startBlock.setAttribute('tabindex', 0);
         startBlock.appendChild(startHead);
         startBlock.appendChild(startDate);
-        startDate.innerHTML = moment(this.dates[0]).format(this.format);
+        startDate.innerHTML = moment(this.dates[0], this.format).format(this.format);
         startDate.setAttribute("class", "date");
         this.startBlock = startBlock;
         this.inputElement.appendChild(startBlock);
@@ -254,7 +254,7 @@ class Datepicker {
         }
 
         if (this.dates[0]) {
-            startDate.innerHTML = moment(this.dates[0]).format(this.format);
+            startDate.innerHTML = moment(this.dates[0], this.format).format(this.format);
         } else {
             if (this.timePicker) {
                 startDate.innerHTML = " --/--/----  --:-- ";
@@ -264,7 +264,7 @@ class Datepicker {
         }
         if (!this.singleDate) {
             if (this.dates[1] && typeof this.dates[1] !== undefined) {
-                endDate.innerHTML = moment(this.dates[1]).format(this.format);
+                endDate.innerHTML = moment(this.dates[1], this.format).format(this.format);
             } else {
                 if (this.timePicker) {
                     endDate.innerHTML = " --/--/----  --:-- ";
@@ -475,10 +475,10 @@ class Datepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment((this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")), "dddd, MMMM Do YYYY");
+            let dateString = moment((this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")), this.format);
             dayCell.setAttribute('role', 'button');
             dayCell.value = dateString;
-            dayCell.setAttribute('aria-label', dateString);
+            dayCell.setAttribute('aria-label', moment((this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")), this.format).format('MMM Do, YYYY'));
             dayCell.setAttribute('tabindex', 0);
             let currentDate = moment(dayCell.value).unix();
             // if date is greater than max or less than min, disable
@@ -530,15 +530,20 @@ class Datepicker {
             this.startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
             if (this.timePicker) {
                 this.startDateElement.innerHTML = "--/--/----  --:--";
+                this.startDateElement.value = "--/--/----  --:--";
             } else {
                 this.startDateElement.innerHTML = "--/--/----";
+                this.startDateElement.value = "--/--/----";
             }
         } else {
             this.startDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 8;');
             if (this.timePicker) {
                 this.startDateElement.innerHTML = "--/--/----  --:--";
+                this.startDateElement.value = "--/--/----  --:--";
+
             } else {
                 this.startDateElement.innerHTML = "--/--/----";
+                this.startDateElement.value = "--/--/----";
             }
         }
         this.startDateContainer.appendChild(this.startDateHeader);
@@ -553,9 +558,11 @@ class Datepicker {
                 if (this.timePicker) {
                     this.endDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                     this.endDateElement.innerHTML = "--/--/----  --:--";
+                    this.endDateElement.value = "--/--/----  --:--";
                 } else {
                     this.endDateContainer.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
                     this.endDateElement.innerHTML = "--/--/----";
+                    this.endDateElement.value = "--/--/----";
                 }
                 this.endDateContainer.appendChild(this.endDateHeader);
                 this.endDateContainer.appendChild(this.endDateElement);
@@ -567,9 +574,11 @@ class Datepicker {
                 if (this.timePicker) {
                     this.endDateContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 4;');
                     this.endDateElement.innerHTML = "--/--/----  --:--";
+                    this.endDateElement.value = "--/--/----  --:--";
                 } else {
                     this.endDateContainer.setAttribute('style', 'grid-column-start: 5; grid-column-end: 8;');
                     this.endDateElement.innerHTML = "--/--/----";
+                    this.endDateElement.value = "--/--/----";
                 }
                 this.endDateContainer.appendChild(this.endDateHeader);
                 this.endDateContainer.appendChild(this.endDateElement);
@@ -692,8 +701,10 @@ class Datepicker {
                         this.setTime(true);
                     } else {
                         this.startDateElement.innerHTML = moment(this.dates[0]).format(this.format);
+                        this.startDateElement.value = moment(this.dates[0]).format(this.format);
                         if (!this.singleDate) {
                             this.endDateElement.innerHTML = moment(this.dates[1]).format(this.format);
+                            this.endDateElement.value = moment(this.dates[1]).format(this.format);
                         }
                     }
                     this.drawInputElement();
@@ -967,17 +978,18 @@ class Datepicker {
     }
     // sets highlighted dates on calendar UI
     highlightDates() {
+        let context = this;
         let days = this.containerElement.querySelectorAll('.day');
         // adds calendar day highlighted styling
         if (this.dates.length > 0 && this.dates.length === 2) {
             days.forEach(function (day) {
 
-                let indexDate = moment(day.value).format("MM/DD/YYYY");
-                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
-                let secondDate = moment(this.dates[1]).format("MM/DD/YYYY");
-                let indexDateX = moment(day.value).format("X");
-                let firstDateX = moment(this.dates[0]).format("X");
-                let secondDateX = moment(this.dates[1]).format("X");
+                let indexDate = moment(day.value, this.format).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0], this.format).format("MM/DD/YYYY");
+                let secondDate = moment(this.dates[1], this.format).format("MM/DD/YYYY");
+                let indexDateX = moment(day.value, this.format).format("X");
+                let firstDateX = moment(this.dates[0], this.format).format("X");
+                let secondDateX = moment(this.dates[1], this.format).format("X");
                 if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
@@ -992,8 +1004,8 @@ class Datepicker {
             }.bind(this));
         } else {
             days.forEach(function (day) {
-                let indexDate = moment(day.value).format("MM/DD/YYYY");
-                let firstDate = moment(this.dates[0]).format("MM/DD/YYYY");
+                let indexDate = moment(day.value, context.format).format("MM/DD/YYYY");
+                let firstDate = moment(this.dates[0], context.format).format("MM/DD/YYYY");
                 if (firstDate === indexDate) {
                     day.classList.add('active');
                     day.setAttribute('aria-pressed', 'true');
@@ -1030,12 +1042,12 @@ class Datepicker {
                     this.endHour = 0;
                 }
             }
-            let sameDay = moment(this.dates[0]).day() === moment(this.dates[1]).day();
-            let sameMonth = moment(this.dates[0]).month() === moment(this.dates[1]).month();
-            let sameYear = moment(this.dates[0]).year() === moment(this.dates[1]).year();
+            let sameDay = moment(this.dates[0], this.format).day() === moment(this.dates[1], this.format).day();
+            let sameMonth = moment(this.dates[0], this.format).month() === moment(this.dates[1], this.format).month();
+            let sameYear = moment(this.dates[0], this.format).year() === moment(this.dates[1], this.format).year();
             if (sameDay && sameMonth && sameYear) {
-                let startDate = moment(this.dates[0]).hour(this.startHour).minute(this.startMinute);
-                let endDate = moment(this.dates[1]).hour(this.endHour).minute(this.endMinute);
+                let startDate = moment(this.dates[0], this.format).hour(this.startHour).minute(this.startMinute);
+                let endDate = moment(this.dates[1], this.format).hour(this.endHour).minute(this.endMinute);
                 // console.log(startDate, endDate);
                 return (startDate <= endDate);
             } else {
@@ -1049,20 +1061,20 @@ class Datepicker {
         // defaults exist
         if (typeof this.defaults === 'undefined' || !this.defaults) { return false; };
         // start date default is not above max, or below min
-        if (this.max && moment(this.defaults[0]) > moment(this.max)) {
+        if (this.max && moment(this.defaults[0], this.format) > moment(this.max)) {
             this.defaults[0] = false;
             console.warn("Datepicker.js - WARNING: Tried to set a default start date greater than max, default start date will not be set.");
         }
-        if (this.min && moment(this.defaults[0]) < moment(this.min)) {
+        if (this.min && moment(this.defaults[0], this.format) < moment(this.min)) {
             this.defaults[0] = false;
             console.warn("Datepicker.js - WARNING: Tried to set a default start date less than min, default start datewill not be set.");
         }
         // end date default is not above max, or below min
-        if (this.max && moment(this.defaults[1]) > moment(this.max)) {
+        if (this.max && moment(this.defaults[1], this.format) > moment(this.max)) {
             this.defaults[1] = false;
             console.warn("Datepicker.js - WARNING: Tried to set a default end date greater than max, default end date will not be set.");
         }
-        if (this.min && moment(this.defaults[1]) < moment(this.min)) {
+        if (this.min && moment(this.defaults[1], this.format) < moment(this.min)) {
             this.defaults[1] = false;
             console.warn("Datepicker.js - WARNING: Tried to set a default end date less than min, default end datewill not be set.");
         }
@@ -1079,19 +1091,19 @@ class Datepicker {
 
             // Sanitizes the UI and the state if .value() was used to set dates/times
             if (setProgrammatically) {
-                let startHour = moment(this.dates[0]).hours();
+                let startHour = moment(this.dates[0], this.format).hours();
                 if (!startHour) {
                     startHour = 12;
                 }
-                let endHour = !this.singleDate ? moment(this.dates[1]).hours() : "";
+                let endHour = !this.singleDate ? moment(this.dates[1], this.format).hours() : "";
                 if (!endHour) {
                     endHour = 12;
                 }
                 this.timeElements.startHourValueEl.value = !this.militaryTime ? this.toAmPm(startHour) : startHour;
-                this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0]).minutes() < 10 ? moment(this.dates[0]).minutes() + "0" : moment(this.dates[0]).minutes()) : this.timeElements.startMinuteValueEl.value;
+                this.timeElements.startMinuteValueEl.value = this.dates[0] ? (moment(this.dates[0], this.format).minutes() < 10 ? moment(this.dates[0], this.format).minutes() + "0" : moment(this.dates[0], this.format).minutes()) : this.timeElements.startMinuteValueEl.value;
                 if (!this.singleDate) {
                     this.timeElements.endHourValueEl.value = !this.militaryTime ? this.toAmPm(endHour) : endHour;
-                    this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1]).minutes() < 10 ? moment(this.dates[1]).minutes() + "0" : moment(this.dates[1]).minutes()) : this.timeElements.endMinuteValueEl.value;
+                    this.timeElements.endMinuteValueEl.value = this.dates[1] ? (moment(this.dates[1], this.format).minutes() < 10 ? moment(this.dates[1], this.format).minutes() + "0" : moment(this.dates[1], this.format).minutes()) : this.timeElements.endMinuteValueEl.value;
                     this.endHour = endHour;
                     this.endMinute = parseInt(this.timeElements.endMinuteValueEl.value);
                 }
@@ -1139,13 +1151,15 @@ class Datepicker {
             let startDate = this.dates[0];
             this.dates = [];
             if (startDate) {
-                this.dates[0] = moment(startDate).hour(this.startHour).minute(this.startMinute).format(this.format);
-                this.startDateElement.innerHTML = this.dates[0]
+                this.dates[0] = moment(startDate, this.format).hour(this.startHour).minute(this.startMinute).format(this.format);
+                this.startDateElement.innerHTML = this.dates[0];
+                this.startDateElement.value = this.dates[0];
             }
             if (endDate && !this.singleDate) {
-                this.dates[1] = moment(endDate).hour(this.endHour).minute(this.endMinute).format(this.format);
+                this.dates[1] = moment(endDate, this.format).hour(this.endHour).minute(this.endMinute).format(this.format);
                 // update the UI based on the state
                 this.endDateElement.innerHTML = this.dates[1];
+                this.endDateElement.value = this.dates[1];
             }
             this.onChange();
             if (!this.timeValid()) {
@@ -1461,30 +1475,38 @@ class Datepicker {
                 this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                 if (!this.timePicker) {
                     this.startDateElement.innerHTML = this.dates[0];
+                    this.startDateElement.value = this.dates[0];
                     this.endDateElement.innerHTML = "--/--/---- ";
+                    this.endDateElement.value = "--/--/---- ";
                 } else {
                     this.startDateElement.innerHTML = this.dates[0];
+                    this.startDateElement.value = this.dates[0];
                     this.endDateElement.innerHTML = "--/--/----  --:--";
+                    this.endDateElement.value = "--/--/----  --:--";
                 }
             } else {
-                let startDate = moment(this.dates[0]).set({ h: this.startHour, m: this.startMinute }).unix();
-                let clickedDate = moment(dayCell.value).hour(this.endHour).minute(this.endMinute).unix();
+                let startDate = moment(this.dates[0], this.format).set({ h: this.startHour, m: this.startMinute }).unix();
+                let clickedDate = moment(dayCell.value, this.format).hour(this.endHour).minute(this.endMinute).unix();
                 if (startDate > clickedDate) {
                     let largerDate = this.dates[0];
                     this.dates = [];
-                    this.dates[1] = moment(largerDate).set({ h: this.endHour, m: this.endMinute }).format(this.format);
-                    this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
+                    this.dates[1] = moment(largerDate, this.format).set({ h: this.endHour, m: this.endMinute }).format(this.format);
+                    this.dates[0] = moment(dayCell.value, this.format).set({ h: this.startHour, m: this.startMinute }).format(this.format);
                     this.startDateElement.innerHTML = this.dates[0];
+                    this.startDateElement.value = this.dates[0];
                     this.endDateElement.innerHTML = this.dates[1];
+                    this.endDateElement.value = this.dates[1];
                 } else {
-                    this.dates[1] = moment(dayCell.value).set({ h: this.endHour, m: this.endMinute }).format(this.format);
+                    this.dates[1] = moment(dayCell.value, this.format).set({ h: this.endHour, m: this.endMinute }).format(this.format);
                     this.endDateElement.innerHTML = this.dates[1];
+                    this.endDateElement.value = this.dates[1];
                 }
             }
         } else {
             this.dates = [];
-            this.dates[0] = moment(dayCell.value).set({ h: this.startHour, m: this.startMinute }).format(this.format);
+            this.dates[0] = moment(dayCell.value, this.format).set({ h: this.startHour, m: this.startMinute }).format(this.format);
             this.startDateElement.innerHTML = this.dates[0];
+            this.startDateElement.value = this.dates[0];
         }
         this.onChange();
         // autoClose the calendar when a single date or date range is selected 
@@ -1593,48 +1615,58 @@ class Datepicker {
         //if no dates chosen, autofill them both with start/end of week (if no defaults provided)
         if (!this.dates.length && this.defaults && this.defaults.length) {
             if (this.defaults[0]) {
-                this.dates[0] = moment(this.defaults[0]).format(this.format);
+                this.dates[0] = moment(this.defaults[0], this.format).format(this.format);
                 this.startDateElement.innerHTML = this.dates[0];
+                this.startDateElement.value = this.dates[0];
             } else {
                 this.dates[0] = moment().startOf('week').format(this.format);
                 this.startDateElement.innerHTML = this.dates[0];
+                this.startDateElement.value = this.dates[0];
             }
             if (this.defaults[1]) {
                 if (!this.singleDate) {
-                    this.dates[1] = moment(this.defaults[1]).format(this.format);
+                    this.dates[1] = moment(this.defaults[1], this.format).format(this.format);
                     this.endDateElement.innerHTML = this.dates[1];
+                    this.endDateElement.value = this.dates[1];
                 };
             } else {
                 if (!this.singleDate) {
                     this.dates[1] = moment().endOf('week').format(this.format);
                     this.endDateElement.innerHTML = this.dates[1];
+                    this.endDateElement.value = this.dates[1];
                 };
             }
         } else if (this.defaults && !this.dates.length) {
             if (!this.singleDate) {
                 this.dates[1] = moment().endOf('week').format(this.format);
                 this.endDateElement.innerHTML = this.dates[1];
+                this.endDateElement.value = this.dates[1];
             };
             this.dates[0] = moment().startOf('week').format(this.format);
             this.startDateElement.innerHTML = this.dates[0];
+            this.startDateElement.value = this.dates[0];
         }
         // if only one date is chosen, autofill second date with first (if no defaults provided)
         if (this.dates.length === 1 && this.defaults && this.defaults.length === 2 && this.defaults[1]) {
             if (!this.singleDate) { 
-                this.dates[1] = moment(this.defaults[1]).format(this.format);
+                this.dates[1] = moment(this.defaults[1], this.format).format(this.format);
                 this.endDateElement.innerHTML = this.dates[1];
+                this.endDateElement.value = this.dates[1];
                 this.startDateElement.innerHTML = this.dates[0];
+                this.startDateElement.value = this.dates[0];
              };
         } else if (this.dates.length === 1 && this.defaults && !this.defaults[1]) {
             if (!this.singleDate) { 
-                this.dates[1] = moment(this.dates[0]).format(this.format);
+                this.dates[1] = moment(this.dates[0], this.format).format(this.format);
                 this.endDateElement.innerHTML = this.dates[1];
+                this.endDateElement.value = this.dates[1];
                 this.startDateElement.innerHTML = this.dates[0];
+                this.startDateElement.value = this.dates[0];
              };
         }
 
         // ensure calendar UI is updated
-        if (this.dates.length === 2 && moment(this.dates[0]) > moment(this.dates[1])) {
+        if (this.dates.length === 2 && moment(this.dates[0], this.format) > moment(this.dates[1], this.format)) {
             let dates = [];
             console.warn("Datepicker.js - WARNING: Tried to set a startDate greater than endDate, your dates were swapped to be chronologically correct.");
             dates[0] = this.dates[1];
