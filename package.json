@@ -1,7 +1,7 @@
 {
   "name": "moment-datepicker-js",
   "description": "Customizable Date Range picker using moment.js",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "main": "Datepicker.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
