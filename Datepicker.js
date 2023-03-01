@@ -406,6 +406,7 @@ class Datepicker {
         let closeCalendarIcon = document.createElement('span');
         closeCalendarIcon.innerHTML = "&#10006;";
         closeCalendarIcon.classList.add('close-calendar-button');
+        closeCalendarIcon.setAttribute('tabindex', 0);
         closeCalendarIconContainer.addEventListener('click', function (event) {
             this.closeCalendar();
         }.bind(this));
@@ -704,18 +705,19 @@ class Datepicker {
             }
         }
         // close preset menu icon
-        let closePresetIconContainer = document.createElement('button');
+        let closePresetIconContainer = document.createElement('div');
         closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
-        closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
-        closePresetIconContainer.setAttribute('role', 'button');
-        closePresetIconContainer.setAttribute('tabindex', 0);
         let closePresetIcon = document.createElement('span');
         closePresetIcon.innerHTML = "&#10006;";
+        closePresetIcon.setAttribute('aria-label', 'Preset Menu Close Button');
+        closePresetIcon.setAttribute('role', 'button');
+        closePresetIcon.setAttribute('tabindex', 0);
         closePresetIcon.classList.add('close-preset-menu');
-        closePresetIconContainer.addEventListener('click', function (event) {
+        closePresetIcon.addEventListener('click', function (event) {
             this.closePresetMenu();
             this.menuIconContainer.classList.remove('open');
         }.bind(this));
+        this.closePresetIcon = closePresetIcon;
         closePresetIconContainer.appendChild(closePresetIcon);
         this.presetMenuContainer.appendChild(closePresetIconContainer);
         this.presetMenuContainer.appendChild(menuOptionsContainer);
@@ -1642,7 +1644,7 @@ class Datepicker {
     // helper methods to open/close preset menu UI
     openPresetMenu() {
         this.presetMenuContainer.showPresetMenu();
-        this.presetMenuContainer.firstChild.focus();
+        this.closePresetIcon.focus();
     }
     closePresetMenu() {
         this.presetMenuContainer.hidePresetMenu();
