@@ -460,7 +460,7 @@ class Datepicker {
                 dayCell.classList.add("prev-month-day-" + (parseInt(leadingTrailing.trailing[i] + 1)));
                 dayCell.classList.add("leading-trailing-day");
                 dayCell.innerHTML = (parseInt(leadingTrailing.trailing[i]) + 1);
-                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i] + 1)) + '');
+                dayCell.setAttribute('aria-label', (parseInt(leadingTrailing.trailing[i]) + 1) + " " + monthSelect.value + " " + yearInput.value);
                 if (i === 0) {
                     dayCell.classList.add('grid-column-start:0;');
                 }
@@ -475,10 +475,10 @@ class Datepicker {
             dayCell.classList.add("day-" + (parseInt(day) + 1));
             dayCell.classList.add("day");
             dayCell.innerHTML = parseInt(day) + 1;
-            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format(this.format);
+            let dateString = moment(this.moment.format("MM") + "/" + parseInt(day + 1) + "/" + this.moment.format("YYYY")).format("dddd, MMMM Do YYYY");
             dayCell.setAttribute('role', 'button');
-            dayCell.setAttribute('aria-label', dateString);
             dayCell.value = dateString;
+            dayCell.setAttribute('aria-label', dateString);
             dayCell.setAttribute('tabindex', 0);
             let currentDate = moment(dayCell.value).unix();
             // if date is greater than max or less than min, disable
@@ -845,14 +845,14 @@ class Datepicker {
             let am = document.createElement("div");
             am.classList.add("am");
             am.innerHTML = "AM";
-
+            am.setAttribute('tabindex', 0);
             am.addEventListener('click', this.clickAMPM);
             ampm.appendChild(am);
 
             let pm = document.createElement("div");
             pm.classList.add("pm");
             pm.innerHTML = "PM";
-
+            pm.setAttribute('tabindex', 0);
             pm.addEventListener('click', this.clickAMPM);
             ampm.appendChild(pm);
 
@@ -865,10 +865,14 @@ class Datepicker {
             }
             if (timeElement.classList.contains('startTimeElement')) {
                 this.timeElements.startam = am;
+                am.setAttribute('aria-label', "Set start time to AM button");
                 this.timeElements.startpm = pm;
+                pm.setAttribute('aria-label', "Set start time to PM button");
             } else {
                 this.timeElements.endam = am;
+                am.setAttribute('aria-label', "Set end time to AM button");
                 this.timeElements.endpm = pm;
+                pm.setAttribute('aria-label', "Set end time to PM button");
             }
             timeElement.appendChild(ampm);
         }
