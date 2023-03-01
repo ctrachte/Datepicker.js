@@ -175,6 +175,7 @@ class Datepicker {
         this.calendarPlacement();
         this.calendarElement.hideCalendar();
         document.addEventListener('keyup', (e)=>{
+            e.preventDefault();
             this.keyPressCheck(e);
         });
     }
@@ -349,7 +350,7 @@ class Datepicker {
         this.menuIconContainer.setAttribute('style', 'grid-column-start: 1; grid-column-end: 2; background-color: transparent !important;');
         this.menuIconContainer.setAttribute('aria-label', 'Preset Menu Button');
         this.menuIconContainer.setAttribute('role', 'menu');
-        this.menuIconContainer.setAttribute('tabindex', 1);
+        this.menuIconContainer.setAttribute('tabindex', 0);
 
         if (this.presetMenu) {
             let menuIcon = document.createElement('span');
@@ -368,18 +369,20 @@ class Datepicker {
             this.menuIconContainer.appendChild(menuIcon);
         }
         // left/right arrows for adjusting month
-        let leftArrow = document.createElement('div');
+        let leftArrow = document.createElement('button');
         leftArrow.classList.add("leftArrow");
         leftArrow.setAttribute('style', 'background-color: transparent !important;');
         leftArrow.setAttribute('aria-label', 'Previous Month Button');
+        leftArrow.setAttribute('tabindex', 0);
         leftArrow.setAttribute('role', 'navigation');
         leftArrow.innerHTML = "&#5130;";
         leftArrow.addEventListener('click', callbackLastMonth.bind(this));
 
-        let rightArrow = document.createElement('div');
+        let rightArrow = document.createElement('button');
         rightArrow.classList.add("rightArrow");
         rightArrow.setAttribute('style', 'background-color: transparent !important;');
         rightArrow.setAttribute('aria-label', 'Next Month Button');
+        rightArrow.setAttribute('tabindex', 0);
         rightArrow.setAttribute('role', 'navigation');
         rightArrow.innerHTML = "&#5125;"
         rightArrow.addEventListener('click', callbackNextMonth.bind(this));
@@ -644,7 +647,6 @@ class Datepicker {
                 { title: 'Tomorrow', values: [moment(today).add(1, 'day').hour(0).minute(0)] }
             ];
         }
-
         // adds any menu options passed into the class constructor options programmatically
         if (this.menuOptions !== undefined && this.menuOptions.length > 0) {
             let max = this.max ? moment(this.max).unix() : false;
@@ -672,6 +674,7 @@ class Datepicker {
                 let menuListElement = document.createElement('li');
                 menuListElement.setAttribute('class', menuOption.title + "-menu-option");
                 menuListElement.innerHTML = menuOption.title;
+                menuListElement.setAttribute('tabindex', 0);
                 menuListElement.addEventListener('click', function (event) {
                     this.dates.length = 0;
                     this.highlightDates();
@@ -701,10 +704,11 @@ class Datepicker {
             }
         }
         // close preset menu icon
-        let closePresetIconContainer = document.createElement('div');
+        let closePresetIconContainer = document.createElement('button');
         closePresetIconContainer.setAttribute('style', 'background-color: transparent !important;');
         closePresetIconContainer.setAttribute('aria-label', 'Preset Menu Close Button');
         closePresetIconContainer.setAttribute('role', 'button');
+        closePresetIconContainer.setAttribute('tabindex', 0);
         let closePresetIcon = document.createElement('span');
         closePresetIcon.innerHTML = "&#10006;";
         closePresetIcon.classList.add('close-preset-menu');
@@ -1638,6 +1642,7 @@ class Datepicker {
     // helper methods to open/close preset menu UI
     openPresetMenu() {
         this.presetMenuContainer.showPresetMenu();
+        this.presetMenuContainer.firstChild.focus();
     }
     closePresetMenu() {
         this.presetMenuContainer.hidePresetMenu();
@@ -1681,14 +1686,12 @@ class Datepicker {
         }
     }
     enterKeyPress(e) {
-        if (e.target === this.endBlock || e.target === this.startBlock) {
-            this.inputElement.click();
-        } else if (this.isDate(e.target.getAttribute('value'))) {
+        if (this.containerElement.contains(e.target)) 
+        {
             e.target.click();
-        } else if (this.menuIconContainer.contains(e.target)) {
-            this.menuIcon.click();
         }
-        else {
+        else
+        {
             this.submitButton.click();
         }
     }
