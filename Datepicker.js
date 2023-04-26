@@ -1,15 +1,15 @@
 
 // Comment out these lines below for basic vanilla JS implementation (also comment out this logic in the '.min' file if you are using it.)
-module.exports = function (options) {
-  if (options) {
-    return new Datepicker(options);
-  } else if (!options || typeof options === undefined) {
-    throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
-  }
-  if (options.containerElement === undefined || !options.containerElement) {
-    throw "Error: you must specify a container element in the Datepicker.js options object!";
-  }
-};
+// module.exports = function (options) {
+//   if (options) {
+//     return new Datepicker(options);
+//   } else if (!options || typeof options === undefined) {
+//     throw "Error: Datepicker.js options object must be defined, with at least options.containerElement.";
+//   }
+//   if (options.containerElement === undefined || !options.containerElement) {
+//     throw "Error: you must specify a container element in the Datepicker.js options object!";
+//   }
+// };
 
 class Datepicker {
     constructor(options) {
@@ -1552,6 +1552,7 @@ class Datepicker {
     calendarPlacement() {
         let context = this;
         let calendarElement = context.containerElement.querySelector('.grid-container');
+        this.containerElement.style.position = "relative";
         // variables
         let calculated = {
             windowWidth: window.innerWidth,
@@ -1560,6 +1561,8 @@ class Datepicker {
             calendarHeight: calendarElement.getBoundingClientRect().height,
             containerHeight: context.containerElement.getBoundingClientRect().height,
             containerWidth: context.containerElement.getBoundingClientRect().width,
+            containerLeft: context.containerElement.getBoundingClientRect().left,
+            containerTop: context.containerElement.getBoundingClientRect().top,
             datepickerTop: context.containerElement.querySelector(".launch").getBoundingClientRect().top,
             datepickerBottom: context.containerElement.querySelector(".launch").getBoundingClientRect().bottom,
             datepickerRight: context.containerElement.querySelector(".launch").getBoundingClientRect().right,
@@ -1570,7 +1573,7 @@ class Datepicker {
             screenCenterY: window.outerHeight/2,
         }
         // logs
-        // console.table(calculated);
+        this.calculated = calculated;
         let top;
         let left;
         // set position
@@ -1607,7 +1610,6 @@ class Datepicker {
         this.calendarElement.showCalendar();
         this.calendarPlacement();
         this.highlightDates();
-        this.calendarPlacement();
         this.menuIconContainer.focus();
     }
     closeCalendar() {
